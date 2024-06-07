@@ -2,11 +2,12 @@
 
 session_start();
 
-require 'vendor/autoload.php'; // Include Composer's autoloader for PHPMailer and TCPDF
+require 'vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-use TCPDF;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 include 'koneksi.php';
 include "logout-checker.php";
@@ -15,23 +16,26 @@ include "logout-checker.php";
 ini_set('memory_limit', '512M');
 ini_set('max_execution_time', 300);
 
+
+
 // Function to generate PDF
-function generatePDF($content)
+function generatePDF($html)
 {
+    require '../vendor/autoload.php';
     $uploadDir = __DIR__ . '/uploads/suratMhs/'; // Use an absolute path
     if (!file_exists($uploadDir)) {
         mkdir($uploadDir, 0777, true); // Create the directory if it doesn't exist
     }
     $fileName = 'suratMhs_' . time() . '.pdf';
     $filePath = $uploadDir . $fileName;
-    $pdf = new TCPDF();
-    $pdf->AddPage();
-    $pdf->SetFont('helvetica', '', 12);
-    $pdf->writeHTML($content, true, false, true, false, '');
-    $pdf->Output($filePath, 'F'); // Save the PDF to a file
+    $options = new Options();
+    $options->set('isRemoteEnabled', true);
+    $dompdf = new Dompdf($options);
+    $dompdf->loadHtml($html);
+    $dompdf->render();
+    file_put_contents($filePath, $dompdf->output());
     return $filePath;
 }
-
 
 // Function to send email with PDF attachment using PHPMailer
 function sendEmailWithPDF($to, $subject, $body, $attachmentPath)
@@ -77,6 +81,8 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
     $action = mysqli_real_escape_string($koneksi, $_POST['action']); // Get action parameter
     $kode_surat = mysqli_real_escape_string($koneksi, $_POST['kode_surat']);
 
+
+
     if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas') {
         $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai = true, kode_surat = '$kode_surat', status_baca = true WHERE id_surat = '$id'";
         $jabatan = $_SESSION['jabatan'];
@@ -91,6 +97,7 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
         mysqli_autocommit($koneksi, false);
 
         if (mysqli_query($koneksi, $update_query_surat_dis)) {
+
             $check_query = "SELECT COUNT(*) as count FROM tb_disposisi WHERE id_surat = '$id'";
             $result_check = mysqli_query($koneksi, $check_query);
             $row = mysqli_fetch_assoc($result_check);
@@ -109,292 +116,129 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
                     $subject = "Status Surat Anda Telah Diperbarui";
                     $body = "Surat anda telah selesai diproses. Mohon cek kembali.";
 
-                    $content = '<!DOCTYPE html>
-                                <html lang="id">
-                                <head>
-                                <meta charset="UTF-8" />
-                                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                                <title>Permohonan KKL/Magang</title>
-                                <style>
-                                body {
-                                    font-family: Arial, sans-serif;
-                                    line-height: 1.6;
-                                    margin: 0;
-                                    padding: 0;
-                                }
-                                .margin {
-                                    margin: 100px 200px 200px 200px;
-                                    position: relative;
-                                    z-index: 1;
-                                }
-                                .margin .logo {
-                                    position: absolute;
-                                    top: 50%;
-                                    left: 50%;
-                                    transform: translate(-50%, -50%);
-                                    z-index: -1;
-                                    opacity: 1;
-                                }
-                                .header {
-                                    margin-bottom: 40px;
-                                }
-                                .margin .address {
-                                    margin-bottom: 40px;
-                                }
-                                .margin .content {
-                                    text-align: justify;
-                                    text-justify: inter-word;
-                                    z-index: 1;
-                                }
-                                .margin .content p {
-                                    margin-bottom: 40px;
-                                }
-                                .margin .content .data {
-                                    display: grid;
-                                    grid-template-columns: 1fr 2fr;
-                                    gap: 20px;
-                                    max-width: 50%;
-                                }
-                                .data .isi, .data .isi2 {
-                                    flex: 1;
-                                }
-                                .signature {
-                                    margin-top: 40px;
-                                    text-align: center;
-                                }
-                                .margin .signature img {
-                                    width: 30%;
-                                    height: 30%;
-                                }
-                                footer {
-                                    background-color: #6c0000;
-                                    text-align: center;
-                                    padding: 20px;
-                                }
-                                </style>
-                                </head>
-                                <body>
-                                <h1>Surat ID: ' . $id . '</h1><p>Catatan: ' . $catatan . '</p>
-                                <div class="margin">
-                                <div class="logo">
-                                <img src="img/bgLogo.png" alt="" />
-                                </div>
-                                <div class="img">
-                                <img src="img/kop.jpg" alt="" style="width: 100%; height: 100%; max-height: 200px" />
-                                </div>
-                                <p style="text-align: end">Jakarta, 24 Mei 2024</p>
-                                <div class="header">
-                                <p>Nomor: 361/Rek.1/V/2024</p>
-                                <p>Lampiran: -</p>
-                                <p>Hal: <strong>Permohonan KKL/Magang</strong></p>
-                                </div>
-                                <div class="address">
-                                <p>Kepada Yth.</p>
-                                <p>Bapak/Ibu Pimpinan <strong>PT. Samudra Katulistiwa Nusantara</strong></p>
-                                <p>Jl. Kenari 9 No.2 Jl. Nasional 1 RT.1/RW.21 Kec. Pamulang</p>
-                                <p>Kota Tangerang Selatan Banten 15417</p>
-                                </div>
-                                <div class="content">
-                                <p style="font-style: italic">Assalamu’alaikum Wr Wb.</p>
-                                <p>
-                                Salam sejahtera kami sampaikan kepada Bapak/Ibu beserta jajaran semoga
-                                selalu dalam lindungan Allah SWT dan sukses menjalankan tugas sehari – 
-                                hari. Aamiin.
-                                </p>
-                                <p>
-                                Salah satu persyaratan untuk memperoleh gelar Diploma/Sarjana maka
-                                Mahasiswa/i diwajibkan melaksanakan Kuliah Kerja Lapangan (KKL).
-                                Bersama ini kami mohon kesediaan Bapak/Ibu menerima Mahasiswa/i kami melaksanakan KKL/Magang pada Instansi/Perusahaan yang Bapak/Ibu pimpin, adapun identitas Mahasiswa/i tersebut adalah sebagai berikut:
-                                <div class="data">
-                                <div class="pertanyaan">
-                                <strong>
-                                <div class="isi">
-                                <p>Nama</p>
-                                <p>No. Pokok</p>
-                                <p>Program Studi</p>
-                                <p>No. Telpon/Hp</p>
-                                </div>
-                                </strong>
-                                </div>
-                                <div class="jawaban">
-                                <strong>
-                                <div class="isi2">
-                                <p>:&nbsp;&nbsp;&nbsp;Hendrik</p>
-                                <p>:&nbsp;&nbsp;&nbsp;2190241007</p>
-                                <p>:&nbsp;&nbsp;&nbsp;S1 Desain Komunikasi Visual</p>
-                                <p>:&nbsp;&nbsp;&nbsp;085156509159</p>
-                                </div>
-                                </strong>
-                                </div>
-                                </div>
-                                <p>
-                                Demikianlah permohonan ini kami sampaikan atas perhatian dan kerjasama
-                                Bapak/Ibu kami ucapkan terima kasih.
-                                </p>
-                                <p style="font-style: italic">Wassalamu’alaikum Wr. Wb.</p>
-                                </div>
-                                <div class="signature">
-                                <img src="img/ttdRektor.png" alt="" />
-                                <p style="margin: 0">NIDN/NBM: 0319047704/480.134</p>
-                                </div>
-                                </div>
-                                <footer></footer>
-                                </body>
-                                </html>';
-                    $pdfPath = generatePDF($content);
+                    $select_query = "SELECT * FROM tb_surat_dis WHERE id_surat = '$id'";
+                    $result = mysqli_query($koneksi, $select_query);
+                    if ($result && mysqli_num_rows($result) > 0) {
+                        $row = mysqli_fetch_assoc($result);
 
-                    sendEmailWithPDF($email_pengirim, $subject, $body, $pdfPath);
-                } else {
-                    mysqli_rollback($koneksi);
-                    echo "Gagal memperbarui status pada tabel tb_disposisi: " . mysqli_error($koneksi);
-                }
-            } else {
-                $insert_query = "INSERT INTO tb_disposisi (id_surat, " . ($action == 'selesai' ? "catatan_selesai, nama_selesai" : ($action == 'tolak' ? "catatan_selesai, nama_penolak" : "catatan_terima, nama_terima")) . ") VALUES ('$id', '$catatan', '$asal_surat')";
-                if (mysqli_query($koneksi, $insert_query)) {
-                    mysqli_commit($koneksi);
-                    echo "Status berhasil diperbarui";
+                        // Selanjutnya, gunakan data yang sudah diambil untuk mengisi variabel dalam $html
+                        $jenis_surat = $row['jenis_surat'];
+                        $asal_surat = $row['asal_surat'];
+                        $perihal = $row['perihal'];
+                        $nomor_surat = $row['kode_surat'];
+                        $tanggal_surat = $row['tanggal_surat'];
+                        $tujuan_surat = $row['tujuan_surat'];
+                        $email = $row['email'];
+                        $nama_lengkap = $row['nama_lengkap'];
+                        $nim = $row['nim'];
+                        $nama_lengkap2 = $row['nama_lengkap2'];
+                        $nim2 = $row['nim2'];
+                        $nama_lengkap3 = $row['nama_lengkap3'];
+                        $nim3 = $row['nim3'];
+                        $prodi = $row['prodi'];
+                        $no_hp = $row['no_hp'];
+                        $deskripsi = $row['deskripsi'];
+                        $nama_perusahaan = $row['nama_perusahaan'];
+                        $alamat_perusahaan = $row['alamat_perusahaan'];
+                    } else {
+                        // Jika tidak ada baris data yang sesuai dengan $id, berikan pesan kesalahan atau tindakan lain sesuai kebutuhan.
+                        echo "Data tidak ditemukan";
+                    }
 
-                    $email_query = "SELECT email FROM tb_surat_dis WHERE id_surat = '$id'";
-                    $email_result = mysqli_query($koneksi, $email_query);
-                    $email_row = mysqli_fetch_assoc($email_result);
-                    $email_pengirim = $email_row['email'];
+                    $path = 'img/kop.jpg';
+                    $type = pathinfo($path, PATHINFO_EXTENSION);
+                    $data = file_get_contents($path);
+                    $base64 = 'data:img/' . $type . ';base64,' . base64_encode($data);
 
-                    $subject = "Status Surat Anda Telah Diperbarui";
-                    $body = "Surat dengan ID $id telah selesai diproses. Catatan: $catatan";
+                    $html = '<!DOCTYPE html>
+                            <html lang="en">
+                            <head></head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                            <title>Detail Surat</title>
+                            <style>
+                            body { }
+                            .container { width: 92%; margin: 0 auto; background-color: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                            font-size: 11pt; font-family: TimesNewRoman, Times New Roman, Times; }
+                            h1 { font-size: 36px; margin-bottom: 10px; text-align: center;}
+                            table { width: 100%; border-collapse: collapse; }
+                            th, td { padding: 10px; text-align: left; }
+                            th { background-color: #f5f5f5; }
+                            .logo {width: 100%; height: 100%; max-height: 120px;}
+                            .signature {text-align:center;  margin-top: 30px;}
+                            .signature img {display: block; margin: 0 auto; width: 100px; }
+                            .signature p { margin-left: 10px;}
+                            .red-banner h2 { margin: 0; font-size: 20px; }
+                            th { background-color: gainsboro; text-align: center; font-weight: bold; }
+                            footer {background-color: #6c0000; height: 50px; width: 120%; margin-left: -50px;}
+                            </style>
+                            </head>
+                            <body>
+                            </div>
+                            <div class="container">
 
-                    $content = '<!DOCTYPE html>
-                                <html lang="id">
-                                <head>
-                                <meta charset="UTF-8" />
-                                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                                <title>Permohonan KKL/Magang</title>
-                                <style>
-                                body {
-                                    font-family: Arial, sans-serif;
-                                    line-height: 1.6;
-                                    margin: 0;
-                                    padding: 0;
-                                }
-                                .margin {
-                                    margin: 100px 200px 200px 200px;
-                                    position: relative;
-                                    z-index: 1;
-                                }
-                                .margin .logo {
-                                    position: absolute;
-                                    top: 50%;
-                                    left: 50%;
-                                    transform: translate(-50%, -50%);
-                                    z-index: -1;
-                                    opacity: 1;
-                                }
-                                .header {
-                                    margin-bottom: 40px;
-                                }
-                                .margin .address {
-                                    margin-bottom: 40px;
-                                }
-                                .margin .content {
-                                    text-align: justify;
-                                    text-justify: inter-word;
-                                    z-index: 1;
-                                }
-                                .margin .content p {
-                                    margin-bottom: 40px;
-                                }
-                                .margin .content .data {
-                                    display: grid;
-                                    grid-template-columns: 1fr 2fr;
-                                    gap: 20px;
-                                    max-width: 50%;
-                                }
-                                .data .isi, .data .isi2 {
-                                    flex: 1;
-                                }
-                                .signature {
-                                    margin-top: 40px;
-                                    text-align: center;
-                                }
-                                .margin .signature img {
-                                    width: 30%;
-                                    height: 30%;
-                                }
-                                footer {
-                                    background-color: #6c0000;
-                                    text-align: center;
-                                    padding: 20px;
-                                }
-                                </style>
-                                </head>
-                                <body>
-                                <h1>Surat ID: ' . $id . '</h1><p>Catatan: ' . $catatan . '</p>
-                                <div class="margin">
-                                <div class="logo">
-                                <img src="img/bgLogo.png" alt="" />
-                                </div>
-                                <div class="img">
-                                <img src="img/kop.jpg" alt="" style="width: 100%; height: 100%; max-height: 200px" />
-                                </div>
-                                <p style="text-align: end">Jakarta, 24 Mei 2024</p>
-                                <div class="header">
-                                <p>Nomor: 361/Rek.1/V/2024</p>
-                                <p>Lampiran: -</p>
-                                <p>Hal: <strong>Permohonan KKL/Magang</strong></p>
-                                </div>
-                                <div class="address">
-                                <p>Kepada Yth.</p>
-                                <p>Bapak/Ibu Pimpinan <strong>PT. Samudra Katulistiwa Nusantara</strong></p>
-                                <p>Jl. Kenari 9 No.2 Jl. Nasional 1 RT.1/RW.21 Kec. Pamulang</p>
-                                <p>Kota Tangerang Selatan Banten 15417</p>
-                                </div>
-                                <div class="content">
-                                <p style="font-style: italic">Assalamu’alaikum Wr Wb.</p>
-                                <p>
-                                Salam sejahtera kami sampaikan kepada Bapak/Ibu beserta jajaran semoga
-                                selalu dalam lindungan Allah SWT dan sukses menjalankan tugas sehari – 
-                                hari. Aamiin.
-                                </p>
-                                <p>
-                                Salah satu persyaratan untuk memperoleh gelar Diploma/Sarjana maka
-                                Mahasiswa/i diwajibkan melaksanakan Kuliah Kerja Lapangan (KKL).
-                                Bersama ini kami mohon kesediaan Bapak/Ibu menerima Mahasiswa/i kami melaksanakan KKL/Magang pada Instansi/Perusahaan yang Bapak/Ibu pimpin, adapun identitas Mahasiswa/i tersebut adalah sebagai berikut:
-                                <div class="data">
-                                <div class="pertanyaan">
-                                <strong>
-                                <div class="isi">
-                                <p>Nama</p>
-                                <p>No. Pokok</p>
-                                <p>Program Studi</p>
-                                <p>No. Telpon/Hp</p>
-                                </div>
-                                </strong>
-                                </div>
-                                <div class="jawaban">
-                                <strong>
-                                <div class="isi2">
-                                <p>:&nbsp;&nbsp;&nbsp;Hendrik</p>
-                                <p>:&nbsp;&nbsp;&nbsp;2190241007</p>
-                                <p>:&nbsp;&nbsp;&nbsp;S1 Desain Komunikasi Visual</p>
-                                <p>:&nbsp;&nbsp;&nbsp;085156509159</p>
-                                </div>
-                                </strong>
-                                </div>
-                                </div>
-                                <p>
-                                Demikianlah permohonan ini kami sampaikan atas perhatian dan kerjasama
-                                Bapak/Ibu kami ucapkan terima kasih.
-                                </p>
-                                <p style="font-style: italic">Wassalamu’alaikum Wr. Wb.</p>
-                                </div>
-                                <div class="signature">
-                                <img src="img/ttdRektor.png" alt="" />
-                                <p style="margin: 0">NIDN/NBM: 0319047704/480.134</p>
-                                </div>
-                                </div>
-                                <footer></footer>
-                                </body>
-                                </html>';
-                    $pdfPath = generatePDF($content);
+                            <img src="' . $base64 . '" class="logo" alt="Logo">
+
+                            <p style="text-align: right"> Jakarta, '  . date("d F Y") . '</p>
+                            <p>Nomor &nbsp; &nbsp; &nbsp; &nbsp;  : ' . $nomor_surat . ' <br>
+                            Lampiran  &nbsp; &nbsp; : - <br>
+                            Hal &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <b> Permohonan KKL/Magang </b> </p>
+
+                            <p>Kepada Yth. <br>
+                            Bapak/Ibu Pimpinan <b> ' . $nama_perusahaan . ' </b> <br>
+                            ' . $alamat_perusahaan . '</p>
+                            <p><i> Assalamualaikum, Wr, Wb. </i></p>
+                            <p style="text-align: justify"> Salam sejahtera kami sampaikan kepada Bapak/Ibu beserta jajaran, semoga selalu dalam lindungan Allah SWT dan sukses menjalankan tugas sehari – hari Aamiin.</p>
+                            <p style="text-align: justify"> Salah satu persyaratan untuk memperoleh gelar Diploma/Sarjana maka Mahasiswa/i diwajibkan melaksanakan Kuliah Kerja Lapangan (KKL). Oleh sebab itu, kami mohon kesediaan Bapak/Ibu menerima Mahasiswa/i kami melaksanakan KKL/Magang pada Instansi/Perusahaan yang Bapak/Ibu pimpin, adapun identitas Mahasiswa/i tersebut adalah sebagai berikut:</p>
+                            <table border="1">
+                            <thead>
+                            <tr>
+                            <th style="width:2% ">No</th>
+                            <th style="width: 30%">Nama</th>
+                            <th style="width: 20%">No. Pokok</th>
+                            <th style="width: 23%">Program Studi</th>
+                            <th style="width: 20%">No. Telpon/HP</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                            <td>1</td>
+                            <td> ' . $nama_lengkap . '</td>
+                            <td style="text-align: center">' . $nim . '</td>
+                            <td style="text-align: center">' . $prodi . '</td>
+                            <td style="text-align: center">' . $no_hp . '</td>
+                            </tr>
+                            <tr>
+                            <td>2</td>
+                            <td>' . $nama_lengkap . '</td>
+                            <td style="text-align: center">' . $nim . '</td>
+                            <td style="text-align: center">' . $prodi . '</td>
+                            <td style="text-align: center">' . $no_hp . '</td>
+                            </tr>
+                            <tr>
+                            <td>3</td>
+                            <td>' . $nama_lengkap . '</td>
+                            <td style="text-align: center">' . $nim . '</td>
+                            <td style="text-align: center">' . $prodi . '</td>
+                            <td style="text-align: center">' . $no_hp . '</td>
+                            </tr>
+                            </tbody>
+                            </table>
+                            <p> Demikianlah permohonan ini kami sampaikan, atas bantuan dan kerja samanya, kami ucapkan terima kasih.</p>
+                            <p><i> Wassalamualaikum, Wr. Wb. </i></p>
+                            <div class="signature" class="signature" alt="signature">
+                            <p>Hormat kami,<br>Wakil Rektor Bidang Akademik</p>
+                            <img src="#" alt="Signature">
+                            <p><strong>Dr. Eng., Saiful Anwar, S.E., Ak., M.Si., CA.</strong> <br>
+                            NIDN/NBM: 0319047704/480.134</p>
+                            </div>
+                            </div>
+                            </body>
+                            </html>';
+
+
+
+                    $pdfPath = generatePDF($html);
 
                     sendEmailWithPDF($email_pengirim, $subject, $body, $pdfPath);
                 } else {

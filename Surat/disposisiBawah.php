@@ -2565,8 +2565,8 @@
                       <div class="floatFiller">ffff</div>
                       <button type="button" id="btnSelesai" style="cursor: pointer;">Selesai</button>
                       <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button>
-                      <br> <br> <br>
-                      <button type="button" id="btnExport" style="width: 150px; cursor: pointer;">Export PDF</button>
+                      <!-- <br> <br> <br> -->
+                      <!-- <button type="button" id="btnExport" style="width: 150px; cursor: pointer;">Export PDF</button>-->
                   </div>
 
                   <script>

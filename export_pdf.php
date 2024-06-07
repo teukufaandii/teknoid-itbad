@@ -13,23 +13,12 @@ if (!isset($_SESSION['pengguna_type']) || $_SESSION['akses'] != 'Humas') {
     exit;
 }
 
-// Include TCPDF library
-require_once __DIR__ . '/vendor/tecnickcom/tcpdf/tcpdf.php';
+require "vendor/autoload.php";
 
-// Initialize TCPDF object
-// Initialize TCPDF object with default values
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+use Dompdf\Dompdf;
 
-// Set document information
-$pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Your Name');
-$pdf->SetTitle('Detail Surat');
-$pdf->SetSubject('Detail Surat');
-$pdf->SetKeywords('Surat, Detail, PDF');
 
-// Add a page
-$pdf->AddPage();
-
+$dompdf = new Dompdf();
 
 // Fetch surat data from the database based on ID
 $id_surat = $_GET['id'] ?? null;
@@ -49,9 +38,15 @@ $tujuan_surat = $row['tujuan_surat'];
 $email = $row['email'];
 $nama_lengkap = $row['nama_lengkap'];
 $nim = $row['nim'];
+$nama_lengkap2 = $row['nama_lengkap2'];
+$nim2 = $row['nim2'];
+$nama_lengkap3 = $row['nama_lengkap3'];
+$nim3 = $row['nim3'];
 $prodi = $row['prodi'];
 $no_hp = $row['no_hp'];
 $deskripsi = $row['deskripsi'];
+$nama_perusahaan = $row['nama_perusahaan'];
+$alamat_perusahaan = $row['alamat_perusahaan'];
 
 // Membuat peta penamaan jenis surat
 $jenis_surat_map = array(
@@ -65,44 +60,102 @@ $jenis_surat_map = array(
 // Mendapatkan nama jenis surat berdasarkan kode jenis surat dari database
 $nama_jenis_surat = isset($jenis_surat_map[$jenis_surat]) ? $jenis_surat_map[$jenis_surat] : 'Tidak Diketahui';
 
-
 // Add content to the PDF
-$html = '<h1><center> Informasi Surat </center></h1>';
-$html .= '<p>Tanggal: ' . date("Y-m-d") . '</p>';
-$html .= '<p>Pengirim: [Nama Pengirim]</p>';
-$html .= '<p>Alamat: [Alamat Pengirim]</p>';
-$html .= '<hr>'; // Garis untuk memisahkan informasi surat dengan detail surat
-$html .= '<h1>Detail Surat</h1>';
-$html .= '<p>Jenis Surat: ' . $nama_jenis_surat . '</p>';
-$html .= '<p>Asal Surat: ' . $asal_surat . '</p>';
-$html .= '<p>Perihal: ' . $perihal . '</p>';
-$html .= '<p>Nomor Surat: ' . $nomor_surat . '</p>';
-$html .= '<p>Tanggal Surat: ' . $tanggal_surat . '</p>';
-$html .= '<p>Tujuan Surat: ' . $tujuan_surat . '</p>';
-$html .= '<p>Email: ' . $email . '</p>';
-$html .= '<p>Nama Lengkap: ' . $nama_lengkap . '</p>';
-$html .= '<p>NIM: ' . $nim . '</p>';
-$html .= '<p>Prodi: ' . $prodi . '</p>';
-$html .= '<p>No. HP: ' . $no_hp . '</p>';
-$html .= '<p>Deskripsi: ' . $deskripsi . '</p>';
+$html = '<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detail Surat</title>
+<style>
+body { font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; background-color: #f2f2f2  }
+.container { width: 80%; margin: 0 auto; padding: 20px; background-color: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+h1 { font-size: 36px; margin-bottom: 20px; text-align: center; }
+h2 { font-size: 24px; margin-bottom: 10px; text-align: center; }
+h3 { font-size: 18px; margin-bottom: 5px; }
+table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+th { background-color: #f5f5f5; }
+.logo { display: block; margin: 0 auto; width: 150px; }
+.signature { display: flex; justify-content: center; margin-top: 30px; }
+.signature img { width: 100px; }
+.signature p { margin-left: 10px; font-style: italic; }
+.red-banner h2 { margin: 0; font-size: 20px; }
+th { background-color: grey; text-align: center; font-weight: bold; }
+</style>
+</head>
+<body>
+</div>
+<div class="container">
+<img src="logo itbad.jpg" class="logo">
+<h1 style="text-align: center;  color: maroon"">ITB AHMAD DAHLAN <br> <span style="font-size: 12px"> Socio Technopreneur University </span></h1>
 
-// Set font
-$pdf->SetFont('times', '', 11);
 
-// Write the HTML content to the PDF
-$pdf->writeHTML($html, true, false, true, false, '');
+<p style="font-size: 10px;>Jl. Ir. H. Juanda No. 77, Ciputat, Tangerang Selatan 15419 &nbsp; &nbsp; &nbsp; Jl. Imam Bonjol No. 69, Karawaci, Kota Tangerang</p>
+<p style="font-size: 10px">(021) 743 0930 | WA 0858 9119 5646 | www.itb-ad.ac.id &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  (021) 557 267 45 | WA 0857 7031 0322</p>
 
-// Tanda tangan Rektor
-$pdf->SetFont('times', '', 12);
-$pdf->SetY(-30); // Set posisi Y di bagian bawah halaman
-$pdf->Cell(0, 10, 'Atas nama Rektor,', 0, false, 'R', 0, '', 0, false, 'T', 'M');
+<p>' . $nomor_surat . '</p>
+<p>Lampiran : -</p>
+<p>Hal : Permohonan KKL/Magang</p>
+<p>' . date("d-m-Y") . '</p>
+<p>Kepada Yth.</p>
+<p>Bapak/Ibu Pimpinan ' . $nama_perusahaan . '</p>
+<p>' . $alamat_perusahaan . '</p>
+<p>Assalamualaikum, Wr, Wb.</p>
+<p style="text-align: justify"> &nbsp; &nbsp; Salam sejahtera kami sampaikan kepada Bapak/Ibu beserta jajaran, semoga selalu dalam lindungan Allah SWT dan sukses menjalankan tugas sehari – hari Aamiin.</p>
+<p style="text-align: justify"> &nbsp; &nbsp; Salah satu persyaratan untuk memperoleh gelar Diploma/Sarjana maka Mahasiswa/i diwajibkan melaksanakan Kuliah Kerja Lapangan (KKL). Oleh sebab itu, kami mohon kesediaan Bapak/Ibu menerima Mahasiswa/i kami melaksanakan KKL/Magang pada Instansi/Perusahaan yang Bapak/Ibu pimpin, adapun identitas Mahasiswa/i tersebut adalah sebagai berikut:</p>
+<table border="1">
+<thead>
+<tr>
+<th>No</th>
+<th>Nama</th>
+<th>No. Pokok</th>
+<th>Program Studi</th>
+<th>No. Telpon/Hp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>' . $nama_lengkap . '</td>
+<td>' . $nim . '</td>
+<td>' . $prodi . '</td>
+<td>' . $no_hp . '</td>
+</tr>
+<tr>
+<td>2</td>
+<td>' . $nama_lengkap2 . '</td>
+<td>' . $nim2 . '</td>
+<td>' . $prodi . '</td>
+<td>' . $no_hp . '</td>
+</tr>
+<tr>
+<td>3</td>
+<td>' . $nama_lengkap3 . '</td>
+<td>' . $nim3 . '</td>
+<td>' . $prodi . '</td>
+<td>' . $no_hp . '</td>
+</tr>
+</tbody>
+</table>
+<p>Demikianlah permohonan ini kami sampaikan, atas bantuan dan kerja samanya, kami <br> ucapkan terima kasih.</p>
+<p>Wassalamualaikum, Wr. Wb.</p>
+<div class="signature">
+<p>Hormat kami,</p>
+<p>Wakil Rektor Bidang Akademik</p>
+<img src="https://i.imgur.com/4r3p7mI.png" alt="Signature">
+<p>Dr. Eng., Saiful Anwar, S.E., Ak., M.Si., CA.</p>
+<p>NIDN/NBM: 0319047704/480.134</p>
+</div>
+</div>
+</body>
+</html>';
 
-// Tambahkan nama Rektor
-$pdf->SetY(-20); // Sesuaikan posisi Y agar berada di bawah teks sebelumnya
-$pdf->Cell(0, 10, 'Fandi', 0, false, 'R', 0, '', 0, false, 'T', 'M');
 
-// Close and output PDF
-$pdf->Output('detail_surat.pdf', 'D');
+$dompdf->loadHtml($html);
+
+$dompdf->render();
+
+$dompdf->stream("DetailSurat.pdf", array('Attachment' => false));
+
 exit;
-
-?>
