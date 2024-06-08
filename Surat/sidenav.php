@@ -24,14 +24,14 @@
             <h3><?php echo $_SESSION['nama_lengkap']; ?></h3>
             <p><?php echo $_SESSION['jabatan']; ?></p>
         </div>
-        <a href="dashboard.php">Dashboard</a>
-        <a href="rekap_surat.php">Rekap&nbsp;Surat</a>
+        <a href="dashboard">Dashboard</a>
+        <a href="rekap_surat">Rekap&nbsp;Surat</a>
         <button class="dropdown-btn">Surat&nbsp;Menyurat
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-container">
-            <a href="surat_masuk.php">Surat&nbsp;Masuk</a>
-            <a href="surat_keluar.php">Surat&nbsp;Keluar</a>
+            <a href="surat_masuk">Surat&nbsp;Masuk</a>
+            <a href="surat_keluar">Surat&nbsp;Keluar</a>
         </div>
         <!-- <a href="">Inventaris</a> -->
     </div>
@@ -46,19 +46,19 @@
             <h3><?php echo $_SESSION['nama_lengkap']; ?></h3>
             <p><?php echo $_SESSION['jabatan']; ?></p>
         </div>
-        <a href="dashboard.php">Dashboard</a>
+        <a href="dashboard">Dashboard</a>
         <button class="dropdown-btn">Surat&nbsp;Menyurat
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-container">
-            <a href="surat_masuk.php">Surat&nbsp;Masuk</a>
-            <a href="surat_keluar.php">Surat&nbsp;Keluar</a>
+            <a href="surat_masuk">Surat&nbsp;Masuk</a>
+            <a href="surat_keluar">Surat&nbsp;Keluar</a>
         </div>
         <!-- <a href="">Inventaris</a> -->
     </div>
 <?php } ?>
 <script>
         function backTo() {
-            window.location.href = "dashboard.php";
+            window.location.href = "dashboard";
         }
     </script>

@@ -42,7 +42,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                 <div class="contentBox">
                     <div class="pageInfo">  
                         <h3>Tambah Akun</h3>
-                        <a href="pengaturan_akun.php"><button class="back">Kembali</button></a>
+                        <a href="pengaturan_akun"><button class="back">Kembali</button></a>
                     </div>
                     <form class="form" method="post" action="add_userProcess.php">
 

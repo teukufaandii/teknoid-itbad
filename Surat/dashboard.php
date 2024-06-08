@@ -102,7 +102,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                         $total_sm_row = mysqli_fetch_assoc($records);
                         $total_sm = $total_sm_row['total'];
                         ?>
-                        <button onclick="window.location.href='surat_masuk.php'" class="btn3">Surat Masuk
+                        <button onclick="window.location.href='surat_masuk'" class="btn3">Surat Masuk
                             <i class="fas fa-envelope dash-icon"></i><br>
                             <span class="badge" id="" style="color: grey; padding: 2px; border-radius: 15px;"><?php echo $total_sm;?></span>
                         </button>
@@ -116,7 +116,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                             $total_sk_row = mysqli_fetch_assoc($records);
                             $total_sk = $total_sk_row['total'];
                         ?>
-                        <button onclick="window.location.href='surat_keluar.php'" class="btn4">Surat Keluar 
+                        <button onclick="window.location.href='surat_keluar'" class="btn4">Surat Keluar 
                             <i class="fa fa-envelope-open dash-icon"></i><br>
                             <span class="badge" id="" style="color: grey; padding: 2px; border-radius: 15px;"><?php echo $total_sk; ?></span>
                         </button>
@@ -208,7 +208,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                 data.forEach((surat) => {
                     const listItem = document.createElement('li');
                     listItem.innerHTML = `
-                        <a href="disposisi.php?id=${surat.id_surat}">
+                        <a href="disposisi?id=${surat.id_surat}">
                             Ada Surat Masuk - ${surat.perihal}
                         </a>
                     `;

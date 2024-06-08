@@ -27,7 +27,7 @@
                 <label>Masukan Password</label>
                 <i class="fa fa-eye" id="pass-toggle"></i>
             </div>
-            <p style="margin-top: 0px; margin-bottom: 25px;"><a href="forgot.php">Lupa Password?</a></p>
+            <p style="margin-top: 0px; margin-bottom: 25px;"><a href="forgot">Lupa Password?</a></p>
             <div class="btn-container">
                 <input type="submit" value="Masuk" class="login-btn" style="cursor: pointer;">
             </div>

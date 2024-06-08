@@ -30,17 +30,17 @@ if (mysqli_num_rows($result) == 1) {
         if ($_SESSION['akses'] == 'Admin') {
             echo '<script language="javascript" type="text/javascript">
             alert("Anda Berhasil Masuk, Selamat Datang '.$_SESSION['jabatan'].'!");</script>';
-            echo "<meta http-equiv='refresh' content='0; url=Surat/pengaturan_akun.php'>";
+            echo "<meta http-equiv='refresh' content='0; url=Surat/pengaturan_akun'>";
             exit();
         }elseif ($_SESSION['akses'] == 'Rektor') {
             echo '<script language="javascript" type="text/javascript">
             alert("Anda Berhasil Masuk, Selamat Datang Bapak '.$_SESSION['jabatan'].'!");</script>';
-            echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard.php'>";
+            echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard'>";
             exit();
         }elseif ($_SESSION['akses'] == 'Warek1' || $_SESSION['akses'] == 'Warek2' || $_SESSION['akses'] == 'Warek3') {
             echo '<script language="javascript" type="text/javascript">
             alert("Anda Berhasil Masuk, Selamat Datang '.$_SESSION['jabatan'].'!");</script>';
-            echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard.php'>";
+            echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard'>";
             exit();
         }elseif ($_SESSION['akses'] == 'direkPasca' || 
                 $_SESSION['akses'] == 'DekanFTD' || 
@@ -56,12 +56,12 @@ if (mysqli_num_rows($result) == 1) {
                 $_SESSION['jabatan'] == 'Prodi S2 Keuangan Syariah') {
             echo '<script language="javascript" type="text/javascript">
             alert("Anda Berhasil Masuk, Selamat Datang '.$_SESSION['jabatan'].'!");</script>';
-            echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard.php'>";
+            echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard'>";
             exit();
         }elseif ($_SESSION['akses'] == 'User') {
             echo '<script language="javascript" type="text/javascript">
             alert("Anda Berhasil Masuk, Selamat Datang '.$_SESSION['nama_lengkap'].'!");</script>';
-            echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard.php'>";
+            echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard'>";
             exit();
         }elseif ( $_SESSION['akses'] == 'bpm' 
                 || $_SESSION['akses'] == 'lp3m' 
@@ -94,32 +94,32 @@ if (mysqli_num_rows($result) == 1) {
                 ) {
             echo '<script language="javascript" type="text/javascript">
             alert("Anda Berhasil Masuk, Selamat Datang '.$_SESSION['jabatan'].'!");</script>';
-            echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard.php'>";
+            echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard'>";
             exit();
         }elseif ($_SESSION['akses'] == 'Humas') {
             echo '<script language="javascript" type="text/javascript">
             alert("Anda Berhasil Masuk, Selamat Datang '.$_SESSION['jabatan'].'!");</script>';
-            echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard.php'>";
+            echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard'>";
             exit();
         }elseif ($_SESSION['akses'] == 'Sekretaris') {
             echo '<script language="javascript" type="text/javascript">
             alert("Anda Berhasil Masuk, Selamat Datang '.$_SESSION['jabatan'].'!");</script>';
-            echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard.php'>";
+            echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard'>";
             exit();
         }elseif ($_SESSION['akses'] == 'User') {
             echo '<script language="javascript" type="text/javascript">
             alert("Anda Berhasil Masuk, Selamat Datang '.$_SESSION['jabatan'].'!");</script>';
-            echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard.php'>";
+            echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard'>";
             exit();
         }
     } else {
         // Password is incorrect
-        echo "<script>alert('Username atau Password yang Anda masukan salah!'); window.location='index.php';</script>";
+        echo "<script>alert('Username atau Password yang Anda masukan salah!'); window.location='index';</script>";
         exit();
     }
 } else {
     // User doesn't exist
-    echo "<script>alert('Username yang Anda masukan tidak terdaftar!'); window.location='index.php';</script>";
+    echo "<script>alert('Username yang Anda masukan tidak terdaftar!'); window.location='index';</script>";
     exit();
 }
 ?>

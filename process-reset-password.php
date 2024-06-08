@@ -24,7 +24,7 @@ if ($user === null) {
 }
 
 if (strtotime($user["reset_token_expires_at"]) <= time()) {
-    echo "<script>alert('Token tidak ditemukan.'); window.location='index.php';</script>";
+    echo "<script>alert('Token tidak ditemukan.'); window.location='index';</script>";
 }
 
 if (strlen($_POST["password"]) < 8) {
