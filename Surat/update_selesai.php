@@ -133,6 +133,8 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
                         $nim3 = $row['nim3'];
                         $prodi = $row['prodi'];
                         $no_hp = $row['no_hp'];
+                        $no_hp2 = $row['no_hp2'];
+                        $no_hp3 = $row['no_hp3'];
                         $deskripsi = $row['deskripsi'];
                         $nama_perusahaan = $row['nama_perusahaan'];
                         $alamat_perusahaan = $row['alamat_perusahaan'];
@@ -165,7 +167,7 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
                             .signature p { margin-left: 10px;}
                             .red-banner h2 { margin: 0; font-size: 20px; }
                             th { background-color: gainsboro; text-align: center; font-weight: bold; }
-                            footer {background-color: #6c0000; height: 50px; width: 120%; margin-left: -50px;}
+                            footer {background-color: #6c0000; height: 50px; width: 120%; margin-left: -50px; margin-top:50px; position: fixed;}
                             </style>
                             </head>
                             <body>
@@ -208,7 +210,7 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
                             <td>' . $nama_lengkap2 . '</td>
                             <td style="text-align: center">' . $nim2 . '</td>
                             <td style="text-align: center">' . $prodi . '</td>
-                            <td style="text-align: center">' . $no_hp2 . '</td>
+                            <td style="text-align: center">' . $no_hp3 . '</td>
                             </tr>
                             <tr>
                             <td>3</td>
@@ -228,6 +230,7 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
                             NIDN/NBM: 0319047704/480.134</p>
                             </div>
                             </div>
+                            <footer></footer>
                             </body>
                             </html>';
 
@@ -236,7 +239,6 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
 
                     // Send email with PDF attachment
                     sendEmailWithPDF($email_pengirim, $subject, $body, $pdfPath);
-
                 } else {
                     mysqli_rollback($koneksi);
                     echo "Gagal memperbarui status pada tabel tb_disposisi: " . mysqli_error($koneksi);
@@ -247,7 +249,7 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
                 if (mysqli_query($koneksi, $insert_query)) {
                     mysqli_commit($koneksi);
                     echo "Status berhasil diperbarui dengan penyisipan data baru ke tb_disposisi";
-                    
+
                     // Email sending and PDF generation logic
                     $email_query = "SELECT email FROM tb_surat_dis WHERE id_surat = '$id'";
                     $email_result = mysqli_query($koneksi, $email_query);
@@ -350,17 +352,17 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
                             </tr>
                             <tr>
                             <td>2</td>
-                            <td>' . $nama_lengkap2 . '</td>
-                            <td style="text-align: center">' . $nim2 . '</td>
+                            <td>' . $nama_lengkap . '</td>
+                            <td style="text-align: center">' . $nim . '</td>
                             <td style="text-align: center">' . $prodi . '</td>
-                            <td style="text-align: center">' . $no_hp2 . '</td>
+                            <td style="text-align: center">' . $no_hp . '</td>
                             </tr>
                             <tr>
                             <td>3</td>
-                            <td>' . $nama_lengkap3 . '</td>
-                            <td style="text-align: center">' . $nim3 . '</td>
+                            <td>' . $nama_lengkap . '</td>
+                            <td style="text-align: center">' . $nim . '</td>
                             <td style="text-align: center">' . $prodi . '</td>
-                            <td style="text-align: center">' . $no_hp3 . '</td>
+                            <td style="text-align: center">' . $no_hp . '</td>
                             </tr>
                             </tbody>
                             </table>
@@ -381,7 +383,6 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
 
                     // Send email with PDF attachment
                     sendEmailWithPDF($email_pengirim, $subject, $body, $pdfPath);
-
                 } else {
                     mysqli_rollback($koneksi);
                     echo "Gagal menyisipkan data baru ke tabel tb_disposisi: " . mysqli_error($koneksi);
@@ -396,4 +397,3 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
         exit();
     }
 }
-?>
