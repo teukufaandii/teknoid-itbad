@@ -116,25 +116,19 @@ if (!isset($_SESSION['pengguna_type'])) {
                                             $user_arr = array();
                                             // Proses pencarian rekap
                                             if(isset($_POST['search'])) {
-                                                $jenis_surat = $_POST['jenis_surat'];
-                                                $tanggal_awal = $_POST['tanggal_awal'];
-                                                $tanggal_akhir = $_POST['tanggal_akhir'];
+                                                $jenis_surat = mysqli_real_escape_string($conn, $_POST['jenis_surat']); // Escaping to prevent SQL injection
+                                                $tanggal_awal = mysqli_real_escape_string($conn, $_POST['tanggal_awal']);
+                                                $tanggal_akhir = mysqli_real_escape_string($conn, $_POST['tanggal_akhir']);
                                             
+                                                // Query to fetch data only from tb_surat_dis
                                                 $query = "
-                                                (SELECT s.kode_surat, s.jenis_surat, s.asal_surat, s.perihal, s.tanggal_surat
-                                                FROM tb_surat_dis AS s
-                                                JOIN tb_jenis AS js ON s.jenis_surat = js.kd_jenissurat
-                                                WHERE s.jenis_surat = '$jenis_surat'
-                                                AND s.tanggal_surat BETWEEN '$tanggal_awal' AND '$tanggal_akhir')
-
-                                                UNION ALL
-
-                                                (SELECT sd.nomor_surat, sd.jenis_surat, sd.asal_surat, sd.perihal, sd.tanggal_surat
-                                                FROM tb_suratnondispo AS sd
-                                                JOIN tb_jenis AS js ON sd.jenis_surat = js.kd_jenissurat
-                                                WHERE jenis_surat = '$jenis_surat'
-                                                AND tanggal_surat BETWEEN '$tanggal_awal' AND '$tanggal_akhir')
+                                                    SELECT s.kode_surat, s.jenis_surat, s.asal_surat, s.perihal, s.tanggal_surat
+                                                    FROM tb_surat_dis AS s
+                                                    JOIN tb_jenis AS js ON s.jenis_surat = js.kd_jenissurat
+                                                    WHERE s.jenis_surat = '$jenis_surat'
+                                                    AND s.tanggal_surat BETWEEN '$tanggal_awal' AND '$tanggal_akhir'
                                                 ";
+                                            
                                                 // Eksekusi query
                                                 $result = mysqli_query($conn, $query);
 
