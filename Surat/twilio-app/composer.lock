@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ce463dbd10d68035f74e9be8ab6eb4e",
+    "content-hash": "214f95c9242312572871165a9cda1234",
     "packages": [
         {
             "name": "twilio/sdk",
-            "version": "7.16.2",
+            "version": "8.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twilio/twilio-php.git",
-                "reference": "02ad214b0cc9fc513bd67df251d54aed8901284f"
+                "reference": "d59f57a548e2659fb305be11690b7b0aaf40a84c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/02ad214b0cc9fc513bd67df251d54aed8901284f",
-                "reference": "02ad214b0cc9fc513bd67df251d54aed8901284f",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/d59f57a548e2659fb305be11690b7b0aaf40a84c",
+                "reference": "d59f57a548e2659fb305be11690b7b0aaf40a84c",
                 "shasum": ""
             },
             "require": {
@@ -55,9 +55,9 @@
             ],
             "support": {
                 "issues": "https://github.com/twilio/twilio-php/issues",
-                "source": "https://github.com/twilio/twilio-php/tree/7.16.2"
+                "source": "https://github.com/twilio/twilio-php/tree/8.1.1"
             },
-            "time": "2024-04-01T10:34:42+00:00"
+            "time": "2024-06-06T11:46:47+00:00"
         }
     ],
     "packages-dev": [],

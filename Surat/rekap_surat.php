@@ -146,7 +146,6 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                         $asal_surat = $row['asal_surat'];
                                                         $perihal = $row['perihal'];
                                                         $tgl_surat = $row['tanggal_surat'];
-                                                        
                                                        
 
                                                         $user_arr[] = array($id, $jenis_surat, $asal_surat, $perihal, $tgl_surat);                                              
