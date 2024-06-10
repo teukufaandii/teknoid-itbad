@@ -26,7 +26,6 @@ function isSuratRiset($jenis_surat)
 
 // Memeriksa apakah form dikirimkan
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Mengambil nilai dari form
     $jenis_surat = $_POST["jenis_surat"];
     $asal_surat = $_POST["asal_surat"];
     $perihal = $_POST["perihal"];
@@ -52,18 +51,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ke_humas = "Humas";
 
     $sql = "";
-    // Jika jenis surat yang dipilih adalah "Surat KKL"
     if (isSuratKKL($jenis_surat)) {
-
-        // Menyimpan data ke dalam tabel database untuk Surat KKL
         $sql = "INSERT INTO tb_surat_dis (jenis_surat, asal_surat, perihal, nomor_surat, tanggal_surat, tujuan_surat,
                      email, nama_lengkap, nim, no_hp,  nama_lengkap2, nim2, no_hp2, nama_lengkap3, nim3, no_hp3, 
                      prodi, nama_perusahaan, alamat_perusahaan, deskripsi, diteruskan_ke)
             VALUES ('$jenis_surat', '$asal_surat', '$perihal', '$nomor_surat', '$tanggal_surat', '$tujuan_surat', 
                     '$email', '$nama_lengkap', '$nim', '$no_hp', '$nama_lengkap2', '$nim2', '$no_hp2', '$nama_lengkap3', '$nim3', '$no_hp3', 
-                    '$prodi',  '$nama_perusahaan', '$alamat_perusahaan', '$deskripsi', '$ke_humas')";
+                    '$prodi', '$nama_perusahaan', '$alamat_perusahaan', '$deskripsi', '$ke_humas')";
     } elseif (isSuratRiset($jenis_surat)) {
-        // Menyimpan data ke dalam tabel database untuk Surat Riset
         $sql = "INSERT INTO tb_surat_dis (jenis_surat, asal_surat, perihal, nomor_surat, tanggal_surat, 
                             tujuan_surat, email, nama_lengkap, nim, prodi, no_hp, nama_perusahaan, alamat_perusahaan, deskripsi, ttl, alamat_domisili, diteruskan_ke)
                     VALUES ('$jenis_surat', '$asal_surat', '$perihal', '$nomor_surat', '$tanggal_surat', '$tujuan_surat', '$email', 
@@ -152,7 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="inputfield">
                             <label for="no_hp1">Nomor Telepon <b>1</b>*</label>
-                            <input type="number" class="input" name="no_hp" placeholder="Masukkan Nomor Telepon Mahasiswa 1" required>
+                            <input type="number" class="input" name="no_hp" placeholder="Masukkan Nomor Telepon Mahasiswa 1">
                         </div>
 
                         <!-- Input untuk Mahasiswa 2 -->
@@ -166,7 +161,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="inputfield" id="no_hp2" style="display: none;">
                             <label for="no_hp2">Nomor Telepon <b>2</b>*</label>
-                            <input type="number" class="input" name="no_hp2" placeholder="Masukkan Nomor Telepon Mahasiswa 2" required>
+                            <input type="number" class="input" name="no_hp2" placeholder="Masukkan Nomor Telepon Mahasiswa 2">
                         </div>
 
                         <!-- Input untuk Mahasiswa 3 -->
@@ -180,7 +175,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="inputfield" id="no_hp3" style="display: none; margin-bottom: 15px;">
                             <label for="no_hp3">Nomor Telepon <b>3</b>*</label>
-                            <input type="number" class="input" name="no_hp3" placeholder="Masukkan Nomor Telepon Mahasiswa 3" required>
+                            <input type="number" class="input" name="no_hp3" placeholder="Masukkan Nomor Telepon Mahasiswa 3">
                         </div>
                     </div>
 

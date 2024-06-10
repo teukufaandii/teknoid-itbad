@@ -20,20 +20,22 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-function sendWhatsAppMessage($to, $message) {
+function sendWhatsAppMessage($to, $message)
+{
     global $twilioAccountSid, $twilioAuthToken, $twilioPhoneNumber;
-    
+
     // Initialize Twilio client
     $twilio = new Twilio\Rest\Client($twilioAccountSid, $twilioAuthToken);
-    
+
     try {
         // Send WhatsApp message
-        $message = $twilio->messages->create("whatsapp:$to", // to
-                                              [
-                                                  "from" => "whatsapp:$twilioPhoneNumber", // from
-                                                  "body" => $message,
-                                              ]
-                                             );
+        $message = $twilio->messages->create(
+            "whatsapp:$to", // to
+            [
+                "from" => "whatsapp:$twilioPhoneNumber", // from
+                "body" => $message,
+            ]
+        );
         return $message->sid; // Return message SID on success
     } catch (Exception $e) {
         return false; // Return false on failure
@@ -41,7 +43,8 @@ function sendWhatsAppMessage($to, $message) {
 }
 
 // Fungsi untuk menghasilkan angka romawi dari angka biasa
-function intToRoman($num) {
+function intToRoman($num)
+{
     $n = intval($num);
     $res = '';
 
@@ -98,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     }
 
     // Nomor surat berikutnya
-    $next_number = intval ($last_number) + 1;
+    $next_number = intval($last_number) + 1;
     // Format nomor surat agar menjadi 3 digit dengan leading zeros
     $next_number_formatted = sprintf('%03d', $next_number);
     // Konversi angka bulan menjadi angka romawi
@@ -137,7 +140,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     // Insert data into database
     $sql = "INSERT INTO tb_surat_dis (asal_surat, kode_surat, tujuan_surat, no_hp, perihal, nomor_surat, jenis_surat, tanggal_surat, deskripsi) 
             VALUES ('$asal_surat', '$kode_surat_otomatis', '$tujuan_surat', '$no_hp', '$perihal', '$no_surat', '$id_jenis_surat', '$tanggal_surat', '$deskripsi')";
-            
+
     $notification_message = "Surat baru telah masuk:\n\nAsal Surat: $asal_surat\nTujuan Surat: $tujuan_surat\nPerihal: $perihal\n\nMohon Ditanggapi";
     $notification_recipient = '+6285213042065'; // Change to your desired recipient's phone number
     $notification_sent = sendWhatsAppMessage($notification_recipient, $notification_message);
@@ -151,7 +154,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
         // Ambil ID surat yang baru saja dimasukkan
         $id_surat_baru = $conn->insert_id;
 
-        // Simpan informasi file berkas ke dalam tabel file_berkas
         // Simpan informasi file berkas ke dalam tabel file_berkas
         if ($is_berkas_uploaded) {
             $file_berkas_name = uniqid() . '_' . $_FILES['file_berkas']['name']; // Mendapatkan nama file yang diunggah
@@ -171,17 +173,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
         $update_url_sql = "UPDATE tb_surat_dis SET diteruskan_ke = 'Rektor' WHERE id_surat = '$id_surat_baru'";
         if ($conn->query($update_url_sql) === TRUE)
 
-        echo "<script> setTimeout(function() {
+            echo "<script> setTimeout(function() {
             window.location.href = 'surat_keluar.php';}, 1000);
             </script>";
-} else {
-// Tampilkan pesan error SQL
-echo "Error: " . $sql . "<br>" . $conn->error;
-}}
+    } else {
+        // Tampilkan pesan error SQL
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
 ?>
 
 <!doctype html>
 <html lang="en">
+
 <head>
     <title>Tambah Surat - Teknoid</title>
     <!-- Required meta tags -->
@@ -195,20 +199,21 @@ echo "Error: " . $sql . "<br>" . $conn->error;
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <body>
     <!-- sidenav -->
     <?php include "sidenav.php" ?>
 
-    <!-- content --> 
+    <!-- content -->
     <div class="content" id="Content">
         <!-- topnav -->
         <?php include "topnav.php" ?>
-        
+
         <div class="mainContent" id="mainContent">
             <div class="contentBox">
-                <div class="pageInfo">  
+                <div class="pageInfo">
                     <h3>Tambah Surat</h3>
-                   <a href="surat_keluar.php"> <button class="back">Kembali</button> </a> 
+                    <a href="surat_keluar.php"> <button class="back">Kembali</button> </a>
                 </div>
                 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="form" enctype="multipart/form-data">
                     <div class="inputfield">
@@ -216,21 +221,21 @@ echo "Error: " . $sql . "<br>" . $conn->error;
                         <div class="custom_select">
                             <select name="jenis_surat" id="jenis_surat">
                                 <?php
-                                    // Query untuk mendapatkan jenis surat dari tabel tb_jenis
-                                    $query_jenis_surat = "SELECT * FROM tb_jenis LIMIT 2";
-                                    $result_jenis_surat = $conn->query($query_jenis_surat);
-                                    
-                                    // Periksa apakah ada hasil query
-                                    if ($result_jenis_surat->num_rows > 0) {
-                                        // Loop melalui setiap baris hasil query
-                                        while($row_jenis_surat = $result_jenis_surat->fetch_assoc()) {
-                                            // Tampilkan opsi jenis surat
-                                            echo "<option value='" . $row_jenis_surat['kd_jenissurat'] . "'>" . $row_jenis_surat['nama_jenis'] . "</option>";
-                                        }
-                                    } else {
-                                        echo "<option value=''>Tidak ada jenis surat yang tersedia</option>";
+                                // Query untuk mendapatkan jenis surat dari tabel tb_jenis
+                                $query_jenis_surat = "SELECT * FROM tb_jenis LIMIT 2";
+                                $result_jenis_surat = $conn->query($query_jenis_surat);
+
+                                // Periksa apakah ada hasil query
+                                if ($result_jenis_surat->num_rows > 0) {
+                                    // Loop melalui setiap baris hasil query
+                                    while ($row_jenis_surat = $result_jenis_surat->fetch_assoc()) {
+                                        // Tampilkan opsi jenis surat
+                                        echo "<option value='" . $row_jenis_surat['kd_jenissurat'] . "'>" . $row_jenis_surat['nama_jenis'] . "</option>";
                                     }
-                                    ?>
+                                } else {
+                                    echo "<option value=''>Tidak ada jenis surat yang tersedia</option>";
+                                }
+                                ?>
                             </select>
                         </div>
                     </div>
@@ -238,7 +243,7 @@ echo "Error: " . $sql . "<br>" . $conn->error;
                     <div class="inputfield">
                         <label for="">Asal Surat</label>
                         <input class="input" type="text" name="asal_surat" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" readonly>
-                    </div> 
+                    </div>
 
                     <div class="inputfield">
                         <label for="">Perihal*</label>
@@ -246,8 +251,8 @@ echo "Error: " . $sql . "<br>" . $conn->error;
                     </div>
 
                     <div class="inputfield">
-                            <label for="">Nomor Surat</label>
-                            <input type="text" class="input" name="no_surat" placeholder="Masukkan Nomor Surat">
+                        <label for="">Nomor Surat</label>
+                        <input type="text" class="input" name="no_surat" placeholder="Masukkan Nomor Surat">
                     </div>
 
                     <div class="inputfield">
@@ -281,19 +286,19 @@ echo "Error: " . $sql . "<br>" . $conn->error;
                                 <option>Unit LP3M</option>
                                 <option>Unit KUI dan Kerjasama</option>
                                 <option>Unit PPIK dan Kemahasiswaan</option>
-                                <option>Unit IT & Laboratorium</option> 
+                                <option>Unit IT & Laboratorium</option>
                                 <!-- Daftar tujuan surat lainnya -->
                             </select>
 
                             <script>
                                 document.addEventListener("DOMContentLoaded", function() {
-                                var select = document.getElementById("unitSelect");
-                                
-                                select.addEventListener("change", function() {
-                                    if (this.value === "") {
-                                    this.selectedIndex = -1; // Reset the selected index to none
-                                    }
-                                });
+                                    var select = document.getElementById("unitSelect");
+
+                                    select.addEventListener("change", function() {
+                                        if (this.value === "") {
+                                            this.selectedIndex = -1; // Reset the selected index to none
+                                        }
+                                    });
                                 });
                             </script>
 
@@ -315,7 +320,7 @@ echo "Error: " . $sql . "<br>" . $conn->error;
                         <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                     </div>
 
-                    <div class="inputfieldhidden" id="uploadBerkasLaporan" style="display: none;"> 
+                    <div class="inputfieldhidden" id="uploadBerkasLaporan" style="display: none;">
                         <div class="inputfield">
                             <label for="">Unggah Berkas Laporan</label>
                             <input type="file" class="input" name="file_laporan" accept="application/pdf" style="border: none;">
@@ -329,7 +334,7 @@ echo "Error: " . $sql . "<br>" . $conn->error;
                         <button class="btn" type="button" onclick="showConfirmationPopup()">Kirim</button>
                     </div>
                 </form>
-                
+
             </div>
         </div>
         <?php include './footer.php'; ?>
@@ -373,43 +378,43 @@ echo "Error: " . $sql . "<br>" . $conn->error;
     </script>
 
     <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                var jenisSuratDropdown = document.getElementById('jenis_surat');
-                var uploadBerkasLaporan = document.getElementById('uploadBerkasLaporan');
+        document.addEventListener("DOMContentLoaded", function() {
+            var jenisSuratDropdown = document.getElementById('jenis_surat');
+            var uploadBerkasLaporan = document.getElementById('uploadBerkasLaporan');
 
-                // Event listener untuk perubahan pada dropdown jenis surat
-                jenisSuratDropdown.addEventListener('change', function() {
-                    var selectedOption = this.value;
+            // Event listener untuk perubahan pada dropdown jenis surat
+            jenisSuratDropdown.addEventListener('change', function() {
+                var selectedOption = this.value;
 
-                    // Tampilkan elemen unggah berkas laporan jika jenis surat yang dipilih adalah "Surat Laporan" (nilai 2)
-                    if (selectedOption === '2') {
-                        uploadBerkasLaporan.style.display = 'block';
-                        // Tambahkan atribut required ke input file laporan
-                        document.querySelector('input[name="file_laporan"]').setAttribute('required', 'required');
-                    } else {
-                        uploadBerkasLaporan.style.display = 'none';
-                        // Hapus atribut required dari input file laporan jika jenis surat yang dipilih bukan "Surat Laporan"
-                        document.querySelector('input[name="file_laporan"]').removeAttribute('required');
-                    }
-                });
-
-                // Inisialisasi tampilan berdasarkan nilai default dropdown saat halaman dimuat
-                var initialOption = jenisSuratDropdown.value;
-                if (initialOption === '2') {
+                // Tampilkan elemen unggah berkas laporan jika jenis surat yang dipilih adalah "Surat Laporan" (nilai 2)
+                if (selectedOption === '2') {
                     uploadBerkasLaporan.style.display = 'block';
+                    // Tambahkan atribut required ke input file laporan
                     document.querySelector('input[name="file_laporan"]').setAttribute('required', 'required');
                 } else {
                     uploadBerkasLaporan.style.display = 'none';
+                    // Hapus atribut required dari input file laporan jika jenis surat yang dipilih bukan "Surat Laporan"
                     document.querySelector('input[name="file_laporan"]').removeAttribute('required');
                 }
             });
 
+            // Inisialisasi tampilan berdasarkan nilai default dropdown saat halaman dimuat
+            var initialOption = jenisSuratDropdown.value;
+            if (initialOption === '2') {
+                uploadBerkasLaporan.style.display = 'block';
+                document.querySelector('input[name="file_laporan"]').setAttribute('required', 'required');
+            } else {
+                uploadBerkasLaporan.style.display = 'none';
+                document.querySelector('input[name="file_laporan"]').removeAttribute('required');
+            }
+        });
     </script>
     <script src="js/dashboard-js.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    
+
 </body>
+
 </html>
 
 <?php

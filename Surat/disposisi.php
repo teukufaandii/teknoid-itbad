@@ -16,7 +16,7 @@ $id = $_GET['id'] ?? null;
 
 // Fetch data from the first table based on the provided ID
 $sql1 = "SELECT sd.kode_surat, sd.nama_lengkap, sd.nim, sd.nama_lengkap2, sd.nim2, sd.nama_lengkap3, sd.nim3, sd.tanggal_surat, sd.tujuan_surat, sd.asal_surat, j.nama_jenis,
-                sd.perihal, sd.nomor_surat, sd.no_hp, sd.no_hp2, sd.no_hp3, sd.email, sd.deskripsi
+                sd.perihal, sd.nomor_surat, sd.no_hp, sd.no_hp2, sd.no_hp3, sd.email, sd.deskripsi, sd.nama_perusahaan, sd.alamat_perusahaan, sd.prodi
          FROM tb_surat_dis sd
          INNER JOIN tb_jenis j ON sd.jenis_surat = j.kd_jenissurat
          WHERE sd.id_surat = ?";
@@ -42,7 +42,10 @@ $stmt1->bind_result(
     $no_telepon2,
     $no_telepon3,
     $suratelektrik,
-    $deskripsi
+    $deskripsi,
+    $nama_perusahaan,
+    $Alamat_Perusahaan,
+    $prodi
 );
 $stmt1->fetch();
 $stmt1->close();
@@ -202,6 +205,11 @@ $file_laporan_exists = !empty($file_laporan_name);
                             <label for="">NIM Siswa</label>
                             <input type="text" class="input" name="#" value="<?php echo $nim; ?>, &nbsp <?php echo $nim2; ?>, &nbsp <?php echo $nim3; ?>  " readonly>
                         </div>
+
+                        <div class="input-field">
+                            <label for="">Program Studi</label>
+                            <input type="text" class="input" name="#" value="<?php echo $prodi; ?> " readonly>
+                        </div>
                     <?php } ?>
 
                     <div class="input-field">
@@ -226,13 +234,26 @@ $file_laporan_exists = !empty($file_laporan_name);
 
                     <div class="input-field">
                         <label for="">No Telepon*</label>
-                        <input type="text" class="input" name="#" placeholder="" value="<?php echo $no_telepon; ?>, <?php echo $no_telepon2; ?>, <?php echo $no_telepon3; ?> " readonly>
+                        <input type="text" class="input" name="#" placeholder="" value="<?php echo $no_telepon; ?>, &nbsp <?php echo $no_telepon2; ?>, &nbsp <?php echo $no_telepon3; ?> " readonly>
                     </div>
 
                     <?php if ($_SESSION['akses'] == "Humas") { ?>
                         <div class="input-field">
                             <label for="">Email*</label>
                             <input type="text" class="input" name="#" placeholder="" value="<?php echo $suratelektrik; ?>" readonly>
+                        </div>
+                    <?php } ?>
+
+
+                    <?php if ($_SESSION['akses'] == "Humas" || $_SESSION['akses'] == "Sekretaris") { ?>
+                        <div class="input-field">
+                            <label for="">Nama Perusahaan</label>
+                            <input type="text" class="input" name="#" value="<?php echo $nama_perusahaan; ?>" readonly>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="">Alamat Perusahaan</label>
+                            <input type="text" class="input" name="#" value="<?php echo $Alamat_Perusahaan; ?>  " readonly>
                         </div>
                     <?php } ?>
 
