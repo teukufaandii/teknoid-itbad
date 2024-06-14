@@ -8,7 +8,7 @@ $password = ""; // your MySQL password
 $dbname = "db_teknoid"; // your database name
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-require __DIR__ . '/twilio-app/vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 // Twilio credentials
 $twilioAccountSid = 'ACa7e1267f7df10a6b837cb2583b7ed409';
@@ -142,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             VALUES ('$asal_surat', '$kode_surat_otomatis', '$tujuan_surat', '$no_hp', '$perihal', '$no_surat', '$id_jenis_surat', '$tanggal_surat', '$deskripsi')";
 
     $notification_message = "Surat baru telah masuk:\n\nAsal Surat: $asal_surat\nTujuan Surat: $tujuan_surat\nPerihal: $perihal\n\nMohon Ditanggapi";
-    $notification_recipient = '+6285213042065'; // Change to your desired recipient's phone number
+    $notification_recipient = '+6282211696095'; // Change to your desired recipient's phone number
     $notification_sent = sendWhatsAppMessage($notification_recipient, $notification_message);
     if ($notification_sent) {
         echo '<script>alert("Surat berhasil dikirim");</script>';

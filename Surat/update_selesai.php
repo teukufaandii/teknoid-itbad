@@ -76,10 +76,10 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
     $catatan = mysqli_real_escape_string($koneksi, $_POST['catatan_disposisi']);
     $asal_surat = isset($_SESSION['jabatan']) ? $_SESSION['jabatan'] : 'Unknown'; // Use session's jabatan
     $action = mysqli_real_escape_string($koneksi, $_POST['action']); // Get action parameter
-    $kode_surat = mysqli_real_escape_string($koneksi, $_POST['kode_surat']);
+    $kd_surat = mysqli_real_escape_string($koneksi, $_POST['kd_surat']);
 
     if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas') {
-        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai = true, kode_surat = '$kode_surat', status_baca = true WHERE id_surat = '$id'";
+        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai = true, kd_surat = '$kd_surat', status_baca = true WHERE id_surat = '$id'";
         $jabatan = $_SESSION['jabatan'];
         $tanggal_disposisi1 = date("Y-m-d");
 
@@ -149,7 +149,7 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
                         // Use fetched data to fill in the HTML template
                         $asal_surat = $row['asal_surat'];
                         $perihal = $row['perihal'];
-                        $nomor_surat = $row['kode_surat'];
+                        $nomor_surat = $row['kd_surat'];
                         $tanggal_surat = $row['tanggal_surat'];
                         $tujuan_surat = $row['tujuan_surat'];
                         $email = $row['email'];
@@ -432,7 +432,7 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
                         $jenis_surat = $row['jenis_surat'];
                         $asal_surat = $row['asal_surat'];
                         $perihal = $row['perihal'];
-                        $nomor_surat = $row['kode_surat'];
+                        $nomor_surat = $row['kd_surat'];
                         $tanggal_surat = $row['tanggal_surat'];
                         $tujuan_surat = $row['tujuan_surat'];
                         $email = $row['email'];

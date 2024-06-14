@@ -2542,7 +2542,7 @@
 
                   <div class="input-disposisi">
                       <label for="">Kode Surat*</label>
-                      <input type="text" class="input" id="kode_surat" name="kode_surat" placeholder="Masukkan kode surat">
+                      <input type="text" class="input" id="kd_surat" name="kd_surat" placeholder="Masukkan kode surat">
                   </div>
 
                   <div class="input-disposisi">
@@ -2582,7 +2582,7 @@
                               .then((willProceed) => {
                                   if (willProceed) {
                                       var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
-                                      var kode_surat = document.querySelector('input[name="kode_surat"]').value;
+                                      var kd_surat = document.querySelector('input[name="kd_surat"]').value;
                                       var xhr = new XMLHttpRequest();
                                       var id = "<?php echo $id; ?>"; // Mendapatkan nilai $id dari PHP
                                       xhr.open('POST', 'update_selesai.php', true);
@@ -2597,7 +2597,7 @@
                                                   });
                                           }
                                       };
-                                      xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&kode_surat=" + encodeURIComponent(kode_surat) + "&action=selesai");
+                                      xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&kd_surat=" + encodeURIComponent(kd_surat) + "&action=selesai");
                                   } else {
                                       swal("Dibatalkan", "Surat tidak diselesaikan", "info");
                                   }

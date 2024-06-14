@@ -122,7 +122,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                             
                                                 // Query to fetch data only from tb_surat_dis
                                                 $query = "
-                                                    SELECT s.kode_surat, s.jenis_surat, s.asal_surat, s.perihal, s.tanggal_surat
+                                                    SELECT s.kode_surat, s.kd_surat, s.jenis_surat, s.asal_surat, s.perihal, s.tanggal_surat
                                                     FROM tb_surat_dis AS s
                                                     JOIN tb_jenis AS js ON s.jenis_surat = js.kd_jenissurat
                                                     WHERE s.jenis_surat = '$jenis_surat'
@@ -143,20 +143,21 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                         $jenis_surat = $jenis_surat_row["nama_jenis"];
                                                 
                                                         $id = $row['kode_surat'];
+                                                        $id2 = $row['kd_surat'];
                                                         $asal_surat = $row['asal_surat'];
                                                         $perihal = $row['perihal'];
                                                         $tgl_surat = $row['tanggal_surat'];
                                                        
 
-                                                        $user_arr[] = array($id, $jenis_surat, $asal_surat, $perihal, $tgl_surat);                                              
+                                                        $user_arr[] = array((!empty($id) ? $id : $id2), $jenis_surat, $asal_surat, $perihal, $tgl_surat);                                              
                                                         echo "<tr id='hasilSearch'>
                                                                 <td style='width:10px;'>" . $nomor . "</td>
-                                                                <td>". $row["kode_surat"]."</td>
+                                                                <td>". (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat'])."</td>
                                                                 <td>". $jenis_surat ."</td>
                                                                 <td>". $row["asal_surat"]."</td>
                                                                 <td>". $row["perihal"]."</td>
                                                                 <td>". $row["tanggal_surat"]."</td>
-                                                                <td><button type='button' class='btn_delete' name='delete_btn' data-id3='".$row['kode_surat']."'>Hapus</button></td>
+                                                                <td><button type='button' class='btn_delete' name='delete_btn' data-id3='".(!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat'])."'>Hapus</button></td>
                                                             </tr>";
                                                         $nomor++;
                                                     }

@@ -75,7 +75,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                     $jabatan = $_SESSION['jabatan'];
 
                                     // Perhatikan penambahan kurung pada kueri SQL berikut
-                                    $records = mysqli_query($conn, "SELECT sd.id_surat, sd.kode_surat, sd.asal_surat,
+                                    $records = mysqli_query($conn, "SELECT sd.id_surat, sd.kode_surat, sd.kd_surat, sd.asal_surat,
                                                                         sd.perihal, sd.diteruskan_ke, sd.status_baca, sd.status_tolak, sd.status_selesai,
                                                                         d.dispo1, d.dispo2, d.dispo3, d.dispo4, d.dispo5
                                                                         FROM tb_surat_dis sd
@@ -95,7 +95,7 @@ if (!isset($_SESSION['pengguna_type'])) {
 
                                     // tabel db surat
                                     // Perhatikan penambahan kurung pada kueri SQL berikut
-                                    $stmt = $conn->prepare("SELECT sd.id_surat, sd.kode_surat, sd.asal_surat,
+                                    $stmt = $conn->prepare("SELECT sd.id_surat, sd.kode_surat, sd.kd_surat, sd.asal_surat,
                                                                 sd.tanggal_surat, sd.perihal, sd.diteruskan_ke, sd.status_baca, sd.status_tolak,
                                                                 sd.status_selesai, d.dispo1, d.dispo2, d.dispo3, d.dispo4, d.dispo5
                                                                 FROM tb_surat_dis sd
@@ -364,7 +364,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses 
                                             || $row['dispo1'] == 'Humas'){
                                                 echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
-                                                echo "<td>" . $row['kode_surat'] . "</td>";
+                                                echo "<td>" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "</td>";
                                                 echo "<td>" . $row['asal_surat'] . "</td>";
                                                 echo "<td>" . $row['perihal'] . "</td>";
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
