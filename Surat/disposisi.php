@@ -15,7 +15,7 @@ if (!isset($_SESSION['pengguna_type'])) {
 $id = $_GET['id'] ?? null;
 
 // Fetch data from the first table based on the provided ID
-$sql1 = "SELECT sd.kode_surat, sd.nama_lengkap, sd.nim, sd.nama_lengkap2, sd.nim2, sd.nama_lengkap3, sd.nim3, sd.tanggal_surat, sd.tujuan_surat, sd.asal_surat, j.nama_jenis,
+$sql1 = "SELECT sd.kode_surat, sd.kd_surat, sd.nama_lengkap, sd.nim, sd.nama_lengkap2, sd.nim2, sd.nama_lengkap3, sd.nim3, sd.tanggal_surat, sd.tujuan_surat, sd.asal_surat, j.nama_jenis,
                 sd.perihal, sd.nomor_surat, sd.no_hp, sd.no_hp2, sd.no_hp3, sd.email, sd.deskripsi, sd.nama_perusahaan, sd.alamat_perusahaan, sd.prodi
          FROM tb_surat_dis sd
          INNER JOIN tb_jenis j ON sd.jenis_surat = j.kd_jenissurat
@@ -26,6 +26,7 @@ $stmt1->bind_param("i", $id);
 $stmt1->execute();
 $stmt1->bind_result(
     $kode_surat,
+    $kode_surat2,
     $nama_lengkap,
     $nim,
     $nama_lengkap2,
@@ -182,7 +183,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                 <form class="form">
                     <div class="input-field">
                         <label for="">Kode Surat</label>
-                        <input type="text" class="input" name="#" placeholder="" value="<?php echo $kode_surat; ?>" readonly>
+                        <input type="text" class="input" name="#" placeholder="" value="<?php echo (!empty($kode_surat) ? $kode_surat : $kode_surat2); ?>" readonly>
                     </div>
 
                     <div class="input-field">

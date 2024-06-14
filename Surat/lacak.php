@@ -12,11 +12,11 @@ if (!isset($_SESSION['pengguna_type'])) {
 $id = $_GET['id'] ?? null;
 
 // Fetch data from the first table based on the provided ID
-$sql1 = "SELECT kode_surat, tujuan_surat, perihal FROM tb_surat_dis WHERE id_surat = ?";
+$sql1 = "SELECT kode_surat, kd_surat, tujuan_surat, perihal FROM tb_surat_dis WHERE id_surat = ?";
 $stmt1 = $koneksi->prepare($sql1);
 $stmt1->bind_param("i", $id);
 $stmt1->execute();
-$stmt1->bind_result($kode_surat, $tujuan_surat, $perihal);
+$stmt1->bind_result($kode_surat, $kode_surat2, $tujuan_surat, $perihal);
 $stmt1->fetch();
 $stmt1->close();
 
@@ -124,7 +124,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                                 <form action="" class="berkasForm" method="post">
                                     <div class="input-field">
                                         <label>Kode Surat</label>
-                                        <input type="text" name="kode-surat" value="<?php echo $kode_surat; ?>" class="input" readonly />
+                                        <input type="text" name="kode-surat" value="<?php echo (!empty($kode_surat) ? $kode_surat : $kode_surat2); ?>" class="input" readonly />
                                     </div>
                                     <div class="input-field">
                                         <label>Tujuan Surat</label>
