@@ -12,7 +12,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Twilio credentials
 $twilioAccountSid = 'AC79cd2a708304e613cfcad1ad359c1e7e';
-$twilioAuthToken = 'a8ec8cad0a82ab944c71177f65301a5e'; 
+$twilioAuthToken = 'a8ec8cad0a82ab944c71177f65301a5e';
 $twilioPhoneNumber = '+14155238886'; // Your Twilio phone number for WhatsApp 
 
 // Check connection
