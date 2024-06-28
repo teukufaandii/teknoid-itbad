@@ -186,8 +186,15 @@
                       }
 
                       function proceedDisposisi() {
+                          var diteruskan = document.querySelector('input[name="diteruskan"]:checked').value;
+                          var tujuanMapping = {
+                              'Warek1': 'Warek 1',
+                              'Warek2': 'Warek 2',
+                              'Warek3': 'Warek 3'
+                          };
+                          var tujuan = tujuanMapping[diteruskan];
                           swal({
-                              title: "Anda yakin ingin mengirim disposisi?",
+                              title: "Anda yakin ingin mengirim disposisi ke " + tujuan + "?",
                               icon: "warning",
                               buttons: true,
                               dangerMode: true,
@@ -455,8 +462,27 @@
                       }
 
                       function proceedDisposisi() {
+                          var diteruskan_checkboxes = document.querySelectorAll('input[name="diteruskan[]"]:checked');
+                          var tujuanMapping = {
+                              'Warek2': 'Warek 2',
+                              'Warek3': 'Warek 3',
+                              'DekanFTD': 'Dekan FTD',
+                              'DekanFEB': 'Dekan FEB',
+                              'direkPasca': 'Direktur Pasca',
+                              'akademik': 'Bag. Akademik',
+                              'upt_perpus': 'UPT Perpus',
+                              'lp3m': 'LP3M',
+                              'kui_k': 'KUI dan Kerjasama',
+                              'bpm': 'BPM',
+                          };
+                          var tujuan = [];
+
+                          diteruskan_checkboxes.forEach(function(checkbox) {
+                              tujuan.push(tujuanMapping[checkbox.value]);
+                          });
+
                           swal({
-                              title: "Anda yakin ingin mengirim disposisi?",
+                              title: "Anda yakin ingin mengirim disposisi ke " + tujuan.join(', ') + "?",
                               icon: "warning",
                               buttons: true,
                               dangerMode: true,
@@ -725,7 +751,7 @@
                               <label for="">BPM</label>
                           </div>
                           <div>
-                              <input type="radio" name="diteruskan" vlue="Humas">
+                              <input type="radio" name="diteruskan" value="Humas">
                               <label for="">Humas</label>
                           </div>
                           <div>
@@ -786,8 +812,35 @@
                       }
 
                       function proceedDisposisi() {
+                          var diteruskan = document.querySelector('input[name="diteruskan"]:checked').value;
+                          var tujuanMapping = {
+                              'Warek1': 'Warek 1',
+                              'Warek3': 'Warek 3',
+                              'DekanFEB': 'Dekan FEB',
+                              'DekanFTD': 'Dekan FTD',
+                              'direkPasca': 'Direktur Pasca',
+                              'prodi_akuntansi': 'Prodi S1 Akuntansi',
+                              'prodi_manajemen': 'Prodi S1 Manajemen',
+                              'prodi_si': 'Prodi SI',
+                              'prodi_ti': 'Prodi TI',
+                              'prodi_dkv': 'Prodi DKV',
+                              'prodi_arsitek': 'Prodi Arsitektur',
+                              'keuangan': 'Bag. Keuangan',
+                              'sdm': 'SDM',
+                              'umum': 'Bag. Umum',
+                              'it_lab': 'IT dan Lab',
+                              'bpm': 'BPM',
+                              'Humas': 'Humas',
+                              'marketing': 'Bag. Marketing',
+                              'lp3m': 'LP3M',
+                              'kui_k': 'KUI',
+                              'akademik': 'Bag. Akademik',
+                              'ppik_kmhs': 'PPIK dan Kemahasiswaan',
+                              'upt_perpus': 'UPT Perpus',
+                          };
+                          var tujuan = tujuanMapping[diteruskan];
                           swal({
-                              title: "Anda yakin ingin mengirim disposisi?",
+                              title: "Anda yakin ingin mengirim disposisi ke " + tujuan + "?",
                               icon: "warning",
                               buttons: true,
                               dangerMode: true,
@@ -1048,8 +1101,25 @@
                       }
 
                       function proceedDisposisi() {
+                          var diteruskan_checkboxes = document.querySelectorAll('input[name="diteruskan[]"]:checked');
+                          var tujuanMapping = {
+                              'DekanFEB': 'Dekan FEB',
+                              'DekanFTD': 'Dekan FTD',
+                              'direkPasca': 'Direktur Pasca',
+                              'marketing': 'Bag. Marketing',
+                              'Humas': 'Humas',
+                              'ppik_kmhs': 'PPIK',
+                              'kemahasiswaan': 'Kemahasiswaan',
+                              'bpm': 'BPM',
+                          };
+                          var tujuan = [];
+
+                          diteruskan_checkboxes.forEach(function(checkbox) {
+                              tujuan.push(tujuanMapping[checkbox.value]);
+                          });
+
                           swal({
-                              title: "Anda yakin ingin mengirim disposisi?",
+                              title: "Anda yakin ingin mengirim disposisi ke " + tujuan.join(', ') + "?",
                               icon: "warning",
                               buttons: true,
                               dangerMode: true,
@@ -1348,8 +1418,33 @@
                       }
 
                       function proceedDisposisi() {
+                          var diteruskan_checkboxes = document.querySelectorAll('input[name="diteruskan[]"]:checked');
+                          var tujuanMapping = {
+                              'prodi_si': 'Prodi SI',
+                              'prodi_ti': 'Prodi TI',
+                              'prodi_dkv': 'Prodi DKV',
+                              'prodi_arsitek': 'Prodi Arsitektur',
+                              'keuangan': 'Bag. Keuangan',
+                              'akademik': 'Bag. Akademik',
+                              'umum': 'Bag. Umum',
+                              'kui_k': 'KUI dan Kerjasama',
+                              'marketing': 'Bag. Marketing',
+                              'upt_perpus': 'UPT Perpus',
+                              'sdm': 'SDM',
+                              'bpm': 'BPM',
+                              'lp3m': 'LP3M',
+                              'it_lab': 'IT dan Lab',
+                              'keuangan': 'Keuangan',
+                              'ppik_kmhs': 'PPIK dan Kemahasiswaan',
+                          };
+                          var tujuan = [];
+
+                          diteruskan_checkboxes.forEach(function(checkbox) {
+                              tujuan.push(tujuanMapping[checkbox.value]);
+                          });
+
                           swal({
-                              title: "Anda yakin ingin mengirim disposisi?",
+                              title: "Anda yakin ingin mengirim disposisi ke " + tujuan.join(', ') + "?",
                               icon: "warning",
                               buttons: true,
                               dangerMode: true,
@@ -1559,7 +1654,7 @@
                               <label for="">Prodi S1 Manajemen</label>
                           </div>
                           <div>
-                              <input type="checkbox" name="diteruskan[]" value="prodi_akuntansi">
+                              <input type="checkbox" name="diteruskan[]" value="prodi_akuntansi_d3">
                               <label for="">Prodi D3 Akuntansi</label>
                           </div>
                           <div>
@@ -1648,8 +1743,33 @@
                       }
 
                       function proceedDisposisi() {
+                          var diteruskan_checkboxes = document.querySelectorAll('input[name="diteruskan[]"]:checked');
+                          var tujuanMapping = {
+                              'prodi_akuntansi': 'Prodi S1 Akuntansi',
+                              'prodi_manajemen': 'Prodi S1 Manajemen',
+                              'prodi_akuntansi_d3': 'Prodi D3 Akuntansi',
+                              'ppik_kmhs': 'PPIK dan Kemahasiswaan',
+                              'keuangan': 'Bag. Keuangan',
+                              'akademik': 'Bag. Akademik',
+                              'umum': 'Bag. Umum',
+                              'kui_k': 'KUI dan Kerjasama',
+                              'marketing': 'Bag. Marketing',
+                              'upt_perpus': 'UPT Perpus',
+                              'sdm': 'SDM',
+                              'bpm': 'BPM',
+                              'lp3m': 'LP3M',
+                              'it_lab': 'IT dan Lab',
+                              'keuangan': 'Keuangan',
+                              'prodi_keuangan_d3': 'Prodi D3 Keuangan dan Perbankan',
+                          };
+                          var tujuan = [];
+
+                          diteruskan_checkboxes.forEach(function(checkbox) {
+                              tujuan.push(tujuanMapping[checkbox.value]);
+                          });
+
                           swal({
-                              title: "Anda yakin ingin mengirim disposisi?",
+                              title: "Anda yakin ingin mengirim disposisi ke " + tujuan.join(', ') + "?",
                               icon: "warning",
                               buttons: true,
                               dangerMode: true,
@@ -1936,8 +2056,26 @@
                       }
 
                       function proceedDisposisi() {
+                          var diteruskan = document.querySelector('input[name="diteruskan"]:checked').value;
+                          var tujuanMapping = {
+                              'prodi_keuSyariah': 'Prodi S2 Keuangan Syariah',
+                              'keuangan': 'Bag. Keuangan',
+                              'akademik': 'Bag. Akademik',
+                              'umum': 'Bag. Umum',
+                              'kui_k': 'KUI',
+                              'marketing': 'Bag. Marketing',
+                              'upt_perpus': 'UPT Perpus',
+                              'it_lab': 'IT dan Lab',
+                              'sdm': 'SDM',
+                              'bpm': 'BPM',
+                              'lp3m': 'LP3M',
+                              'it_lab': 'IT dan Lab',
+                              'keuangan': 'Keuangan',
+                              'ppik_kmhs': 'PPIK dan Kemahasiswaan',
+                          };
+                          var tujuan = tujuanMapping[diteruskan];
                           swal({
-                              title: "Anda yakin ingin mengirim disposisi?",
+                              title: "Anda yakin ingin mengirim disposisi ke " + tujuan + "?",
                               icon: "warning",
                               buttons: true,
                               dangerMode: true,
@@ -2215,8 +2353,8 @@
                   </script>
 
 
-        <!-- disposisi untuk prodi-->
-        <?php } elseif (
+                  <!-- disposisi untuk prodi-->
+              <?php } elseif (
                     $_SESSION['akses'] == 'prodi_ti' || $_SESSION['akses'] == 'prodi_si' || $_SESSION['akses'] == 'prodi_dkv'
                     || $_SESSION['akses'] == 'prodi_arsitek' || $_SESSION['akses'] == 'prodi_manajemen' || $_SESSION['akses'] == 'prodi_akuntansi'
                     || $_SESSION['akses'] == 'prodi_keuSyariah' || $_SESSION['akses'] == 'upt_perpus'
