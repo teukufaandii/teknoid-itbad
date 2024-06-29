@@ -29,86 +29,91 @@ if (mysqli_num_rows($result) == 1) {
 
         if ($_SESSION['akses'] == 'Admin') {
             echo '<script language="javascript" type="text/javascript">
-            alert("Anda Berhasil Masuk, Selamat Datang '.$_SESSION['jabatan'].'!");</script>';
+            alert("Anda Berhasil Masuk, Selamat Datang ' . $_SESSION['jabatan'] . '!");</script>';
             echo "<meta http-equiv='refresh' content='0; url=Surat/pengaturan_akun'>";
             exit();
-        }elseif ($_SESSION['akses'] == 'Rektor') {
+        } elseif ($_SESSION['akses'] == 'Rektor') {
             echo '<script language="javascript" type="text/javascript">
-            alert("Anda Berhasil Masuk, Selamat Datang Bapak '.$_SESSION['jabatan'].'!");</script>';
+            alert("Anda Berhasil Masuk, Selamat Datang Bapak ' . $_SESSION['jabatan'] . '!");</script>';
             echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard'>";
             exit();
-        }elseif ($_SESSION['akses'] == 'Warek1' || $_SESSION['akses'] == 'Warek2' || $_SESSION['akses'] == 'Warek3') {
+        } elseif ($_SESSION['akses'] == 'Warek1' || $_SESSION['akses'] == 'Warek2' || $_SESSION['akses'] == 'Warek3') {
             echo '<script language="javascript" type="text/javascript">
-            alert("Anda Berhasil Masuk, Selamat Datang '.$_SESSION['jabatan'].'!");</script>';
+            alert("Anda Berhasil Masuk, Selamat Datang ' . $_SESSION['jabatan'] . '!");</script>';
             echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard'>";
             exit();
-        }elseif ($_SESSION['akses'] == 'direkPasca' || 
-                $_SESSION['akses'] == 'DekanFTD' || 
-                $_SESSION['akses'] == 'DekanFEB' || 
-                $_SESSION['jabatan'] == 'S1 SI' || 
-                $_SESSION['jabatan'] == 'S1 TI' ||
-                $_SESSION['jabatan'] == 'S1 DKV' || 
-                $_SESSION['jabatan'] == 'S1 Arsitektur' ||
-                $_SESSION['jabatan'] == 'S1 Manajemen' || 
-                $_SESSION['jabatan'] == 'S1 Akuntansi' || 
-                $_SESSION['jabatan'] == 'Prodi D3 Akuntansi' || 
-                $_SESSION['jabatan'] == 'Prodi D3 Keuangan dan Perbankan' || 
-                $_SESSION['jabatan'] == 'Prodi S2 Keuangan Syariah') {
+        } elseif (
+            $_SESSION['akses'] == 'direkPasca' ||
+            $_SESSION['akses'] == 'DekanFTD' ||
+            $_SESSION['akses'] == 'DekanFEB' ||
+            $_SESSION['jabatan'] == 'S1 SI' ||
+            $_SESSION['jabatan'] == 'S1 TI' ||
+            $_SESSION['jabatan'] == 'S1 DKV' ||
+            $_SESSION['jabatan'] == 'S1 Arsitektur' ||
+            $_SESSION['jabatan'] == 'S1 Manajemen' ||
+            $_SESSION['jabatan'] == 'S1 Akuntansi' ||
+            $_SESSION['jabatan'] == 'Prodi D3 Akuntansi' ||
+            $_SESSION['jabatan'] == 'Prodi D3 Keuangan dan Perbankan' ||
+            $_SESSION['jabatan'] == 'Prodi S2 Keuangan Syariah'
+        ) {
             echo '<script language="javascript" type="text/javascript">
-            alert("Anda Berhasil Masuk, Selamat Datang '.$_SESSION['jabatan'].'!");</script>';
+            alert("Anda Berhasil Masuk, Selamat Datang ' . $_SESSION['jabatan'] . '!");</script>';
             echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard'>";
             exit();
-        }elseif ($_SESSION['akses'] == 'User') {
+        } elseif ($_SESSION['akses'] == 'User') {
             echo '<script language="javascript" type="text/javascript">
-            alert("Anda Berhasil Masuk, Selamat Datang '.$_SESSION['nama_lengkap'].'!");</script>';
+            alert("Anda Berhasil Masuk, Selamat Datang ' . $_SESSION['nama_lengkap'] . '!");</script>';
             echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard'>";
             exit();
-        }elseif ( $_SESSION['akses'] == 'bpm' 
-                || $_SESSION['akses'] == 'lp3m' 
-                || $_SESSION['akses'] == 'upt_perpus' 
-                || $_SESSION['akses'] == 'akademik' 
-                || $_SESSION['akses'] == 'it_lab'
-                || $_SESSION['akses'] == 'umum'
-                || $_SESSION['akses'] == 'sdm'
-                || $_SESSION['akses'] == 'keuangan'
-                || $_SESSION['akses'] == 'marketing'
-                || $_SESSION['akses'] == 'kui_k'
-                || $_SESSION['akses'] == 'kmhs'
-                || $_SESSION['akses'] == 'ppik'
-                || $_SESSION['akses'] == 'Olga'
-                || $_SESSION['akses'] == 'KMPM'
-                || $_SESSION['akses'] == 'Alpiniste'
-                || $_SESSION['akses'] == 'Nasbung'
-                || $_SESSION['akses'] == 'Kopma'
-                || $_SESSION['akses'] == 'Kummis'
-                || $_SESSION['akses'] == 'IMM'
-                || $_SESSION['akses'] == 'TS'
-                || $_SESSION['akses'] == 'BEM'
-                || $_SESSION['akses'] == 'DPM'
-                || $_SESSION['akses'] == 'IMDIMENSI'
-                || $_SESSION['akses'] == 'IMSISFO'
-                || $_SESSION['akses'] == 'IMTI'
-                || $_SESSION['akses'] == 'IMARS'
-                || $_SESSION['akses'] == 'IMMADA'
-                || $_SESSION['akses'] == 'IMAKSI'
-                ) {
+        } elseif (
+            $_SESSION['akses'] == 'bpm'
+            || $_SESSION['akses'] == 'lp3m'
+            || $_SESSION['akses'] == 'upt_perpus'
+            || $_SESSION['akses'] == 'akademik'
+            || $_SESSION['akses'] == 'it_lab'
+            || $_SESSION['akses'] == 'umum'
+            || $_SESSION['akses'] == 'sdm'
+            || $_SESSION['akses'] == 'keuangan'
+            || $_SESSION['akses'] == 'marketing'
+            || $_SESSION['akses'] == 'kui_k'
+            || $_SESSION['akses'] == 'kmhs'
+            || $_SESSION['akses'] == 'ppik'
+            || $_SESSION['akses'] == 'Olga'
+            || $_SESSION['akses'] == 'KMPM'
+            || $_SESSION['akses'] == 'Alpiniste'
+            || $_SESSION['akses'] == 'Nasbung'
+            || $_SESSION['akses'] == 'Kopma'
+            || $_SESSION['akses'] == 'Kummis'
+            || $_SESSION['akses'] == 'IMM'
+            || $_SESSION['akses'] == 'TS'
+            || $_SESSION['akses'] == 'BEM'
+            || $_SESSION['akses'] == 'DPM'
+            || $_SESSION['akses'] == 'IMDIMENSI'
+            || $_SESSION['akses'] == 'IMSISFO'
+            || $_SESSION['akses'] == 'IMTI'
+            || $_SESSION['akses'] == 'IMARS'
+            || $_SESSION['akses'] == 'IMMADA'
+            || $_SESSION['akses'] == 'IMAKSI'
+            || $_SESSION['akses'] == 'pusat_bisnis'
+            || $_SESSION['akses'] == 'formasi'
+        ) {
             echo '<script language="javascript" type="text/javascript">
-            alert("Anda Berhasil Masuk, Selamat Datang '.$_SESSION['jabatan'].'!");</script>';
+            alert("Anda Berhasil Masuk, Selamat Datang ' . $_SESSION['jabatan'] . '!");</script>';
             echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard'>";
             exit();
-        }elseif ($_SESSION['akses'] == 'Humas') {
+        } elseif ($_SESSION['akses'] == 'Humas') {
             echo '<script language="javascript" type="text/javascript">
-            alert("Anda Berhasil Masuk, Selamat Datang '.$_SESSION['jabatan'].'!");</script>';
+            alert("Anda Berhasil Masuk, Selamat Datang ' . $_SESSION['jabatan'] . '!");</script>';
             echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard'>";
             exit();
-        }elseif ($_SESSION['akses'] == 'Sekretaris') {
+        } elseif ($_SESSION['akses'] == 'Sekretaris') {
             echo '<script language="javascript" type="text/javascript">
-            alert("Anda Berhasil Masuk, Selamat Datang '.$_SESSION['jabatan'].'!");</script>';
+            alert("Anda Berhasil Masuk, Selamat Datang ' . $_SESSION['jabatan'] . '!");</script>';
             echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard'>";
             exit();
-        }elseif ($_SESSION['akses'] == 'User') {
+        } elseif ($_SESSION['akses'] == 'User') {
             echo '<script language="javascript" type="text/javascript">
-            alert("Anda Berhasil Masuk, Selamat Datang '.$_SESSION['jabatan'].'!");</script>';
+            alert("Anda Berhasil Masuk, Selamat Datang ' . $_SESSION['jabatan'] . '!");</script>';
             echo "<meta http-equiv='refresh' content='0; url=Surat/dashboard'>";
             exit();
         }
@@ -122,4 +127,3 @@ if (mysqli_num_rows($result) == 1) {
     echo "<script>alert('Username yang Anda masukan tidak terdaftar!'); window.location='index';</script>";
     exit();
 }
-?>

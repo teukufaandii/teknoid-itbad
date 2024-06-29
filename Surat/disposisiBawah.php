@@ -385,7 +385,7 @@
                       <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi">
                   </div>
                   <div class="input-disposisi">
-                      <label for="">Diteruskan kepada</label>
+                      <label for="">Diteruskan kepada<br></label>
                       <div class="radio">
                           <div>
                               <input type="checkbox" name="diteruskan[]" value="Warek2">
@@ -396,24 +396,72 @@
                               <label for="">Warek 3</label>
                           </div>
                           <div>
-                              <input type="checkbox" name="diteruskan[]" value="DekanFTD">
-                              <label for="">Dekan FTD</label>
-                          </div>
-                          <div>
                               <input type="checkbox" name="diteruskan[]" value="DekanFEB">
                               <label for="">Dekan FEB</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="DekanFTD">
+                              <label for="">Dekan FTD</label>
                           </div>
                           <div>
                               <input type="checkbox" name="diteruskan[]" value="direkPasca">
                               <label for="">Direktur Pasca</label>
                           </div>
                           <div>
-                              <input type="checkbox" name="diteruskan[]" value="akademik">
-                              <label for="">Bag. Akademik</label>
+                              <input type="checkbox" name="diteruskan[]" value="prodi_keuSyariah">
+                              <label for="">Prodi S2 Keuangan Syariah</label>
                           </div>
                           <div>
-                              <input type="checkbox" name="diteruskan[]" value="upt_perpus">
-                              <label for="">UPT Perpus</label>
+                              <input type="checkbox" name="diteruskan[]" value="prodi_manajemen">
+                              <label for="">Prodi S1 Manajemen</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="prodi_akuntansi">
+                              <label> Prodi S1 Akuntansi</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="prodi_si">
+                              <label for="">Prodi SI</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="prodi_ti">
+                              <label for="">Prodi TI</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="prodi_dkv">
+                              <label for="">Prodi DKV</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="prodi_arsitek">
+                              <label for="">Prodi Arsitektur</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="keuangan">
+                              <label for="">Bag. Keuangan</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="sdm">
+                              <label for="">SDM</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="umum">
+                              <label for="">Bag. Umum</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="it_lab">
+                              <label for="">IT dan Lab</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="bpm">
+                              <label for="">BPM</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="Humas">
+                              <label for="">Humas</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="marketing">
+                              <label for="">Bag. Marketing</label>
                           </div>
                           <div>
                               <input type="checkbox" name="diteruskan[]" value="lp3m">
@@ -421,11 +469,23 @@
                           </div>
                           <div>
                               <input type="checkbox" name="diteruskan[]" value="kui_k">
-                              <label for="">KUI dan Kerjasama</label>
+                              <label for="">KUI</label>
                           </div>
                           <div>
-                              <input type="checkbox" name="diteruskan[]" value="bpm">
-                              <label for="">BPM</label>
+                              <input type="checkbox" name="diteruskan[]" value="akademik">
+                              <label for="">Bag. Akademik</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="ppik_kmhs">
+                              <label for="">PPIK dan Kemahasiswaan</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="upt_perpus">
+                              <label for="">UPT Perpus</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="pusat_bisnis">
+                              <label for="">Pusat Bisnis</label>
                           </div>
                       </div>
                   </div>
@@ -466,15 +526,30 @@
                           var tujuanMapping = {
                               'Warek2': 'Warek 2',
                               'Warek3': 'Warek 3',
-                              'DekanFTD': 'Dekan FTD',
                               'DekanFEB': 'Dekan FEB',
+                              'DekanFTD': 'Dekan FTD',
                               'direkPasca': 'Direktur Pasca',
-                              'akademik': 'Bag. Akademik',
-                              'upt_perpus': 'UPT Perpus',
-                              'lp3m': 'LP3M',
-                              'kui_k': 'KUI dan Kerjasama',
+                              'prodi_akuntansi': 'Prodi S1 Akuntansi',
+                              'prodi_manajemen': 'Prodi S1 Manajemen',
+                              'prodi_si': 'Prodi SI',
+                              'prodi_ti': 'Prodi TI',
+                              'prodi_dkv': 'Prodi DKV',
+                              'prodi_arsitek': 'Prodi Arsitektur',
+                              'keuangan': 'Bag. Keuangan',
+                              'sdm': 'SDM',
+                              'umum': 'Bag. Umum',
+                              'it_lab': 'IT dan Lab',
                               'bpm': 'BPM',
+                              'Humas': 'Humas',
+                              'marketing': 'Bag. Marketing',
+                              'lp3m': 'LP3M',
+                              'kui_k': 'KUI',
+                              'akademik': 'Bag. Akademik',
+                              'ppik_kmhs': 'PPIK dan Kemahasiswaan',
+                              'upt_perpus': 'UPT Perpus',
+                              'pusat_bisnis': 'Pusat Bisnis',
                           };
+
                           var tujuan = [];
 
                           diteruskan_checkboxes.forEach(function(checkbox) {
@@ -703,8 +778,8 @@
                               <label for="">Direktur Pasca</label>
                           </div>
                           <div>
-                              <input type="radio" name="diteruskan" value="prodi_akuntansi">
-                              <label for="">Prodi S1 Akuntansi</label>
+                              <input type="radio" name="diteruskan" value="prodi_keuSyariah">
+                              <label for="">Prodi S2 Keuangan Syariah</label>
                           </div>
                           <div>
                               <input type="radio" name="diteruskan" value="prodi_manajemen">
@@ -778,6 +853,10 @@
                               <input type="radio" name="diteruskan" value="upt_perpus">
                               <label for="">UPT Perpus</label>
                           </div>
+                          <div>
+                              <input type="radio" name="diteruskan" value="pusat_bisnis">
+                              <label for="">Pusat Bisnis</label>
+                          </div>
                       </div>
                   </div>
                   <div class="input-disposisi">
@@ -837,6 +916,7 @@
                               'akademik': 'Bag. Akademik',
                               'ppik_kmhs': 'PPIK dan Kemahasiswaan',
                               'upt_perpus': 'UPT Perpus',
+                              'pusat_bisnis': 'Pusat Bisnis',
                           };
                           var tujuan = tujuanMapping[diteruskan];
                           swal({
@@ -1032,8 +1112,16 @@
                       <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi">
                   </div>
                   <div class="input-disposisi">
-                      <label for="">Diteruskan kepada</label>
+                      <label for="">Diteruskan kepada<br></label>
                       <div class="radio">
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="Warek1">
+                              <label for="">Warek 1</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="Warek2">
+                              <label for="">Warek 2</label>
+                          </div>
                           <div>
                               <input type="checkbox" name="diteruskan[]" value="DekanFEB">
                               <label for="">Dekan FEB</label>
@@ -1047,25 +1135,84 @@
                               <label for="">Direktur Pasca</label>
                           </div>
                           <div>
-                              <input type="checkbox" name="diteruskan[]" value="marketing">
-                              <label for="">Bag. Marketing</label>
+                              <input type="checkbox" name="diteruskan[]" value="prodi_keuSyariah">
+                              <label for="">Prodi S2 Keuangan Syariah</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="prodi_manajemen">
+                              <label for="">Prodi S1 Manajemen</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="prodi_akuntansi">
+                              <label> Prodi S1 Akuntansi</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="prodi_si">
+                              <label for="">Prodi SI</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="prodi_ti">
+                              <label for="">Prodi TI</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="prodi_dkv">
+                              <label for="">Prodi DKV</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="prodi_arsitek">
+                              <label for="">Prodi Arsitektur</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="keuangan">
+                              <label for="">Bag. Keuangan</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="sdm">
+                              <label for="">SDM</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="umum">
+                              <label for="">Bag. Umum</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="it_lab">
+                              <label for="">IT dan Lab</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="bpm">
+                              <label for="">BPM</label>
                           </div>
                           <div>
                               <input type="checkbox" name="diteruskan[]" value="Humas">
                               <label for="">Humas</label>
                           </div>
                           <div>
+                              <input type="checkbox" name="diteruskan[]" value="marketing">
+                              <label for="">Bag. Marketing</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="lp3m">
+                              <label for="">LP3M</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="kui_k">
+                              <label for="">KUI</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="akademik">
+                              <label for="">Bag. Akademik</label>
+                          </div>
+                          <div>
                               <input type="checkbox" name="diteruskan[]" value="ppik_kmhs">
-                              <label for="">PPIK</label>
+                              <label for="">PPIK dan Kemahasiswaan</label>
                           </div>
                           <div>
-                              <input type="checkbox" name="diteruskan[]" value="kemahasiswaan">
-                              <label for="">Kemahasiswaan</label>
+                              <input type="checkbox" name="diteruskan[]" value="upt_perpus">
+                              <label for="">UPT Perpus</label>
                           </div>
-                          <!-- bpm tes -->
                           <div>
-                              <input type="checkbox" name="diteruskan[]" value="bpm">
-                              <label for="">BPM</label>
+                              <input type="checkbox" name="diteruskan[]" value="pusat_bisnis">
+                              <label for="">Pusat Bisnis</label>
                           </div>
                       </div>
                   </div>
@@ -1103,14 +1250,30 @@
                       function proceedDisposisi() {
                           var diteruskan_checkboxes = document.querySelectorAll('input[name="diteruskan[]"]:checked');
                           var tujuanMapping = {
+                              'Warek1': 'Warek 1',
+                              'Warek2': 'Warek 2',
                               'DekanFEB': 'Dekan FEB',
                               'DekanFTD': 'Dekan FTD',
                               'direkPasca': 'Direktur Pasca',
-                              'marketing': 'Bag. Marketing',
-                              'Humas': 'Humas',
-                              'ppik_kmhs': 'PPIK',
-                              'kemahasiswaan': 'Kemahasiswaan',
+                              'prodi_akuntansi': 'Prodi S1 Akuntansi',
+                              'prodi_manajemen': 'Prodi S1 Manajemen',
+                              'prodi_si': 'Prodi SI',
+                              'prodi_ti': 'Prodi TI',
+                              'prodi_dkv': 'Prodi DKV',
+                              'prodi_arsitek': 'Prodi Arsitektur',
+                              'keuangan': 'Bag. Keuangan',
+                              'sdm': 'SDM',
+                              'umum': 'Bag. Umum',
+                              'it_lab': 'IT dan Lab',
                               'bpm': 'BPM',
+                              'Humas': 'Humas',
+                              'marketing': 'Bag. Marketing',
+                              'lp3m': 'LP3M',
+                              'kui_k': 'KUI',
+                              'akademik': 'Bag. Akademik',
+                              'ppik_kmhs': 'PPIK dan Kemahasiswaan',
+                              'upt_perpus': 'UPT Perpus',
+                              'pusat_bisnis': 'Pusat Bisnis',
                           };
                           var tujuan = [];
 
@@ -2015,10 +2178,6 @@
                               <label for="">IT dan Lab</label>
                           </div>
                           <div>
-                              <input type="radio" name="diteruskan" value="keuangan">
-                              <label for="">Keuangan</label>
-                          </div>
-                          <div>
                               <input type="radio" name="diteruskan" value="ppik_kmhs">
                               <label for="">PPIK dan Kemahasiswaan</label>
                           </div>
@@ -2165,7 +2324,7 @@
               <?php } elseif (
                     $_SESSION['akses'] == 'bpm' || $_SESSION['akses'] == 'umum' || $_SESSION['akses'] == 'sdm'
                     || $_SESSION['akses'] == 'it_lab' || $_SESSION['akses'] == 'marketing' || $_SESSION['akses'] == 'kui_k'
-                    || $_SESSION['akses'] == 'akademik' || $_SESSION['akses'] == 'ppik_kmhs' || $_SESSION['akses'] == 'lp3m'
+                    || $_SESSION['akses'] == 'akademik' || $_SESSION['akses'] == 'ppik_kmhs' || $_SESSION['akses'] == 'lp3m' || $_SESSION['akses'] == 'pusat_bisnis'
                 ) { ?>
                   <?php
                     $query = "SELECT dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10,

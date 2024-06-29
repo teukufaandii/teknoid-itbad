@@ -15,11 +15,11 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
 
     if ($action == 'selesai') {
         // Update status_selesai dan tb_disposisi untuk selesai
-        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai = true, status_baca = true, diteruskan_ke = NULL WHERE id_surat = ?";
+        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai = true, status_baca = true WHERE id_surat = ?";
         $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai = ?, nama_selesai = ? WHERE id_surat = ?";
     } elseif ($action == 'tolak') {
         // Update status_tolak dan tb_disposisi untuk tolak
-        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_tolak = true, status_baca = true, diteruskan_ke = NULL WHERE id_surat = ?";
+        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_tolak = true, status_baca = true WHERE id_surat = ?";
         $update_query_disposisi = "UPDATE tb_disposisi SET catatan_tolak = ?, nama_penolak = ? WHERE id_surat = ?";
     }
 

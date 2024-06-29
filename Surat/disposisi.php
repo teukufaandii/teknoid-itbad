@@ -75,6 +75,14 @@ $stmt4->bind_result($file_laporan_name);
 $stmt4->fetch();
 $stmt4->close();
 
+$sql5 = "SELECT nama_jenis FROM tb_jenis WHERE kd_jenissurat = ?";
+$stmt5 = $koneksi->prepare($sql5);
+$stmt5->bind_param("i", $id);
+$stmt5->execute();
+$stmt5->bind_result($jenis_surat);
+$stmt5->fetch();
+$stmt5->close();
+
 // Check if files exist
 $file_berkas_exists = !empty($file_berkas_name);
 $file_laporan_exists = !empty($file_laporan_name);
@@ -196,7 +204,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                         <input type="text" class="input" name="#" value="<?php echo $asal_surat; ?>" readonly>
                     </div>
 
-                    <?php if ($_SESSION['akses'] == "Humas" || $_SESSION['akses'] == "Sekretaris") { ?>
+                    <?php if ($_SESSION['akses'] == "Humas" && $jenis_surat == 'Surat KKL' || $_SESSION['akses'] == "Humas" && $jenis_surat == 'Surat Riset') { ?>
                         <div class="input-field">
                             <label for="">Nama Siswa</label>
                             <input type="text" class="input" name="#" value="<?php echo $nama_lengkap; ?>, &nbsp <?php echo $nama_lengkap2; ?>, &nbsp <?php echo $nama_lengkap3; ?> " readonly>

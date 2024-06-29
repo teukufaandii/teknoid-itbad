@@ -142,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             VALUES ('$asal_surat', '$kode_surat_otomatis', '$tujuan_surat', '$no_hp', '$perihal', '$no_surat', '$id_jenis_surat', '$tanggal_surat', '$deskripsi')";
 
     $notification_message = "Surat baru telah masuk:\n\nAsal Surat: $asal_surat\nTujuan Surat: $tujuan_surat\nPerihal: $perihal\n\nMohon Ditanggapi";
-    $notification_recipient = '+6289515566868'; // Change to your desired recipient's phone number //diganti
+    $notification_recipient = '+6285213042065';
     $notification_sent = sendWhatsAppMessage($notification_recipient, $notification_message);
     if ($notification_sent) {
         echo '<script>alert("Surat berhasil dikirim");</script>';

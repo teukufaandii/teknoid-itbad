@@ -173,8 +173,8 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>Disposisi</a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'Warek3') {
-                                            if ($row['diteruskan_ke'] == 'Warek3' || $row['dispo2'] == 'Warek 3' || 
-                                                $row['dispo3'] == 'Warek 3' || $row['dispo4'] == 'Warek 3' || $row['dispo5'] == 'Warek 3') {
+                                            if ($row['diteruskan_ke'] == $akses || strpos($row['diteruskan_ke'], $akses) !== false || $row['dispo2'] == $jabatan || 
+                                                $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan || $row['dispo5'] == $jabatan) {
                                                 
                                                 echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
                                                 echo "<td>" . $row['kode_surat'] . "</td>";
@@ -188,7 +188,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                     echo 'Belum Disposisi';
                                                 }
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>Disposisi</a></td>";
-                                            }
+                                            } 
                                         } elseif ($_SESSION['akses'] == 'Admin') {
                                             echo "<td>" . ($row['status_baca'] ? 'Sudah Disposisi' : 'Belum Disposisi') . "</td>";
 
@@ -464,8 +464,8 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>Disposisi</a></td>";
                                             }
-                                        }elseif ($_SESSION['akses'] == 'Sekretaris') {
-                                            if (($row['diteruskan_ke'] == 'Sekretaris') || ($row['dispo2'] == 'Sekretaris')) {
+                                        }elseif ($_SESSION['akses'] == 'pusat_bisnis') {
+                                            if ($row['diteruskan_ke'] == $akses || strpos($row['diteruskan_ke'], $akses) !== false ) {
                                                 
                                                 echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
                                                 echo "<td>" . $row['kode_surat'] . "</td>";
