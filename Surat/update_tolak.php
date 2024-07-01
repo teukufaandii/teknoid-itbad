@@ -70,4 +70,3 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
 } else {
     echo "ID surat, catatan disposisi, atau action tidak diterima.";
 }
-?>

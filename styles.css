@@ -1,127 +1,135 @@
 html {
-    height: 100%;
-  }
-  body {
-    margin:0;
-    padding:0;
-    font-family: sans-serif;
-    background-image: url('bg-login.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 100%;
-    backdrop-filter: blur(4px);
-  }
-  
+  height: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-image: url("bg-login.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+  backdrop-filter: blur(4px);
+}
+
+.login-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  padding: 40px 60px;
+  transform: translate(-50%, -50%);
+  background: rgba(198, 229, 251, 0.75);
+  box-sizing: border-box;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+}
+
+@media only screen and (max-width: 600px) {
   .login-box {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 50%;
-    padding: 40px 60px;
-    transform: translate(-50%, -50%);
-    background: rgba(198, 229, 251, 0.75);
-    box-sizing: border-box;
-    box-shadow: 0 5px 25px rgba(0,0,0,.6);
-    border-radius: 10px;
+    width: 20rem;
   }
-  
-  @media only screen and (max-width: 600px) {
-    .login-box {
-      width: 20rem;
-    }
-  }
+}
 
-  .login-box h2 {
-    margin: 0 0 40px;
-    padding: 0;
-    color: #000000;
-    text-align: center;
-  }
-  
-  .login-box .user-box {
-    position: relative;
-  }
-  
-  .login-box .user-box form {
-    text-align: center;
-  }
+.login-box h2 {
+  margin: 0 0 40px;
+  padding: 0;
+  color: #000000;
+  text-align: center;
+}
 
-  .login-box .user-box input {
-    width: 100%;
-    padding: 10px 0;
-    font-size: 16px;
-    color: #000000;
-    margin-bottom: 30px;
-    border: none;
-    border-bottom: 1px solid #000000;
-    outline: none;
-    background: transparent;
-  }
-  .login-box .user-box label {
-    position: absolute;
-    top:0;
-    left: 0;
-    padding: 10px 0;
-    font-size: 16px;
-    color: #000000;
-    pointer-events: none;
-    transition: .5s;
-    opacity: 0.7;
-  }
-  
-  .login-box .user-box input:focus ~ label,
-  .login-box .user-box input:valid ~ label {
-    top: -20px;
-    left: 0;
-    color: rgb(27, 94, 190);
-    font-size: 12px;
-  }
+.login-box .user-box {
+  position: relative;
+}
 
-  .login-box .btn-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
+.login-box .user-box form {
+  text-align: center;
+}
 
-  .login-box input[type=submit] {
-    position: relative;
-    width: auto;
-    min-width: 227px;
-    display: inline-block;
-    padding: 10px 80px;
-    color: #ffffff;
-    font-size: 16px;
-    text-align: center;
-    text-transform: uppercase;
-    margin: 0px auto;
-    letter-spacing: 2px;
-    background: rgb(27, 94, 190);
-    border-radius: 15px;
-    font-weight: 500;
-    border: none;
-  }
-  
-  .login-box input[type=submit]:hover {
-    color: #ffffff;
-    font-weight: 500;
-    background: rgb(22,79,159);
-  }
-  
-  .login-box .login-logo {
-    position: relative;
-    width: 100%;
-  }
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #000000;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #000000;
+  outline: none;
+  background: transparent;
+}
+.login-box .user-box label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #000000;
+  pointer-events: none;
+  transition: 0.5s;
+  opacity: 0.7;
+}
 
-  .login-box .login-logo img {
-    width: auto;
-    max-width: 200px;
-    display: block;
-    margin: auto;
-    padding-bottom: 25px;
-  }
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: rgb(27, 94, 190);
+  font-size: 12px;
+}
 
+.login-box .btn-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.login-box input[type="submit"] {
+  position: relative;
+  width: auto;
+  min-width: 227px;
+  display: inline-block;
+  padding: 10px 80px;
+  color: #ffffff;
+  font-size: 16px;
+  text-align: center;
+  text-transform: uppercase;
+  margin: 0px auto;
+  letter-spacing: 2px;
+  background: rgb(27, 94, 190);
+  border-radius: 15px;
+  font-weight: 500;
+  border: none;
+}
+
+.login-box input[type="submit"]:hover {
+  color: #ffffff;
+  font-weight: 500;
+  background: rgb(22, 79, 159);
+}
+
+.login-box .login-logo {
+  position: relative;
+  width: 100%;
+}
+
+.login-box .login-logo img {
+  width: auto;
+  max-width: 200px;
+  display: block;
+  margin: auto;
+  padding-bottom: 25px;
+}
+
+.space .forgot {
+  text-decoration: none;
+  color: rgb(27, 94, 190);  
+}
+
+.space .forgot:hover {
+  text-decoration: underline;
+}
 
 #pass-toggle {
   position: absolute;
@@ -143,7 +151,7 @@ i :hover {
   transition: 0.3s;
 }
 #message {
-  display:none;
+  display: none;
   background: #f1f1f1;
   position: relative;
   padding-left: 10px;
@@ -176,4 +184,48 @@ i :hover {
   position: relative;
   left: -10px;
   content: "✖";
+}
+
+.hover-logo {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  color: #000;
+}
+
+.hover-logo:hover {
+  color: #797979;
+}
+
+.hover-logo .hover-text {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Position the tooltip above the logo */
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.hover-logo .hover-text::after {
+  content: "";
+  position: absolute;
+  top: 100%; /* Arrow pointing down */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.hover-logo:hover .hover-text {
+  visibility: visible;
+  opacity: 1;
 }

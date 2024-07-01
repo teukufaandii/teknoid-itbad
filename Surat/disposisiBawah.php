@@ -2328,13 +2328,13 @@
                 ) { ?>
                   <?php
                     $query = "SELECT dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10,
-            catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
-            keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10
-            FROM tb_disposisi WHERE id_surat = '$id'";
+                    catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
+                    keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10
+                    FROM tb_disposisi WHERE id_surat = '$id'";
                     $result = mysqli_query($koneksi, $query);
                     ?>
                   <div class="txt-disposisi">
-                      <h3>Disposisi</h3>
+                      <h3>Disposisi</h3>    
                   </div>
 
                   <div class="input-disposisi">
@@ -2914,7 +2914,7 @@
 
                   <div class="input-disposisi">
                       <label for="">Catatan Penyelesaian <br>/ Penolakan <span style="color: red;"></span></label>
-                      <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Penyelesaian / Penolakan">
+                      <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Penyelesaian / Penolakan" required>
                   </div>
 
                   <div class="input-disposisi">
