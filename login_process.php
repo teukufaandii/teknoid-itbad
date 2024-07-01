@@ -96,6 +96,7 @@ if (mysqli_num_rows($result) == 1) {
             || $_SESSION['akses'] == 'IMAKSI'
             || $_SESSION['akses'] == 'pusat_bisnis'
             || $_SESSION['akses'] == 'formasi'
+            || $_SESSION['akses'] == 'ppik_kmhs'
         ) {
             echo '<script language="javascript" type="text/javascript">
             alert("Anda Berhasil Masuk, Selamat Datang ' . $_SESSION['jabatan'] . '!");</script>';
