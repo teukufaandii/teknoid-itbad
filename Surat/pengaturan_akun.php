@@ -66,7 +66,6 @@ if (!isset($_SESSION['pengguna_type'])) {
                                     <th>Nama Lengkap <i class="fas fa-sort"></th>
                                     <th>Jabatan <i class="fas fa-sort"></th>
                                     <th>Hak Akses <i class="fas fa-sort"></th>
-                                    <th>Password <i class="fas fa-sort"></th>
                                     <th>No Telepon <i class="fas fa-sort"></th>
                                     <th>Email <i class="fas fa-sort"></th>
                                     <th>Aksi <i class="fas fa-sort"></th>
@@ -112,7 +111,6 @@ if (!isset($_SESSION['pengguna_type'])) {
                                 <td><?php echo $row["nama_lengkap"]; ?></td>
                                 <td><?php echo $row["jabatan"]; ?></td>
                                 <td><?php echo $row["akses"]; ?></td>
-                                <td><?php echo $row["password"]; ?></td>
                                 <td><?php echo $row["no_hp"]; ?></td>
                                 <td><?php echo $row["email"]; ?></td>
                                 <td style="text-align: center;">

@@ -117,8 +117,8 @@
                               <label for="">Dicek dan diteliti</label>
                           </div>
                           <div>
-                              <input type="radio" name="keputusan" value="Dirapimkan">
-                              <label for="">Dirapimkan</label>
+                              <input type="radio" name="keputusan" value="Dirapikan">
+                              <label for="">Dirapikan</label>
                           </div>
                           <div>
                               <input type="radio" name="keputusan" value="Dikoordinasikan">
@@ -126,6 +126,9 @@
                           </div>
                       </div>
                   </div>
+
+                  <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
+
                   <div class="input-disposisi">
                       <label for="">Catatan Disposisi*</label>
                       <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi">
@@ -246,7 +249,6 @@
                       }
 
                       function batalDisposisi() {
-                          // Tampilkan konfirmasi sebelum menampilkan Sweet Alert
                           swal({
                                   title: "Konfirmasi",
                                   text: "Apakah Anda yakin ingin menolak surat ini?",
@@ -257,8 +259,9 @@
                               .then((willProceed) => {
                                   if (willProceed) {
                                       var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
+                                      var asalsurat = document.querySelector('input[name="executor"]').value;
                                       var xhr = new XMLHttpRequest();
-                                      var id = "<?php echo $id; ?>"; // Mendapatkan nilai $id dari PHP
+                                      var id = "<?php echo $id; ?>";
                                       xhr.open('POST', 'update_tolak.php', true);
                                       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                                       xhr.onreadystatechange = function() {
@@ -266,17 +269,16 @@
                                               console.log(xhr.responseText);
                                               swal("Berhasil!", "Surat Telah Ditolak!", "success")
                                                   .then(function() {
-                                                      // Redirect ke halaman dashboard setelah menutup notifikasi
                                                       window.location.href = "dashboard.php";
                                                   });
                                           }
                                       };
-                                      xhr.send("id=" + id + "&catatan_disposisi=" + catatan_disposisi); // Mengirim nilai $id sebagai data POST
+                                      xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&asalsurat=" + asalsurat + "&action=tolak");
                                   } else {
-                                      swal("Dibatalkan", "Surat tidak diselesaikan", "info");
+                                      swal("Dibatalkan", "Surat tidak ditolak", "info");
                                   }
                               });
-                      };
+                      }
                   </script>
 
                   <!--disposisi untuk warek 1-->
@@ -380,6 +382,9 @@
                           </div>
                       </div>
                   </div>
+
+                  <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
+
                   <div class="input-disposisi">
                       <label for="">Catatan Disposisi*</label>
                       <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi">
@@ -489,6 +494,9 @@
                           </div>
                       </div>
                   </div>
+
+                  <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
+
                   <div class="input-disposisi">
                       <label for="">Tanggal Disposisi<br> </label>
                       <div class="tgl">
@@ -616,7 +624,6 @@
                       }
 
                       function batalDisposisi() {
-                          // Tampilkan konfirmasi sebelum menampilkan Sweet Alert
                           swal({
                                   title: "Konfirmasi",
                                   text: "Apakah Anda yakin ingin menolak surat ini?",
@@ -627,8 +634,9 @@
                               .then((willProceed) => {
                                   if (willProceed) {
                                       var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
+                                      var asalsurat = document.querySelector('input[name="executor"]').value;
                                       var xhr = new XMLHttpRequest();
-                                      var id = "<?php echo $id; ?>"; // Mendapatkan nilai $id dari PHP
+                                      var id = "<?php echo $id; ?>";
                                       xhr.open('POST', 'update_tolak.php', true);
                                       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                                       xhr.onreadystatechange = function() {
@@ -636,17 +644,16 @@
                                               console.log(xhr.responseText);
                                               swal("Berhasil!", "Surat Telah Ditolak!", "success")
                                                   .then(function() {
-                                                      // Redirect ke halaman dashboard setelah menutup notifikasi
                                                       window.location.href = "dashboard.php";
                                                   });
                                           }
                                       };
-                                      xhr.send("id=" + id + "&catatan_disposisi=" + catatan_disposisi); // Mengirim nilai $id sebagai data POST
+                                      xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&asalsurat=" + asalsurat + "&action=tolak");
                                   } else {
-                                      swal("Dibatalkan", "Surat tidak diselesaikan", "info");
+                                      swal("Dibatalkan", "Surat tidak ditolak", "info");
                                   }
                               });
-                      };
+                      }
                   </script>
 
                   <!--disposisi untuk warek 2-->
@@ -750,6 +757,9 @@
                           </div>
                       </div>
                   </div>
+
+                  <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
+
                   <div class="input-disposisi">
                       <label for="">Catatan Disposisi*</label>
                       <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi">
@@ -972,7 +982,6 @@
                       }
 
                       function batalDisposisi() {
-                          // Tampilkan konfirmasi sebelum menampilkan Sweet Alert
                           swal({
                                   title: "Konfirmasi",
                                   text: "Apakah Anda yakin ingin menolak surat ini?",
@@ -983,8 +992,9 @@
                               .then((willProceed) => {
                                   if (willProceed) {
                                       var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
+                                      var asalsurat = document.querySelector('input[name="executor"]').value;
                                       var xhr = new XMLHttpRequest();
-                                      var id = "<?php echo $id; ?>"; // Mendapatkan nilai $id dari PHP
+                                      var id = "<?php echo $id; ?>";
                                       xhr.open('POST', 'update_tolak.php', true);
                                       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                                       xhr.onreadystatechange = function() {
@@ -992,17 +1002,16 @@
                                               console.log(xhr.responseText);
                                               swal("Berhasil!", "Surat Telah Ditolak!", "success")
                                                   .then(function() {
-                                                      // Redirect ke halaman dashboard setelah menutup notifikasi
                                                       window.location.href = "dashboard.php";
                                                   });
                                           }
                                       };
-                                      xhr.send("id=" + id + "&catatan_disposisi=" + catatan_disposisi); // Mengirim nilai $id sebagai data POST
+                                      xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&asalsurat=" + asalsurat + "&action=tolak");
                                   } else {
-                                      swal("Dibatalkan", "Surat tidak diselesaikan", "info");
+                                      swal("Dibatalkan", "Surat tidak ditolak", "info");
                                   }
                               });
-                      };
+                      }
                   </script>
 
 
@@ -1107,6 +1116,9 @@
                           </div>
                       </div>
                   </div>
+
+                  <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
+
                   <div class="input-disposisi">
                       <label for="">Catatan Disposisi*</label>
                       <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi">
@@ -1341,7 +1353,6 @@
                       }
 
                       function batalDisposisi() {
-                          // Tampilkan konfirmasi sebelum menampilkan Sweet Alert
                           swal({
                                   title: "Konfirmasi",
                                   text: "Apakah Anda yakin ingin menolak surat ini?",
@@ -1352,8 +1363,9 @@
                               .then((willProceed) => {
                                   if (willProceed) {
                                       var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
+                                      var asalsurat = document.querySelector('input[name="executor"]').value;
                                       var xhr = new XMLHttpRequest();
-                                      var id = "<?php echo $id; ?>"; // Mendapatkan nilai $id dari PHP
+                                      var id = "<?php echo $id; ?>";
                                       xhr.open('POST', 'update_tolak.php', true);
                                       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                                       xhr.onreadystatechange = function() {
@@ -1361,17 +1373,16 @@
                                               console.log(xhr.responseText);
                                               swal("Berhasil!", "Surat Telah Ditolak!", "success")
                                                   .then(function() {
-                                                      // Redirect ke halaman dashboard setelah menutup notifikasi
                                                       window.location.href = "dashboard.php";
                                                   });
                                           }
                                       };
-                                      xhr.send("id=" + id + "&catatan_disposisi=" + catatan_disposisi); // Mengirim nilai $id sebagai data POST
+                                      xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&asalsurat=" + asalsurat + "&action=tolak");
                                   } else {
-                                      swal("Dibatalkan", "Surat tidak diselesaikan", "info");
+                                      swal("Dibatalkan", "Surat tidak ditolak", "info");
                                   }
                               });
-                      };
+                      }
                   </script>
 
 
@@ -1476,6 +1487,9 @@
                           </div>
                       </div>
                   </div>
+
+                  <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
+
                   <div class="input-disposisi">
                       <label for="">Catatan Disposisi*</label>
                       <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi">
@@ -1666,7 +1680,6 @@
                       }
 
                       function batalDisposisi() {
-                          // Tampilkan konfirmasi sebelum menampilkan Sweet Alert
                           swal({
                                   title: "Konfirmasi",
                                   text: "Apakah Anda yakin ingin menolak surat ini?",
@@ -1677,8 +1690,9 @@
                               .then((willProceed) => {
                                   if (willProceed) {
                                       var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
+                                      var asalsurat = document.querySelector('input[name="executor"]').value;
                                       var xhr = new XMLHttpRequest();
-                                      var id = "<?php echo $id; ?>"; // Mendapatkan nilai $id dari PHP
+                                      var id = "<?php echo $id; ?>";
                                       xhr.open('POST', 'update_tolak.php', true);
                                       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                                       xhr.onreadystatechange = function() {
@@ -1686,17 +1700,16 @@
                                               console.log(xhr.responseText);
                                               swal("Berhasil!", "Surat Telah Ditolak!", "success")
                                                   .then(function() {
-                                                      // Redirect ke halaman dashboard setelah menutup notifikasi
                                                       window.location.href = "dashboard.php";
                                                   });
                                           }
                                       };
-                                      xhr.send("id=" + id + "&catatan_disposisi=" + catatan_disposisi); // Mengirim nilai $id sebagai data POST
+                                      xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&asalsurat=" + asalsurat + "&action=tolak");
                                   } else {
-                                      swal("Dibatalkan", "Surat tidak diselesaikan", "info");
+                                      swal("Dibatalkan", "Surat tidak ditolak", "info");
                                   }
                               });
-                      };
+                      }
                   </script>
 
 
@@ -1801,6 +1814,9 @@
                           </div>
                       </div>
                   </div>
+
+                  <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
+
                   <div class="input-disposisi">
                       <label for="">Catatan Disposisi*</label>
                       <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi">
@@ -1991,7 +2007,6 @@
                       }
 
                       function batalDisposisi() {
-                          // Tampilkan konfirmasi sebelum menampilkan Sweet Alert
                           swal({
                                   title: "Konfirmasi",
                                   text: "Apakah Anda yakin ingin menolak surat ini?",
@@ -2002,8 +2017,9 @@
                               .then((willProceed) => {
                                   if (willProceed) {
                                       var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
+                                      var asalsurat = document.querySelector('input[name="executor"]').value;
                                       var xhr = new XMLHttpRequest();
-                                      var id = "<?php echo $id; ?>"; // Mendapatkan nilai $id dari PHP
+                                      var id = "<?php echo $id; ?>";
                                       xhr.open('POST', 'update_tolak.php', true);
                                       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                                       xhr.onreadystatechange = function() {
@@ -2011,17 +2027,16 @@
                                               console.log(xhr.responseText);
                                               swal("Berhasil!", "Surat Telah Ditolak!", "success")
                                                   .then(function() {
-                                                      // Redirect ke halaman dashboard setelah menutup notifikasi
                                                       window.location.href = "dashboard.php";
                                                   });
                                           }
                                       };
-                                      xhr.send("id=" + id + "&catatan_disposisi=" + catatan_disposisi); // Mengirim nilai $id sebagai data POST
+                                      xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&asalsurat=" + asalsurat + "&action=tolak");
                                   } else {
-                                      swal("Dibatalkan", "Surat tidak diselesaikan", "info");
+                                      swal("Dibatalkan", "Surat tidak ditolak", "info");
                                   }
                               });
-                      };
+                      }
                   </script>
 
 
@@ -2126,6 +2141,9 @@
                           </div>
                       </div>
                   </div>
+
+                  <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
+
                   <div class="input-disposisi">
                       <label for="">Catatan Disposisi<span style="color: red;">*</span></label>
                       <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi">
@@ -2286,7 +2304,6 @@
                       }
 
                       function batalDisposisi() {
-                          // Tampilkan konfirmasi sebelum menampilkan Sweet Alert
                           swal({
                                   title: "Konfirmasi",
                                   text: "Apakah Anda yakin ingin menolak surat ini?",
@@ -2297,8 +2314,9 @@
                               .then((willProceed) => {
                                   if (willProceed) {
                                       var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
+                                      var asalsurat = document.querySelector('input[name="executor"]').value;
                                       var xhr = new XMLHttpRequest();
-                                      var id = "<?php echo $id; ?>"; // Mendapatkan nilai $id dari PHP
+                                      var id = "<?php echo $id; ?>";
                                       xhr.open('POST', 'update_tolak.php', true);
                                       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                                       xhr.onreadystatechange = function() {
@@ -2306,17 +2324,16 @@
                                               console.log(xhr.responseText);
                                               swal("Berhasil!", "Surat Telah Ditolak!", "success")
                                                   .then(function() {
-                                                      // Redirect ke halaman dashboard setelah menutup notifikasi
                                                       window.location.href = "dashboard.php";
                                                   });
                                           }
                                       };
-                                      xhr.send("id=" + id + "&catatan_disposisi=" + catatan_disposisi); // Mengirim nilai $id sebagai data POST
+                                      xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&asalsurat=" + asalsurat + "&action=tolak");
                                   } else {
-                                      swal("Dibatalkan", "Surat tidak diselesaikan", "info");
+                                      swal("Dibatalkan", "Surat tidak ditolak", "info");
                                   }
                               });
-                      };
+                      }
                   </script>
 
 
@@ -2334,7 +2351,7 @@
                     $result = mysqli_query($koneksi, $query);
                     ?>
                   <div class="txt-disposisi">
-                      <h3>Disposisi</h3>    
+                      <h3>Disposisi</h3>
                   </div>
 
                   <div class="input-disposisi">

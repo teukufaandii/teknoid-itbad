@@ -124,7 +124,7 @@ body {
 
 .space .forgot {
   text-decoration: none;
-  color: rgb(27, 94, 190);  
+  color: rgb(27, 94, 190);
 }
 
 .space .forgot:hover {
@@ -206,6 +206,7 @@ i :hover {
   border-radius: 6px;
   padding: 5px 0;
   position: absolute;
+  font-size: 12px;
   z-index: 1;
   bottom: 125%; /* Position the tooltip above the logo */
   left: 50%;

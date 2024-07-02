@@ -112,9 +112,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
     } else {
-        echo "<script>alert('Email Tidak terdaftar!'); window.location='teknoid.itb-ad.ac.id/forgot';</script>";
+        echo "<script>alert('Email Tidak terdaftar!'); window.location='/forgot';</script>";
     }
 } else {
     echo "Invalid request.";
 }
-?>
