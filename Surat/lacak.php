@@ -175,7 +175,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                         <span class="date"><?php echo !empty($tanggal_disposisi1) ? $tanggal_disposisi1 : 'DD/MM/YYYY'; ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan()" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi1) ? $catatan_disposisi1 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi2) ? $disposisi2 : "-"; ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
                                                 <div class="swiper-slide">
@@ -186,7 +186,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                         <span class="date"><?php echo !empty($tanggal_disposisi2) ? $tanggal_disposisi2 : 'DD/MM/YYYY'; ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan2()" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi2) ? $catatan_disposisi2 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi3) ? $disposisi3 : "-"; ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
                                                 <div class="swiper-slide">
@@ -197,7 +197,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                         <span class="date"><?php echo !empty($tanggal_disposisi3) ? $tanggal_disposisi3 : 'DD/MM/YYYY'; ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan3()" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi3) ? $catatan_disposisi3 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi4) ? $disposisi4 : "-"; ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
                                                 <div class="swiper-slide">
@@ -208,7 +208,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                         <span class="date"><?php echo !empty($tanggal_disposisi4) ? $tanggal_disposisi4 : 'DD/MM/YYYY'; ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan4()" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi4) ? $catatan_disposisi4 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi5) ? $disposisi5 : "-"; ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
                                                 <div class="swiper-slide">
@@ -219,7 +219,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                         <span class="date"><?php echo !empty($tanggal_disposisi5) ? $tanggal_disposisi5 : 'DD/MM/YYYY'; ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan5()" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi5) ? $catatan_disposisi5 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi6) ? $disposisi6 : "-"; ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
                                                 <div class="swiper-slide">
@@ -230,7 +230,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                         <span class="date"><?php echo !empty($tanggal_disposisi6) ? $tanggal_disposisi6 : 'DD/MM/YYYY'; ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan6()" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi6) ? $catatan_disposisi6 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi7) ? $disposisi7 : "-"; ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
                                                 <div class="swiper-slide">
@@ -241,7 +241,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                         <span class="date"><?php echo !empty($tanggal_disposisi7) ? $tanggal_disposisi7 : 'DD/MM/YYYY'; ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan7()" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi7) ? $catatan_disposisi7 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi8) ? $disposisi8 : "-"; ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
                                                 <div class="swiper-slide">
@@ -252,7 +252,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                         <span class="date"><?php echo !empty($tanggal_disposisi8) ? $tanggal_disposisi8 : 'DD/MM/YYYY'; ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan8()" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi8) ? $catatan_disposisi8 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi9) ? $disposisi9 : "-"; ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
                                                 <div class="swiper-slide">
@@ -263,7 +263,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                         <span class="date"><?php echo !empty($tanggal_disposisi9) ? $tanggal_disposisi9 : 'DD/MM/YYYY'; ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan9()" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi9) ? $catatan_disposisi9 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi10) ? $disposisi10 : "-"; ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
                                                 <div class="swiper-slide">
@@ -272,9 +272,9 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                     </div>
                                                     <div class="timestamp">
                                                         <span class="date"><?php echo !empty($tanggal_disposisi10) ? $tanggal_disposisi10 : 'DD/MM/YYYY'; ?></span>
-                                                    </div>  
+                                                    </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan10()" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi10) ? $catatan_disposisi10 : "Tidak ada catatan"; ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -318,106 +318,44 @@ $file_laporan_exists = !empty($file_laporan_name);
             window.location.href = filePath;
         }
 
-        // CEK CATATAN DISPOSISI 1
-        let catatan = '<?php echo !empty($catatan_disposisi1) ? $catatan_disposisi1 : "Tidak ada catatan"; ?>';
-        function cekCatatan() {
+        function cekCatatan(catatan, diteruskan_ke) {
             swal({
-                title: 'Catatan Disposisi 1 : ' + catatan,
+                title: `Catatan: ${catatan}`,
+                text: `Diteruskan ke: ${diteruskan_ke}`,
                 showCancelButton: false,
                 confirmButtonText: 'Kembali'
             });
         }
 
-        // CEK CATATAN DISPOSISI 2
+        // CEK CATATAN DISPOSISI 1 - 10
+        let catatan1 = '<?php echo !empty($catatan_disposisi1) ? $catatan_disposisi1 : "Tidak ada catatan"; ?>';
+        let diteruskan_ke1 = '<?php echo !empty($disposisi2) ? $disposisi2 : "-"; ?>';
+
         let catatan2 = '<?php echo !empty($catatan_disposisi2) ? $catatan_disposisi2 : "Tidak ada catatan"; ?>';
-        function cekCatatan2() {
-            swal({
-                title: 'Catatan Disposisi 2 : ' + catatan2,
-                showCancelButton: false,
-                confirmButtonText: 'Kembali'
-            });
-        }
+        let diteruskan_ke2 = '<?php echo !empty($disposisi3) ? $disposisi3 : "-"; ?>';
 
-        // CEK CATATAN DISPOSISI 3
         let catatan3 = '<?php echo !empty($catatan_disposisi3) ? $catatan_disposisi3 : "Tidak ada catatan"; ?>';
-        function cekCatatan3() {
-            swal({
-                title: 'Catatan Disposisi 3 : ' + catatan3,
-                showCancelButton: false,
-                confirmButtonText: 'Kembali'
-            });
-        }
+        let diteruskan_ke3 = '<?php echo !empty($disposisi4) ? $disposisi4 : "-"; ?>';
 
-        // CEK CATATAN DISPOSISI 4
         let catatan4 = '<?php echo !empty($catatan_disposisi4) ? $catatan_disposisi4 : "Tidak ada catatan"; ?>';
-        function cekCatatan4() {
-            swal({
-                title: 'Catatan Disposisi 4 : ' + catatan4,
-                showCancelButton: false,
-                confirmButtonText: 'Kembali'
-            });
-        }
+        let diteruskan_ke4 = '<?php echo !empty($disposisi5) ? $disposisi5 : "-"; ?>';
 
-        // CEK CATATAN DISPOSISI 5
         let catatan5 = '<?php echo !empty($catatan_disposisi5) ? $catatan_disposisi5 : "Tidak ada catatan"; ?>';
-        function cekCatatan5() {
-            swal({
-                title: 'Catatan Disposisi 5 : ' + catatan5,
-                showCancelButton: false,
-                confirmButtonText: 'Kembali'
-            });
-        }
+        let diteruskan_ke5 = '<?php echo !empty($disposisi6) ? $disposisi6 : "-"; ?>';
 
-        // CEK CATATAN DISPOSISI 6
         let catatan6 = '<?php echo !empty($catatan_disposisi6) ? $catatan_disposisi6 : "Tidak ada catatan"; ?>';
-        function cekCatatan6() {
-            swal({
-                title: 'Catatan Disposisi 6 : ' + catatan6,
-                showCancelButton: false,
-                confirmButtonText: 'Kembali'
-            });
-        }
+        let diteruskan_ke6 = '<?php echo !empty($disposisi7) ? $disposisi7 : "-"; ?>';
 
-        // CEK CATATAN DISPOSISI 7
         let catatan7 = '<?php echo !empty($catatan_disposisi7) ? $catatan_disposisi7 : "Tidak ada catatan"; ?>';
-        function cekCatatan7() {
-            swal({
-                title: 'Catatan Disposisi 7 : ' + catatan7,
-                showCancelButton: false,
-                confirmButtonText: 'Kembali'
-            });
-        }
+        let diteruskan_ke7 = '<?php echo !empty($disposisi8) ? $disposisi8 : "-"; ?>';
 
-        // CEK CATATAN DISPOSISI 8
         let catatan8 = '<?php echo !empty($catatan_disposisi8) ? $catatan_disposisi8 : "Tidak ada catatan"; ?>';
-        function cekCatatan8() {
-            swal({
-                title: 'Catatan Disposisi 8 : ' + catatan8,
-                showCancelButton: false,
-                confirmButtonText: 'Kembali'
-            });
-        }
+        let diteruskan_ke8 = '<?php echo !empty($disposisi9) ? $disposisi9 : "-"; ?>';
 
-        // CEK CATATAN DISPOSISI 9
         let catatan9 = '<?php echo !empty($catatan_disposisi9) ? $catatan_disposisi9 : "Tidak ada catatan"; ?>';
-        function cekCatatan9() {
-            swal({
-                title: 'Catatan Disposisi 9 : ' + catatan9,
-                showCancelButton: false,
-                confirmButtonText: 'Kembali'
-            });
-        }
+        let diteruskan_ke9 = '<?php echo !empty($disposisi10) ? $disposisi10 : "-"; ?>';
 
-        // CEK CATATAN DISPOSISI 10
         let catatan10 = '<?php echo !empty($catatan_disposisi10) ? $catatan_disposisi10 : "Tidak ada catatan"; ?>';
-        function cekCatatan10() {
-            swal({
-                title: 'Catatan Disposisi 10 : ' + catatan10,
-                showCancelButton: false,
-                confirmButtonText: 'Kembali'
-            });
-        }
-
     </script>
 
 </body>
