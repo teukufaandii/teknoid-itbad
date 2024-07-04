@@ -2,10 +2,9 @@
               <?php if ($_SESSION['akses'] == 'Rektor') { ?>
                   <?php
                     // Query untuk mendapatkan data disposisi
-                    $query = "SELECT dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10,
-            catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
-            keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10
-            FROM tb_disposisi WHERE id_surat = '$id'";
+                    $query = "SELECT  dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10, catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
+                    keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10, diteruskan_ke
+                    FROM tb_disposisi WHERE id_surat = '$id'";
                     $result = mysqli_query($koneksi, $query);
                     ?>
                   <div class="txt-disposisi">
@@ -75,7 +74,31 @@
                               <span>Catatan :</span>
                               <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
                               <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br>
+                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
+                              <span>Posisi Surat Saat Ini :</span>
+                              <?php
+                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
+                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
+                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
+                                    // Mengonversi array menjadi string
+                                    $diteruskan_ke_value = implode(", ", $decoded_array);
+                                } elseif (is_array($row['diteruskan_ke'])) {
+                                    // Jika sudah berupa array PHP
+                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
+                                } else {
+                                    // Jika bukan array, langsung ambil nilainya
+                                    $diteruskan_ke_value = $row['diteruskan_ke'];
+                                }
+
+                                // Mengganti karakter "_" dengan spasi
+                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
+
+                                // Membuat huruf awal setiap kata menjadi kapital
+                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
+                                ?>
+                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
+
+
                           </div>
                       <?php } ?>
                   </div>
@@ -284,10 +307,9 @@
                   <!--disposisi untuk warek 1-->
               <?php } elseif ($_SESSION['akses'] == 'Warek1') { ?>
                   <?php
-                    $query = "SELECT dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10,
-            catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
-            keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10
-            FROM tb_disposisi WHERE id_surat = '$id'";
+                    $query = "SELECT  dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10, catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
+                    keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10, diteruskan_ke
+                    FROM tb_disposisi WHERE id_surat = '$id'";
                     $result = mysqli_query($koneksi, $query);
                     ?>
                   <div class="txt-disposisi">
@@ -357,7 +379,31 @@
                               <span>Catatan :</span>
                               <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
                               <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br>
+                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
+                              <span>Posisi Surat Saat Ini :</span>
+                              <?php
+                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
+                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
+                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
+                                    // Mengonversi array menjadi string
+                                    $diteruskan_ke_value = implode(", ", $decoded_array);
+                                } elseif (is_array($row['diteruskan_ke'])) {
+                                    // Jika sudah berupa array PHP
+                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
+                                } else {
+                                    // Jika bukan array, langsung ambil nilainya
+                                    $diteruskan_ke_value = $row['diteruskan_ke'];
+                                }
+
+                                // Mengganti karakter "_" dengan spasi
+                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
+
+                                // Membuat huruf awal setiap kata menjadi kapital
+                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
+                                ?>
+
+                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
+
                           </div>
                       <?php } ?>
                   </div>
@@ -659,10 +705,9 @@
                   <!--disposisi untuk warek 2-->
               <?php } elseif ($_SESSION['akses'] == 'Warek2') { ?>
                   <?php
-                    $query = "SELECT dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10,
-            catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
-            keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10
-            FROM tb_disposisi WHERE id_surat = '$id'";
+                    $query = "SELECT  dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10, catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
+                    keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10, diteruskan_ke
+                    FROM tb_disposisi WHERE id_surat = '$id'";
                     $result = mysqli_query($koneksi, $query);
                     ?>
                   <div class="txt-disposisi">
@@ -732,7 +777,29 @@
                               <span>Catatan :</span>
                               <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
                               <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br>
+                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
+                              <span>Posisi Surat Saat Ini :</span>
+                              <?php
+                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
+                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
+                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
+                                    // Mengonversi array menjadi string
+                                    $diteruskan_ke_value = implode(", ", $decoded_array);
+                                } elseif (is_array($row['diteruskan_ke'])) {
+                                    // Jika sudah berupa array PHP
+                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
+                                } else {
+                                    // Jika bukan array, langsung ambil nilainya
+                                    $diteruskan_ke_value = $row['diteruskan_ke'];
+                                }
+
+                                // Mengganti karakter "_" dengan spasi
+                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
+
+                                // Membuat huruf awal setiap kata menjadi kapital
+                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
+                                ?>
+                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
                           </div>
                       <?php } ?>
                   </div>
@@ -1018,10 +1085,9 @@
                   <!-- disposisi untuk warek 3-->
               <?php } elseif ($_SESSION['akses'] == 'Warek3') { ?>
                   <?php
-                    $query = "SELECT dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10,
-            catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
-            keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10
-            FROM tb_disposisi WHERE id_surat = '$id'";
+                    $query = "SELECT  dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10, catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
+                    keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10, diteruskan_ke
+                    FROM tb_disposisi WHERE id_surat = '$id'";
                     $result = mysqli_query($koneksi, $query);
                     ?>
                   <div class="txt-disposisi">
@@ -1091,7 +1157,29 @@
                               <span>Catatan :</span>
                               <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
                               <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br>
+                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
+                              <span>Posisi Surat Saat Ini :</span>
+                              <?php
+                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
+                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
+                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
+                                    // Mengonversi array menjadi string
+                                    $diteruskan_ke_value = implode(", ", $decoded_array);
+                                } elseif (is_array($row['diteruskan_ke'])) {
+                                    // Jika sudah berupa array PHP
+                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
+                                } else {
+                                    // Jika bukan array, langsung ambil nilainya
+                                    $diteruskan_ke_value = $row['diteruskan_ke'];
+                                }
+
+                                // Mengganti karakter "_" dengan spasi
+                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
+
+                                // Membuat huruf awal setiap kata menjadi kapital
+                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
+                                ?>
+                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
                           </div>
                       <?php } ?>
                   </div>
@@ -1389,10 +1477,9 @@
                   <!-- disposisi untuk dekan FTD-->
               <?php } elseif ($_SESSION['akses'] == 'DekanFTD') { ?>
                   <?php
-                    $query = "SELECT dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10,
-            catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
-            keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10
-            FROM tb_disposisi WHERE id_surat = '$id'";
+                    $query = "SELECT  dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10, catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
+                    keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10, diteruskan_ke
+                    FROM tb_disposisi WHERE id_surat = '$id'";
                     $result = mysqli_query($koneksi, $query);
                     ?>
                   <div class="txt-disposisi">
@@ -1462,7 +1549,29 @@
                               <span>Catatan :</span>
                               <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
                               <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br>
+                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
+                              <span>Posisi Surat Saat Ini :</span>
+                              <?php
+                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
+                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
+                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
+                                    // Mengonversi array menjadi string
+                                    $diteruskan_ke_value = implode(", ", $decoded_array);
+                                } elseif (is_array($row['diteruskan_ke'])) {
+                                    // Jika sudah berupa array PHP
+                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
+                                } else {
+                                    // Jika bukan array, langsung ambil nilainya
+                                    $diteruskan_ke_value = $row['diteruskan_ke'];
+                                }
+
+                                // Mengganti karakter "_" dengan spasi
+                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
+
+                                // Membuat huruf awal setiap kata menjadi kapital
+                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
+                                ?>
+                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
                           </div>
                       <?php } ?>
                   </div>
@@ -1716,10 +1825,9 @@
                   <!--disposisi untuk dekan FEB-->
               <?php } elseif ($_SESSION['akses'] == 'DekanFEB') { ?>
                   <?php
-                    $query = "SELECT dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10,
-            catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
-            keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10
-            FROM tb_disposisi WHERE id_surat = '$id'";
+                    $query = "SELECT  dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10, catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
+                    keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10, diteruskan_ke
+                    FROM tb_disposisi WHERE id_surat = '$id'";
                     $result = mysqli_query($koneksi, $query);
                     ?>
                   <div class="txt-disposisi">
@@ -1789,7 +1897,29 @@
                               <span>Catatan :</span>
                               <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
                               <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br>
+                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
+                              <span>Posisi Surat Saat Ini :</span>
+                              <?php
+                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
+                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
+                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
+                                    // Mengonversi array menjadi string
+                                    $diteruskan_ke_value = implode(", ", $decoded_array);
+                                } elseif (is_array($row['diteruskan_ke'])) {
+                                    // Jika sudah berupa array PHP
+                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
+                                } else {
+                                    // Jika bukan array, langsung ambil nilainya
+                                    $diteruskan_ke_value = $row['diteruskan_ke'];
+                                }
+
+                                // Mengganti karakter "_" dengan spasi
+                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
+
+                                // Membuat huruf awal setiap kata menjadi kapital
+                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
+                                ?>
+                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
                           </div>
                       <?php } ?>
                   </div>
@@ -2043,10 +2173,9 @@
                   <!-- disposisi untuk direk Pasca Sarjana-->
               <?php } elseif ($_SESSION['akses'] == 'direkPasca') { ?>
                   <?php
-                    $query = "SELECT dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10,
-            catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
-            keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10
-            FROM tb_disposisi WHERE id_surat = '$id'";
+                    $query = "SELECT  dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10, catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
+                    keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10, diteruskan_ke
+                    FROM tb_disposisi WHERE id_surat = '$id'";
                     $result = mysqli_query($koneksi, $query);
                     ?>
                   <div class="txt-disposisi">
@@ -2116,7 +2245,29 @@
                               <span>Catatan :</span>
                               <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
                               <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br>
+                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
+                              <span>Posisi Surat Saat Ini :</span>
+                              <?php
+                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
+                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
+                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
+                                    // Mengonversi array menjadi string
+                                    $diteruskan_ke_value = implode(", ", $decoded_array);
+                                } elseif (is_array($row['diteruskan_ke'])) {
+                                    // Jika sudah berupa array PHP
+                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
+                                } else {
+                                    // Jika bukan array, langsung ambil nilainya
+                                    $diteruskan_ke_value = $row['diteruskan_ke'];
+                                }
+
+                                // Mengganti karakter "_" dengan spasi
+                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
+
+                                // Membuat huruf awal setiap kata menjadi kapital
+                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
+                                ?>
+                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
                           </div>
                       <?php } ?>
                   </div>
@@ -2346,7 +2497,7 @@
                   <?php
                     $query = "SELECT dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10,
                     catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
-                    keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10
+                    keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10, diteruskan_ke
                     FROM tb_disposisi WHERE id_surat = '$id'";
                     $result = mysqli_query($koneksi, $query);
                     ?>
@@ -2417,7 +2568,29 @@
                               <span>Catatan :</span>
                               <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
                               <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br>
+                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
+                              <span>Posisi Surat Saat Ini :</span>
+                              <?php
+                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
+                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
+                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
+                                    // Mengonversi array menjadi string
+                                    $diteruskan_ke_value = implode(", ", $decoded_array);
+                                } elseif (is_array($row['diteruskan_ke'])) {
+                                    // Jika sudah berupa array PHP
+                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
+                                } else {
+                                    // Jika bukan array, langsung ambil nilainya
+                                    $diteruskan_ke_value = $row['diteruskan_ke'];
+                                }
+
+                                // Mengganti karakter "_" dengan spasi
+                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
+
+                                // Membuat huruf awal setiap kata menjadi kapital
+                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
+                                ?>
+                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
                           </div>
                       <?php } ?>
                   </div>
@@ -2538,7 +2711,7 @@
                   <?php
                     $query = "SELECT dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10,
                     catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
-                    keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10
+                    keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10, diteruskan_ke
                     FROM tb_disposisi WHERE id_surat = '$id'";
                     $result = mysqli_query($koneksi, $query);
                     ?>
@@ -2623,7 +2796,29 @@
                               <span>Catatan :</span>
                               <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
                               <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br>
+                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
+                              <span>Posisi Surat Saat Ini :</span>
+                              <?php
+                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
+                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
+                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
+                                    // Mengonversi array menjadi string
+                                    $diteruskan_ke_value = implode(", ", $decoded_array);
+                                } elseif (is_array($row['diteruskan_ke'])) {
+                                    // Jika sudah berupa array PHP
+                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
+                                } else {
+                                    // Jika bukan array, langsung ambil nilainya
+                                    $diteruskan_ke_value = $row['diteruskan_ke'];
+                                }
+
+                                // Mengganti karakter "_" dengan spasi
+                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
+
+                                // Membuat huruf awal setiap kata menjadi kapital
+                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
+                                ?>
+                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
                           </div>
                       <?php } ?>
                   </div>
@@ -2721,10 +2916,9 @@
                   <!-- Disposisi untuk keuangan -->
               <?php } elseif ($_SESSION['akses'] == 'keuangan') { ?>
                   <?php
-                    $query = "SELECT dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10,
-            catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
-            keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10
-            FROM tb_disposisi WHERE id_surat = '$id'";
+                    $query = "SELECT  dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10, catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
+                    keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10, diteruskan_ke
+                    FROM tb_disposisi WHERE id_surat = '$id'";
                     $result = mysqli_query($koneksi, $query);
                     ?>
                   <?php
@@ -2810,7 +3004,29 @@
                               <span>Catatan :</span>
                               <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
                               <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br>
+                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
+                              <span>Posisi Surat Saat Ini :</span>
+                              <?php
+                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
+                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
+                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
+                                    // Mengonversi array menjadi string
+                                    $diteruskan_ke_value = implode(", ", $decoded_array);
+                                } elseif (is_array($row['diteruskan_ke'])) {
+                                    // Jika sudah berupa array PHP
+                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
+                                } else {
+                                    // Jika bukan array, langsung ambil nilainya
+                                    $diteruskan_ke_value = $row['diteruskan_ke'];
+                                }
+
+                                // Mengganti karakter "_" dengan spasi
+                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
+
+                                // Membuat huruf awal setiap kata menjadi kapital
+                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
+                                ?>
+                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
                           </div>
                       <?php } ?>
                   </div>
