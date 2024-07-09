@@ -25,7 +25,6 @@ if($result->num_rows > 0){
                         <td>' . $row["nama_lengkap"] . '</td>
                         <td>' . $row["jabatan"] . '</td>
                         <td>' . $row["akses"] . '</td>
-                        <td>' . $row["password"] . '</td>
                         <td>' . $row["no_hp"] . '</td>
                         <td>' . $row["email"] . '</td>
                         <td style="text-align: center;">

@@ -4,7 +4,7 @@ session_start();
 include 'koneksi.php';
 include "logout-checker.php";
 
-if(isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['action'])) {
+if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['action'])) {
     $id = mysqli_real_escape_string($koneksi, $_POST['id']);
     $catatan = mysqli_real_escape_string($koneksi, $_POST['catatan_disposisi']);
     $asal_surat = isset($_SESSION['jabatan']) ? $_SESSION['jabatan'] : 'Unknown'; // Use session's jabatan
@@ -12,7 +12,7 @@ if(isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['ac
     $kode_surat = mysqli_real_escape_string($koneksi, $_POST['kode_surat']);
 
     // Determine the update query based on the user's role and action
-    if(isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas') {
+    if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas') {
         $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai = true, kode_surat = '$kode_surat', status_baca = true WHERE id_surat = '$id'";
         $jabatan = $_SESSION['jabatan'];
         $tanggal_disposisi1 = date("Y-m-d");
@@ -21,15 +21,15 @@ if(isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['ac
             $update_query_disposisi = "UPDATE tb_disposisi SET dispo1 = '$jabatan', tanggal_disposisi1 = '$tanggal_disposisi1', status_disposisi1 = true, catatan_selesai = '$catatan', nama_selesai = '$asal_surat' WHERE id_surat = '$id'";
         } elseif ($action == 'tolak') {
             $update_query_disposisi = "UPDATE tb_disposisi SET dispo1 = '$jabatan', tanggal_disposisi1 = '$tanggal_disposisi1', status_disposisi1 = true, catatan_selesai = '$catatan', nama_penolak = '$asal_surat' WHERE id_surat = '$id'";
-        } 
+        }
     } else {
         $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai = true WHERE id_surat = '$id'";
 
         if ($action == 'selesai') {
-            $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai = '$catatan', nama_selesai = '$asal_surat' WHERE id_surat = '$id'";
+            $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai = '$catatan', nama_selesai = '$asal_surat', tanggal_eksekutor=CURDATE() WHERE id_surat = '$id'";
         } elseif ($action == 'tolak') {
-            $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai = '$catatan', nama_penolak = '$asal_surat' WHERE id_surat = '$id'";
-        } 
+            $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai = '$catatan', nama_penolak = '$asal_surat', tanggal_eksekutor=CURDATE() WHERE id_surat = '$id'";
+        }
     }
 
     // Start transaction
@@ -72,4 +72,3 @@ if(isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['ac
 }
 
 mysqli_close($koneksi);
-?>

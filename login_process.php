@@ -120,7 +120,7 @@ if (mysqli_num_rows($result) == 1) {
         }
     } else {
         // Password is incorrect
-        echo "<script>alert('Username atau Password yang Anda masukan salah!'); window.location='index';</script>";
+        echo "<script>alert('Password yang Anda masukan salah!'); window.location='index';</script>";
         exit();
     }
 } else {

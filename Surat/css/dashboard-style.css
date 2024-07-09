@@ -1,1138 +1,1152 @@
 html {
-    height: 100%;
-    margin: 0;
+  height: 100%;
+  margin: 0;
 }
 * {
-	border: 0;
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 body {
-    margin:0;
-    padding:0;
-    font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
 }
 /*sidenav*/
 .sidenav {
-    height: 100%;
-    width: 200px;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: rgba(198, 229, 251);
-    overflow-x: hidden;
-    transition: 0.3s;
-    padding-top:30px;
-  }
-  
-.sidenav a, .dropdown-btn {
-    padding: 10px 0px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 15px;
-    color: #000000;
-    display: block;
-    transition: 0.3s;
-    border: none;
-    background: none;
-    width: 100%;
-    cursor: pointer;
-    outline: none;
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgba(198, 229, 251);
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 30px;
 }
-.sidenav a:hover, .dropdown-btn:hover {
-    color: rgb(255, 255, 255);
-    background-color: rgb(27, 94, 190);
+
+.sidenav a,
+.dropdown-btn {
+  padding: 10px 0px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 15px;
+  color: #000000;
+  display: block;
+  transition: 0.3s;
+  border: none;
+  background: none;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+}
+.sidenav a:hover,
+.dropdown-btn:hover {
+  color: rgb(255, 255, 255);
+  background-color: rgb(27, 94, 190);
 }
 .active {
-    background-color: rgba(198, 229, 251);
-    color: black;
+  background-color: rgba(198, 229, 251);
+  color: black;
 }
 
 .sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 20px;
-    font-size: 30px;
-    margin-left: 50px;
+  position: absolute;
+  top: 0;
+  right: 20px;
+  font-size: 30px;
+  margin-left: 50px;
 }
 .sidenav .sidenav-logo img {
-    width: auto;
-    max-width: 130px;
-    display: block;
-    margin: auto;
-    padding-bottom: 25px;
+  width: auto;
+  max-width: 130px;
+  display: block;
+  margin: auto;
+  padding-bottom: 25px;
 }
 
 .sidenav .greet-card {
-    padding: 10px;
-    border-top: solid black 1px;
-    border-bottom: solid black 1px;
-    margin-bottom: 5px;
+  padding: 10px;
+  border-top: solid black 1px;
+  border-bottom: solid black 1px;
+  margin-bottom: 5px;
 }
 .sidenav .greet-card p {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-left: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
 }
 .sidenav .greet-card h3 {
-    margin-top: 5px;
-    margin-bottom: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 .dropdown-container {
-    display: none;
-    background-color: rgba(198, 229, 251);
-    padding-left: 0px;
-  }
-.content {
-    top: 0px;
-    max-width: 100%;
-    padding: 0px;
-    margin-left: 200px;
-    transition: margin-left .3s;
-    overflow:hidden
+  display: none;
+  background-color: rgba(198, 229, 251);
+  padding-left: 0px;
 }
-@media screen and (max-width: 576px){
-    .content {display: block; width: 100%; overflow-x: scroll; overflow-y: hidden;}
+.content {
+  top: 0px;
+  max-width: 100%;
+  padding: 0px;
+  margin-left: 200px;
+  transition: margin-left 0.3s;
+  overflow: hidden;
+}
+@media screen and (max-width: 576px) {
+  .content {
+    display: block;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
 }
 .content .mainContent {
-    overflow: hidden;
+  overflow: hidden;
 }
 /*topnav*/
 .content .topnav {
-    position: relative;
-    display: block;
-    overflow: auto;
-    background: rgba(198, 229, 251, 0.75);
-    margin: 0px;
-    padding: 16px;
+  position: relative;
+  display: block;
+  overflow: auto;
+  background: rgba(198, 229, 251, 0.75);
+  margin: 0px;
+  padding: 16px;
 }
 .topnav span {
-    display: block;
-    width: 35px;
-    font-size:35px;
-    font-weight: bolder;
-    cursor:pointer;
-    color:rgb(27, 94, 190);
-    margin: auto 0px;
+  display: block;
+  width: 35px;
+  font-size: 35px;
+  font-weight: bolder;
+  cursor: pointer;
+  color: rgb(27, 94, 190);
+  margin: auto 0px;
 }
 .content .topnav button {
-    display: block;
-    background: rgb(27, 94, 190);
-    border-radius: 25px;
-    border: none;
-    color: white;
-    float: right;
-    font-size: 18px;
-    padding: 10px 12px;
-    margin-top: -41px;
+  display: block;
+  background: rgb(27, 94, 190);
+  border-radius: 25px;
+  border: none;
+  color: white;
+  float: right;
+  font-size: 18px;
+  padding: 10px 12px;
+  margin-top: -41px;
 }
 .content .topnav button:hover {
-    background: rgb(22,79,159);
-    cursor: pointer;
+  background: rgb(22, 79, 159);
+  cursor: pointer;
 }
 .content .topnav .btn-accSettings {
-    position: relative;
-    top: 0px;
-    flex-grow: 1;
+  position: relative;
+  top: 0px;
+  flex-grow: 1;
 }
 
 /* running text */
-.text{
-    overflow: hidden;
-    font-weight: 600;
-    font-size: 16px;
-    text-transform: uppercase;
-    background-color: #fff;
+.text {
+  overflow: hidden;
+  font-weight: 600;
+  font-size: 16px;
+  text-transform: uppercase;
+  background-color: #fff;
 }
 
-.running-text{
-    display: flex;
-    margin-top: 12px;
+.running-text {
+  display: flex;
+  margin-top: 12px;
 }
 
 .btn_delete {
-    cursor: pointer;
-    background-color: #871F1E;
-    color: white;
-    border-radius: 5px;
-    padding: 5px;
-    transition: background-color 0.3s ease; /* Add transition effect */
+  cursor: pointer;
+  background-color: #871f1e;
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+  transition: background-color 0.3s ease; /* Add transition effect */
 }
 
 .btn_delete:hover {
-    background-color: #AF2B29; /* Change background color on hover */
+  background-color: #af2b29; /* Change background color on hover */
 }
 
 .search {
-    cursor: pointer;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin-bottom: 10px;
-    transition: background-color 0.3s ease; /* Add transition effect */
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease; /* Add transition effect */
 }
 
 .search:hover {
-    background-color: #45a049; /* Change background color on hover */
+  background-color: #45a049; /* Change background color on hover */
 }
 
 .ekspor {
-    cursor: pointer;
-    background-color: #008CBA;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin-left: 10px;
-    transition: background-color 0.3s ease; /* Add transition effect */
+  cursor: pointer;
+  background-color: #008cba;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-left: 10px;
+  transition: background-color 0.3s ease; /* Add transition effect */
 }
 
 .ekspor:hover {
-    background-color: #0073a3; /* Change background color on hover */
+  background-color: #0073a3; /* Change background color on hover */
 }
 
 .btnLihat {
-    cursor: pointer;
-    background-color: rgb(27, 94, 190);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
+  cursor: pointer;
+  background-color: rgb(27, 94, 190);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
 }
 
 .btnLihat:hover {
-    background-color: rgb(22,79,159);
+  background-color: rgb(22, 79, 159);
 }
 
 .running-text2 {
-    flex-shrink: 0;
-    margin: 0;
-    padding: 5px 10px;
-    min-width: 100%;
-    text-align: center;
-    white-space: nowrap;
-    animation-name: informasi;
-    animation-duration: 8s; /* Misalnya, sesuaikan durasi sesuai kecepatan yang diinginkan */
-    animation-timing-function: linear; /* Gunakan linear agar gerakan tetap konsisten */
-    animation-iteration-count: infinite;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 5px 10px;
+  min-width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  animation-name: informasi;
+  animation-duration: 8s; /* Misalnya, sesuaikan durasi sesuai kecepatan yang diinginkan */
+  animation-timing-function: linear; /* Gunakan linear agar gerakan tetap konsisten */
+  animation-iteration-count: infinite;
 }
 
 @keyframes informasi {
-    from {
-        transform: translateX(100%);
-    }
-    to {
-        transform: translateX(-100%);
-    }
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
 }
 
-.running-text2 i{
-    color: #871E1E;
+.running-text2 i {
+  color: #871e1e;
 }
 
 @keyframes informasi {
-    from {
-        transform: translateX(0);
-    }
-      
-    to {
-        transform: translateX(-100%);
-    }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
 }
 /* modal pengaturan akun */
 .accModal {
-    display: none; /* Hidden by default */
-    position: absolute; /* Stay in place */
-    z-index: 9999; /* Sit on top */
-    right: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    padding-top: 65px;
-    overflow: auto; /* Enable scroll if needed */
+  display: none; /* Hidden by default */
+  position: absolute; /* Stay in place */
+  z-index: 9999; /* Sit on top */
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding-top: 65px;
+  overflow: auto; /* Enable scroll if needed */
 }
 .accModal .accModal-content {
-    background-color: #fefefe;
-    color: #000;
-    padding: 10px;
-    float: right;
-    margin-right: 10px;
-    border: 1px solid #888;
-    border-radius: 5px;
-    width: 190px; /* Could be more or less, depending on screen size */
-    gap: 5px;
+  background-color: #fefefe;
+  color: #000;
+  padding: 10px;
+  float: right;
+  margin-right: 10px;
+  border: 1px solid #888;
+  border-radius: 5px;
+  width: 190px; /* Could be more or less, depending on screen size */
+  gap: 5px;
 }
 .accBtn {
-    background-color: transparent;
-    display: block;
-    width: 100%;
-    text-align: left;
-    text-decoration: none !important;
-    padding: 10px 10px 10px 10px;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+  text-align: left;
+  text-decoration: none !important;
+  padding: 10px 10px 10px 10px;
 }
 .accBtn:hover {
-    background-color: rgba(0,0,0,0.1);
-    cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 .accBtn i {
-    font-size: 17px;
-    width: 30px;
+  font-size: 17px;
+  width: 30px;
 }
 
-a:-webkit-any-link, .accBtn a{
-    text-decoration: none !important;
+a:-webkit-any-link,
+.accBtn a {
+  text-decoration: none !important;
 }
 @media screen and (max-width: 768px) {
-    .sidenav {width: 0;}
-    #Content {margin-left: 0;}
-    #Footer {margin-left: 0;}
+  .sidenav {
+    width: 0;
+  }
+  #Content {
+    margin-left: 0;
+  }
+  #Footer {
+    margin-left: 0;
+  }
 }
 .content .mainContent {
-    padding: 15px;
-    overflow: scroll;
+  padding: 15px;
+  overflow: scroll;
 }
 .content .mainContent .contentBox {
-    display: block;
-    background: rgba(198, 229, 251, 0.75);
-    border-radius: 5px;
-    padding: 15px;
-    min-height: 80vh;
+  display: block;
+  background: rgba(198, 229, 251, 0.75);
+  border-radius: 5px;
+  padding: 15px;
+  min-height: 80vh;
 }
 .mainContent .contentBox .pageInfo {
-    margin-top: 0px;
-    display: block;
-    height: 30px;
-    width: 100%;
-    border-bottom: solid black 1px;
+  margin-top: 0px;
+  display: block;
+  height: 30px;
+  width: 100%;
+  border-bottom: solid black 1px;
 }
-.pageInfo button{
-    margin-top: -25px;
-    background-color: #1E2287;
-    color: #ffffff;
-    font-size: 10px;
-    cursor: pointer;
-    min-width: 80px;
-    border-radius: 5px;
-    padding: 8px 5px;
-    border: none;
-    float: right;
+.pageInfo button {
+  margin-top: -25px;
+  background-color: #1e2287;
+  color: #ffffff;
+  font-size: 10px;
+  cursor: pointer;
+  min-width: 80px;
+  border-radius: 5px;
+  padding: 8px 5px;
+  border: none;
+  float: right;
 }
 .pageInfo .back:hover {
-    background-color: #14175e;
+  background-color: #14175e;
 }
 .contentBox .dashboard-btn {
-    width: 100%;
-    display: flex;
-    margin-top: 10px;
-    align-content: space-between;
-    flex-direction: row;
-    flex-wrap: wrap;
+  width: 100%;
+  display: flex;
+  margin-top: 10px;
+  align-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 .dashboard-btn button {
-    padding: 20px 20px;
-    width: 100%;
-    height: 100px;
-    border-radius: 10px;
-    font-size: 15px;
-    margin: 5px;
-    text-align: left;
-    transition: 0.4s ease-in-out;
+  padding: 20px 20px;
+  width: 100%;
+  height: 100px;
+  border-radius: 10px;
+  font-size: 15px;
+  margin: 5px;
+  text-align: left;
+  transition: 0.4s ease-in-out;
 }
 
 @media screen and (min-width: 576px) {
-    .contentBox .dashboard-btn {
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-    .dashboard-btn>button.btn1 {
-        order: 1;
-        flex-basis: 100%;
-    }
-    .dashboard-btn>button.btn2 {
-        order: 2;
-        flex-basis: 100%;
-    }
-    .dashboard-btn>button.btn3 {
-        order: 3;
-        flex-basis: 100%;
-    }
-    .dashboard-btn>button.btn4 {
-        order: 4;
-        flex-basis: 100%;
-    }
+  .contentBox .dashboard-btn {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .dashboard-btn > button.btn1 {
+    order: 1;
+    flex-basis: 100%;
+  }
+  .dashboard-btn > button.btn2 {
+    order: 2;
+    flex-basis: 100%;
+  }
+  .dashboard-btn > button.btn3 {
+    order: 3;
+    flex-basis: 100%;
+  }
+  .dashboard-btn > button.btn4 {
+    order: 4;
+    flex-basis: 100%;
+  }
 }
 @media screen and (min-width: 768px) {
-    .contentBox>.dashboard-btn {
-        flex-flow: row wrap;
-    }
-    .dashboard-btn>button {
-        width: 50%;
-    }
+  .contentBox > .dashboard-btn {
+    flex-flow: row wrap;
+  }
+  .dashboard-btn > button {
+    width: 50%;
+  }
 }
-.dashboard-btn>button:hover{
-    -webkit-box-shadow: inset 0 0 7px rgb(36, 102, 226), 0 0 7px rgb(36, 102, 226);
-    -moz-box-shadow: inset 0 0 7px rgb(36, 102, 226), 0 0 7px rgb(36, 102, 226);
-    box-shadow: inset 0 0 7px rgb(36, 102, 226), 0 0 7px rgb(36, 102, 226);
-    border-radius: 4px;
-    margin: 10px;
-    cursor: pointer;
+.dashboard-btn > button:hover {
+  -webkit-box-shadow: inset 0 0 7px rgb(36, 102, 226), 0 0 7px rgb(36, 102, 226);
+  -moz-box-shadow: inset 0 0 7px rgb(36, 102, 226), 0 0 7px rgb(36, 102, 226);
+  box-shadow: inset 0 0 7px rgb(36, 102, 226), 0 0 7px rgb(36, 102, 226);
+  border-radius: 4px;
+  margin: 10px;
+  cursor: pointer;
 }
 .dashboard-btn i {
-    position: relative;
-    display: block;
-    float: right;
-    font-size: 25px;
+  position: relative;
+  display: block;
+  float: right;
+  font-size: 25px;
 }
-.dash-icon{
-    text-align: center;
-    min-width: 30px;
+.dash-icon {
+  text-align: center;
+  min-width: 30px;
 }
 .badge {
-    font-size: 20px;
+  font-size: 20px;
 }
 /*---------pengaturan akun---------*/
 .mainContent .contentBox .rekap {
-    position: relative;
-    display: flex;
-    flex: row nowrap;
-    justify-content: left;
-    margin-top: 20px;
+  position: relative;
+  display: flex;
+  flex: row nowrap;
+  justify-content: left;
+  margin-top: 20px;
 }
-.contentBox .rekap button{
-    font-size: 15px;
-    background-color: rgb(27, 94, 190);
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 10px;
-    cursor: pointer;
-    border: none;
-    margin-bottom: 15px;
+.contentBox .rekap button {
+  font-size: 15px;
+  background-color: rgb(27, 94, 190);
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  margin-bottom: 15px;
 }
-.contentBox .rekap button:hover{
-    background-color: rgb(22,79,159);
+.contentBox .rekap button:hover {
+  background-color: rgb(22, 79, 159);
 }
 
 /*---------pengaturan akun---------*/
 .mainContent .contentBox .tombol {
-    position: relative;
-    display: flex;
-    flex: row nowrap;
-    justify-content: space-between;
-    margin-top: 20px;
+  position: relative;
+  display: flex;
+  flex: row nowrap;
+  justify-content: space-between;
+  margin-top: 20px;
 }
-.contentBox .tombol .tambah button{
-    font-size: 15px;
-    background-color: rgb(27, 94, 190);
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 10px;
-    cursor: pointer;
-    border: none;
-    margin-bottom: 15px;
+.contentBox .tombol .tambah button {
+  font-size: 15px;
+  background-color: rgb(27, 94, 190);
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  margin-bottom: 15px;
 }
-.contentBox .tombol .tambah button:hover{
-    background-color: rgb(22,79,159);
+.contentBox .tombol .tambah button:hover {
+  background-color: rgb(22, 79, 159);
 }
 
 /*search*/
 .pageInfo .tombol .search-box {
-    font-size: 15px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    float: right;
+  font-size: 15px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  float: right;
 }
 
-  .search-box input[type=text] {
-    padding: 6px;
-    max-width: 150px;
-    margin-top: 0px;
-    font-size: 17px;
-    border: none;
+.search-box input[type="text"] {
+  padding: 6px;
+  max-width: 150px;
+  margin-top: 0px;
+  font-size: 17px;
+  border: none;
 }
-  
+
 .search-box button {
-    float: right;
-    padding: 6px 10px;
-    margin-top: 0px;
-    margin-right: 0px;
-    background: #ddd;
-    font-size: 17px;
-    border: none;
-    cursor: pointer;
+  float: right;
+  padding: 6px 10px;
+  margin-top: 0px;
+  margin-right: 0px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
 }
-  
+
 .search-box button:hover {
-    background: #ccc;
+  background: #ccc;
 }
 /*table akun*/
 .contentBox .tableOverflow {
-    overflow: auto;
-    width: 100%;
-    max-height: 100vh;
-    cursor: default !important;
+  overflow: auto;
+  width: 100%;
+  max-height: 100vh;
+  cursor: default !important;
 }
 #tableakun {
-    width: 100%;
-    border-collapse: collapse;
-    position: relative;
-    } 
-#tableakun tr {
-    width: 100%;
+  width: 100%;
+  border-collapse: collapse;
+  position: relative;
 }
-#tableakun th, td {
-    padding: 10px 20px;
-    min-width: 120px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-    background-color: #f2f2f2;
-    font-size: 15px; 
-    }
+#tableakun tr {
+  width: 100%;
+}
+#tableakun th,
+td {
+  padding: 10px 20px;
+  min-width: 120px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  background-color: #f2f2f2;
+  font-size: 15px;
+}
 
-#tableakun th{
-    border-bottom: 1px solid #000;
-    font-weight: bold;
-
+#tableakun th {
+  border-bottom: 1px solid #000;
+  font-weight: bold;
 }
 #tableakun button {
-    padding: 1px;
-    border: none;
-    color: #000000;
-    cursor: pointer;
-    font-size: 12px;
-    width: 35px;
-    height: 35px;
-    border-radius: 5px;
-    }
+  padding: 1px;
+  border: none;
+  color: #000000;
+  cursor: pointer;
+  font-size: 12px;
+  width: 35px;
+  height: 35px;
+  border-radius: 5px;
+}
 
 #tableakun button:hover {
-    background: #818181;
-    color: white;
-    }
-#tableakun .btnEdit{
-    background: rgb(245, 206, 47, 0.9);
+  background: #818181;
+  color: white;
 }
-#tableakun .btnDel{
-    background: rgb(255, 0, 0, 0.7);
+#tableakun .btnEdit {
+  background: rgb(245, 206, 47, 0.9);
+}
+#tableakun .btnDel {
+  background: rgb(255, 0, 0, 0.7);
 }
 /*form isi*/
-.contentBox .form{
-    margin-top: 20px;
-    width: 100%;
+.contentBox .form {
+  margin-top: 20px;
+  width: 100%;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.contentBox form .inputfield {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.contentBox .form .inputfield label {
+  width: 200px;
+  color: #757575;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.contentBox .form .inputfield .input,
+.contentBox .form .inputfield .textarea {
+  width: 100%;
+  outline: none;
+  border: 1px solid #d5dbd9;
+  font-size: 15px;
+  padding: 8px 10px;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.contentBox .form .inputfield .textarea {
+  width: 100%;
+  height: 125px;
+  resize: none;
+  padding-left: 10px;
+}
+.contentBox .form .inputfield input[type="date"] {
+  width: 100%;
+  resize: none;
+  padding-left: 10px;
+  width: 100%;
+  outline: none;
+  border: 1px solid #d5dbd9;
+  font-size: 15px;
+  padding: 8px 10px;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+.contentBox .form .inputfield .custom_select {
+  position: relative;
+  width: 100%;
+  height: 37px;
+  margin: 0px;
+}
+
+.contentBox .form .inputfield .custom_select:before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  border: 8px solid;
+  border-color: #545454 transparent transparent transparent;
+  pointer-events: none;
+}
+
+.contentBox .form .inputfield .custom_select select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  border: 0px;
+  padding: 8px 10px;
+  font-size: 15px;
+  border: 1px solid #d5dbd9;
+  border-radius: 3px;
+}
+
+.contentBox .form .inputfield .input:focus,
+.contentBox .form .inputfield .textarea:focus,
+.contentBox .form .inputfield .custom_select select:focus {
+  border: 1px solid #fec107;
+}
+
+.contentBox .form .inputfield p {
+  font-size: 14px;
+  color: #757575;
+}
+.contentBox .form .btn {
+  padding: 8px 10px;
+  font-size: 12px;
+  border: 0px;
+  background: #871e1e;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  outline: none;
+  display: block;
+  float: right;
+  min-width: 100px;
+  margin-top: -30px;
+}
+.contentBox .form .floatFiller {
+  padding: 8px 10px;
+  font-size: 12px;
+  color: transparent !important;
+}
+.contentBox .form .btn:hover {
+  background: rgb(22, 79, 159);
+}
+
+.contentBox .form .inputfield:last-child {
+  margin-bottom: 0;
+}
+@media (max-width: 576px) {
+  .contentBox .form .inputfield {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+
+  .contentBox .form .inputfield label {
+    margin-bottom: 5px;
   }
-  
-  .contentBox form .inputfield{
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .contentBox .form .inputfield label{
-     width: 200px;
-     color: #757575;
-     margin-right: 10px;
-    font-size: 14px;
-  }
-  
-  .contentBox .form .inputfield .input,
-  .contentBox .form .inputfield .textarea{
-    width: 100%;
-    outline: none;
-    border: 1px solid #d5dbd9;
-    font-size: 15px;
-    padding: 8px 10px;
-    border-radius: 3px;
-    transition: all 0.3s ease;
-  }
-  
-  .contentBox .form .inputfield .textarea{
-    width: 100%;
-    height: 125px;
-    resize: none;
-    padding-left: 10px;
-  }
-  .contentBox .form .inputfield input[type="date"]{
-    width: 100%;
-    resize: none;
-    padding-left: 10px;
-    width: 100%;
-    outline: none;
-    border: 1px solid #d5dbd9;
-    font-size: 15px;
-    padding: 8px 10px;
-    border-radius: 3px;
-    transition: all 0.3s ease;
-  }
-  .contentBox .form .inputfield .custom_select{
-    position: relative;
-    width: 100%;
-    height: 37px;
-    margin: 0px;
-  }
-  
-  .contentBox .form .inputfield .custom_select:before{
-    content: "";
-    position: absolute;
-    top: 12px;
-    right: 10px;
-    border: 8px solid;
-    border-color: #545454 transparent transparent transparent;
-    pointer-events: none;
-  }
-  
-  .contentBox .form .inputfield .custom_select select{
-    -webkit-appearance: none;
-    -moz-appearance:   none;
-    appearance:        none;
-    outline: none;
-    width: 100%;
-    height: 100%;
-    border: 0px;
-    padding: 8px 10px;
-    font-size: 15px;
-    border: 1px solid #d5dbd9;
-    border-radius: 3px;
-  }
-  
-  
-  .contentBox .form .inputfield .input:focus,
-  .contentBox .form .inputfield .textarea:focus,
-  .contentBox .form .inputfield .custom_select select:focus{
-    border: 1px solid #fec107;
-  }
-  
-  .contentBox .form .inputfield p{
-     font-size: 14px;
-     color: #757575;
-  }
-  .contentBox .form .btn{
-    padding: 8px 10px;
-    font-size: 12px; 
-    border: 0px;
-    background:  #871E1E;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 5px;
-    outline: none;
-    display: block;
-    float: right;
-    min-width: 100px;
-    margin-top: -30px;
-  }
-  .contentBox .form .floatFiller{
-    padding: 8px 10px;
-    font-size: 12px; 
-    color: transparent !important;
-  }
-  .contentBox .form .btn:hover{
-    background: rgb(22,79,159);
-  }
-  
-  .contentBox .form .inputfield:last-child{
-    margin-bottom: 0;
-  }
-  @media (max-width:576px) {
-    .contentBox .form .inputfield{
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .contentBox .form .inputfield label{
-      margin-bottom: 5px;
-    }
-  }
+}
 /*footer*/
 .footer {
-    display: block;
-    overflow: hidden;
-    text-align: center;
-    padding: 30px 10px;
-    background: rgba(198, 229, 251, 0.75);
+  display: block;
+  overflow: hidden;
+  text-align: center;
+  padding: 30px 10px;
+  background: rgba(198, 229, 251, 0.75);
 }
 /*modal*/
 
 /* Float cancel and delete buttons and add an equal width */
-.cancelbtn, .deletebtn {
-    float: left;
-    width: 50%;
-    margin-top: 60px;
-    padding: 20px;
-  }
-  
-  /* Add a color to the cancel button */
-  .cancelbtn {
-    background-color: #ccc;
-    color: black;
-  }
-  
-  /* Add a color to the delete button */
+.cancelbtn,
+.deletebtn {
+  float: left;
+  width: 50%;
+  margin-top: 60px;
+  padding: 20px;
+}
+
+/* Add a color to the cancel button */
+.cancelbtn {
+  background-color: #ccc;
+  color: black;
+}
+
+/* Add a color to the delete button */
+.deletebtn {
+  background-color: #f44336;
+}
+
+/* Add padding and center-align text to the container */
+.container {
+  height: 50vh;
+  width: 80vw;
+  padding: 16px;
+  font-size: 1rem;
+  text-align: center;
+  background: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 9999; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.5);
+  padding-top: 50px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  width: 50%; /* Could be more or less, depending on screen size */
+}
+.modal-box .modal-content h1,
+p {
+  margin: 10px;
+}
+/* The Modal Close Button (x) */
+.close {
+  position: absolute;
+  right: 35px;
+  top: 15px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #f1f1f1;
+}
+
+.close:hover,
+.close:focus {
+  color: #f44336;
+  cursor: pointer;
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+  backdrop-filter: blur(5px); /* Apply blur effect */
+}
+
+/* Change styles for cancel button and delete button on extra small screens */
+@media screen and (max-width: 300px) {
+  .cancelbtn,
   .deletebtn {
-    background-color: #f44336;
+    width: 50%;
   }
-  
-  /* Add padding and center-align text to the container */
-  .container {
-    height: 50vh;
-    width: 80vw;
-    padding: 16px;
-    font-size: 1rem;
-    text-align: center;
-    background: white;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  /* The Modal (background) */
-  .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 9999; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.5);
-    padding-top: 50px;
-  }
-  
-  /* Modal Content/Box */
-  .modal-content {
-    background-color: #fefefe;
-    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-    width: 50%; /* Could be more or less, depending on screen size */
-  }
-  .modal-box .modal-content h1, p {
-    margin: 10px;
-  }
-  /* The Modal Close Button (x) */
-  .close {
-    position: absolute;
-    right: 35px;
-    top: 15px;
-    font-size: 40px;
-    font-weight: bold;
-    color: #f1f1f1;
-  }
-  
-  .close:hover,
-  .close:focus {
-    color: #f44336;
-    cursor: pointer;
-  }
-  
-  /* Clear floats */
-  .clearfix::after {
-    content: "";
-    clear: both;
-    display: table;
-    backdrop-filter: blur(5px); /* Apply blur effect */
-  }
-  
-  
-  /* Change styles for cancel button and delete button on extra small screens */
-  @media screen and (max-width: 300px) {
-    .cancelbtn, .deletebtn {
-      width: 50%;
-    }
-  }
-  /*------------------- informasi -------------------*/
+}
+/*------------------- informasi -------------------*/
 .contentBox .boxInfo {
-    position: relative;
-    display: flex;
-    align-items: center;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .boxInfo .info {
-    text-align: center;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    margin-right: 5px;
-    padding: 0px 5px;
-    margin-bottom: 5px;
-    border-radius: 5px;
+  text-align: center;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  margin-right: 5px;
+  padding: 0px 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
 }
 
 .boxInfo .info-box p {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 @media screen and (max-width: 576px) {
-    .contentBox .boxInfo {
-        font-size: 10px;
-    }
+  .contentBox .boxInfo {
+    font-size: 10px;
+  }
 }
 /*------------------- table surat keluar -------------------*/
 #tablesk {
-    width: 100%;
-    border-collapse: collapse;
-    position: relative;
-    text-decoration: none;
-    overflow: hidden;
-} 
+  width: 100%;
+  border-collapse: collapse;
+  position: relative;
+  text-decoration: none;
+  overflow: hidden;
+}
 
-#tablesk th, td {
-    padding: 10px 20px;
-    min-width: 190px;
-    border-bottom: 1px solid #ddd;
-    background-color: #ffffff;
-    font-size: 15px; 
-    font-weight: 500;
+#tablesk th,
+td {
+  padding: 10px 20px;
+  min-width: 190px;
+  border-bottom: 1px solid #ddd;
+  background-color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
 }
 
 #tablesk thead th {
-    cursor: pointer;
-    font-weight: bold;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-#tablesk thead th:nth-child(7){
-    color: black;
-    text-decoration: none;
-    cursor: text;
+#tablesk thead th:nth-child(7) {
+  color: black;
+  text-decoration: none;
+  cursor: text;
 }
 
-#tablesk th{
-    border-bottom: 1px solid #000;
-    text-align: center;
-    font-weight: bold;
+#tablesk th {
+  border-bottom: 1px solid #000;
+  text-align: center;
+  font-weight: bold;
 }
 .contentBox #tablesk button {
-    padding: 1px;
-    border: none;
-    color: #000;
-    cursor: pointer;
-    font-size: 15px;
+  padding: 1px;
+  border: none;
+  color: #000;
+  cursor: pointer;
+  font-size: 15px;
 }
 
 .contentBox #tablesk button:hover {
-    color: rgb(22,79,159);
+  color: rgb(22, 79, 159);
 }
 /*------------------- table surat masuk -------------------*/
 #tablesm {
-    width: 100%;
-    border-collapse: collapse;
-    position: relative;
-    text-decoration: none;
-} 
-
-#tablesm th, td {
-    padding: 10px 20px;
-    min-width: 190px;
-    border-bottom: 1px solid #ddd;
-    background-color: #ffffff;
-    font-size: 15px; 
-    font-weight: 500;
+  width: 100%;
+  border-collapse: collapse;
+  position: relative;
+  text-decoration: none;
 }
 
-#tablesm th{
-    border-bottom: 1px solid #000;
-    text-align: center;
-    font-weight: bold;
+#tablesm th,
+td {
+  padding: 10px 20px;
+  min-width: 190px;
+  border-bottom: 1px solid #ddd;
+  background-color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+#tablesm th {
+  border-bottom: 1px solid #000;
+  text-align: center;
+  font-weight: bold;
 }
 
 .contentBox #tablesm button {
-    padding: 1px;
-    border: none;
-    color: #000;
-    cursor: pointer;
-    font-size: 15px;
+  padding: 1px;
+  border: none;
+  color: #000;
+  cursor: pointer;
+  font-size: 15px;
 }
 
 .contentBox #tablesm button:hover {
-    color: #871E1E;
+  color: #871e1e;
 }
 /*------------------- pagination -------------------*/
-.pageInfo #kontenhalaman{
-    font-size: 15px;
-    text-align: center;
-    margin-top: 20px;
+.pageInfo #kontenhalaman {
+  font-size: 15px;
+  text-align: center;
+  margin-top: 20px;
 }
 
 #kontenhalaman .pagination {
-    margin-top: 10px;
-    text-align: center;
+  margin-top: 10px;
+  text-align: center;
 }
 
 .pagination a {
-    display: inline-block;
-    padding: 8px 10px;
-    margin: 0;
-    background-color: #ffffff;
-    color: #000000;
-    text-decoration: none;
-    border-radius: 4px;
-    gap: 0;
+  display: inline-block;
+  padding: 8px 10px;
+  margin: 0;
+  background-color: #ffffff;
+  color: #000000;
+  text-decoration: none;
+  border-radius: 4px;
+  gap: 0;
 }
 
 .pageNumber {
-    display: inline-block;
+  display: inline-block;
 }
 
 .pageNumber a {
-    display: inline-block;
-    padding: 8px 10px;
-    margin: 2px;
-    background-color: #ffffff;
-    color: #333;
-    text-decoration: none;
-    border-radius: 4px;
+  display: inline-block;
+  padding: 8px 10px;
+  margin: 2px;
+  background-color: #ffffff;
+  color: #333;
+  text-decoration: none;
+  border-radius: 4px;
 }
 
 .pageNumber a:hover {
-    background-color: #ddd;
+  background-color: #ddd;
 }
 
 .tekspage {
-    color: #000000;
-    margin-top: 10px;
-    font-weight: bold;
-    text-align: center;
+  color: #000000;
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
 }
 
-#kontenhalaman a.active{
-    background-color: rgb(27, 94, 190);
-    color: #fff;
-    border: thin solid rgb(27, 94, 190);
+#kontenhalaman a.active {
+  background-color: rgb(27, 94, 190);
+  color: #fff;
+  border: thin solid rgb(27, 94, 190);
 }
 
-#kontenhalaman a:focus{
-    border: 1px solid rgb(27, 94, 190);
+#kontenhalaman a:focus {
+  border: 1px solid rgb(27, 94, 190);
 }
 
 .see {
-    padding: 8px 10px;
-    font-size: 15px;
-    border: 0px;
-    background-color: white;
-    color: black;
-    cursor: pointer;  
-    border-radius: 3px;
-  }
+  padding: 8px 10px;
+  font-size: 15px;
+  border: 0px;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  border-radius: 3px;
+}
 
 /*------------------- rekap surat -------------------*/
 
-
-.ekspor{
-    justify-content: center;
-    background-color: rgb(27, 94, 190);
-    border-radius: 15px;
-    border: none;
-    color: white;
-    padding: 10px 30px;
-    margin-top: 20px;
-    cursor: pointer;
+.ekspor {
+  justify-content: center;
+  background-color: rgb(27, 94, 190);
+  border-radius: 15px;
+  border: none;
+  color: white;
+  padding: 10px 30px;
+  margin-top: 20px;
+  cursor: pointer;
 }
 
-.pageInfo form{
-    margin: auto;
-    width: 100%;
+.pageInfo form {
+  margin: auto;
+  width: 100%;
 }
 
-form .search{
-    background-color: rgb(27, 94, 190);
-    border-radius: 15px;
-    border: none;
-    color: white;
-    float: right;
-    padding: 10px 30px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    cursor: pointer;
+form .search {
+  background-color: rgb(27, 94, 190);
+  border-radius: 15px;
+  border: none;
+  color: white;
+  float: right;
+  padding: 10px 30px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  cursor: pointer;
 }
 
 form .tanggal {
-    display: flex;
-    position: relative;
-    justify-content: space-between;
-    margin: auto;
-    flex-direction: column;
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  margin: auto;
+  flex-direction: column;
 }
-
 
 /*-------------------untuk modal surat keluar----------------*/
 .modal .modal-content {
-    width: 80vw;
-    height: 60vh;
-    background-color: #ffffff;
-    padding: 40px;
-    background-color: rgb(198, 229, 251,);
-    border-radius: 10px;
+  width: 80vw;
+  height: 60vh;
+  background-color: #ffffff;
+  padding: 40px;
+  background-color: rgb(198, 229, 251);
+  border-radius: 10px;
 }
 
- .modal .modal-content button {
-    display: block;
-     font-size: 15px;
-     height: 12vh;
-     width: 30vw;
-     font-size: larger;
-     font-weight: bold;
-     color: white;
-     background-color: rgb(27, 94, 190);
-     padding: 10px 15px;
-     border-radius: 10px;
-     cursor: pointer;
-     border: none;
-     margin: auto;
- }
-
- .modal .modal-content button:hover{
-    background-color: rgb(22,79,159);
- }
- 
-@media screen and (max-width: 1000px){
-    .modal .modal-content button {
-        width: 70vw;
-    }
-}
- 
- /*form unduh*/
- .inputfield a button {
-     background-color: rgb(27, 94, 190);
-     border-radius: 20px;
-     height: 50px;
-     width: 80px;
-     cursor: pointer;
-     color: white;
- }
-
- .inputfield a button:hover {
-    background-color: rgb(22,79,159);
- }
-
- .btn-kirim button {
-    display: block;
-    background: rgb(27, 94, 190);
-    border-radius: 8px;
-    border: none;
-    color: white;
-    float: right;
-    padding: 10px 35px;
-    margin-top: -35px;
- }
- #tablerekap {
-    width: 100%;
-    border-collapse: collapse;
-    position: relative;
-    text-decoration: none;
-} 
-
-#tablerekap th, td {
-    padding: 10px 20px;
-    min-width: 190px;
-    border-bottom: 1px solid #ddd;
-    background-color: #ffffff;
-    font-size: 15px; 
-    font-weight: 500;
+.modal .modal-content button {
+  display: block;
+  font-size: 15px;
+  height: 12vh;
+  width: 30vw;
+  font-size: larger;
+  font-weight: bold;
+  color: white;
+  background-color: rgb(27, 94, 190);
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  margin: auto;
 }
 
-#tablerekap th{
-    border-bottom: 1px solid #000;
-    text-align: center;
-    cursor: default;
-    font-weight: bold;
+.modal .modal-content button:hover {
+  background-color: rgb(22, 79, 159);
 }
 
+@media screen and (max-width: 1000px) {
+  .modal .modal-content button {
+    width: 70vw;
+  }
+}
+
+/*form unduh*/
+.inputfield a button {
+  background-color: rgb(27, 94, 190);
+  border-radius: 20px;
+  height: 50px;
+  width: 80px;
+  cursor: pointer;
+  color: white;
+}
+
+.inputfield a button:hover {
+  background-color: rgb(22, 79, 159);
+}
+
+.btn-kirim button {
+  display: block;
+  background: rgb(27, 94, 190);
+  border-radius: 8px;
+  border: none;
+  color: white;
+  float: right;
+  padding: 10px 35px;
+  margin-top: -35px;
+}
+#tablerekap {
+  width: 100%;
+  border-collapse: collapse;
+  position: relative;
+  text-decoration: none;
+}
+
+#tablerekap th,
+td {
+  padding: 10px 20px;
+  min-width: 190px;
+  border-bottom: 1px solid #ddd;
+  background-color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+#tablerekap th {
+  border-bottom: 1px solid #000;
+  text-align: center;
+  cursor: default;
+  font-weight: bold;
+}
 
 .notificationsBadge {
-    justify-content: center;
+  justify-content: center;
 }
 
 .notifications li {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 18px;
-    cursor: pointer;
-    border: 1px solid #000000;
-    border-radius: 5px;
-    padding: 10px 110px;
-    width: 100%;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  padding: 10px 110px;
+  width: 100%;
 }
 
 .notifications li:hover {
-    background-color: rgb(180, 224, 255);
-    color: #fff;
+  background-color: rgb(180, 224, 255);
+  color: #fff;
 }
 
-.notifications li a{
-    color: #000;
-    width: 100%;
-    text-align: center;
+.notifications li a {
+  color: #000;
+  width: 100%;
+  text-align: center;
 }
 
-.notifications li a:hover{
-    color: #fff;
+.notifications li a:hover {
+  color: #fff;
 }
-
 
 #modalBackground {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
-    backdrop-filter: blur(5px); /* Apply blur effect */
-    z-index: 999; /* Ensure it's above other content */
-    display: none; /* Initially hidden */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+  backdrop-filter: blur(5px); /* Apply blur effect */
+  z-index: 999; /* Ensure it's above other content */
+  display: none; /* Initially hidden */
 }
 
 .modal.active {
-    display: block;
+  display: block;
 }
 
-.modal-body{
-    display: flex;
-    border-radius: 6px;
-    background-color: #e2e2e2;
-    padding: 40px;
-    border-radius: 10px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
-    width: 100%;
-    overflow: scroll;
-    height: 90%;
+.modal-body {
+  display: flex;
+  border-radius: 6px;
+  background-color: #e2e2e2;
+  padding: 40px;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  width: 100%;
+  overflow: scroll;
+  height: 90%;
 }
-@media screen and (max-width: 748px){
-    .modal-body{
-        padding: 40px 15px;
-    }
-    .notifications li {
-        width: 100%;
-        font-size:12px;
-        padding: 10px 20px;
-    }
+@media screen and (max-width: 748px) {
+  .modal-body {
+    padding: 40px 15px;
+  }
+  .notifications li {
+    width: 100%;
+    font-size: 12px;
+    padding: 10px 20px;
+  }
 }
 
 .status-notification {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 .status-notification .notification-dot {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    height: 10px;
-    width: 10px;
-    background-color: red;
-    border-radius: 50%;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  height: 10px;
+  width: 10px;
+  background-color: red;
+  border-radius: 50%;
 }

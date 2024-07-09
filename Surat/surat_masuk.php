@@ -47,7 +47,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                 <div class="tombol" style="justify-content: flex-end; margin-bottom: 20px;">
                     <div class="search-box">
                         <form method="GET">
-                            <input type="text" placeholder="Search.." name="search" id="search">
+                            <input type="text" placeholder="Search..." name="search" id="search">
                         </form>
                     </div>
                 </div>
@@ -222,15 +222,16 @@ if (!isset($_SESSION['pengguna_type'])) {
                                             }
                                         } elseif ($_SESSION['akses'] == 'DekanFEB') {
                                             if (
-                                                strpos($row['diteruskan_ke'], 'DekanFTD') !== false && strpos($row['diteruskan_ke'], 'DekanFEB') !== false || $row['diteruskan_ke'] == $akses
-                                                || $row['dispo2'] == 'Dekan FEB' || $row['dispo3'] == 'Dekan FEB' || $row['dispo4'] == 'Dekan FEB'
-                                                || $row['dispo5'] == 'Dekan FEB'
+                                                strpos($row['diteruskan_ke'], $akses) !== false && strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses
+                                                || $row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan
+                                                || $row['dispo5'] == $jabatan
                                             ) {
 
                                                 echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
                                                 echo "<td>" . $row['kode_surat'] . "</td>";
                                                 echo "<td>" . $row['asal_surat'] . "</td>";
                                                 echo "<td>" . $row['perihal'] . "</td>";
+                                                echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>";
                                                 if ($row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan || $row['dispo5'] == $jabatan) {
                                                     echo 'Sudah Disposisi';

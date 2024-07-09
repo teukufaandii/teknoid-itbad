@@ -23,7 +23,8 @@ $stmt1->close();
 // Fetch data from the second table based on the provided ID
 $sql2 = "SELECT dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10,
         catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
-        tanggal_disposisi1, tanggal_disposisi2, tanggal_disposisi3, tanggal_disposisi4, tanggal_disposisi5, tanggal_disposisi6, tanggal_disposisi7, tanggal_disposisi8, tanggal_disposisi9, tanggal_disposisi10
+        tanggal_disposisi1, tanggal_disposisi2, tanggal_disposisi3, tanggal_disposisi4, tanggal_disposisi5, tanggal_disposisi6, tanggal_disposisi7, tanggal_disposisi8, tanggal_disposisi9, tanggal_disposisi10,
+        tanggal_eksekutor, diteruskan_ke, nama_selesai, nama_penolak, catatan_selesai, catatan_tolak
         FROM tb_disposisi WHERE id_surat = ?";
 $stmt2 = $koneksi->prepare($sql2);
 $stmt2->bind_param("i", $id);
@@ -58,7 +59,13 @@ $stmt2->bind_result(
     $tanggal_disposisi7,
     $tanggal_disposisi8,
     $tanggal_disposisi9,
-    $tanggal_disposisi10
+    $tanggal_disposisi10,
+    $tanggal_eksekutor,
+    $diteruskan_ke,
+    $nama_selesai,
+    $nama_tolak,
+    $catatan_selesai,
+    $catatan_tolak
 );
 $stmt2->fetch();
 $stmt2->close();
@@ -134,8 +141,56 @@ $file_laporan_exists = !empty($file_laporan_name);
                                         <label>Perihal</label>
                                         <input type="text" name="perihal" value="<?php echo $perihal; ?>" class="input" readonly />
                                     </div>
+                                    <div class="input-field">
+                                        <label>Posisi Surat Saat Ini</label>
+                                        <?php
+                                        // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
+                                        if (is_string($diteruskan_ke) && is_array(json_decode($diteruskan_ke, true))) {
+                                            $decoded_array = json_decode($diteruskan_ke, true);
+                                            // Mengonversi array menjadi string
+                                            $diteruskan_ke_value = implode(", ", $decoded_array);
+                                        } elseif (is_array($diteruskan_ke)) {
+                                            // Jika sudah berupa array PHP
+                                            $diteruskan_ke_value = implode(", ", $diteruskan_ke);
+                                        } else {
+                                            // Jika bukan array, langsung ambil nilainya
+                                            $diteruskan_ke_value = $diteruskan_ke;
+                                        }
+
+                                        // Mengganti karakter "_" dengan spasi
+                                        $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
+
+                                        // Membuat huruf awal setiap kata menjadi kapital
+                                        $diteruskan_ke_value = ucwords($diteruskan_ke_value);
+
+                                        // Tambahkan kondisi else untuk menampilkan surat belum di disposisi
+                                        if (empty($diteruskan_ke_value)) {
+                                            $diteruskan_ke_value = "Surat belum di disposisi";
+                                        }
+
+                                        //untuk menampilkan status tolak dan selesai
+                                        function getStatusSelesai($nama_tolak, $nama_selesai)
+                                        {
+                                            if (!empty($nama_tolak)) {
+                                                $status_selesai = "- Ditolak";
+                                                $style = "background-color: red; color: white;"; // add red color for ditolak
+                                            } elseif (!empty($nama_selesai)) {
+                                                $status_selesai = "- Disetujui";
+                                                $style = "background-color: green;color: white;"; // add green color for selesai
+                                            } else {
+                                                $status_selesai = "";
+                                                $style = ""; // no color for empty status
+                                            }
+                                            return array($status_selesai, $style);
+                                        }
+
+                                        list($status_selesai, $style) = getStatusSelesai($nama_tolak, $nama_selesai);
+                                        ?>
+                                        <input type="text" id="diteruskan_ke" style="<?php echo $style; ?>  name=" diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>  <?php echo $status_selesai; ?>" class="input" readonly><br>
+                                    </div>
                                 </form>
                             </div>
+
                             <div class="file">
                                 <div class="berkas">
                                     <?php if ($file_berkas_exists) : ?>
@@ -167,6 +222,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                                     <div class="col-md-12">
                                         <div class="swiper-container">
                                             <div class="swiper-wrapper">
+                                                <!-- untuk lacak disposisi 1 -->
                                                 <div class="swiper-slide">
                                                     <div class="status">
                                                         <span>Disposisi 1: <?php echo !empty($disposisi1) ? $disposisi1 : 'Belum Disposisi'; ?></span>
@@ -175,97 +231,623 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                         <span class="date"><?php echo !empty($tanggal_disposisi1) ? $tanggal_disposisi1 : 'DD/MM/YYYY'; ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi1) ? $catatan_disposisi1 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi2) ? $disposisi2 : "Belum Diteruskan"; ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php
+                                                                                                    if (!empty($catatan_disposisi1)) {
+                                                                                                        echo $catatan_disposisi1;
+                                                                                                    } else {
+                                                                                                        if (!empty($catatan_selesai)) {
+                                                                                                            echo $catatan_selesai;
+                                                                                                        } else {
+                                                                                                            if (!empty($catatan_tolak)) {
+                                                                                                                echo $catatan_tolak;
+                                                                                                            } else {
+                                                                                                                echo "Tidak ada catatan";
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }; ?>', 
+                                                        '<?php echo !empty($disposisi2) ? $disposisi2 : "Belum Diteruskan"; ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
+
+                                                <!-- untuk lacak disposisi 2 -->
                                                 <div class="swiper-slide">
                                                     <div class="status">
-                                                        <span>Disposisi 2: <?php echo !empty($disposisi2) ? $disposisi2 : 'Belum Disposisi'; ?></span>
+                                                        <span>Disposisi 2:
+                                                            <?php
+                                                            if (empty($disposisi2)) {
+                                                                if (!empty($disposisi1)) {
+                                                                    echo  $diteruskan_ke;
+                                                                } else {
+                                                                    echo 'Belum didisposisi';
+                                                                }
+                                                            } else {
+                                                                echo $disposisi2;
+                                                            }
+                                                            ?>
+                                                        </span>
                                                     </div>
                                                     <div class="timestamp">
                                                         <span class="date"><?php echo !empty($tanggal_disposisi2) ? $tanggal_disposisi2 : 'DD/MM/YYYY'; ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi2) ? $catatan_disposisi2 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi3) ? $disposisi3 : "Belum Diteruskan"; ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php
+                                                                                                    if (!empty($catatan_disposisi2)) {
+                                                                                                        echo $catatan_disposisi2;
+                                                                                                    } else {
+                                                                                                        if (empty($catatan_disposisi1)) {
+                                                                                                            echo "Tidak ada catatan";
+                                                                                                        } else {
+                                                                                                            if (!empty($catatan_selesai)) {
+                                                                                                                echo $catatan_selesai;
+                                                                                                            } else {
+                                                                                                                if (!empty($catatan_tolak)) {
+                                                                                                                    echo $catatan_tolak;
+                                                                                                                } else {
+                                                                                                                    echo "Tidak ada catatan";
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                    ?>',
+                                                        
+                                                        
+                                                                                                    '<?php
+                                                                                                        if (empty($disposisi3)) {
+                                                                                                            if (!empty($disposisi2)) {
+                                                                                                                $diteruskan_ke_array = json_decode($diteruskan_ke, true); // Decode JSON menjadi array
+                                                                                                                if (json_last_error() === JSON_ERROR_NONE) {
+                                                                                                                    // Iterasi setiap elemen dalam array untuk melakukan replace dan kapitalisasi
+                                                                                                                    foreach ($diteruskan_ke_array as &$value) {
+                                                                                                                        $value = str_replace("_", " ", $value);
+                                                                                                                        $value = ucwords($value);
+                                                                                                                    }
+                                                                                                                    echo implode(', ', $diteruskan_ke_array); // Gabungkan elemen array menjadi string
+                                                                                                                } else {
+                                                                                                                    // Jika bukan JSON yang valid, langsung tampilkan setelah replace dan kapitalisasi
+                                                                                                                    $diteruskan_ke = str_replace("_", " ", $diteruskan_ke);
+                                                                                                                    echo ucwords($diteruskan_ke);
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Belum didisposisi';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo $disposisi3;
+                                                                                                        }
+                                                                                                        ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
+
+                                                <!-- untuk lacak disposisi 3 -->
                                                 <div class="swiper-slide">
                                                     <div class="status">
-                                                        <span>Disposisi 3: <?php echo !empty($disposisi3) ? $disposisi3 : 'Belum Disposisi'; ?></span>
+                                                        <span>Disposisi 3:
+                                                            <?php
+                                                            if (empty($disposisi3)) {
+                                                                if (!empty($disposisi2)) {
+                                                                    echo $diteruskan_ke;
+                                                                } else {
+                                                                    echo 'Belum didisposisi';
+                                                                }
+                                                            } else {
+                                                                echo $disposisi3;
+                                                            }
+                                                            ?>
+                                                        </span>
                                                     </div>
                                                     <div class="timestamp">
                                                         <span class="date"><?php echo !empty($tanggal_disposisi3) ? $tanggal_disposisi3 : 'DD/MM/YYYY'; ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi3) ? $catatan_disposisi3 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi4) ? $disposisi4 : "Belum Diteruskan"; ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php
+                                                                                                    if (!empty($catatan_disposisi3)) {
+                                                                                                        echo $catatan_disposisi3;
+                                                                                                    } else {
+                                                                                                        if (empty($catatan_disposisi3)) {
+                                                                                                            echo "Tidak ada catatan";
+                                                                                                        } else {
+                                                                                                            if (!empty($catatan_selesai)) {
+                                                                                                                echo $catatan_selesai;
+                                                                                                            } else {
+                                                                                                                if (!empty($catatan_tolak)) {
+                                                                                                                    echo $catatan_tolak;
+                                                                                                                } else {
+                                                                                                                    echo "Tidak ada catatan";
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                    ?>',
+                
+                                                                                                    '<?php
+                                                                                                        if (empty($disposisi4)) {
+                                                                                                            if (!empty($disposisi3)) {
+                                                                                                                $diteruskan_ke_array = json_decode($diteruskan_ke, true); // Decode JSON menjadi array
+                                                                                                                if (json_last_error() === JSON_ERROR_NONE) {
+                                                                                                                    // Iterasi setiap elemen dalam array untuk melakukan replace dan kapitalisasi
+                                                                                                                    foreach ($diteruskan_ke_array as &$value) {
+                                                                                                                        $value = str_replace("_", " ", $value);
+                                                                                                                        $value = ucwords($value);
+                                                                                                                    }
+                                                                                                                    echo implode(', ', $diteruskan_ke_array); // Gabungkan elemen array menjadi string
+                                                                                                                } else {
+                                                                                                                    // Jika bukan JSON yang valid, langsung tampilkan setelah replace dan kapitalisasi
+                                                                                                                    $diteruskan_ke = str_replace("_", " ", $diteruskan_ke);
+                                                                                                                    echo ucwords($diteruskan_ke);
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Belum didisposisi';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo $disposisi4;
+                                                                                                        }
+                                                                                                        ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
+
+                                                <!-- untuk lacak disposisi 4 -->
                                                 <div class="swiper-slide">
                                                     <div class="status">
-                                                        <span>Disposisi 4: <?php echo !empty($disposisi4) ? $disposisi4 : 'Belum Disposisi'; ?></span>
+                                                        <span>Disposisi 4:
+                                                            <?php
+                                                            if (empty($disposisi4)) {
+                                                                if (!empty($disposisi3)) {
+                                                                    echo $diteruskan_ke;
+                                                                } else {
+                                                                    echo 'Belum didisposisi';
+                                                                }
+                                                            } else {
+                                                                echo $disposisi4;
+                                                            }
+                                                            ?>
+                                                        </span>
                                                     </div>
                                                     <div class="timestamp">
                                                         <span class="date"><?php echo !empty($tanggal_disposisi4) ? $tanggal_disposisi4 : 'DD/MM/YYYY'; ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi4) ? $catatan_disposisi4 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi5) ? $disposisi5 : "Belum Diteruskan"; ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php
+                                                                                                    if (!empty($catatan_disposisi4)) {
+                                                                                                        echo $catatan_disposisi4;
+                                                                                                    } else {
+                                                                                                        if (empty($catatan_disposisi3)) {
+                                                                                                            echo "Tidak ada catatan";
+                                                                                                        } else {
+                                                                                                            if (!empty($catatan_selesai)) {
+                                                                                                                echo $catatan_selesai;
+                                                                                                            } else {
+                                                                                                                if (!empty($catatan_tolak)) {
+                                                                                                                    echo $catatan_tolak;
+                                                                                                                } else {
+                                                                                                                    echo "Tidak ada catatan";
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                    ?>',
+                
+                                                                                                    '<?php
+                                                                                                        if (empty($disposisi5)) {
+                                                                                                            if (!empty($disposisi4)) {
+                                                                                                                $diteruskan_ke_array = json_decode($diteruskan_ke, true); // Decode JSON menjadi array
+                                                                                                                if (json_last_error() === JSON_ERROR_NONE) {
+                                                                                                                    // Iterasi setiap elemen dalam array untuk melakukan replace dan kapitalisasi
+                                                                                                                    foreach ($diteruskan_ke_array as &$value) {
+                                                                                                                        $value = str_replace("_", " ", $value);
+                                                                                                                        $value = ucwords($value);
+                                                                                                                    }
+                                                                                                                    echo implode(', ', $diteruskan_ke_array); // Gabungkan elemen array menjadi string
+                                                                                                                } else {
+                                                                                                                    // Jika bukan JSON yang valid, langsung tampilkan setelah replace dan kapitalisasi
+                                                                                                                    $diteruskan_ke = str_replace("_", " ", $diteruskan_ke);
+                                                                                                                    echo ucwords($diteruskan_ke);
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Belum didisposisi';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo $disposisi5;
+                                                                                                        }
+                                                                                                        ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
+
+
+                                                <!-- untuk lacak disposisi 5 -->
                                                 <div class="swiper-slide">
                                                     <div class="status">
-                                                        <span>Disposisi 5: <?php echo !empty($disposisi5) ? $disposisi5 : 'Belum Disposisi'; ?></span>
+                                                        <span> Disposisi 5 :
+                                                            <?php
+                                                            if (empty($disposisi5)) {
+                                                                if (!empty($disposisi4)) {
+                                                                    if (is_string($diteruskan_ke) && is_array(json_decode($diteruskan_ke, true))) {
+                                                                        $decoded_array = json_decode($diteruskan_ke, true);
+                                                                        $diteruskan_ke_value = implode(", ", $decoded_array);
+                                                                    } elseif (is_array($diteruskan_ke)) {
+                                                                        $diteruskan_ke_value = implode(", ", $diteruskan_ke);
+                                                                    } else {
+                                                                        $diteruskan_ke_value = $diteruskan_ke;
+                                                                    }
+                                                                    $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value); // menghilangkan underscore
+                                                                    $diteruskan_ke_value = ucwords($diteruskan_ke_value); // mengubah huruf depan menjadi kapital
+                                                                    echo $diteruskan_ke_value;
+                                                                } else {
+                                                                    echo 'Belum didisposisi';
+                                                                }
+                                                            } else {
+                                                                if (is_string($disposisi5) && is_array(json_decode($disposisi5, true))) {
+                                                                    $decoded_array = json_decode($disposisi5, true);
+                                                                    $disposisi5_value = implode(", ", $decoded_array);
+                                                                } elseif (is_array($disposisi5)) {
+                                                                    $disposisi5_value = implode(", ", $disposisi5);
+                                                                } else {
+                                                                    $disposisi5_value = $disposisi5;
+                                                                }
+                                                                $disposisi5_value = str_replace("_", " ", $disposisi5_value); // menghilangkan underscore
+                                                                $disposisi5_value = ucwords($disposisi5_value); // mengubah huruf depan menjadi kapital
+                                                                echo $disposisi5_value;
+                                                            }
+                                                            ?>
+                                                        </span>
                                                     </div>
                                                     <div class="timestamp">
-                                                        <span class="date"><?php echo !empty($tanggal_disposisi5) ? $tanggal_disposisi5 : 'DD/MM/YYYY'; ?></span>
+                                                        <span class="date">
+                                                            <?php
+                                                            if (!empty($tanggal_disposisi5)) {
+                                                                echo $tanggal_disposisi5;
+                                                            } elseif (!empty($tanggal_eksekutor)) {
+                                                                echo $tanggal_eksekutor;
+                                                            } else {
+                                                                echo 'DD/MM/YYYY';
+                                                            }
+                                                            ?>
+                                                        </span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi5) ? $catatan_disposisi5 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi6) ? $disposisi6 : "Belum Diteruskan"; ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php
+                                                                                                    if (!empty($catatan_disposisi5)) {
+                                                                                                        echo $catatan_disposisi5;
+                                                                                                    } else {
+                                                                                                        if (empty($catatan_disposisi4)) {
+                                                                                                            echo "Tidak ada catatan";
+                                                                                                        } else {
+                                                                                                            if (!empty($catatan_selesai)) {
+                                                                                                                echo $catatan_selesai;
+                                                                                                            } else {
+                                                                                                                if (!empty($catatan_tolak)) {
+                                                                                                                    echo $catatan_tolak;
+                                                                                                                } else {
+                                                                                                                    echo "Tidak ada catatan";
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                    ?>',
+                                                        
+                                                        
+                                                                                                    '<?php
+                                                                                                        if (empty($disposisi6)) {
+                                                                                                            if (!empty($disposisi5)) {
+                                                                                                                $diteruskan_ke_array = json_decode($diteruskan_ke, true); // Decode JSON menjadi array
+                                                                                                                if (json_last_error() === JSON_ERROR_NONE) {
+                                                                                                                    // Iterasi setiap elemen dalam array untuk melakukan replace dan kapitalisasi
+                                                                                                                    foreach ($diteruskan_ke_array as &$value) {
+                                                                                                                        $value = str_replace("_", " ", $value);
+                                                                                                                        $value = ucwords($value);
+                                                                                                                    }
+                                                                                                                    echo implode(', ', $diteruskan_ke_array); // Gabungkan elemen array menjadi string
+                                                                                                                } else {
+                                                                                                                    // Jika bukan JSON yang valid, langsung tampilkan setelah replace dan kapitalisasi
+                                                                                                                    $diteruskan_ke = str_replace("_", " ", $diteruskan_ke);
+                                                                                                                    echo ucwords($diteruskan_ke);
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Belum didisposisi';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo $disposisi6;
+                                                                                                        }
+                                                                                                        ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
+
+                                                <!-- untuk lacak disposisi 6 -->
                                                 <div class="swiper-slide">
                                                     <div class="status">
-                                                        <span>Disposisi 6: <?php echo !empty($disposisi6) ? $disposisi6 : 'Belum Disposisi'; ?></span>
+                                                        <span>Disposisi 6:
+                                                            <?php //udah bener 
+                                                            if (empty($disposisi6)) {
+                                                                if (!empty($disposisi5)) {
+                                                                    if (is_string($diteruskan_ke) && is_array(json_decode($diteruskan_ke, true))) {
+                                                                        $decoded_array = json_decode($diteruskan_ke, true);
+                                                                        $diteruskan_ke_value = implode(", ", $decoded_array);
+                                                                    } elseif (is_array($diteruskan_ke)) {
+                                                                        $diteruskan_ke_value = implode(", ", $diteruskan_ke);
+                                                                    } else {
+                                                                        $diteruskan_ke_value = $diteruskan_ke;
+                                                                    }
+                                                                    $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value); // menghilangkan underscore
+                                                                    $diteruskan_ke_value = ucwords($diteruskan_ke_value); // mengubah huruf depan menjadi kapital
+                                                                    echo $diteruskan_ke_value;
+                                                                } else {
+                                                                    echo 'Belum didisposisi';
+                                                                }
+                                                            } else {
+                                                                if (is_string($disposisi6) && is_array(json_decode($disposisi6, true))) {
+                                                                    $decoded_array = json_decode($disposisi6, true);
+                                                                    $disposisi6_value = implode(", ", $decoded_array);
+                                                                } elseif (is_array($disposisi6)) {
+                                                                    $disposisi6_value = implode(", ", $disposisi6);
+                                                                } else {
+                                                                    $disposisi6_value = $disposisi6;
+                                                                }
+                                                                $disposisi6_value = str_replace("_", " ", $disposisi6_value); // menghilangkan underscore
+                                                                $disposisi6_value = ucwords($disposisi6_value); // mengubah huruf depan menjadi kapital
+                                                                echo $disposisi6_value;
+                                                            }
+                                                            ?>
+                                                        </span>
                                                     </div>
                                                     <div class="timestamp">
-                                                        <span class="date"><?php echo !empty($tanggal_disposisi6) ? $tanggal_disposisi6 : 'DD/MM/YYYY'; ?></span>
+                                                        <span class="date">
+                                                            <?php //udah bener
+                                                            if (!empty($tanggal_disposisi6)) {
+                                                                echo $tanggal_disposisi6;
+                                                            } elseif (!empty($tanggal_eksekutor)) {
+                                                                echo $tanggal_eksekutor;
+                                                            } else {
+                                                                echo 'DD/MM/YYYY';
+                                                            }
+                                                            ?>
+                                                        </span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi6) ? $catatan_disposisi6 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi7) ? $disposisi7 : "Belum Diteruskan"; ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php
+                                                                                                    if (!empty($catatan_disposisi6)) {
+                                                                                                        echo $catatan_disposisi6;
+                                                                                                    } else {
+                                                                                                        if (empty($catatan_disposisi5)) {
+                                                                                                            echo "Tidak ada catatan";
+                                                                                                        } else {
+                                                                                                            if (!empty($catatan_selesai)) {
+                                                                                                                echo $catatan_selesai;
+                                                                                                            } else {
+                                                                                                                if (!empty($catatan_tolak)) {
+                                                                                                                    echo $catatan_tolak;
+                                                                                                                } else {
+                                                                                                                    echo "Tidak ada catatan";
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                    ?>',
+                                                        
+                                                        
+                                                                                                    '<?php
+                                                                                                        if (empty($disposisi7)) {
+                                                                                                            if (!empty($disposisi6)) {
+                                                                                                                $diteruskan_ke_array = json_decode($diteruskan_ke, true); // Decode JSON menjadi array
+                                                                                                                if (json_last_error() === JSON_ERROR_NONE) {
+                                                                                                                    // Iterasi setiap elemen dalam array untuk melakukan replace dan kapitalisasi
+                                                                                                                    foreach ($diteruskan_ke_array as &$value) {
+                                                                                                                        $value = str_replace("_", " ", $value);
+                                                                                                                        $value = ucwords($value);
+                                                                                                                    }
+                                                                                                                    echo implode(', ', $diteruskan_ke_array); // Gabungkan elemen array menjadi string
+                                                                                                                } else {
+                                                                                                                    // Jika bukan JSON yang valid, langsung tampilkan setelah replace dan kapitalisasi
+                                                                                                                    $diteruskan_ke = str_replace("_", " ", $diteruskan_ke);
+                                                                                                                    echo ucwords($diteruskan_ke);
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Belum didisposisi';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo $disposisi7;
+                                                                                                        }
+                                                                                                        ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
+
+                                                <!-- untuk lacak disposisi 7 -->
                                                 <div class="swiper-slide">
                                                     <div class="status">
-                                                        <span>Disposisi 7: <?php echo !empty($disposisi7) ? $disposisi7 : 'Belum Disposisi'; ?></span>
+                                                        <span>Disposisi 7:
+                                                            <?php if (empty($disposisi7)) {
+                                                                if (!empty($disposisi6)) {
+                                                                    echo  $diteruskan_ke;
+                                                                } else {
+                                                                    echo 'Belum didisposisi';
+                                                                }
+                                                            } else {
+                                                                echo $disposisi7;
+                                                            }; ?>
+                                                        </span>
                                                     </div>
                                                     <div class="timestamp">
                                                         <span class="date"><?php echo !empty($tanggal_disposisi7) ? $tanggal_disposisi7 : 'DD/MM/YYYY'; ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi7) ? $catatan_disposisi7 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi8) ? $disposisi8 : "Belum Diteruskan"; ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php
+                                                                                                    if (!empty($catatan_disposisi7)) {
+                                                                                                        echo $catatan_disposisi7;
+                                                                                                    } else {
+                                                                                                        if (empty($catatan_disposisi6)) {
+                                                                                                            echo "Tidak ada catatan";
+                                                                                                        } else {
+                                                                                                            if (!empty($catatan_selesai)) {
+                                                                                                                echo $catatan_selesai;
+                                                                                                            } else {
+                                                                                                                if (!empty($catatan_tolak)) {
+                                                                                                                    echo $catatan_tolak;
+                                                                                                                } else {
+                                                                                                                    echo "Tidak ada catatan";
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                    ?>',
+                                                        
+                                                        
+                                                                                                    '<?php
+                                                                                                        if (empty($disposisi8)) {
+                                                                                                            if (!empty($disposisi7)) {
+                                                                                                                $diteruskan_ke_array = json_decode($diteruskan_ke, true); // Decode JSON menjadi array
+                                                                                                                if (json_last_error() === JSON_ERROR_NONE) {
+                                                                                                                    // Iterasi setiap elemen dalam array untuk melakukan replace dan kapitalisasi
+                                                                                                                    foreach ($diteruskan_ke_array as &$value) {
+                                                                                                                        $value = str_replace("_", " ", $value);
+                                                                                                                        $value = ucwords($value);
+                                                                                                                    }
+                                                                                                                    echo implode(', ', $diteruskan_ke_array); // Gabungkan elemen array menjadi string
+                                                                                                                } else {
+                                                                                                                    // Jika bukan JSON yang valid, langsung tampilkan setelah replace dan kapitalisasi
+                                                                                                                    $diteruskan_ke = str_replace("_", " ", $diteruskan_ke);
+                                                                                                                    echo ucwords($diteruskan_ke);
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Belum didisposisi';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo $disposisi8;
+                                                                                                        }
+                                                                                                        ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
+
+                                                <!-- untuk lacak disposisi 8 -->
                                                 <div class="swiper-slide">
                                                     <div class="status">
-                                                        <span>Disposisi 8: <?php echo !empty($disposisi8) ? $disposisi8 : 'Belum Disposisi'; ?></span>
+                                                        <span>Disposisi 8:
+                                                            <?php if (empty($disposisi8)) {
+                                                                if (!empty($disposisi7)) {
+                                                                    echo  $diteruskan_ke;
+                                                                } else {
+                                                                    echo 'Belum didisposisi';
+                                                                }
+                                                            } else {
+                                                                echo $disposisi8;
+                                                            }; ?>
+                                                        </span>
                                                     </div>
                                                     <div class="timestamp">
                                                         <span class="date"><?php echo !empty($tanggal_disposisi8) ? $tanggal_disposisi8 : 'DD/MM/YYYY'; ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi8) ? $catatan_disposisi8 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi9) ? $disposisi9 : "Belum Diteruskan"; ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php
+                                                                                                    if (!empty($catatan_disposisi8)) {
+                                                                                                        echo $catatan_disposisi8;
+                                                                                                    } else {
+                                                                                                        if (empty($catatan_disposisi7)) {
+                                                                                                            echo "Tidak ada catatan";
+                                                                                                        } else {
+                                                                                                            if (!empty($catatan_selesai)) {
+                                                                                                                echo $catatan_selesai;
+                                                                                                            } else {
+                                                                                                                if (!empty($catatan_tolak)) {
+                                                                                                                    echo $catatan_tolak;
+                                                                                                                } else {
+                                                                                                                    echo "Tidak ada catatan";
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                    ?>',
+                                                        
+                                                        
+                                                                                                    '<?php
+                                                                                                        if (empty($disposisi9)) {
+                                                                                                            if (!empty($disposisi8)) {
+                                                                                                                $diteruskan_ke_array = json_decode($diteruskan_ke, true); // Decode JSON menjadi array
+                                                                                                                if (json_last_error() === JSON_ERROR_NONE) {
+                                                                                                                    // Iterasi setiap elemen dalam array untuk melakukan replace dan kapitalisasi
+                                                                                                                    foreach ($diteruskan_ke_array as &$value) {
+                                                                                                                        $value = str_replace("_", " ", $value);
+                                                                                                                        $value = ucwords($value);
+                                                                                                                    }
+                                                                                                                    echo implode(', ', $diteruskan_ke_array); // Gabungkan elemen array menjadi string
+                                                                                                                } else {
+                                                                                                                    // Jika bukan JSON yang valid, langsung tampilkan setelah replace dan kapitalisasi
+                                                                                                                    $diteruskan_ke = str_replace("_", " ", $diteruskan_ke);
+                                                                                                                    echo ucwords($diteruskan_ke);
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Belum didisposisi';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo $disposisi9;
+                                                                                                        }
+                                                                                                        ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
+
+                                                <!-- untuk lacak disposisi 9-->
                                                 <div class="swiper-slide">
                                                     <div class="status">
-                                                        <span>Disposisi 9: <?php echo !empty($disposisi9) ? $disposisi9 : 'Belum Disposisi'; ?></span>
+                                                        <span>Disposisi 9:
+                                                            <?php if (empty($disposisi9)) {
+                                                                if (!empty($disposisi8)) {
+                                                                    echo  $diteruskan_ke;
+                                                                } else {
+                                                                    echo 'Belum didisposisi';
+                                                                }
+                                                            } else {
+                                                                echo $disposisi9;
+                                                            }; ?>
+                                                        </span>
                                                     </div>
                                                     <div class="timestamp">
                                                         <span class="date"><?php echo !empty($tanggal_disposisi9) ? $tanggal_disposisi9 : 'DD/MM/YYYY'; ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi9) ? $catatan_disposisi9 : "Tidak ada catatan"; ?>', '<?php echo !empty($disposisi10) ? $disposisi10 : "Belum Diteruskan"; ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        <button type="button" onclick="cekCatatan('<?php
+                                                                                                    if (!empty($catatan_disposisi9)) {
+                                                                                                        echo $catatan_disposisi9;
+                                                                                                    } else {
+                                                                                                        if (empty($catatan_disposisi8)) {
+                                                                                                            echo "Tidak ada catatan";
+                                                                                                        } else {
+                                                                                                            if (!empty($catatan_selesai)) {
+                                                                                                                echo $catatan_selesai;
+                                                                                                            } else {
+                                                                                                                if (!empty($catatan_tolak)) {
+                                                                                                                    echo $catatan_tolak;
+                                                                                                                } else {
+                                                                                                                    echo "Tidak ada catatan";
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                    ?>',
+                                                        
+                                                        
+                                                                                                    '<?php
+                                                                                                        if (empty($disposisi10)) {
+                                                                                                            if (!empty($disposisi9)) {
+                                                                                                                $diteruskan_ke_array = json_decode($diteruskan_ke, true); // Decode JSON menjadi array
+                                                                                                                if (json_last_error() === JSON_ERROR_NONE) {
+                                                                                                                    // Iterasi setiap elemen dalam array untuk melakukan replace dan kapitalisasi
+                                                                                                                    foreach ($diteruskan_ke_array as &$value) {
+                                                                                                                        $value = str_replace("_", " ", $value);
+                                                                                                                        $value = ucwords($value);
+                                                                                                                    }
+                                                                                                                    echo implode(', ', $diteruskan_ke_array); // Gabungkan elemen array menjadi string
+                                                                                                                } else {
+                                                                                                                    // Jika bukan JSON yang valid, langsung tampilkan setelah replace dan kapitalisasi
+                                                                                                                    $diteruskan_ke = str_replace("_", " ", $diteruskan_ke);
+                                                                                                                    echo ucwords($diteruskan_ke);
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                echo 'Belum didisposisi';
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo $disposisi10;
+                                                                                                        }
+                                                                                                        ?>')" style="cursor: pointer;">Cek Catatan</button>
                                                     </div>
                                                 </div>
+
+
+                                                <!-- untuk lacak disposisi 10-->
                                                 <div class="swiper-slide">
                                                     <div class="status">
                                                         <span>Disposisi 10: <?php echo !empty($disposisi10) ? $disposisi10 : 'Belum Disposisi'; ?></span>

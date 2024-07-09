@@ -65,7 +65,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                         
                         <div class="search-box">
                             <form method="GET">
-                                <input type="text" placeholder="Search.." name="search" id="search">
+                                <input type="text" placeholder="Search..." name="search" id="search">
                             </form>
                         </div>
                     </div>
