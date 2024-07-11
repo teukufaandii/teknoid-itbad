@@ -72,8 +72,7 @@ if (!isset($_SESSION['pengguna_type'])) {
 
                             // pengaturan baris
                             $start = 0;
-                            $rows_per_page = 50;
-
+                            $rows_per_page = 20;
                             $akses = $_SESSION['akses'];
                             $jabatan = $_SESSION['jabatan'];
 
@@ -83,7 +82,8 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                                         d.dispo1, d.dispo2, d.dispo3, d.dispo4, d.dispo5
                                                                         FROM tb_surat_dis sd
                                                                         LEFT JOIN tb_disposisi d ON sd.id_surat = d.id_surat
-                                                                        WHERE JSON_CONTAINS(sd.diteruskan_ke, '\"$akses\"') OR sd.diteruskan_ke = '$akses'");
+                                                                        WHERE JSON_CONTAINS(sd.diteruskan_ke, '\"$akses\"') OR sd.diteruskan_ke = '$akses'
+                                                                        OR d.dispo1 = '$jabatan' || d.dispo2 = '$jabatan' || d.dispo3 = '$jabatan' || d.dispo4 = '$jabatan' || d.dispo5 = '$jabatan'");
 
                             $nr_of_rows = $records->num_rows;
 

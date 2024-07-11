@@ -92,7 +92,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                     
                                     // pengaturan baris
                                     $start = 0;
-                                    $rows_per_page = 10;
+                                    $rows_per_page = 20;
                                     $fullname = $_SESSION['nama_lengkap'];
                                     
                                     // total nomor baris

@@ -72,7 +72,7 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
                 mysqli_stmt_close($stmt2);
             } else {
                 // Jika entri belum ada, tambahkan kolom baru untuk id_surat ini
-                $insert_query = "INSERT INTO tb_disposisi (id_surat, catatan_tolak, nama_penolak, dispo1) VALUES (?, ?, ?, ?)";
+                $insert_query = "INSERT INTO tb_disposisi (id_surat, catatan_tolak, nama_penolak, dispo1, tanggal_eksekutor) VALUES (?, ?, ?, ?, NOW())";
                 $stmt_insert = mysqli_prepare($koneksi, $insert_query);
                 mysqli_stmt_bind_param($stmt_insert, "isss", $id, $catatan, $executor, $session_jabatan);
 

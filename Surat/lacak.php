@@ -228,7 +228,15 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                         <span>Disposisi 1: <?php echo !empty($disposisi1) ? $disposisi1 : 'Belum Disposisi'; ?></span>
                                                     </div>
                                                     <div class="timestamp">
-                                                        <span class="date"><?php echo !empty($tanggal_disposisi1) ? $tanggal_disposisi1 : 'DD/MM/YYYY'; ?></span>
+                                                        <span class="date"><?php //ok
+                                                                            if (!empty($tanggal_disposisi1)) {
+                                                                                echo $tanggal_disposisi1;
+                                                                            } elseif (!empty($tanggal_eksekutor)) {
+                                                                                echo $tanggal_eksekutor;
+                                                                            } else {
+                                                                                echo 'DD/MM/YYYY';
+                                                                            }
+                                                                            ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
                                                         <button type="button" onclick="cekCatatan('<?php
@@ -253,21 +261,37 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                 <div class="swiper-slide">
                                                     <div class="status">
                                                         <span>Disposisi 2:
-                                                            <?php
+                                                            <?php //ok 
                                                             if (empty($disposisi2)) {
                                                                 if (!empty($disposisi1)) {
-                                                                    echo  $diteruskan_ke;
+                                                                    $output = print_r($diteruskan_ke, true);
+                                                                    $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                    $output = str_replace('_', ' ', $output);
+                                                                    echo ucwords($output);
                                                                 } else {
                                                                     echo 'Belum didisposisi';
                                                                 }
                                                             } else {
-                                                                echo $disposisi2;
+                                                                $output = print_r($disposisi2, true);
+                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                $output = str_replace('_', ' ', $output);
+                                                                echo ucwords($output);
                                                             }
                                                             ?>
                                                         </span>
                                                     </div>
                                                     <div class="timestamp">
-                                                        <span class="date"><?php echo !empty($tanggal_disposisi2) ? $tanggal_disposisi2 : 'DD/MM/YYYY'; ?></span>
+                                                        <span class="date">
+                                                            <?php //ok
+                                                            if (!empty($tanggal_disposisi2)) {
+                                                                echo $tanggal_disposisi2;
+                                                            } elseif (!empty($tanggal_disposisi1)) {
+                                                                echo $tanggal_eksekutor;
+                                                            } else {
+                                                                echo 'DD/MM/YYYY';
+                                                            }
+                                                            ?>
+                                                        </span>
                                                     </div>
                                                     <div class="btn-catatan">
                                                         <button type="button" onclick="cekCatatan('<?php
@@ -321,21 +345,37 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                 <div class="swiper-slide">
                                                     <div class="status">
                                                         <span>Disposisi 3:
-                                                            <?php
+                                                            <?php //ok 
                                                             if (empty($disposisi3)) {
                                                                 if (!empty($disposisi2)) {
-                                                                    echo $diteruskan_ke;
+                                                                    $output = print_r($diteruskan_ke, true);
+                                                                    $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                    $output = str_replace('_', ' ', $output);
+                                                                    echo ucwords($output);
                                                                 } else {
                                                                     echo 'Belum didisposisi';
                                                                 }
                                                             } else {
-                                                                echo $disposisi3;
+                                                                $output = print_r($disposisi3, true);
+                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                $output = str_replace('_', ' ', $output);
+                                                                echo ucwords($output);
                                                             }
                                                             ?>
                                                         </span>
                                                     </div>
                                                     <div class="timestamp">
-                                                        <span class="date"><?php echo !empty($tanggal_disposisi3) ? $tanggal_disposisi3 : 'DD/MM/YYYY'; ?></span>
+                                                        <span class="date">
+                                                            <?php //ok
+                                                            if (!empty($tanggal_disposisi3)) {
+                                                                echo $tanggal_disposisi3;
+                                                            } elseif (!empty($tanggal_disposisi2)) {
+                                                                echo $tanggal_eksekutor;
+                                                            } else {
+                                                                echo 'DD/MM/YYYY';
+                                                            }
+                                                            ?>
+                                                        </span>
                                                     </div>
                                                     <div class="btn-catatan">
                                                         <button type="button" onclick="cekCatatan('<?php
@@ -388,21 +428,37 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                 <div class="swiper-slide">
                                                     <div class="status">
                                                         <span>Disposisi 4:
-                                                            <?php
+                                                            <?php //ok 
                                                             if (empty($disposisi4)) {
                                                                 if (!empty($disposisi3)) {
-                                                                    echo $diteruskan_ke;
+                                                                    $output = print_r($diteruskan_ke, true);
+                                                                    $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                    $output = str_replace('_', ' ', $output);
+                                                                    echo ucwords($output);
                                                                 } else {
                                                                     echo 'Belum didisposisi';
                                                                 }
                                                             } else {
-                                                                echo $disposisi4;
+                                                                $output = print_r($disposisi4, true);
+                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                $output = str_replace('_', ' ', $output);
+                                                                echo ucwords($output);
                                                             }
                                                             ?>
                                                         </span>
                                                     </div>
                                                     <div class="timestamp">
-                                                        <span class="date"><?php echo !empty($tanggal_disposisi4) ? $tanggal_disposisi4 : 'DD/MM/YYYY'; ?></span>
+                                                        <span class="date">
+                                                            <?php //ok
+                                                            if (!empty($tanggal_disposisi4)) {
+                                                                echo $tanggal_disposisi4;
+                                                            } elseif (!empty($tanggal_disposisi3)) {
+                                                                echo $tanggal_eksekutor;
+                                                            } else {
+                                                                echo 'DD/MM/YYYY';
+                                                            }
+                                                            ?>
+                                                        </span>
                                                     </div>
                                                     <div class="btn-catatan">
                                                         <button type="button" onclick="cekCatatan('<?php
@@ -456,45 +512,31 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                 <div class="swiper-slide">
                                                     <div class="status">
                                                         <span> Disposisi 5 :
-                                                            <?php
+                                                            <?php //ok 
                                                             if (empty($disposisi5)) {
                                                                 if (!empty($disposisi4)) {
-                                                                    if (is_string($diteruskan_ke) && is_array(json_decode($diteruskan_ke, true))) {
-                                                                        $decoded_array = json_decode($diteruskan_ke, true);
-                                                                        $diteruskan_ke_value = implode(", ", $decoded_array);
-                                                                    } elseif (is_array($diteruskan_ke)) {
-                                                                        $diteruskan_ke_value = implode(", ", $diteruskan_ke);
-                                                                    } else {
-                                                                        $diteruskan_ke_value = $diteruskan_ke;
-                                                                    }
-                                                                    $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value); // menghilangkan underscore
-                                                                    $diteruskan_ke_value = ucwords($diteruskan_ke_value); // mengubah huruf depan menjadi kapital
-                                                                    echo $diteruskan_ke_value;
+                                                                    $output = print_r($diteruskan_ke, true);
+                                                                    $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                    $output = str_replace('_', ' ', $output);
+                                                                    echo ucwords($output);
                                                                 } else {
                                                                     echo 'Belum didisposisi';
                                                                 }
                                                             } else {
-                                                                if (is_string($disposisi5) && is_array(json_decode($disposisi5, true))) {
-                                                                    $decoded_array = json_decode($disposisi5, true);
-                                                                    $disposisi5_value = implode(", ", $decoded_array);
-                                                                } elseif (is_array($disposisi5)) {
-                                                                    $disposisi5_value = implode(", ", $disposisi5);
-                                                                } else {
-                                                                    $disposisi5_value = $disposisi5;
-                                                                }
-                                                                $disposisi5_value = str_replace("_", " ", $disposisi5_value); // menghilangkan underscore
-                                                                $disposisi5_value = ucwords($disposisi5_value); // mengubah huruf depan menjadi kapital
-                                                                echo $disposisi5_value;
+                                                                $output = print_r($disposisi5, true);
+                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                $output = str_replace('_', ' ', $output);
+                                                                echo ucwords($output);
                                                             }
                                                             ?>
                                                         </span>
                                                     </div>
                                                     <div class="timestamp">
                                                         <span class="date">
-                                                            <?php
+                                                            <?php //ok
                                                             if (!empty($tanggal_disposisi5)) {
                                                                 echo $tanggal_disposisi5;
-                                                            } elseif (!empty($tanggal_eksekutor)) {
+                                                            } elseif (!empty($tanggal_disposisi4)) {
                                                                 echo $tanggal_eksekutor;
                                                             } else {
                                                                 echo 'DD/MM/YYYY';
@@ -554,45 +596,31 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                 <div class="swiper-slide">
                                                     <div class="status">
                                                         <span>Disposisi 6:
-                                                            <?php //udah bener 
+                                                            <?php //ok 
                                                             if (empty($disposisi6)) {
                                                                 if (!empty($disposisi5)) {
-                                                                    if (is_string($diteruskan_ke) && is_array(json_decode($diteruskan_ke, true))) {
-                                                                        $decoded_array = json_decode($diteruskan_ke, true);
-                                                                        $diteruskan_ke_value = implode(", ", $decoded_array);
-                                                                    } elseif (is_array($diteruskan_ke)) {
-                                                                        $diteruskan_ke_value = implode(", ", $diteruskan_ke);
-                                                                    } else {
-                                                                        $diteruskan_ke_value = $diteruskan_ke;
-                                                                    }
-                                                                    $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value); // menghilangkan underscore
-                                                                    $diteruskan_ke_value = ucwords($diteruskan_ke_value); // mengubah huruf depan menjadi kapital
-                                                                    echo $diteruskan_ke_value;
+                                                                    $output = print_r($diteruskan_ke, true);
+                                                                    $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                    $output = str_replace('_', ' ', $output);
+                                                                    echo ucwords($output);
                                                                 } else {
                                                                     echo 'Belum didisposisi';
                                                                 }
                                                             } else {
-                                                                if (is_string($disposisi6) && is_array(json_decode($disposisi6, true))) {
-                                                                    $decoded_array = json_decode($disposisi6, true);
-                                                                    $disposisi6_value = implode(", ", $decoded_array);
-                                                                } elseif (is_array($disposisi6)) {
-                                                                    $disposisi6_value = implode(", ", $disposisi6);
-                                                                } else {
-                                                                    $disposisi6_value = $disposisi6;
-                                                                }
-                                                                $disposisi6_value = str_replace("_", " ", $disposisi6_value); // menghilangkan underscore
-                                                                $disposisi6_value = ucwords($disposisi6_value); // mengubah huruf depan menjadi kapital
-                                                                echo $disposisi6_value;
+                                                                $output = print_r($disposisi6, true);
+                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                $output = str_replace('_', ' ', $output);
+                                                                echo ucwords($output);
                                                             }
                                                             ?>
                                                         </span>
                                                     </div>
                                                     <div class="timestamp">
                                                         <span class="date">
-                                                            <?php //udah bener
+                                                            <?php
                                                             if (!empty($tanggal_disposisi6)) {
                                                                 echo $tanggal_disposisi6;
-                                                            } elseif (!empty($tanggal_eksekutor)) {
+                                                            } elseif (!empty($tanggal_disposisi5)) {
                                                                 echo $tanggal_eksekutor;
                                                             } else {
                                                                 echo 'DD/MM/YYYY';
@@ -652,19 +680,37 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                 <div class="swiper-slide">
                                                     <div class="status">
                                                         <span>Disposisi 7:
-                                                            <?php if (empty($disposisi7)) {
+                                                            <?php //ok 
+                                                            if (empty($disposisi7)) {
                                                                 if (!empty($disposisi6)) {
-                                                                    echo  $diteruskan_ke;
+                                                                    $output = print_r($diteruskan_ke, true);
+                                                                    $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                    $output = str_replace('_', ' ', $output);
+                                                                    echo ucwords($output);
                                                                 } else {
                                                                     echo 'Belum didisposisi';
                                                                 }
                                                             } else {
-                                                                echo $disposisi7;
-                                                            }; ?>
+                                                                $output = print_r($disposisi7, true);
+                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                $output = str_replace('_', ' ', $output);
+                                                                echo ucwords($output);
+                                                            }
+                                                            ?>
                                                         </span>
                                                     </div>
                                                     <div class="timestamp">
-                                                        <span class="date"><?php echo !empty($tanggal_disposisi7) ? $tanggal_disposisi7 : 'DD/MM/YYYY'; ?></span>
+                                                        <span class="date">
+                                                            <?php //ok
+                                                            if (!empty($tanggal_disposisi7)) {
+                                                                echo $tanggal_disposisi7;
+                                                            } elseif (!empty($tanggal_disposisi6)) {
+                                                                echo $tanggal_eksekutor;
+                                                            } else {
+                                                                echo 'DD/MM/YYYY';
+                                                            }
+                                                            ?>
+                                                        </span>
                                                     </div>
                                                     <div class="btn-catatan">
                                                         <button type="button" onclick="cekCatatan('<?php
@@ -718,19 +764,37 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                 <div class="swiper-slide">
                                                     <div class="status">
                                                         <span>Disposisi 8:
-                                                            <?php if (empty($disposisi8)) {
+                                                            <?php //ok 
+                                                            if (empty($disposisi8)) {
                                                                 if (!empty($disposisi7)) {
-                                                                    echo  $diteruskan_ke;
+                                                                    $output = print_r($diteruskan_ke, true);
+                                                                    $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                    $output = str_replace('_', ' ', $output);
+                                                                    echo ucwords($output);
                                                                 } else {
                                                                     echo 'Belum didisposisi';
                                                                 }
                                                             } else {
-                                                                echo $disposisi8;
-                                                            }; ?>
+                                                                $output = print_r($disposisi8, true);
+                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                $output = str_replace('_', ' ', $output);
+                                                                echo ucwords($output);
+                                                            }
+                                                            ?>
                                                         </span>
                                                     </div>
                                                     <div class="timestamp">
-                                                        <span class="date"><?php echo !empty($tanggal_disposisi8) ? $tanggal_disposisi8 : 'DD/MM/YYYY'; ?></span>
+                                                        <span class="date">
+                                                            <?php //ok
+                                                            if (!empty($tanggal_disposisi8)) {
+                                                                echo $tanggal_disposisi8;
+                                                            } elseif (!empty($tanggal_disposisi7)) {
+                                                                echo $tanggal_eksekutor;
+                                                            } else {
+                                                                echo 'DD/MM/YYYY';
+                                                            }
+                                                            ?>
+                                                        </span>
                                                     </div>
                                                     <div class="btn-catatan">
                                                         <button type="button" onclick="cekCatatan('<?php
@@ -784,19 +848,36 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                 <div class="swiper-slide">
                                                     <div class="status">
                                                         <span>Disposisi 9:
-                                                            <?php if (empty($disposisi9)) {
+                                                            <?php //ok 
+                                                            if (empty($disposisi9)) {
                                                                 if (!empty($disposisi8)) {
-                                                                    echo  $diteruskan_ke;
+                                                                    $output = print_r($diteruskan_ke, true);
+                                                                    $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                    $output = str_replace('_', ' ', $output);
+                                                                    echo ucwords($output);
                                                                 } else {
                                                                     echo 'Belum didisposisi';
                                                                 }
                                                             } else {
-                                                                echo $disposisi9;
-                                                            }; ?>
+                                                                $output = print_r($disposisi9, true);
+                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                $output = str_replace('_', ' ', $output);
+                                                                echo ucwords($output);
+                                                            }
+                                                            ?>
                                                         </span>
                                                     </div>
                                                     <div class="timestamp">
-                                                        <span class="date"><?php echo !empty($tanggal_disposisi9) ? $tanggal_disposisi9 : 'DD/MM/YYYY'; ?></span>
+                                                        <span class="date"><?php //ok
+                                                                            if (!empty($tanggal_disposisi9)) {
+                                                                                echo $tanggal_disposisi9;
+                                                                            } elseif (!empty($tanggal_disposisi8)) {
+                                                                                echo $tanggal_eksekutor;
+                                                                            } else {
+                                                                                echo 'DD/MM/YYYY';
+                                                                            }
+                                                                            ?>
+                                                        </span>
                                                     </div>
                                                     <div class="btn-catatan">
                                                         <button type="button" onclick="cekCatatan('<?php
@@ -850,10 +931,36 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                 <!-- untuk lacak disposisi 10-->
                                                 <div class="swiper-slide">
                                                     <div class="status">
-                                                        <span>Disposisi 10: <?php echo !empty($disposisi10) ? $disposisi10 : 'Belum Disposisi'; ?></span>
+                                                        <span>Disposisi 10:
+                                                            <?php //ok 
+                                                            if (empty($disposisi10)) {
+                                                                if (!empty($disposisi9)) {
+                                                                    $output = print_r($diteruskan_ke, true);
+                                                                    $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                    $output = str_replace('_', ' ', $output);
+                                                                    echo ucwords($output);
+                                                                } else {
+                                                                    echo 'Belum didisposisi';
+                                                                }
+                                                            } else {
+                                                                $output = print_r($disposisi10, true);
+                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                $output = str_replace('_', ' ', $output);
+                                                                echo ucwords($output);
+                                                            }
+                                                            ?>
+                                                        </span>
                                                     </div>
                                                     <div class="timestamp">
-                                                        <span class="date"><?php echo !empty($tanggal_disposisi10) ? $tanggal_disposisi10 : 'DD/MM/YYYY'; ?></span>
+                                                        <span class="date"><?php //ok
+                                                                            if (!empty($tanggal_disposisi10)) {
+                                                                                echo $tanggal_disposisi10;
+                                                                            } elseif (!empty($tanggal_disposisi9)) {
+                                                                                echo $tanggal_eksekutor;
+                                                                            } else {
+                                                                                echo 'DD/MM/YYYY';
+                                                                            }
+                                                                            ?></span>
                                                     </div>
                                                     <div class="btn-catatan">
                                                         <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi10) ? $catatan_disposisi10 : "Tidak ada catatan"; ?>')" style="cursor: pointer;">Cek Catatan</button>
