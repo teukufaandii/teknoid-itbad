@@ -31,6 +31,8 @@ if (!isset($_SESSION['pengguna_type'])) {
     <!-- sidenav -->
     <?php include "sidenav.php" ?>
 
+    
+
     <!-- content -->
     <div class="content" id="Content">
         <!-- topnav -->
@@ -114,14 +116,17 @@ if (!isset($_SESSION['pengguna_type'])) {
                     <?php
                     $fullname = $_SESSION['nama_lengkap'];
                     $records = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_surat_dis
-                                                            WHERE tb_surat_dis.asal_surat = '$fullname' ");
+                                WHERE tb_surat_dis.asal_surat = '$fullname'");
                     $total_sk_row = mysqli_fetch_assoc($records);
                     $total_sk = $total_sk_row['total'];
                     ?>
-                    <button onclick="window.location.href='surat_keluar.php'" class="btn4">Surat Keluar
-                        <i class="fa fa-envelope-open dash-icon"></i><br>
-                        <span class="badge" id="" style="color: grey; padding: 2px; border-radius: 15px;"><?php echo $total_sk; ?></span>
-                    </button>
+
+                    <?php if ($_SESSION['akses'] != 'Rektor' && $_SESSION['akses'] != 'Warek1' && $_SESSION['akses'] != 'Warek2' && $_SESSION['akses'] != 'Warek3') : ?>
+                        <button onclick="window.location.href='surat_keluar.php'" class="btn4">Surat Keluar
+                            <i class="fa fa-envelope-open dash-icon"></i><br>
+                            <span class="badge" id="" style="color: grey; padding: 2px; border-radius: 15px;"><?php echo $total_sk; ?></span>
+                        </button>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

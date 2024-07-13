@@ -27,6 +27,7 @@ if (!isset($_SESSION['pengguna_type'])) {
     <script type="text/javascript" src="tablesorter/jquery.tablesorter.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -79,11 +80,12 @@ if (!isset($_SESSION['pengguna_type'])) {
                             // Perhatikan penambahan kurung pada kueri SQL berikut
                             $records = mysqli_query($conn, "SELECT sd.id_surat, sd.kode_surat, sd.kd_surat, sd.asal_surat,
                                                                         sd.perihal, sd.diteruskan_ke, sd.status_baca, sd.status_tolak, sd.status_selesai,
-                                                                        d.dispo1, d.dispo2, d.dispo3, d.dispo4, d.dispo5
+                                                                        d.dispo1, d.dispo2, d.dispo3, d.dispo4, d.dispo5 
                                                                         FROM tb_surat_dis sd
                                                                         LEFT JOIN tb_disposisi d ON sd.id_surat = d.id_surat
                                                                         WHERE JSON_CONTAINS(sd.diteruskan_ke, '\"$akses\"') OR sd.diteruskan_ke = '$akses'
-                                                                        OR d.dispo1 = '$jabatan' || d.dispo2 = '$jabatan' || d.dispo3 = '$jabatan' || d.dispo4 = '$jabatan' || d.dispo5 = '$jabatan'");
+                                                                        OR d.dispo1 = '$jabatan' || d.dispo2 = '$jabatan' || d.dispo3 = '$jabatan' || d.dispo4 = '$jabatan' || d.dispo5 = '$jabatan'
+                                                                        ORDER BY sd.id_surat ASC");
 
                             $nr_of_rows = $records->num_rows;
 

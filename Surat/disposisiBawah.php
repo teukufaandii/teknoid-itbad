@@ -11,97 +11,7 @@
                       <h3>Disposisi</h3>
                   </div>
 
-                  <div class="input-disposisi">
-                      <label for="disposisi"></label>
-                      <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                          <div class="info-disposisi">
-                              <span>Disposisi 1 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo1']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi1']; ?>" readonly><br>
-                              <span>Disposisi 2 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo2']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi2']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi2']; ?>" readonly><br>
-                              <span>Disposisi 3 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo3']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi3']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi3']; ?>" readonly><br>
-                              <span>Disposisi 4 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo4']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi4']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi4']; ?>" readonly><br>
-                              <span>Disposisi 5 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo5']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi5']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi5']; ?>" readonly><br>
-                              <span>Disposisi 6 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo6']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi6']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi6']; ?>" readonly><br>
-                              <span>Disposisi 7 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo7']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi7']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi7']; ?>" readonly><br>
-                              <span>Disposisi 8 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo8']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi8']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi8']; ?>" readonly><br>
-                              <span>Disposisi 9 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo9']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi9']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi9']; ?>" readonly><br>
-                              <span>Disposisi 10 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo10']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
-                              <span>Posisi Surat Saat Ini :</span>
-                              <?php
-                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
-                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
-                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
-                                    // Mengonversi array menjadi string
-                                    $diteruskan_ke_value = implode(", ", $decoded_array);
-                                } elseif (is_array($row['diteruskan_ke'])) {
-                                    // Jika sudah berupa array PHP
-                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
-                                } else {
-                                    // Jika bukan array, langsung ambil nilainya
-                                    $diteruskan_ke_value = $row['diteruskan_ke'];
-                                }
-
-                                // Mengganti karakter "_" dengan spasi
-                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
-
-                                // Membuat huruf awal setiap kata menjadi kapital
-                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
-                                ?>
-                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
-
-
-                          </div>
-                      <?php } ?>
-                  </div>
+                  <?php include 'riwayat_dispo.php'; ?>
 
                   <div class="input-disposisi">
                       <label for="">Diteruskan kepada</label>
@@ -117,6 +27,10 @@
                           <div>
                               <input type="radio" name="diteruskan" value="Warek3">
                               <label for="">Warek 3</label>
+                          </div>
+                          <div>
+                              <input type="radio" name="diteruskan" value="sekretaris">
+                              <label for="">Sekretaris</label>
                           </div>
                       </div>
                   </div>
@@ -154,7 +68,7 @@
 
                   <div class="input-disposisi">
                       <label for="">Catatan Disposisi*</label>
-                      <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi">
+                      <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi" required>
                   </div>
                   <div class="input-disposisi">
                       <label for="">Tanggal Disposisi</label>
@@ -316,97 +230,8 @@
                       <h3>Disposisi</h3>
                   </div>
 
-                  <div class="input-disposisi">
-                      <label for="disposisi">Riwayat Disposisi</label>
-                      <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                          <div class="info-disposisi">
-                              <span>Disposisi 1 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo1']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi1']; ?>" readonly><br>
-                              <span>Disposisi 2 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo2']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi2']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi2']; ?>" readonly><br>
-                              <span>Disposisi 3 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo3']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi3']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi3']; ?>" readonly><br>
-                              <span>Disposisi 4 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo4']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi4']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi4']; ?>" readonly><br>
-                              <span>Disposisi 5 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo5']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi5']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi5']; ?>" readonly><br>
-                              <span>Disposisi 6 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo6']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi6']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi6']; ?>" readonly><br>
-                              <span>Disposisi 7 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo7']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi7']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi7']; ?>" readonly><br>
-                              <span>Disposisi 8 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo8']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi8']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi8']; ?>" readonly><br>
-                              <span>Disposisi 9 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo9']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi9']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi9']; ?>" readonly><br>
-                              <span>Disposisi 10 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo10']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
-                              <span>Posisi Surat Saat Ini :</span>
-                              <?php
-                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
-                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
-                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
-                                    // Mengonversi array menjadi string
-                                    $diteruskan_ke_value = implode(", ", $decoded_array);
-                                } elseif (is_array($row['diteruskan_ke'])) {
-                                    // Jika sudah berupa array PHP
-                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
-                                } else {
-                                    // Jika bukan array, langsung ambil nilainya
-                                    $diteruskan_ke_value = $row['diteruskan_ke'];
-                                }
+                  <?php include 'riwayat_dispo.php'; ?>
 
-                                // Mengganti karakter "_" dengan spasi
-                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
-
-                                // Membuat huruf awal setiap kata menjadi kapital
-                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
-                                ?>
-
-                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
-
-                          </div>
-                      <?php } ?>
-                  </div>
                   <div class="input-disposisi">
                       <label for="">Keputusan Warek 1*</label>
                       <div class="radio">
@@ -433,7 +258,7 @@
 
                   <div class="input-disposisi">
                       <label for="">Catatan Disposisi*</label>
-                      <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi">
+                      <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi" required>
                   </div>
                   <div class="input-disposisi">
                       <label for="">Diteruskan kepada<br></label>
@@ -445,6 +270,10 @@
                           <div>
                               <input type="checkbox" name="diteruskan[]" value="Warek3">
                               <label for="">Warek 3</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan" value="sekretaris">
+                              <label for="">Sekretaris</label>
                           </div>
                           <div>
                               <input type="checkbox" name="diteruskan[]" value="DekanFEB">
@@ -714,95 +543,8 @@
                       <h3>Disposisi</h3>
                   </div>
 
-                  <div class="input-disposisi">
-                      <label for="disposisi">Riwayat Disposisi</label>
-                      <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                          <div class="info-disposisi">
-                              <span>Disposisi 1 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo1']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi1']; ?>" readonly><br>
-                              <span>Disposisi 2 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo2']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi2']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi2']; ?>" readonly><br>
-                              <span>Disposisi 3 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo3']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi3']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi3']; ?>" readonly><br>
-                              <span>Disposisi 4 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo4']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi4']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi4']; ?>" readonly><br>
-                              <span>Disposisi 5 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo5']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi5']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi5']; ?>" readonly><br>
-                              <span>Disposisi 6 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo6']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi6']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi6']; ?>" readonly><br>
-                              <span>Disposisi 7 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo7']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi7']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi7']; ?>" readonly><br>
-                              <span>Disposisi 8 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo8']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi8']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi8']; ?>" readonly><br>
-                              <span>Disposisi 9 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo9']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi9']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi9']; ?>" readonly><br>
-                              <span>Disposisi 10 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo10']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
-                              <span>Posisi Surat Saat Ini :</span>
-                              <?php
-                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
-                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
-                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
-                                    // Mengonversi array menjadi string
-                                    $diteruskan_ke_value = implode(", ", $decoded_array);
-                                } elseif (is_array($row['diteruskan_ke'])) {
-                                    // Jika sudah berupa array PHP
-                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
-                                } else {
-                                    // Jika bukan array, langsung ambil nilainya
-                                    $diteruskan_ke_value = $row['diteruskan_ke'];
-                                }
+                  <?php include 'riwayat_dispo.php'; ?>
 
-                                // Mengganti karakter "_" dengan spasi
-                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
-
-                                // Membuat huruf awal setiap kata menjadi kapital
-                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
-                                ?>
-                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
-                          </div>
-                      <?php } ?>
-                  </div>
                   <div class="input-disposisi">
                       <label for="">Keputusan Warek 2*</label>
                       <div class="radio">
@@ -829,7 +571,7 @@
 
                   <div class="input-disposisi">
                       <label for="">Catatan Disposisi*</label>
-                      <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi">
+                      <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi" required>
                   </div>
                   <div class="input-disposisi">
                       <label for="">Diteruskan kepada<br></label>
@@ -841,6 +583,10 @@
                           <div>
                               <input type="radio" name="diteruskan" value="Warek3">
                               <label for="">Warek 3</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan" value="sekretaris">
+                              <label for="">Sekretaris</label>
                           </div>
                           <div>
                               <input type="radio" name="diteruskan" value="DekanFEB">
@@ -1094,95 +840,8 @@
                       <h3>Disposisi</h3>
                   </div>
 
-                  <div class="input-disposisi">
-                      <label for="disposisi">Riwayat Disposisi</label>
-                      <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                          <div class="info-disposisi">
-                              <span>Disposisi 1 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo1']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi1']; ?>" readonly><br>
-                              <span>Disposisi 2 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo2']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi2']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi2']; ?>" readonly><br>
-                              <span>Disposisi 3 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo3']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi3']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi3']; ?>" readonly><br>
-                              <span>Disposisi 4 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo4']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi4']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi4']; ?>" readonly><br>
-                              <span>Disposisi 5 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo5']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi5']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi5']; ?>" readonly><br>
-                              <span>Disposisi 6 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo6']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi6']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi6']; ?>" readonly><br>
-                              <span>Disposisi 7 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo7']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi7']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi7']; ?>" readonly><br>
-                              <span>Disposisi 8 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo8']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi8']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi8']; ?>" readonly><br>
-                              <span>Disposisi 9 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo9']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi9']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi9']; ?>" readonly><br>
-                              <span>Disposisi 10 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo10']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
-                              <span>Posisi Surat Saat Ini :</span>
-                              <?php
-                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
-                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
-                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
-                                    // Mengonversi array menjadi string
-                                    $diteruskan_ke_value = implode(", ", $decoded_array);
-                                } elseif (is_array($row['diteruskan_ke'])) {
-                                    // Jika sudah berupa array PHP
-                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
-                                } else {
-                                    // Jika bukan array, langsung ambil nilainya
-                                    $diteruskan_ke_value = $row['diteruskan_ke'];
-                                }
+                  <?php include 'riwayat_dispo.php'; ?>
 
-                                // Mengganti karakter "_" dengan spasi
-                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
-
-                                // Membuat huruf awal setiap kata menjadi kapital
-                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
-                                ?>
-                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
-                          </div>
-                      <?php } ?>
-                  </div>
                   <div class="input-disposisi">
                       <label for="">Keputusan Warek 3*</label>
                       <div class="radio">
@@ -1209,7 +868,7 @@
 
                   <div class="input-disposisi">
                       <label for="">Catatan Disposisi*</label>
-                      <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi">
+                      <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi" required>
                   </div>
                   <div class="input-disposisi">
                       <label for="">Diteruskan kepada<br></label>
@@ -1221,6 +880,10 @@
                           <div>
                               <input type="checkbox" name="diteruskan[]" value="Warek2">
                               <label for="">Warek 2</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan" value="sekretaris">
+                              <label for="">Sekretaris</label>
                           </div>
                           <div>
                               <input type="checkbox" name="diteruskan[]" value="DekanFEB">
@@ -1486,113 +1149,14 @@
                       <h3>Disposisi</h3>
                   </div>
 
-                  <div class="input-disposisi">
-                      <label for="disposisi">Riwayat Disposisi</label>
-                      <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                          <div class="info-disposisi">
-                              <span>Disposisi 1 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo1']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi1']; ?>" readonly><br>
-                              <span>Disposisi 2 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo2']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi2']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi2']; ?>" readonly><br>
-                              <span>Disposisi 3 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo3']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi3']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi3']; ?>" readonly><br>
-                              <span>Disposisi 4 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo4']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi4']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi4']; ?>" readonly><br>
-                              <span>Disposisi 5 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo5']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi5']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi5']; ?>" readonly><br>
-                              <span>Disposisi 6 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo6']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi6']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi6']; ?>" readonly><br>
-                              <span>Disposisi 7 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo7']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi7']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi7']; ?>" readonly><br>
-                              <span>Disposisi 8 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo8']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi8']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi8']; ?>" readonly><br>
-                              <span>Disposisi 9 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo9']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi9']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi9']; ?>" readonly><br>
-                              <span>Disposisi 10 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo10']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
-                              <span>Posisi Surat Saat Ini :</span>
-                              <?php
-                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
-                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
-                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
-                                    // Mengonversi array menjadi string
-                                    $diteruskan_ke_value = implode(", ", $decoded_array);
-                                } elseif (is_array($row['diteruskan_ke'])) {
-                                    // Jika sudah berupa array PHP
-                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
-                                } else {
-                                    // Jika bukan array, langsung ambil nilainya
-                                    $diteruskan_ke_value = $row['diteruskan_ke'];
-                                }
+                  <?php include 'riwayat_dispo.php'; ?>
 
-                                // Mengganti karakter "_" dengan spasi
-                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
-
-                                // Membuat huruf awal setiap kata menjadi kapital
-                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
-                                ?>
-                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
-                          </div>
-                      <?php } ?>
-                  </div>
                   <div class="input-disposisi">
                       <label for="">Keputusan Dekan FTD*</label>
-                      <div class="radio">
+                      <div class="radio" style="display: none;">
                           <div>
-                              <input type="radio" name="keputusan" value="Tindak Lanjuti">
+                              <input type="radio" name="keputusan" value="Tindak Lanjuti" checked>
                               <label for="">Tindak Lanjuti</label>
-                          </div>
-                          <div>
-                              <input type="radio" name="keputusan" value="Dibicarakan dengan rektor">
-                              <label for="">Dibicarakan dengan rektor</label>
-                          </div>
-                          <div>
-                              <input type="radio" name="keputusan" value="Pendapat dan masukkan">
-                              <label for="">Pendapat dan masukkan</label>
-                          </div>
-                          <div>
-                              <input type="radio" name="keputusan" value="Dicek dan diteliti">
-                              <label for="">Dicek dan diteliti</label>
                           </div>
                       </div>
                   </div>
@@ -1601,7 +1165,7 @@
 
                   <div class="input-disposisi">
                       <label for="">Catatan Disposisi*</label>
-                      <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi">
+                      <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi" required>
                   </div>
                   <div class="input-disposisi">
                       <label for="">Diteruskan kepada</label>
@@ -1834,122 +1398,18 @@
                       <h3>Disposisi</h3>
                   </div>
 
-                  <div class="input-disposisi">
-                      <label for="disposisi">Riwayat Disposisi</label>
-                      <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                          <div class="info-disposisi">
-                              <span>Disposisi 1 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo1']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi1']; ?>" readonly><br>
-                              <span>Disposisi 2 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo2']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi2']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi2']; ?>" readonly><br>
-                              <span>Disposisi 3 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo3']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi3']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi3']; ?>" readonly><br>
-                              <span>Disposisi 4 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo4']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi4']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi4']; ?>" readonly><br>
-                              <span>Disposisi 5 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo5']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi5']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi5']; ?>" readonly><br>
-                              <span>Disposisi 6 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo6']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi6']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi6']; ?>" readonly><br>
-                              <span>Disposisi 7 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo7']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi7']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi7']; ?>" readonly><br>
-                              <span>Disposisi 8 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo8']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi8']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi8']; ?>" readonly><br>
-                              <span>Disposisi 9 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo9']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi9']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi9']; ?>" readonly><br>
-                              <span>Disposisi 10 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo10']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
-                              <span>Posisi Surat Saat Ini :</span>
-                              <?php
-                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
-                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
-                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
-                                    // Mengonversi array menjadi string
-                                    $diteruskan_ke_value = implode(", ", $decoded_array);
-                                } elseif (is_array($row['diteruskan_ke'])) {
-                                    // Jika sudah berupa array PHP
-                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
-                                } else {
-                                    // Jika bukan array, langsung ambil nilainya
-                                    $diteruskan_ke_value = $row['diteruskan_ke'];
-                                }
+                  <?php include 'riwayat_dispo.php'; ?>
 
-                                // Mengganti karakter "_" dengan spasi
-                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
+                  <div style="display: none;">
+                      <input type="radio" name="keputusan" value="Tindak Lanjuti" checked>
+                  </div>
 
-                                // Membuat huruf awal setiap kata menjadi kapital
-                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
-                                ?>
-                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
-                          </div>
-                      <?php } ?>
-                  </div>
-                  <div class="input-disposisi">
-                      <label for="">Keputusan Dekan FEB*</label>
-                      <div class="radio">
-                          <div>
-                              <input type="radio" name="keputusan" value="Tindak Lanjuti">
-                              <label for="">Tindak Lanjuti</label>
-                          </div>
-                          <div>
-                              <input type="radio" name="keputusan" value="Dibicarakan dengan rektor">
-                              <label for="">Dibicarakan dengan rektor</label>
-                          </div>
-                          <div>
-                              <input type="radio" name="keputusan" value="Pendapat dan Masukkan">
-                              <label for="">Pendapat dan masukkan</label>
-                          </div>
-                          <div>
-                              <input type="radio" name="keputusan" value="Dicek dan Diteliti">
-                              <label for="">Dicek dan diteliti</label>
-                          </div>
-                      </div>
-                  </div>
 
                   <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
 
                   <div class="input-disposisi">
                       <label for="">Catatan Disposisi*</label>
-                      <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi">
+                      <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi" required>
                   </div>
                   <div class="input-disposisi">
                       <label for="">Diteruskan kepada</label>
@@ -2182,113 +1642,14 @@
                       <h3>Disposisi</h3>
                   </div>
 
-                  <div class="input-disposisi">
-                      <label for="disposisi">Riwayat Disposisi</label>
-                      <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                          <div class="info-disposisi">
-                              <span>Disposisi 1 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo1']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi1']; ?>" readonly><br>
-                              <span>Disposisi 2 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo2']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi2']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi2']; ?>" readonly><br>
-                              <span>Disposisi 3 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo3']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi3']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi3']; ?>" readonly><br>
-                              <span>Disposisi 4 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo4']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi4']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi4']; ?>" readonly><br>
-                              <span>Disposisi 5 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo5']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi5']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi5']; ?>" readonly><br>
-                              <span>Disposisi 6 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo6']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi6']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi6']; ?>" readonly><br>
-                              <span>Disposisi 7 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo7']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi7']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi7']; ?>" readonly><br>
-                              <span>Disposisi 8 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo8']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi8']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi8']; ?>" readonly><br>
-                              <span>Disposisi 9 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo9']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi9']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi9']; ?>" readonly><br>
-                              <span>Disposisi 10 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo10']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
-                              <span>Posisi Surat Saat Ini :</span>
-                              <?php
-                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
-                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
-                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
-                                    // Mengonversi array menjadi string
-                                    $diteruskan_ke_value = implode(", ", $decoded_array);
-                                } elseif (is_array($row['diteruskan_ke'])) {
-                                    // Jika sudah berupa array PHP
-                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
-                                } else {
-                                    // Jika bukan array, langsung ambil nilainya
-                                    $diteruskan_ke_value = $row['diteruskan_ke'];
-                                }
+                  <?php include 'riwayat_dispo.php'; ?>
 
-                                // Mengganti karakter "_" dengan spasi
-                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
-
-                                // Membuat huruf awal setiap kata menjadi kapital
-                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
-                                ?>
-                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
-                          </div>
-                      <?php } ?>
-                  </div>
                   <div class="input-disposisi">
                       <label for="">Keputusan Direktur Pascasarjana*</label>
-                      <div class="radio">
+                      <div class="radio" style="display: none;">
                           <div>
-                              <input type="radio" name="keputusan" value="Tindak Lanjuti">
+                              <input type="radio" name="keputusan" value="Tindak Lanjuti" checked>
                               <label for="">Tindak Lanjuti</label>
-                          </div>
-                          <div>
-                              <input type="radio" name="keputusan" value="Dibicarakan dengan Rektor">
-                              <label for="">Dibicarakan dengan rektor</label>
-                          </div>
-                          <div>
-                              <input type="radio" name="keputusan" value="Pendapat dan Masukkan">
-                              <label for="">Pendapat dan masukkan</label>
-                          </div>
-                          <div>
-                              <input type="radio" name="keputusan" value="Dicek dan Diteliti">
-                              <label for="">Dicek dan diteliti</label>
                           </div>
                       </div>
                   </div>
@@ -2297,7 +1658,7 @@
 
                   <div class="input-disposisi">
                       <label for="">Catatan Disposisi<span style="color: red;">*</span></label>
-                      <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi">
+                      <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi" required>
                   </div>
                   <div class="input-disposisi">
                       <label for="">Diteruskan kepada</label>
@@ -2505,95 +1866,8 @@
                       <h3>Disposisi</h3>
                   </div>
 
-                  <div class="input-disposisi">
-                      <label for="disposisi">Riwayat Disposisi</label>
-                      <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                          <div class="info-disposisi">
-                              <span>Disposisi 1 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo1']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi1']; ?>" readonly><br>
-                              <span>Disposisi 2 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo2']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi2']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi2']; ?>" readonly><br>
-                              <span>Disposisi 3 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo3']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi3']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi3']; ?>" readonly><br>
-                              <span>Disposisi 4 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo4']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi4']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi4']; ?>" readonly><br>
-                              <span>Disposisi 5 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo5']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi5']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi5']; ?>" readonly><br>
-                              <span>Disposisi 6 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo6']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi6']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi6']; ?>" readonly><br>
-                              <span>Disposisi 7 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo7']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi7']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi7']; ?>" readonly><br>
-                              <span>Disposisi 8 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo8']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi8']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi8']; ?>" readonly><br>
-                              <span>Disposisi 9 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo9']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi9']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi9']; ?>" readonly><br>
-                              <span>Disposisi 10 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo10']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
-                              <span>Posisi Surat Saat Ini :</span>
-                              <?php
-                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
-                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
-                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
-                                    // Mengonversi array menjadi string
-                                    $diteruskan_ke_value = implode(", ", $decoded_array);
-                                } elseif (is_array($row['diteruskan_ke'])) {
-                                    // Jika sudah berupa array PHP
-                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
-                                } else {
-                                    // Jika bukan array, langsung ambil nilainya
-                                    $diteruskan_ke_value = $row['diteruskan_ke'];
-                                }
+                    <?php include 'riwayat_dispo.php'; ?>
 
-                                // Mengganti karakter "_" dengan spasi
-                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
-
-                                // Membuat huruf awal setiap kata menjadi kapital
-                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
-                                ?>
-                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
-                          </div>
-                      <?php } ?>
-                  </div>
                   <div class="input-disposisi">
                       <label for="">Keputusan Unit*</label>
                       <div class="radio">
@@ -2733,96 +2007,7 @@
                       <h3>Disposisi</h3>
                   </div>
 
-                  <div class="input-disposisi">
-                      <label for="disposisi">Riwayat Disposisi</label>
-                      <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                          <div class="info-disposisi">
-                              <span>Disposisi 1 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo1']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi1']; ?>" readonly><br>
-                              <span>Disposisi 2 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo2']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi2']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi2']; ?>" readonly><br>
-                              <span>Disposisi 3 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo3']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi3']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi3']; ?>" readonly><br>
-                              <span>Disposisi 4 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo4']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi4']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi4']; ?>" readonly><br>
-                              <span>Disposisi 5 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo5']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi5']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi5']; ?>" readonly><br>
-                              <span>Disposisi 6 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo6']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi6']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi6']; ?>" readonly><br>
-                              <span>Disposisi 7 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo7']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi7']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi7']; ?>" readonly><br>
-                              <span>Disposisi 8 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo8']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi8']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi8']; ?>" readonly><br>
-                              <span>Disposisi 9 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo9']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi9']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi9']; ?>" readonly><br>
-                              <span>Disposisi 10 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo10']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
-                              <span>Posisi Surat Saat Ini :</span>
-                              <?php
-                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
-                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
-                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
-                                    // Mengonversi array menjadi string
-                                    $diteruskan_ke_value = implode(", ", $decoded_array);
-                                } elseif (is_array($row['diteruskan_ke'])) {
-                                    // Jika sudah berupa array PHP
-                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
-                                } else {
-                                    // Jika bukan array, langsung ambil nilainya
-                                    $diteruskan_ke_value = $row['diteruskan_ke'];
-                                }
-
-                                // Mengganti karakter "_" dengan spasi
-                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
-
-                                // Membuat huruf awal setiap kata menjadi kapital
-                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
-                                ?>
-                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
-                          </div>
-                      <?php } ?>
-                  </div>
-
+                  <?php include 'riwayat_dispo.php'; ?>
 
                   <div class="input-disposisi">
                       <label for="">Catatan Penyelesaian / Penolakan *</label>
@@ -2940,97 +2125,7 @@
                       <h3>Disposisi</h3>
                   </div>
 
-
-                  <div class="input-disposisi">
-                      <label for="disposisi">Riwayat Disposisi</label>
-                      <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                          <div class="info-disposisi">
-                              <span>Disposisi 1 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo1']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi1']; ?>" readonly><br>
-                              <span>Disposisi 2 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo2']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi2']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi2']; ?>" readonly><br>
-                              <span>Disposisi 3 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo3']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi3']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi3']; ?>" readonly><br>
-                              <span>Disposisi 4 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo4']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi4']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi4']; ?>" readonly><br>
-                              <span>Disposisi 5 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo5']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi5']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi5']; ?>" readonly><br>
-                              <span>Disposisi 6 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo6']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi6']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi6']; ?>" readonly><br>
-                              <span>Disposisi 7 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo7']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi7']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi7']; ?>" readonly><br>
-                              <span>Disposisi 8 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo8']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi8']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi8']; ?>" readonly><br>
-                              <span>Disposisi 9 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo9']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi9']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi9']; ?>" readonly><br>
-                              <span>Disposisi 10 :</span>
-                              <input type="text" id="disposisi1" name="disposisi1[]" value="<?php echo $row['dispo10']; ?>" readonly>
-                              <span>Catatan :</span>
-                              <input type="text" id="catatan" name="catatan[]" value="<?php echo $row['catatan_disposisi10']; ?>" readonly>
-                              <span>Keputusan :</span>
-                              <input type="text" id="keputusan" name="keputusan[]" value="<?php echo $row['keputusan_disposisi10']; ?>" readonly><br> <br>
-                              <span>Posisi Surat Saat Ini :</span>
-                              <?php
-                                // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
-                                if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
-                                    $decoded_array = json_decode($row['diteruskan_ke'], true);
-                                    // Mengonversi array menjadi string
-                                    $diteruskan_ke_value = implode(", ", $decoded_array);
-                                } elseif (is_array($row['diteruskan_ke'])) {
-                                    // Jika sudah berupa array PHP
-                                    $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
-                                } else {
-                                    // Jika bukan array, langsung ambil nilainya
-                                    $diteruskan_ke_value = $row['diteruskan_ke'];
-                                }
-
-                                // Mengganti karakter "_" dengan spasi
-                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
-
-                                // Membuat huruf awal setiap kata menjadi kapital
-                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
-                                ?>
-                              <input type="text" id="diteruskan_ke" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
-                          </div>
-                      <?php } ?>
-                  </div>
-
+                  <?php include 'riwayat_dispo.php'; ?>
 
                   <div class="input-disposisi">
                       <label for="">Catatan Surat*</label>
@@ -3121,33 +2216,74 @@
 
 
                   <!--disposisi untuk humas-->
-              <?php } elseif ($_SESSION['akses'] == 'Humas') { ?>
-                  <?php
-                    // Memeriksa apakah tombol "Selesai" diklik
-                    if (isset($_POST['selesai'])) {
+                    <?php } elseif ($_SESSION['akses'] == 'Humas') { ?>
+                        <?php
+                        // Memeriksa apakah tombol "Selesai" diklik
+                        if (isset($_POST['selesai'])) {
 
+                            $koneksi = mysqli_connect($host, $user, $pass, $db);
+
+                            // Melakukan update status_selesai menjadi true di tabel tb_surat_dis
+                            $query_update = "UPDATE tb_surat_dis SET status_selesai = true WHERE id_surat = '$id'";
+                            mysqli_query($koneksi, $query_update);
+                            // Redirect atau tindakan lain setelah berhasil diperbarui
+                            header("Location: dashboard.php");
+                            exit(); // Pastikan untuk keluar setelah redirect
+                        }
+
+                        // Mendapatkan jenis surat dari tb_surat_dis
                         $koneksi = mysqli_connect($host, $user, $pass, $db);
+                        $query_jenis_surat = "SELECT jenis_surat FROM tb_surat_dis WHERE id_surat = '$id'";
+                        $result = mysqli_query($koneksi, $query_jenis_surat);
+                        $row = mysqli_fetch_assoc($result);
+                        $jenis_surat = $row['jenis_surat'];
+                        ?>
 
-                        // Melakukan update status_selesai menjadi true di tabel tb_surat_dis
-                        $query_update = "UPDATE tb_surat_dis SET status_selesai = true WHERE id_surat = '$id'";
-                        mysqli_query($koneksi, $query_update);
-                        // Redirect atau tindakan lain setelah berhasil diperbarui
-                        header("Location: dashboard.php");
-                        exit(); // Pastikan untuk keluar setelah redirect
-                    }
+                        <div class="txt-disposisi">
+                            <h3>Disposisi</h3>
+                        </div>
+                        <?php if ($jenis_surat == 3 || $jenis_surat == 4) : ?>
+                            <div class="input-disposisi">
+                                <label for="">Kode Surat*</label>
+                                <input type="text" class="input" id="kd_surat" name="kd_surat" placeholder="Masukkan kode surat">
+                            </div>
+
+                            <div class="input-disposisi">
+                                <label for="">Catatan Penyelesaian <br>/ Penolakan <span style="color: red;"></span></label>
+                                <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Penyelesaian / Penolakan" required>
+                            </div>
+
+                            <div class="input-disposisi">
+                                <label for="">Tanggal Disposisi<br> </label>
+                                <div class="tgl">
+                                    <span id="tanggalwaktu"></span>
+                                </div>
+                            </div>
+
+                            <span style="color: red; font-size: 14px;">*Apabila ingin menolak surat ini, mohon kosongkan form kode surat</span>
+                            <br> <br>
+                            <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
+
+                            <div class="btn-kirim">
+                                <div class="floatFiller">ffff</div>
+                                <button type="button" id="btnSelesai" style="cursor: pointer;">Selesai</button>
+                                <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button>
+                            </div>
+                        <?php else : ?>
+                            
+                            <?php
+                    $query = "SELECT dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10,
+                    catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
+                    keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10, diteruskan_ke
+                    FROM tb_disposisi WHERE id_surat = '$id'";
+                    $result = mysqli_query($koneksi, $query);
                     ?>
-                  <div class="txt-disposisi">
-                      <h3>Disposisi</h3>
-                  </div>
+
+                  <?php include 'riwayat_dispo.php'; ?>
 
                   <div class="input-disposisi">
-                      <label for="">Kode Surat*</label>
-                      <input type="text" class="input" id="kd_surat" name="kd_surat" placeholder="Masukkan kode surat">
-                  </div>
-
-                  <div class="input-disposisi">
-                      <label for="">Catatan Penyelesaian <br>/ Penolakan <span style="color: red;"></span></label>
-                      <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Penyelesaian / Penolakan" required>
+                      <label for="">Catatan Penyelesaian / Penolakan *</label>
+                      <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Penyelesaian / Penolakan">
                   </div>
 
                   <div class="input-disposisi">
@@ -3157,19 +2293,85 @@
                       </div>
                   </div>
 
-                  <span style="color: red; font-size: 14px;">*Apabila ingin menolak surat ini, mohon kosongkan form kode surat</span>
-                  <br> <br>
                   <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
-
-                  <div class="btn-kirim">
-                      <div class="floatFiller">ffff</div>
-                      <button type="button" id="btnSelesai" style="cursor: pointer;">Selesai</button>
-                      <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button>
+        <!-- tombol belum berfungsi-->
+                  <div class="btn-kirim"> 
+                      <div class="floatFiller">ff</div>
+                      <button type="button" id="btnSelesaidispo" style="cursor: pointer;">Selesai</button>
+                      <button type="button" onclick="batalDisposisidispo()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button>
                   </div>
 
-                  <script>
-                      document.getElementById('btnSelesai').addEventListener('click', function() {
-                          // Tampilkan konfirmasi sebelum menampilkan Sweet Alert
+                        <?php endif; ?>
+                   
+
+                    <script>
+                        document.getElementById('btnSelesai').addEventListener('click', function() {
+                            // Tampilkan konfirmasi sebelum menampilkan Sweet Alert
+                            swal({
+                                    title: "Konfirmasi",
+                                    text: "Apakah Anda yakin ingin menyelesaikan surat ini?",
+                                    icon: "warning",
+                                    buttons: true,
+                                    dangerMode: true,
+                                })
+                                .then((willProceed) => {
+                                    if (willProceed) {
+                                        var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
+                                        var kd_surat = document.querySelector('input[name="kd_surat"]').value;
+                                        var xhr = new XMLHttpRequest();
+                                        var id = "<?php echo $id; ?>"; // Mendapatkan nilai $id dari PHP
+                                        xhr.open('POST', 'update_selesai_non.php', true);
+                                        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                                        xhr.onreadystatechange = function() {
+                                            if (xhr.readyState == 4 && xhr.status == 200) {
+                                                console.log(xhr.responseText);
+                                                swal("Berhasil!", "Surat Telah Dikonfirmasi Selesai!", "success")
+                                                    .then(function() {
+                                                        // Redirect ke halaman dashboard setelah menutup notifikasi
+                                                        window.location.href = "dashboard.php";
+                                                    });
+                                            }
+                                        };
+                                        xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&kd_surat=" + encodeURIComponent(kd_surat) + "&action=selesai");
+                                    } else {
+                                        swal("Dibatalkan", "Surat tidak diselesaikan", "info");
+                                    }
+                                });
+                        });
+
+                        function batalDisposisi() {
+                            swal({
+                                    title: "Konfirmasi",
+                                    text: "Apakah Anda yakin ingin menolak surat ini?",
+                                    icon: "warning",
+                                    buttons: true,
+                                    dangerMode: true,
+                                })
+                                .then((willProceed) => {
+                                    if (willProceed) {
+                                        var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
+                                        var asalsurat = document.querySelector('input[name="executor"]').value;
+                                        var xhr = new XMLHttpRequest();
+                                        var id = "<?php echo $id; ?>";
+                                        xhr.open('POST', 'update_tolak.php', true);
+                                        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                                        xhr.onreadystatechange = function() {
+                                            if (xhr.readyState == 4 && xhr.status == 200) {
+                                                console.log(xhr.responseText);
+                                                swal("Berhasil!", "Surat Telah Ditolak!", "success")
+                                                    .then(function() {
+                                                        window.location.href = "dashboard.php";
+                                                    });
+                                            }
+                                        };
+                                        xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&asalsurat=" + asalsurat + "&action=tolak");
+                                    } else {
+                                        swal("Dibatalkan", "Surat tidak ditolak", "info");
+                                    }
+                                });
+                        }
+
+                        document.getElementById('btnSelesaidispo').addEventListener('click', function() {
                           swal({
                                   title: "Konfirmasi",
                                   text: "Apakah Anda yakin ingin menyelesaikan surat ini?",
@@ -3180,29 +2382,28 @@
                               .then((willProceed) => {
                                   if (willProceed) {
                                       var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
-                                      var kd_surat = document.querySelector('input[name="kd_surat"]').value;
+                                      var asalsurat = document.querySelector('input[name="executor"]').value;
                                       var xhr = new XMLHttpRequest();
-                                      var id = "<?php echo $id; ?>"; // Mendapatkan nilai $id dari PHP
-                                      xhr.open('POST', 'update_selesai_non.php', true);
+                                      var id = "<?php echo $id; ?>";
+                                      xhr.open('POST', 'update_selesai.php', true);
                                       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                                       xhr.onreadystatechange = function() {
                                           if (xhr.readyState == 4 && xhr.status == 200) {
                                               console.log(xhr.responseText);
                                               swal("Berhasil!", "Surat Telah Dikonfirmasi Selesai!", "success")
                                                   .then(function() {
-                                                      // Redirect ke halaman dashboard setelah menutup notifikasi
                                                       window.location.href = "dashboard.php";
                                                   });
                                           }
                                       };
-                                      xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&kd_surat=" + encodeURIComponent(kd_surat) + "&action=selesai");
+                                      xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&asalsurat=" + asalsurat + "&action=selesai");
                                   } else {
                                       swal("Dibatalkan", "Surat tidak diselesaikan", "info");
                                   }
                               });
                       });
 
-                      function batalDisposisi() {
+                      function batalDisposisidispo() {
                           swal({
                                   title: "Konfirmasi",
                                   text: "Apakah Anda yakin ingin menolak surat ini?",
@@ -3233,8 +2434,8 @@
                                   }
                               });
                       }
-                  </script>
-
+                        
+                    </script>
 
                   <!-- disposisi untuk sekertaris -->
               <?php } elseif ($_SESSION['akses'] == 'Sekretaris') { ?>

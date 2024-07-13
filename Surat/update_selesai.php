@@ -12,7 +12,7 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
     $kode_surat = mysqli_real_escape_string($koneksi, $_POST['kode_surat']);
 
     // Determine the update query based on the user's role and action
-    if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas') {
+    if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas') { // tambahkan kondisi update disposisi
         $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai = true, kode_surat = '$kode_surat', status_baca = true WHERE id_surat = '$id'";
         $jabatan = $_SESSION['jabatan'];
         $tanggal_disposisi1 = date("Y-m-d");

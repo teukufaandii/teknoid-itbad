@@ -223,83 +223,26 @@ $file_laporan_exists = !empty($file_laporan_name);
                                         <div class="swiper-container">
                                             <div class="swiper-wrapper">
                                                 <!-- untuk lacak disposisi 1 -->
-                                                <div class="swiper-slide">
-                                                    <div class="status">
-                                                        <span>Disposisi 1: <?php echo !empty($disposisi1) ? $disposisi1 : 'Belum Disposisi'; ?></span>
-                                                    </div>
-                                                    <div class="timestamp">
-                                                        <span class="date"><?php //ok
-                                                                            if (!empty($tanggal_disposisi1)) {
-                                                                                echo $tanggal_disposisi1;
-                                                                            } elseif (!empty($tanggal_eksekutor)) {
-                                                                                echo $tanggal_eksekutor;
-                                                                            } else {
-                                                                                echo 'DD/MM/YYYY';
-                                                                            }
-                                                                            ?></span>
-                                                    </div>
-                                                    <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php
-                                                                                                    if (!empty($catatan_disposisi1)) {
-                                                                                                        echo $catatan_disposisi1;
-                                                                                                    } else {
-                                                                                                        if (!empty($catatan_selesai)) {
-                                                                                                            echo $catatan_selesai;
-                                                                                                        } else {
-                                                                                                            if (!empty($catatan_tolak)) {
-                                                                                                                echo $catatan_tolak;
-                                                                                                            } else {
-                                                                                                                echo "Tidak ada catatan";
-                                                                                                            }
-                                                                                                        }
-                                                                                                    }; ?>', 
-                                                        '<?php echo !empty($disposisi2) ? $disposisi2 : "Belum Diteruskan"; ?>')" style="cursor: pointer;">Cek Catatan</button>
-                                                    </div>
-                                                </div>
-
-                                                <!-- untuk lacak disposisi 2 -->
-                                                <div class="swiper-slide">
-                                                    <div class="status">
-                                                        <span>Disposisi 2:
-                                                            <?php //ok 
-                                                            if (empty($disposisi2)) {
-                                                                if (!empty($disposisi1)) {
-                                                                    $output = print_r($diteruskan_ke, true);
-                                                                    $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
-                                                                    $output = str_replace('_', ' ', $output);
-                                                                    echo ucwords($output);
-                                                                } else {
-                                                                    echo 'Belum didisposisi';
-                                                                }
-                                                            } else {
-                                                                $output = print_r($disposisi2, true);
-                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
-                                                                $output = str_replace('_', ' ', $output);
-                                                                echo ucwords($output);
-                                                            }
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="timestamp">
-                                                        <span class="date">
-                                                            <?php //ok
-                                                            if (!empty($tanggal_disposisi2)) {
-                                                                echo $tanggal_disposisi2;
-                                                            } elseif (!empty($tanggal_disposisi1)) {
-                                                                echo $tanggal_eksekutor;
-                                                            } else {
-                                                                echo 'DD/MM/YYYY';
-                                                            }
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php
-                                                                                                    if (!empty($catatan_disposisi2)) {
-                                                                                                        echo $catatan_disposisi2;
-                                                                                                    } else {
-                                                                                                        if (empty($catatan_disposisi1)) {
-                                                                                                            echo "Tidak ada catatan";
+                                                <?php if (!empty($disposisi1) || !empty($tanggal_disposisi1) && !empty($tanggal_eksekutor)) : ?>
+                                                    <div class="swiper-slide">
+                                                        <div class="status">
+                                                            <span>Disposisi 1: <?php echo !empty($disposisi1) ? $disposisi1 : 'Belum Disposisi'; ?></span>
+                                                        </div>
+                                                        <div class="timestamp">
+                                                            <span class="date"><?php //ok
+                                                                                if (!empty($tanggal_disposisi1)) {
+                                                                                    echo $tanggal_disposisi1;
+                                                                                } elseif (!empty($tanggal_eksekutor)) {
+                                                                                    echo $tanggal_eksekutor;
+                                                                                } else {
+                                                                                    echo 'DD/MM/YYYY';
+                                                                                }
+                                                                                ?></span>
+                                                        </div>
+                                                        <div class="btn-catatan">
+                                                            <button type="button" onclick="cekCatatan('<?php
+                                                                                                        if (!empty($catatan_disposisi1)) {
+                                                                                                            echo $catatan_disposisi1;
                                                                                                         } else {
                                                                                                             if (!empty($catatan_selesai)) {
                                                                                                                 echo $catatan_selesai;
@@ -310,9 +253,69 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                                                                                     echo "Tidak ada catatan";
                                                                                                                 }
                                                                                                             }
+                                                                                                        }; ?>', 
+                                                        '<?php echo !empty($disposisi2) ? $disposisi2 : "Belum Diteruskan"; ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        </div>
+                                                    </div>
+                                                <?php endif; ?>
+
+                                                <!-- untuk lacak disposisi 2 -->
+                                                <?php if (!empty($disposisi2) || !empty($tanggal_disposisi1) && !empty($tanggal_eksekutor)) : ?>
+                                                    <div class="swiper-slide">
+                                                        <div class="status">
+                                                            <span>Disposisi 2:
+                                                                <?php //ok 
+                                                                if (empty($disposisi2)) {
+                                                                    if (!empty($disposisi1)) {
+                                                                        $output = print_r($diteruskan_ke, true);
+                                                                        $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                        $output = str_replace('_', ' ', $output);
+                                                                        echo ucwords($output);
+                                                                    } else {
+                                                                        echo 'Belum didisposisi';
+                                                                    }
+                                                                } else {
+                                                                    $output = print_r($disposisi2, true);
+                                                                    $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                    $output = str_replace('_', ' ', $output);
+                                                                    echo ucwords($output);
+                                                                }
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="timestamp">
+                                                            <span class="date">
+                                                                <?php //ok
+                                                                if (!empty($tanggal_disposisi2)) {
+                                                                    echo $tanggal_disposisi2;
+                                                                } elseif (!empty($tanggal_disposisi1)) {
+                                                                    echo $tanggal_eksekutor;
+                                                                } else {
+                                                                    echo 'DD/MM/YYYY';
+                                                                }
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="btn-catatan">
+                                                            <button type="button" onclick="cekCatatan('<?php
+                                                                                                        if (!empty($catatan_disposisi2)) {
+                                                                                                            echo $catatan_disposisi2;
+                                                                                                        } else {
+                                                                                                            if (empty($catatan_disposisi1)) {
+                                                                                                                echo "Tidak ada catatan";
+                                                                                                            } else {
+                                                                                                                if (!empty($catatan_selesai)) {
+                                                                                                                    echo $catatan_selesai;
+                                                                                                                } else {
+                                                                                                                    if (!empty($catatan_tolak)) {
+                                                                                                                        echo $catatan_tolak;
+                                                                                                                    } else {
+                                                                                                                        echo "Tidak ada catatan";
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
                                                                                                         }
-                                                                                                    }
-                                                                                                    ?>',
+                                                                                                        ?>',
                                                         
                                                         
                                                                                                     '<?php
@@ -338,65 +341,67 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                                                                             echo $disposisi3;
                                                                                                         }
                                                                                                         ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                <?php endif; ?>
 
                                                 <!-- untuk lacak disposisi 3 -->
-                                                <div class="swiper-slide">
-                                                    <div class="status">
-                                                        <span>Disposisi 3:
-                                                            <?php //ok 
-                                                            if (empty($disposisi3)) {
-                                                                if (!empty($disposisi2)) {
-                                                                    $output = print_r($diteruskan_ke, true);
+                                                <?php if (!empty($disposisi3) || !empty($tanggal_disposisi2) && !empty($tanggal_eksekutor)) : ?>
+                                                    <div class="swiper-slide">
+                                                        <div class="status">
+                                                            <span>Disposisi 3:
+                                                                <?php //ok 
+                                                                if (empty($disposisi3)) {
+                                                                    if (!empty($disposisi2)) {
+                                                                        $output = print_r($diteruskan_ke, true);
+                                                                        $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                        $output = str_replace('_', ' ', $output);
+                                                                        echo ucwords($output);
+                                                                    } else {
+                                                                        echo 'Belum didisposisi';
+                                                                    }
+                                                                } else {
+                                                                    $output = print_r($disposisi3, true);
                                                                     $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
                                                                     $output = str_replace('_', ' ', $output);
                                                                     echo ucwords($output);
-                                                                } else {
-                                                                    echo 'Belum didisposisi';
                                                                 }
-                                                            } else {
-                                                                $output = print_r($disposisi3, true);
-                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
-                                                                $output = str_replace('_', ' ', $output);
-                                                                echo ucwords($output);
-                                                            }
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="timestamp">
-                                                        <span class="date">
-                                                            <?php //ok
-                                                            if (!empty($tanggal_disposisi3)) {
-                                                                echo $tanggal_disposisi3;
-                                                            } elseif (!empty($tanggal_disposisi2)) {
-                                                                echo $tanggal_eksekutor;
-                                                            } else {
-                                                                echo 'DD/MM/YYYY';
-                                                            }
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php
-                                                                                                    if (!empty($catatan_disposisi3)) {
-                                                                                                        echo $catatan_disposisi3;
-                                                                                                    } else {
-                                                                                                        if (empty($catatan_disposisi3)) {
-                                                                                                            echo "Tidak ada catatan";
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="timestamp">
+                                                            <span class="date">
+                                                                <?php //ok
+                                                                if (!empty($tanggal_disposisi3)) {
+                                                                    echo $tanggal_disposisi3;
+                                                                } elseif (!empty($tanggal_disposisi2)) {
+                                                                    echo $tanggal_eksekutor;
+                                                                } else {
+                                                                    echo 'DD/MM/YYYY';
+                                                                }
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="btn-catatan">
+                                                            <button type="button" onclick="cekCatatan('<?php
+                                                                                                        if (!empty($catatan_disposisi3)) {
+                                                                                                            echo $catatan_disposisi3;
                                                                                                         } else {
-                                                                                                            if (!empty($catatan_selesai)) {
-                                                                                                                echo $catatan_selesai;
+                                                                                                            if (empty($catatan_disposisi3)) {
+                                                                                                                echo "Tidak ada catatan";
                                                                                                             } else {
-                                                                                                                if (!empty($catatan_tolak)) {
-                                                                                                                    echo $catatan_tolak;
+                                                                                                                if (!empty($catatan_selesai)) {
+                                                                                                                    echo $catatan_selesai;
                                                                                                                 } else {
-                                                                                                                    echo "Tidak ada catatan";
+                                                                                                                    if (!empty($catatan_tolak)) {
+                                                                                                                        echo $catatan_tolak;
+                                                                                                                    } else {
+                                                                                                                        echo "Tidak ada catatan";
+                                                                                                                    }
                                                                                                                 }
                                                                                                             }
                                                                                                         }
-                                                                                                    }
-                                                                                                    ?>',
+                                                                                                        ?>',
                 
                                                                                                     '<?php
                                                                                                         if (empty($disposisi4)) {
@@ -421,65 +426,67 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                                                                             echo $disposisi4;
                                                                                                         }
                                                                                                         ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                <?php endif; ?>
 
                                                 <!-- untuk lacak disposisi 4 -->
-                                                <div class="swiper-slide">
-                                                    <div class="status">
-                                                        <span>Disposisi 4:
-                                                            <?php //ok 
-                                                            if (empty($disposisi4)) {
-                                                                if (!empty($disposisi3)) {
-                                                                    $output = print_r($diteruskan_ke, true);
+                                                <?php if (!empty($disposisi4) || !empty($tanggal_disposisi3) && !empty($tanggal_eksekutor)) : ?>
+                                                    <div class="swiper-slide">
+                                                        <div class="status">
+                                                            <span>Disposisi 4:
+                                                                <?php //ok 
+                                                                if (empty($disposisi4)) {
+                                                                    if (!empty($disposisi3)) {
+                                                                        $output = print_r($diteruskan_ke, true);
+                                                                        $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                        $output = str_replace('_', ' ', $output);
+                                                                        echo ucwords($output);
+                                                                    } else {
+                                                                        echo 'Belum didisposisi';
+                                                                    }
+                                                                } else {
+                                                                    $output = print_r($disposisi4, true);
                                                                     $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
                                                                     $output = str_replace('_', ' ', $output);
                                                                     echo ucwords($output);
-                                                                } else {
-                                                                    echo 'Belum didisposisi';
                                                                 }
-                                                            } else {
-                                                                $output = print_r($disposisi4, true);
-                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
-                                                                $output = str_replace('_', ' ', $output);
-                                                                echo ucwords($output);
-                                                            }
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="timestamp">
-                                                        <span class="date">
-                                                            <?php //ok
-                                                            if (!empty($tanggal_disposisi4)) {
-                                                                echo $tanggal_disposisi4;
-                                                            } elseif (!empty($tanggal_disposisi3)) {
-                                                                echo $tanggal_eksekutor;
-                                                            } else {
-                                                                echo 'DD/MM/YYYY';
-                                                            }
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php
-                                                                                                    if (!empty($catatan_disposisi4)) {
-                                                                                                        echo $catatan_disposisi4;
-                                                                                                    } else {
-                                                                                                        if (empty($catatan_disposisi3)) {
-                                                                                                            echo "Tidak ada catatan";
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="timestamp">
+                                                            <span class="date">
+                                                                <?php //ok
+                                                                if (!empty($tanggal_disposisi4)) {
+                                                                    echo $tanggal_disposisi4;
+                                                                } elseif (!empty($tanggal_disposisi3)) {
+                                                                    echo $tanggal_eksekutor;
+                                                                } else {
+                                                                    echo 'DD/MM/YYYY';
+                                                                }
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="btn-catatan">
+                                                            <button type="button" onclick="cekCatatan('<?php
+                                                                                                        if (!empty($catatan_disposisi4)) {
+                                                                                                            echo $catatan_disposisi4;
                                                                                                         } else {
-                                                                                                            if (!empty($catatan_selesai)) {
-                                                                                                                echo $catatan_selesai;
+                                                                                                            if (empty($catatan_disposisi3)) {
+                                                                                                                echo "Tidak ada catatan";
                                                                                                             } else {
-                                                                                                                if (!empty($catatan_tolak)) {
-                                                                                                                    echo $catatan_tolak;
+                                                                                                                if (!empty($catatan_selesai)) {
+                                                                                                                    echo $catatan_selesai;
                                                                                                                 } else {
-                                                                                                                    echo "Tidak ada catatan";
+                                                                                                                    if (!empty($catatan_tolak)) {
+                                                                                                                        echo $catatan_tolak;
+                                                                                                                    } else {
+                                                                                                                        echo "Tidak ada catatan";
+                                                                                                                    }
                                                                                                                 }
                                                                                                             }
                                                                                                         }
-                                                                                                    }
-                                                                                                    ?>',
+                                                                                                        ?>',
                 
                                                                                                     '<?php
                                                                                                         if (empty($disposisi5)) {
@@ -504,66 +511,67 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                                                                             echo $disposisi5;
                                                                                                         }
                                                                                                         ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        </div>
                                                     </div>
-                                                </div>
-
+                                                <?php endif; ?>
 
                                                 <!-- untuk lacak disposisi 5 -->
-                                                <div class="swiper-slide">
-                                                    <div class="status">
-                                                        <span> Disposisi 5 :
-                                                            <?php //ok 
-                                                            if (empty($disposisi5)) {
-                                                                if (!empty($disposisi4)) {
-                                                                    $output = print_r($diteruskan_ke, true);
+                                                <?php if (!empty($disposisi5) || !empty($tanggal_disposisi4) && !empty($tanggal_eksekutor)) : ?>
+                                                    <div class="swiper-slide">
+                                                        <div class="status">
+                                                            <span> Disposisi 5 :
+                                                                <?php //ok 
+                                                                if (empty($disposisi5)) {
+                                                                    if (!empty($disposisi4)) {
+                                                                        $output = print_r($diteruskan_ke, true);
+                                                                        $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                        $output = str_replace('_', ' ', $output);
+                                                                        echo ucwords($output);
+                                                                    } else {
+                                                                        echo 'Belum didisposisi';
+                                                                    }
+                                                                } else {
+                                                                    $output = print_r($disposisi5, true);
                                                                     $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
                                                                     $output = str_replace('_', ' ', $output);
                                                                     echo ucwords($output);
-                                                                } else {
-                                                                    echo 'Belum didisposisi';
                                                                 }
-                                                            } else {
-                                                                $output = print_r($disposisi5, true);
-                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
-                                                                $output = str_replace('_', ' ', $output);
-                                                                echo ucwords($output);
-                                                            }
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="timestamp">
-                                                        <span class="date">
-                                                            <?php //ok
-                                                            if (!empty($tanggal_disposisi5)) {
-                                                                echo $tanggal_disposisi5;
-                                                            } elseif (!empty($tanggal_disposisi4)) {
-                                                                echo $tanggal_eksekutor;
-                                                            } else {
-                                                                echo 'DD/MM/YYYY';
-                                                            }
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php
-                                                                                                    if (!empty($catatan_disposisi5)) {
-                                                                                                        echo $catatan_disposisi5;
-                                                                                                    } else {
-                                                                                                        if (empty($catatan_disposisi4)) {
-                                                                                                            echo "Tidak ada catatan";
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="timestamp">
+                                                            <span class="date">
+                                                                <?php //ok
+                                                                if (!empty($tanggal_disposisi5)) {
+                                                                    echo $tanggal_disposisi5;
+                                                                } elseif (!empty($tanggal_disposisi4)) {
+                                                                    echo $tanggal_eksekutor;
+                                                                } else {
+                                                                    echo 'DD/MM/YYYY';
+                                                                }
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="btn-catatan">
+                                                            <button type="button" onclick="cekCatatan('<?php
+                                                                                                        if (!empty($catatan_disposisi5)) {
+                                                                                                            echo $catatan_disposisi5;
                                                                                                         } else {
-                                                                                                            if (!empty($catatan_selesai)) {
-                                                                                                                echo $catatan_selesai;
+                                                                                                            if (empty($catatan_disposisi4)) {
+                                                                                                                echo "Tidak ada catatan";
                                                                                                             } else {
-                                                                                                                if (!empty($catatan_tolak)) {
-                                                                                                                    echo $catatan_tolak;
+                                                                                                                if (!empty($catatan_selesai)) {
+                                                                                                                    echo $catatan_selesai;
                                                                                                                 } else {
-                                                                                                                    echo "Tidak ada catatan";
+                                                                                                                    if (!empty($catatan_tolak)) {
+                                                                                                                        echo $catatan_tolak;
+                                                                                                                    } else {
+                                                                                                                        echo "Tidak ada catatan";
+                                                                                                                    }
                                                                                                                 }
                                                                                                             }
                                                                                                         }
-                                                                                                    }
-                                                                                                    ?>',
+                                                                                                        ?>',
                                                         
                                                         
                                                                                                     '<?php
@@ -589,65 +597,67 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                                                                             echo $disposisi6;
                                                                                                         }
                                                                                                         ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                <?php endif; ?>
 
                                                 <!-- untuk lacak disposisi 6 -->
-                                                <div class="swiper-slide">
-                                                    <div class="status">
-                                                        <span>Disposisi 6:
-                                                            <?php //ok 
-                                                            if (empty($disposisi6)) {
-                                                                if (!empty($disposisi5)) {
-                                                                    $output = print_r($diteruskan_ke, true);
+                                                <?php if (!empty($disposisi6) || !empty($tanggal_disposisi5) && !empty($tanggal_eksekutor)) : ?>
+                                                    <div class="swiper-slide">
+                                                        <div class="status">
+                                                            <span>Disposisi 6:
+                                                                <?php //ok 
+                                                                if (empty($disposisi6)) {
+                                                                    if (!empty($disposisi5)) {
+                                                                        $output = print_r($diteruskan_ke, true);
+                                                                        $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                        $output = str_replace('_', ' ', $output);
+                                                                        echo ucwords($output);
+                                                                    } else {
+                                                                        echo 'Belum didisposisi';
+                                                                    }
+                                                                } else {
+                                                                    $output = print_r($disposisi6, true);
                                                                     $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
                                                                     $output = str_replace('_', ' ', $output);
                                                                     echo ucwords($output);
-                                                                } else {
-                                                                    echo 'Belum didisposisi';
                                                                 }
-                                                            } else {
-                                                                $output = print_r($disposisi6, true);
-                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
-                                                                $output = str_replace('_', ' ', $output);
-                                                                echo ucwords($output);
-                                                            }
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="timestamp">
-                                                        <span class="date">
-                                                            <?php
-                                                            if (!empty($tanggal_disposisi6)) {
-                                                                echo $tanggal_disposisi6;
-                                                            } elseif (!empty($tanggal_disposisi5)) {
-                                                                echo $tanggal_eksekutor;
-                                                            } else {
-                                                                echo 'DD/MM/YYYY';
-                                                            }
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php
-                                                                                                    if (!empty($catatan_disposisi6)) {
-                                                                                                        echo $catatan_disposisi6;
-                                                                                                    } else {
-                                                                                                        if (empty($catatan_disposisi5)) {
-                                                                                                            echo "Tidak ada catatan";
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="timestamp">
+                                                            <span class="date">
+                                                                <?php
+                                                                if (!empty($tanggal_disposisi6)) {
+                                                                    echo $tanggal_disposisi6;
+                                                                } elseif (!empty($tanggal_disposisi5)) {
+                                                                    echo $tanggal_eksekutor;
+                                                                } else {
+                                                                    echo 'DD/MM/YYYY';
+                                                                }
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="btn-catatan">
+                                                            <button type="button" onclick="cekCatatan('<?php
+                                                                                                        if (!empty($catatan_disposisi6)) {
+                                                                                                            echo $catatan_disposisi6;
                                                                                                         } else {
-                                                                                                            if (!empty($catatan_selesai)) {
-                                                                                                                echo $catatan_selesai;
+                                                                                                            if (empty($catatan_disposisi5)) {
+                                                                                                                echo "Tidak ada catatan";
                                                                                                             } else {
-                                                                                                                if (!empty($catatan_tolak)) {
-                                                                                                                    echo $catatan_tolak;
+                                                                                                                if (!empty($catatan_selesai)) {
+                                                                                                                    echo $catatan_selesai;
                                                                                                                 } else {
-                                                                                                                    echo "Tidak ada catatan";
+                                                                                                                    if (!empty($catatan_tolak)) {
+                                                                                                                        echo $catatan_tolak;
+                                                                                                                    } else {
+                                                                                                                        echo "Tidak ada catatan";
+                                                                                                                    }
                                                                                                                 }
                                                                                                             }
                                                                                                         }
-                                                                                                    }
-                                                                                                    ?>',
+                                                                                                        ?>',
                                                         
                                                         
                                                                                                     '<?php
@@ -673,65 +683,67 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                                                                             echo $disposisi7;
                                                                                                         }
                                                                                                         ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                <?php endif; ?>
 
                                                 <!-- untuk lacak disposisi 7 -->
-                                                <div class="swiper-slide">
-                                                    <div class="status">
-                                                        <span>Disposisi 7:
-                                                            <?php //ok 
-                                                            if (empty($disposisi7)) {
-                                                                if (!empty($disposisi6)) {
-                                                                    $output = print_r($diteruskan_ke, true);
+                                                <?php if (!empty($disposisi7) || !empty($tanggal_disposisi6) && !empty($tanggal_eksekutor)) : ?>
+                                                    <div class="swiper-slide">
+                                                        <div class="status">
+                                                            <span>Disposisi 7:
+                                                                <?php //ok 
+                                                                if (empty($disposisi7)) {
+                                                                    if (!empty($disposisi6)) {
+                                                                        $output = print_r($diteruskan_ke, true);
+                                                                        $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                        $output = str_replace('_', ' ', $output);
+                                                                        echo ucwords($output);
+                                                                    } else {
+                                                                        echo 'Belum didisposisi';
+                                                                    }
+                                                                } else {
+                                                                    $output = print_r($disposisi7, true);
                                                                     $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
                                                                     $output = str_replace('_', ' ', $output);
                                                                     echo ucwords($output);
-                                                                } else {
-                                                                    echo 'Belum didisposisi';
                                                                 }
-                                                            } else {
-                                                                $output = print_r($disposisi7, true);
-                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
-                                                                $output = str_replace('_', ' ', $output);
-                                                                echo ucwords($output);
-                                                            }
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="timestamp">
-                                                        <span class="date">
-                                                            <?php //ok
-                                                            if (!empty($tanggal_disposisi7)) {
-                                                                echo $tanggal_disposisi7;
-                                                            } elseif (!empty($tanggal_disposisi6)) {
-                                                                echo $tanggal_eksekutor;
-                                                            } else {
-                                                                echo 'DD/MM/YYYY';
-                                                            }
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php
-                                                                                                    if (!empty($catatan_disposisi7)) {
-                                                                                                        echo $catatan_disposisi7;
-                                                                                                    } else {
-                                                                                                        if (empty($catatan_disposisi6)) {
-                                                                                                            echo "Tidak ada catatan";
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="timestamp">
+                                                            <span class="date">
+                                                                <?php //ok
+                                                                if (!empty($tanggal_disposisi7)) {
+                                                                    echo $tanggal_disposisi7;
+                                                                } elseif (!empty($tanggal_disposisi6)) {
+                                                                    echo $tanggal_eksekutor;
+                                                                } else {
+                                                                    echo 'DD/MM/YYYY';
+                                                                }
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="btn-catatan">
+                                                            <button type="button" onclick="cekCatatan('<?php
+                                                                                                        if (!empty($catatan_disposisi7)) {
+                                                                                                            echo $catatan_disposisi7;
                                                                                                         } else {
-                                                                                                            if (!empty($catatan_selesai)) {
-                                                                                                                echo $catatan_selesai;
+                                                                                                            if (empty($catatan_disposisi6)) {
+                                                                                                                echo "Tidak ada catatan";
                                                                                                             } else {
-                                                                                                                if (!empty($catatan_tolak)) {
-                                                                                                                    echo $catatan_tolak;
+                                                                                                                if (!empty($catatan_selesai)) {
+                                                                                                                    echo $catatan_selesai;
                                                                                                                 } else {
-                                                                                                                    echo "Tidak ada catatan";
+                                                                                                                    if (!empty($catatan_tolak)) {
+                                                                                                                        echo $catatan_tolak;
+                                                                                                                    } else {
+                                                                                                                        echo "Tidak ada catatan";
+                                                                                                                    }
                                                                                                                 }
                                                                                                             }
                                                                                                         }
-                                                                                                    }
-                                                                                                    ?>',
+                                                                                                        ?>',
                                                         
                                                         
                                                                                                     '<?php
@@ -757,65 +769,67 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                                                                             echo $disposisi8;
                                                                                                         }
                                                                                                         ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                <?php endif; ?>
 
                                                 <!-- untuk lacak disposisi 8 -->
-                                                <div class="swiper-slide">
-                                                    <div class="status">
-                                                        <span>Disposisi 8:
-                                                            <?php //ok 
-                                                            if (empty($disposisi8)) {
-                                                                if (!empty($disposisi7)) {
-                                                                    $output = print_r($diteruskan_ke, true);
+                                                <?php if (!empty($disposisi8) || !empty($tanggal_disposisi7) && !empty($tanggal_eksekutor)) : ?>
+                                                    <div class="swiper-slide">
+                                                        <div class="status">
+                                                            <span>Disposisi 8:
+                                                                <?php //ok 
+                                                                if (empty($disposisi8)) {
+                                                                    if (!empty($disposisi7)) {
+                                                                        $output = print_r($diteruskan_ke, true);
+                                                                        $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                        $output = str_replace('_', ' ', $output);
+                                                                        echo ucwords($output);
+                                                                    } else {
+                                                                        echo 'Belum didisposisi';
+                                                                    }
+                                                                } else {
+                                                                    $output = print_r($disposisi8, true);
                                                                     $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
                                                                     $output = str_replace('_', ' ', $output);
                                                                     echo ucwords($output);
-                                                                } else {
-                                                                    echo 'Belum didisposisi';
                                                                 }
-                                                            } else {
-                                                                $output = print_r($disposisi8, true);
-                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
-                                                                $output = str_replace('_', ' ', $output);
-                                                                echo ucwords($output);
-                                                            }
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="timestamp">
-                                                        <span class="date">
-                                                            <?php //ok
-                                                            if (!empty($tanggal_disposisi8)) {
-                                                                echo $tanggal_disposisi8;
-                                                            } elseif (!empty($tanggal_disposisi7)) {
-                                                                echo $tanggal_eksekutor;
-                                                            } else {
-                                                                echo 'DD/MM/YYYY';
-                                                            }
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php
-                                                                                                    if (!empty($catatan_disposisi8)) {
-                                                                                                        echo $catatan_disposisi8;
-                                                                                                    } else {
-                                                                                                        if (empty($catatan_disposisi7)) {
-                                                                                                            echo "Tidak ada catatan";
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="timestamp">
+                                                            <span class="date">
+                                                                <?php //ok
+                                                                if (!empty($tanggal_disposisi8)) {
+                                                                    echo $tanggal_disposisi8;
+                                                                } elseif (!empty($tanggal_disposisi7)) {
+                                                                    echo $tanggal_eksekutor;
+                                                                } else {
+                                                                    echo 'DD/MM/YYYY';
+                                                                }
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="btn-catatan">
+                                                            <button type="button" onclick="cekCatatan('<?php
+                                                                                                        if (!empty($catatan_disposisi8)) {
+                                                                                                            echo $catatan_disposisi8;
                                                                                                         } else {
-                                                                                                            if (!empty($catatan_selesai)) {
-                                                                                                                echo $catatan_selesai;
+                                                                                                            if (empty($catatan_disposisi7)) {
+                                                                                                                echo "Tidak ada catatan";
                                                                                                             } else {
-                                                                                                                if (!empty($catatan_tolak)) {
-                                                                                                                    echo $catatan_tolak;
+                                                                                                                if (!empty($catatan_selesai)) {
+                                                                                                                    echo $catatan_selesai;
                                                                                                                 } else {
-                                                                                                                    echo "Tidak ada catatan";
+                                                                                                                    if (!empty($catatan_tolak)) {
+                                                                                                                        echo $catatan_tolak;
+                                                                                                                    } else {
+                                                                                                                        echo "Tidak ada catatan";
+                                                                                                                    }
                                                                                                                 }
                                                                                                             }
                                                                                                         }
-                                                                                                    }
-                                                                                                    ?>',
+                                                                                                        ?>',
                                                         
                                                         
                                                                                                     '<?php
@@ -841,64 +855,66 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                                                                             echo $disposisi9;
                                                                                                         }
                                                                                                         ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                <?php endif; ?>
 
                                                 <!-- untuk lacak disposisi 9-->
-                                                <div class="swiper-slide">
-                                                    <div class="status">
-                                                        <span>Disposisi 9:
-                                                            <?php //ok 
-                                                            if (empty($disposisi9)) {
-                                                                if (!empty($disposisi8)) {
-                                                                    $output = print_r($diteruskan_ke, true);
+                                                <?php if (!empty($disposisi9) || !empty($tanggal_disposisi8) && !empty($tanggal_eksekutor)) : ?>
+                                                    <div class="swiper-slide">
+                                                        <div class="status">
+                                                            <span>Disposisi 9:
+                                                                <?php //ok 
+                                                                if (empty($disposisi9)) {
+                                                                    if (!empty($disposisi8)) {
+                                                                        $output = print_r($diteruskan_ke, true);
+                                                                        $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                        $output = str_replace('_', ' ', $output);
+                                                                        echo ucwords($output);
+                                                                    } else {
+                                                                        echo 'Belum didisposisi';
+                                                                    }
+                                                                } else {
+                                                                    $output = print_r($disposisi9, true);
                                                                     $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
                                                                     $output = str_replace('_', ' ', $output);
                                                                     echo ucwords($output);
-                                                                } else {
-                                                                    echo 'Belum didisposisi';
                                                                 }
-                                                            } else {
-                                                                $output = print_r($disposisi9, true);
-                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
-                                                                $output = str_replace('_', ' ', $output);
-                                                                echo ucwords($output);
-                                                            }
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="timestamp">
-                                                        <span class="date"><?php //ok
-                                                                            if (!empty($tanggal_disposisi9)) {
-                                                                                echo $tanggal_disposisi9;
-                                                                            } elseif (!empty($tanggal_disposisi8)) {
-                                                                                echo $tanggal_eksekutor;
-                                                                            } else {
-                                                                                echo 'DD/MM/YYYY';
-                                                                            }
-                                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php
-                                                                                                    if (!empty($catatan_disposisi9)) {
-                                                                                                        echo $catatan_disposisi9;
-                                                                                                    } else {
-                                                                                                        if (empty($catatan_disposisi8)) {
-                                                                                                            echo "Tidak ada catatan";
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="timestamp">
+                                                            <span class="date"><?php //ok
+                                                                                if (!empty($tanggal_disposisi9)) {
+                                                                                    echo $tanggal_disposisi9;
+                                                                                } elseif (!empty($tanggal_disposisi8)) {
+                                                                                    echo $tanggal_eksekutor;
+                                                                                } else {
+                                                                                    echo 'DD/MM/YYYY';
+                                                                                }
+                                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="btn-catatan">
+                                                            <button type="button" onclick="cekCatatan('<?php
+                                                                                                        if (!empty($catatan_disposisi9)) {
+                                                                                                            echo $catatan_disposisi9;
                                                                                                         } else {
-                                                                                                            if (!empty($catatan_selesai)) {
-                                                                                                                echo $catatan_selesai;
+                                                                                                            if (empty($catatan_disposisi8)) {
+                                                                                                                echo "Tidak ada catatan";
                                                                                                             } else {
-                                                                                                                if (!empty($catatan_tolak)) {
-                                                                                                                    echo $catatan_tolak;
+                                                                                                                if (!empty($catatan_selesai)) {
+                                                                                                                    echo $catatan_selesai;
                                                                                                                 } else {
-                                                                                                                    echo "Tidak ada catatan";
+                                                                                                                    if (!empty($catatan_tolak)) {
+                                                                                                                        echo $catatan_tolak;
+                                                                                                                    } else {
+                                                                                                                        echo "Tidak ada catatan";
+                                                                                                                    }
                                                                                                                 }
                                                                                                             }
                                                                                                         }
-                                                                                                    }
-                                                                                                    ?>',
+                                                                                                        ?>',
                                                         
                                                         
                                                                                                     '<?php
@@ -924,48 +940,50 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                                                                             echo $disposisi10;
                                                                                                         }
                                                                                                         ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        </div>
                                                     </div>
-                                                </div>
-
+                                                <?php endif; ?>
 
                                                 <!-- untuk lacak disposisi 10-->
-                                                <div class="swiper-slide">
-                                                    <div class="status">
-                                                        <span>Disposisi 10:
-                                                            <?php //ok 
-                                                            if (empty($disposisi10)) {
-                                                                if (!empty($disposisi9)) {
-                                                                    $output = print_r($diteruskan_ke, true);
+                                                <?php if (!empty($disposisi10) || !empty($tanggal_disposisi9) && !empty($tanggal_eksekutor)) : ?>
+                                                    <div class="swiper-slide">
+                                                        <div class="status">
+                                                            <span>Disposisi 10:
+                                                                <?php //ok 
+                                                                if (empty($disposisi10)) {
+                                                                    if (!empty($disposisi9)) {
+                                                                        $output = print_r($diteruskan_ke, true);
+                                                                        $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
+                                                                        $output = str_replace('_', ' ', $output);
+                                                                        echo ucwords($output);
+                                                                    } else {
+                                                                        echo 'Belum didisposisi';
+                                                                    }
+                                                                } else {
+                                                                    $output = print_r($disposisi10, true);
                                                                     $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
                                                                     $output = str_replace('_', ' ', $output);
                                                                     echo ucwords($output);
-                                                                } else {
-                                                                    echo 'Belum didisposisi';
                                                                 }
-                                                            } else {
-                                                                $output = print_r($disposisi10, true);
-                                                                $output = str_replace(array('["', '"]', '', '"'), '', str_replace(',', ', ', $output));
-                                                                $output = str_replace('_', ' ', $output);
-                                                                echo ucwords($output);
-                                                            }
-                                                            ?>
-                                                        </span>
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="timestamp">
+                                                            <span class="date"><?php //ok
+                                                                                if (!empty($tanggal_disposisi10)) {
+                                                                                    echo $tanggal_disposisi10;
+                                                                                } elseif (!empty($tanggal_disposisi9)) {
+                                                                                    echo $tanggal_eksekutor;
+                                                                                } else {
+                                                                                    echo 'DD/MM/YYYY';
+                                                                                }
+                                                                                ?></span>
+                                                        </div>
+                                                        <div class="btn-catatan">
+                                                            <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi10) ? $catatan_disposisi10 : "Tidak ada catatan"; ?>')" style="cursor: pointer;">Cek Catatan</button>
+                                                        </div>
                                                     </div>
-                                                    <div class="timestamp">
-                                                        <span class="date"><?php //ok
-                                                                            if (!empty($tanggal_disposisi10)) {
-                                                                                echo $tanggal_disposisi10;
-                                                                            } elseif (!empty($tanggal_disposisi9)) {
-                                                                                echo $tanggal_eksekutor;
-                                                                            } else {
-                                                                                echo 'DD/MM/YYYY';
-                                                                            }
-                                                                            ?></span>
-                                                    </div>
-                                                    <div class="btn-catatan">
-                                                        <button type="button" onclick="cekCatatan('<?php echo !empty($catatan_disposisi10) ? $catatan_disposisi10 : "Tidak ada catatan"; ?>')" style="cursor: pointer;">Cek Catatan</button>
-                                                    </div>
-                                                </div>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
