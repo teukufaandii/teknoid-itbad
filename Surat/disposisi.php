@@ -176,10 +176,7 @@ $file_laporan_exists = !empty($file_laporan_name);
 <body>
     <!-- sidenav -->
     <?php include "sidenav.php" ?>
-    
-    <!-- chat --->
-    <?php include "chat.php" ?>
-    
+
     <!-- content -->
     <div class="content" id="Content">
         <!-- topnav -->
