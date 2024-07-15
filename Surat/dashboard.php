@@ -31,6 +31,8 @@ if (!isset($_SESSION['pengguna_type'])) {
     <!-- sidenav -->
     <?php include "sidenav.php" ?>
 
+    
+
     <!-- content -->
     <div class="content" id="Content">
         <!-- topnav -->
@@ -114,14 +116,17 @@ if (!isset($_SESSION['pengguna_type'])) {
                     <?php
                     $fullname = $_SESSION['nama_lengkap'];
                     $records = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_surat_dis
-                                                            WHERE tb_surat_dis.asal_surat = '$fullname' ");
+                                WHERE tb_surat_dis.asal_surat = '$fullname'");
                     $total_sk_row = mysqli_fetch_assoc($records);
                     $total_sk = $total_sk_row['total'];
                     ?>
-                    <button onclick="window.location.href='surat_keluar.php'" class="btn4">Surat Keluar
-                        <i class="fa fa-envelope-open dash-icon"></i><br>
-                        <span class="badge" id="" style="color: grey; padding: 2px; border-radius: 15px;"><?php echo $total_sk; ?></span>
-                    </button>
+
+                    <?php if ($_SESSION['akses'] != 'Rektor' && $_SESSION['akses'] != 'Warek1' && $_SESSION['akses'] != 'Warek2' && $_SESSION['akses'] != 'Warek3') : ?>
+                        <button onclick="window.location.href='surat_keluar.php'" class="btn4">Surat Keluar
+                            <i class="fa fa-envelope-open dash-icon"></i><br>
+                            <span class="badge" id="" style="color: grey; padding: 2px; border-radius: 15px;"><?php echo $total_sk; ?></span>
+                        </button>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -182,53 +187,76 @@ if (!isset($_SESSION['pengguna_type'])) {
 
 
         function fetchNotifications(container, modal) {
-            const diteruskan_ke = '<?php echo $_SESSION['akses']; ?>';
-            const sql = `
-            SELECT * FROM tb_surat_dis 
-            WHERE (JSON_CONTAINS(diteruskan_ke, '"${diteruskan_ke}"') OR diteruskan_ke = '${diteruskan_ke}')
-            AND status_selesai = FALSE `;
+        const diteruskan_ke = '<?php echo $_SESSION['akses']; ?>';
+        const fullname = '<?php echo $_SESSION['jabatan']; ?>';
+        let sql = '';
 
-            fetch('fetch_notification.php', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        sql: sql
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    const notificationsList = modal.querySelector('.notifications');
-                    const notificationBadge = document.getElementById('notificationBadge');
-
-                    notificationsList.innerHTML = '';
-                    if (data.length > 0) {
-                        notificationBadge.innerText = data.length;
-                        notificationBadge.style.display = 'inline-block';
-                    }
-
-                    if (data.length > 0) {
-                        data.forEach((surat) => {
-                            const listItem = document.createElement('li');
-                            listItem.innerHTML = `
-                        <a href="disposisi.php?id=${surat.id_surat}">
-                            Ada Surat Masuk - ${surat.perihal}
-                        </a>
-                    `;
-                            notificationsList.appendChild(listItem);
-                        });
-                        notificationBadge.innerText = data.length;
-                        notificationBadge.style.display = 'inline-block';
-                    } else {
-                        const noNotificationItem = document.createElement('li');
-                        noNotificationItem.innerText = 'Tidak ada notifikasi.';
-                        notificationsList.appendChild(noNotificationItem);
-                        notificationBadge.style.display = 'none';
-                    }
-                })
-                .catch(error => console.error('Error fetching notifications:', error));
+        if (diteruskan_ke === 'prodi_si' || diteruskan_ke === 'prodi_ti') {
+            sql = `
+                SELECT * FROM tb_disposisi 
+                WHERE 
+                    (nama_selesai != '${fullname}' AND 
+                    nama_selesai2 != '${fullname}' AND 
+                    nama_selesai3 != '${fullname}' AND 
+                    nama_selesai4 != '${fullname}' AND 
+                    nama_selesai5 != '${fullname}' AND 
+                    nama_selesai6 != '${fullname}' AND 
+                    nama_selesai7 != '${fullname}')
+                AND 
+                    (JSON_CONTAINS(diteruskan_ke, '"${diteruskan_ke}"') OR 
+                    diteruskan_ke = '${diteruskan_ke}');
+            `;
+        } else {
+            sql = `
+                SELECT * FROM tb_surat_dis 
+                WHERE 
+                    (JSON_CONTAINS(diteruskan_ke, '"${diteruskan_ke}"') OR diteruskan_ke = '${diteruskan_ke}')
+                AND status_selesai = FALSE;
+            `;
         }
+
+        fetch('fetch_notification.php', {
+                method: 'POST',
+                body: JSON.stringify({
+                    sql: sql
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const notificationsList = modal.querySelector('.notifications');
+                const notificationBadge = document.getElementById('notificationBadge');
+
+                notificationsList.innerHTML = '';
+                if (data.length > 0) {
+                    notificationBadge.innerText = data.length;
+                    notificationBadge.style.display = 'inline-block';
+                }
+
+                if (data.length > 0) {
+                    data.forEach((surat) => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `
+                            <a href="disposisi.php?id=${surat.id_surat}">
+                                Ada Surat Masuk - ${surat.perihal}
+                            </a>
+                        `;
+                        notificationsList.appendChild(listItem);
+                    });
+                    notificationBadge.innerText = data.length;
+                    notificationBadge.style.display = 'inline-block';
+                } else {
+                    const noNotificationItem = document.createElement('li');
+                    noNotificationItem.innerText = 'Tidak ada notifikasi.';
+                    notificationsList.appendChild(noNotificationItem);
+                    notificationBadge.style.display = 'none';
+                }
+            })
+            .catch(error => console.error('Error fetching notifications:', error));
+    }
+
     </script>
 
 </body>
