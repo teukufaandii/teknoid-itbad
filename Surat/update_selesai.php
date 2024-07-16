@@ -74,7 +74,7 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
     // Update tb_surat_dis based on status conditions
     if (!$status_selesai) {
         // If status_selesai is false, update status_selesai to true
-        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai = true, kode_surat = '$kode_surat', status_baca = true WHERE id_surat = '$id'";
+        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai = true, status_baca = true WHERE id_surat = '$id'";
     } elseif ($status_selesai && !$status_selesai2) {
         // If status_selesai is true but status_selesai2 is false, update status_selesai2 to true
         $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai2 = true WHERE id_surat = '$id'";
