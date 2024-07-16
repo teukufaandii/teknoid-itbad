@@ -191,7 +191,9 @@ if (!isset($_SESSION['pengguna_type'])) {
         const fullname = '<?php echo $_SESSION['jabatan']; ?>';
         let sql = '';
 
-        if (diteruskan_ke === 'prodi_si' || diteruskan_ke === 'prodi_ti' || diteruskan_ke === 'prodi_akuntansi') {
+        if (diteruskan_ke === 'prodi_si' || diteruskan_ke === 'prodi_ti' || diteruskan_ke === 'prodi_akuntansi' || diteruskan_ke === 'prodi_manajemen'
+            || diteruskan_ke === 'prodi_keuSyariah' || diteruskan_ke === 'prodi_dkv' || diteruskan_ke === 'prodi_arsitek'
+        ) {
             sql = `
                 SELECT * FROM tb_disposisi 
                 WHERE 
