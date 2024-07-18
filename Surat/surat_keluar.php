@@ -120,19 +120,26 @@ if (!isset($_SESSION['pengguna_type'])) {
                             // tabel db surat
                             $stmt = $conn->prepare("SELECT sd.id_surat, sd.kode_surat, sd.kd_surat, sd.asal_surat,
                                     sd.tanggal_surat, sd.perihal, sd.diteruskan_ke, sd.status_baca, sd.status_tolak,
-                                    sd.status_selesai, d.dispo1, d.dispo2, d.dispo3, d.dispo4, d.dispo5,
-                                    d.catatan_selesai, d.catatan_tolak, d.nama_penolak, d.nama_selesai
+                                    sd.status_selesai, sd.status_selesai2, sd.status_selesai3, sd.status_selesai4,
+                                    sd.status_selesai5, sd.status_selesai6, sd.status_selesai7,
+                                    d.dispo1, d.dispo2, d.dispo3, d.dispo4, d.dispo5,
+                                    d.catatan_selesai, d.catatan_selesai2, d.catatan_selesai3, d.catatan_selesai4, d.catatan_selesai5, d.catatan_selesai6, d.catatan_selesai7,
+                                    d.catatan_tolak, d.nama_penolak,
+                                    d.nama_selesai, d.nama_selesai2, d.nama_selesai3, d.nama_selesai4, d.nama_selesai5, d.nama_selesai6, d.nama_selesai7,
+                                    JSON_LENGTH(sd.diteruskan_ke) AS jumlah_diteruskan_ke
                                     FROM tb_surat_dis sd
                                     LEFT JOIN tb_disposisi d ON sd.id_surat = d.id_surat
-                                    WHERE sd.asal_surat = '$fullname' 
+                                    WHERE sd.asal_surat = ?
                                     LIMIT ?, ?");
-                            $stmt->bind_param("ii", $start, $rows_per_page);
+                            $stmt->bind_param("sii", $fullname, $start, $rows_per_page);
                             $stmt->execute();
                             $result = $stmt->get_result();
 
                             if ($result->num_rows > 0) {
                                 $counter = $start + 1;
                                 while ($row = $result->fetch_assoc()) {
+                                    $jumlah_diteruskan_ke = $row['jumlah_diteruskan_ke'];
+                                    $status_selesai = $row['status_selesai'];
                             ?>
                                     <tr>
                                         <?php
@@ -143,8 +150,53 @@ if (!isset($_SESSION['pengguna_type'])) {
                                         echo "<td>" . $row['tanggal_surat'] . "</td>";
                                         echo "<td>";
 
-                                        if ($row['status_selesai']) {
-                                            $tooltipText = addslashes($row['catatan_selesai'] . "<br><span style='text-align: center'>Diterima oleh : </span><strong>" . $row['nama_selesai'] . "</strong>");
+                                        if ($jumlah_diteruskan_ke == 1 && $status_selesai) {
+                                            $tooltipText = addslashes("<span style='text-align: center'>Catatan Selesai : </span>" . $row['catatan_selesai'] . "<br><span style='text-align: center'>Diterima oleh : </span><strong>" . $row['nama_selesai'] . "</strong>");
+                                            echo '<span class="status-notification"><span class="status" onclick="showStatusModal(\'' . $tooltipText . '\', \'Selesai\')"><span style="background-color: green; color: white; padding: 5px; border-radius: 5px; display: block; width: 130px; margin: auto; cursor: pointer;">Selesai</span></span><span class="notification-dot"></span></span>';
+                                        } elseif ($jumlah_diteruskan_ke == 2 && $row['status_selesai'] && $row['status_selesai2']) {
+                                            $tooltipText = addslashes("<span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai] </strong> : </span>" . $row['catatan_selesai'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai2] </strong> : </span>" . $row['catatan_selesai2'] .
+                                                "<br><br><span style='text-align: center'>Diterima oleh : </span><strong>" . $row['nama_selesai'] . " dan " . $row['nama_selesai2'] . "</strong>");
+                                            echo '<span class="status-notification"><span class="status" onclick="showStatusModal(\'' . $tooltipText . '\', \'Selesai\')"><span style="background-color: green; color: white; padding: 5px; border-radius: 5px; display: block; width: 130px; margin: auto; cursor: pointer;">Selesai</span></span><span class="notification-dot"></span></span>';
+                                        } elseif ($jumlah_diteruskan_ke == 3 && $row['status_selesai'] && $row['status_selesai2'] && $row['status_selesai3']) {
+                                            $tooltipText = addslashes("<span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai] </strong> : </span>" . $row['catatan_selesai'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai2] </strong> : </span>" . $row['catatan_selesai2'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai3] </strong> : </span>" . $row['catatan_selesai3'] .
+                                                "<br><br><span style='text-align: center'>Diterima oleh : </span><strong>" . $row['nama_selesai'] . ", " . $row['nama_selesai2'] . " dan " . $row['nama_selesai3'] . "</strong>");
+                                            echo '<span class="status-notification"><span class="status" onclick="showStatusModal(\'' . $tooltipText . '\', \'Selesai\')"><span style="background-color: green; color: white; padding: 5px; border-radius: 5px; display: block; width: 130px; margin: auto; cursor: pointer;">Selesai</span></span><span class="notification-dot"></span></span>';
+                                        } elseif ($jumlah_diteruskan_ke == 4 && $row['status_selesai'] && $row['status_selesai2'] && $row['status_selesai3'] && $row['status_selesai4']) {
+                                            $tooltipText = addslashes("<span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai] </strong> : </span>" . $row['catatan_selesai'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai2] </strong> : </span>" . $row['catatan_selesai2'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai3] </strong> : </span>" . $row['catatan_selesai3'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai4] </strong> : </span>" . $row['catatan_selesai4'] .
+                                                "<br><br><span style='text-align: center'>Diterima oleh : </span><strong>" . $row['nama_selesai'] . ", " . $row['nama_selesai2'] . ", " . $row['nama_selesai3'] . " dan " . $row['nama_selesai4'] . "</strong>");
+                                            echo '<span class="status-notification"><span class="status" onclick="showStatusModal(\'' . $tooltipText . '\', \'Selesai\')"><span style="background-color: green; color: white; padding: 5px; border-radius: 5px; display: block; width: 130px; margin: auto; cursor: pointer;">Selesai</span></span><span class="notification-dot"></span></span>';
+                                        } elseif ($jumlah_diteruskan_ke == 5 && $row['status_selesai'] && $row['status_selesai2'] && $row['status_selesai3'] && $row['status_selesai4'] && $row['status_selesai5']) {
+                                            $tooltipText = addslashes("<span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai] </strong> : </span>" . $row['catatan_selesai'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai2] </strong> : </span>" . $row['catatan_selesai2'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai3] </strong> : </span>" . $row['catatan_selesai3'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai4] </strong> : </span>" . $row['catatan_selesai4'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai5] </strong> : </span>" . $row['catatan_selesai5'] .
+                                                "<br><br><span style='text-align: center'>Diterima oleh : </span><strong>" . $row['nama_selesai'] . ", " . $row['nama_selesai2'] . ", " . $row['nama_selesai3'] . ", " . $row['nama_selesai4'] . " dan " . $row['nama_selesai5'] . "</strong>");
+                                            echo '<span class="status-notification"><span class="status" onclick="showStatusModal(\'' . $tooltipText . '\', \'Selesai\')"><span style="background-color: green; color: white; padding: 5px; border-radius: 5px; display: block; width: 130px; margin: auto; cursor: pointer;">Selesai</span></span><span class="notification-dot"></span></span>';
+                                        } elseif ($jumlah_diteruskan_ke == 6 && $row['status_selesai'] && $row['status_selesai2'] && $row['status_selesai3'] && $row['status_selesai4'] && $row['status_selesai5'] && $row['status_selesai6']) {
+                                            $tooltipText = addslashes("<span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai] </strong> : </span>" . $row['catatan_selesai'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai2] </strong> : </span>" . $row['catatan_selesai2'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai3] </strong> : </span>" . $row['catatan_selesai3'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai4] </strong> : </span>" . $row['catatan_selesai4'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai5] </strong> : </span>" . $row['catatan_selesai5'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai6] </strong> : </span>" . $row['catatan_selesai6'] .
+                                                "<br><br><span style='text-align: center'>Diterima oleh : </span><strong>" . $row['nama_selesai'] . ", " . $row['nama_selesai2'] . ", " . $row['nama_selesai3'] . ", " . $row['nama_selesai4'] . ", " . $row['nama_selesai5'] . "</strong> dan <strong>" . $row['nama_selesai6'] . "</strong>");
+                                            echo '<span class="status-notification"><span class="status" onclick="showStatusModal(\'' . $tooltipText . '\', \'Selesai\')"><span style="background-color: green; color: white; padding: 5px; border-radius: 5px; display: block; width: 130px; margin: auto; cursor: pointer;">Selesai</span></span><span class="notification-dot"></span></span>';
+                                        } elseif ($jumlah_diteruskan_ke == 7 && $row['status_selesai'] && $row['status_selesai2'] && $row['status_selesai3'] && $row['status_selesai4'] && $row['status_selesai5'] && $row['status_selesai6'] && $row['status_selesai7']) {
+                                            $tooltipText = addslashes("<span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai] </strong> : </span>" . $row['catatan_selesai'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai2] </strong> : </span>" . $row['catatan_selesai2'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai3] </strong> : </span>" . $row['catatan_selesai3'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai4] </strong> : </span>" . $row['catatan_selesai4'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai5] </strong> : </span>" . $row['catatan_selesai5'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai6] </strong> : </span>" . $row['catatan_selesai6'] .
+                                                "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai7] </strong> : </span>" . $row['catatan_selesai7'] .
+                                                "<br><br><span style='text-align: center'>Diterima oleh : </span><strong>" . $row['nama_selesai'] . ", " . $row['nama_selesai2'] . ", " . $row['nama_selesai3'] . ", " . $row['nama_selesai4'] . ", " . $row['nama_selesai5'] . ", " . $row['nama_selesai6'] . "</strong> dan <strong>" . $row['nama_selesai7'] . "</strong>");
                                             echo '<span class="status-notification"><span class="status" onclick="showStatusModal(\'' . $tooltipText . '\', \'Selesai\')"><span style="background-color: green; color: white; padding: 5px; border-radius: 5px; display: block; width: 130px; margin: auto; cursor: pointer;">Selesai</span></span><span class="notification-dot"></span></span>';
                                         } elseif ($row['status_tolak']) {
                                             $tooltipText = addslashes($row['catatan_tolak'] . "<br><span style='text-align: center'>Ditolak oleh : </span><strong>" . $row['nama_penolak'] . "</strong>");

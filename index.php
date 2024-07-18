@@ -12,6 +12,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <script src="https://kit.fontawesome.com/9e9ad697fd.js" crossorigin="anonymous"></script>
+    <style>
+        .loader-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,7 +34,7 @@
         <div class="login-logo">
             <img src="logo itbad.png">
         </div>
-        <form method="POST" action="login_process.php">
+        <form id="loginForm" method="POST" action="login_process.php" onsubmit="return showLoader()">
             <div class="user-box">
                 <input type="text" name="noinduk" id="username" autocomplete="off" required="">
                 <label>Masukan Username</label>
@@ -30,7 +44,7 @@
                 <label>Masukan Password</label>
                 <i class="fa fa-eye" id="pass-toggle"></i>
             </div>
-            <div class="space" style="display: flex; justify-content: space-between; align-items: center; ">
+            <div class="space" style="display: flex; justify-content: space-between; align-items: center;">
                 <p style="margin-top: 0px; margin-bottom: 25px;">
                     <a href="forgot" class="forgot">Lupa Password?</a>
                 </p>
@@ -41,12 +55,14 @@
                     </a>
                 </p>
             </div>
-
             <div class="btn-container">
                 <input type="submit" value="Masuk" class="login-btn" style="cursor: pointer;">
             </div>
         </form>
     </div>
+
+    <?php include 'loader.php'; ?>
+
     <script>
         const togglePassword = document.querySelector('#pass-toggle');
         const password = document.querySelector('#password');
@@ -58,6 +74,17 @@
             // toggle the eye slash icon
             this.classList.toggle('fa-eye-slash');
         });
+
+        function showLoader() {
+            // Menampilkan loader
+            document.getElementById("loader").style.display = "flex";
+            // Menunda pengiriman form selama 3 detik
+            setTimeout(function() {
+                document.getElementById("loginForm").submit();
+            }, 1000);
+            // Mencegah pengiriman form langsung
+            return false;
+        }
     </script>
 </body>
 

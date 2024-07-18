@@ -46,7 +46,7 @@ $stmt1->bind_result(
     $deskripsi,
     $nama_perusahaan,
     $Alamat_Perusahaan,
-    $prodi
+    $prodi,
 );
 $stmt1->fetch();
 $stmt1->close();
@@ -176,10 +176,10 @@ $file_laporan_exists = !empty($file_laporan_name);
 <body>
     <!-- sidenav -->
     <?php include "sidenav.php" ?>
-    
+
     <!-- chat --->
     <?php include "chat.php" ?>
-    
+
     <!-- content -->
     <div class="content" id="Content">
         <!-- topnav -->
@@ -226,7 +226,7 @@ $file_laporan_exists = !empty($file_laporan_name);
 
                     <div class="input-field">
                         <label for="">Perihal*</label>
-                        <input type="text" class="input" name="#" placeholder="" value="<?php echo $perihal; ?>" readonly>
+                        <input type="text" class="input" name="perihal" placeholder="" value="<?php echo $perihal; ?>" readonly>
                     </div>
 
                     <div class="input-field">
@@ -249,24 +249,27 @@ $file_laporan_exists = !empty($file_laporan_name);
                         <input type="text" class="input" name="#" placeholder="" value="<?php echo $no_telepon; ?>, &nbsp <?php echo $no_telepon2; ?>, &nbsp <?php echo $no_telepon3; ?> " readonly>
                     </div>
 
-                    <?php if ($_SESSION['akses'] == "Humas") { ?>
-                        <div class="input-field">
-                            <label for="">Email*</label>
-                            <input type="text" class="input" name="#" placeholder="" value="<?php echo $suratelektrik; ?>" readonly>
-                        </div>
-                    <?php } ?>
+
+                    <?php if ($_SESSION['akses'] == "Humas" && $jenis_surat == 'Surat KKL' || $_SESSION['akses'] == "Humas" && $jenis_surat == 'Surat Riset') { ?>
+                        <?php if ($_SESSION['akses'] == "Humas") { ?>
+                            <div class="input-field">
+                                <label for="">Email*</label>
+                                <input type="text" class="input" name="#" placeholder="" value="<?php echo $suratelektrik; ?>" readonly>
+                            </div>
+                        <?php } ?>
 
 
-                    <?php if ($_SESSION['akses'] == "Humas" || $_SESSION['akses'] == "Sekretaris") { ?>
-                        <div class="input-field">
-                            <label for="">Nama Perusahaan</label>
-                            <input type="text" class="input" name="#" value="<?php echo $nama_perusahaan; ?>" readonly>
-                        </div>
+                        <?php if ($_SESSION['akses'] == "Humas" || $_SESSION['akses'] == "Sekretaris") { ?>
+                            <div class="input-field">
+                                <label for="">Nama Perusahaan</label>
+                                <input type="text" class="input" name="#" value="<?php echo $nama_perusahaan; ?>" readonly>
+                            </div>
 
-                        <div class="input-field">
-                            <label for="">Alamat Perusahaan</label>
-                            <input type="text" class="input" name="#" value="<?php echo $Alamat_Perusahaan; ?>  " readonly>
-                        </div>
+                            <div class="input-field">
+                                <label for="">Alamat Perusahaan</label>
+                                <input type="text" class="input" name="#" value="<?php echo $Alamat_Perusahaan; ?>  " readonly>
+                            </div>
+                        <?php } ?>
                     <?php } ?>
 
                     <div class="input-field">

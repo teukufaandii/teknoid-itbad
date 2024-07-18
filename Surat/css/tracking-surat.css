@@ -1,62 +1,69 @@
 #Content {
-    margin-left:200px;
-    transition: margin-left .5s;
-    padding: 0px;
-  }
-  
-  @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
-  }
+  margin-left: 200px;
+  transition: margin-left 0.5s;
+  padding: 0px;
+}
 
-    @media screen and (max-width: 1000px) {
-    .sidenav {width: 0;}
-    #Content {margin-left: 0;}
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .sidenav {
+    width: 0;
+  }
+  #Content {
+    margin-left: 0;
+  }
 }
 .content .mainContent {
-    padding: 15px;
-    height: 120vh;
+  padding: 15px;
+  height: 120vh;
 }
 .content .mainContent .contentBox {
-    background: #cfcfcf;
-    border-radius: 10px;
-    overflow: hidden;
-    padding: 15px;
-    height: 100%;
+  background: #cfcfcf;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 15px;
+  height: 100%;
 }
 
 .contact {
-    position: relative;
-    width: 100%;
-    height: 900px;
+  position: relative;
+  width: 100%;
+  height: 900px;
 }
 
 .contact .form {
-    width: 120%;
-    float: left;
-    margin-top: 20px;
+  width: 120%;
+  float: left;
+  margin-top: 20px;
 }
 
-
-.input-field{
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    padding: 3px;
+.input-field {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  padding: 3px;
 }
 
-.input-field label{
-    width: 200px;
-    color: #000000;
-    margin-right: 10px;
-    font-size: 14px;
+.input-field label {
+  width: 200px;
+  color: #000000;
+  margin-right: 10px;
+  font-size: 14px;
 }
 
 form .input-field .input,
-form .input-field .textarea{
+form .input-field .textarea {
   width: 100%;
   outline: none;
-  background-color: #A0A0A0;
+  background-color: #a0a0a0;
   border: 1px solid#A0A0A0;
   font-size: 14px;
   padding: 8px 10px;
@@ -64,107 +71,103 @@ form .input-field .textarea{
   transition: all 0.3s ease;
 }
 
-
 .contact .form input:focus {
-    outline: none;
+  outline: none;
 }
 
-.file{
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    justify-content: center;
-    text-align: center;
+.file {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
 }
 
-.file .berkas button{
-    margin-top: 2px;
+.file .berkas button {
+  margin-top: 2px;
 }
 
 .file .berkas,
 .file .laporan {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
-    width: 200%;
-    padding: 30px 0px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  width: 200%;
+  padding: 30px 0px;
 }
 
 .file .berkas button,
-.file .laporan button{
-    background-color: rgb(27, 94, 190);
-    font-size: 14px;
-    padding: 8px 10px;
-    border-radius: 3px;
-    border: 1px solid #fff;
-    cursor: pointer;
-    float: left;
+.file .laporan button {
+  background-color: rgb(27, 94, 190);
+  font-size: 14px;
+  padding: 8px 10px;
+  border-radius: 3px;
+  border: 1px solid #fff;
+  cursor: pointer;
+  float: left;
 }
 
-
-
-.file .laporan button:hover{
-    background-color: rgb(22,79,159);
-    color: white;
+.file .laporan button:hover {
+  background-color: rgb(22, 79, 159);
+  color: white;
 }
-.file .berkas button:hover{
-    background-color: rgb(22,79,159);
-    color: white;
+.file .berkas button:hover {
+  background-color: rgb(22, 79, 159);
+  color: white;
 }
 
 .jdl {
-    margin-top: 0px;
-    display: block;
-    height: 30px;
-    width: 100%;
-    border-bottom: solid black 1px;
+  margin-top: 0px;
+  display: block;
+  height: 30px;
+  width: 100%;
+  border-bottom: solid black 1px;
 }
 
-.jdl h3{
-    margin-top: 15px;
+.jdl h3 {
+  margin-top: 15px;
 }
 
-.box-ntf-disp{
-    margin-top: 20px;
-    width: 100%;
-    background-color: #ffffff;
-    height: 140px;
-    border-radius: 5px;
+.box-ntf-disp {
+  margin-top: 20px;
+  width: 100%;
+  background-color: #ffffff;
+  height: 140px;
+  border-radius: 5px;
 }
 
 .contact .form1 {
-    width: 100%;
-    float: left;
-    margin-top: 20px;
+  width: 100%;
+  float: left;
+  margin-top: 20px;
 }
 
 .contact .form1 span {
-    display: block;
-    float: left;
-    width: 300px;
-    padding-top: 5px;
-    margin-top: 10px;
-    text-align: center;
+  display: block;
+  float: left;
+  width: 300px;
+  padding-top: 5px;
+  margin-top: 10px;
+  text-align: center;
 }
-
 
 .contact .form1 input,
 .contact .form1 textarea {
-    width: calc(100% - 25%);
-    background-color: #A0A0A0;
-    border: 0px;
-    color: #000000;
-    padding: 10px 10px 10px 30px;
-    justify-content: center;
-    margin-bottom: 20px; 
-    border-radius: 4px;
-    height: 50px;
-    display: block; 
+  width: calc(100% - 25%);
+  background-color: #a0a0a0;
+  border: 0px;
+  color: #000000;
+  padding: 10px 10px 10px 30px;
+  justify-content: center;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  height: 50px;
+  display: block;
 }
 
 .contact .form1 input:focus {
-    outline: none;
+  outline: none;
 }
 
 .footer {
@@ -173,7 +176,7 @@ form .input-field .textarea{
   left: 0;
   right: 0;
   padding: 1rem;
-  background: #EAEAEA;
+  background: #eaeaea;
   color: black;
   font-weight: 700;
   display: flex;
@@ -185,198 +188,198 @@ form .input-field .textarea{
 
 .contact .form1 input,
 .contact .form1 textarea {
-    width: calc(100% - 30%);
+  width: calc(100% - 30%);
 }
 
 .form-catatan {
-    width: 100%;
-    height: 240px;
-    border-radius: 10px;
-    background-color: #ffffff;
+  width: 100%;
+  height: 240px;
+  border-radius: 10px;
+  background-color: #ffffff;
 }
 
-.form-catatan h2{
-    padding: 10px;
-    border-bottom: 1px solid black;
-    width: 100%;
-    text-align: center;
+.form-catatan h2 {
+  padding: 10px;
+  border-bottom: 1px solid black;
+  width: 100%;
+  text-align: center;
 }
 
-.form-catatan .isi-catatan{
-    margin-top: 20px;
-    width: 100%;
-    height: 100%;
-    display: flex;
+.form-catatan .isi-catatan {
+  margin-top: 20px;
+  width: 100%;
+  height: 100%;
+  display: flex;
 }
 
-.form-catatan .isi-catatan span{
-    margin-left: 25px;
-    margin-top: 10px;
-    display: block;
-    float: left;
-    width: 18.2%;
-    height: 140px;
-    padding-top: 5px;
-    margin-top: 10px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 15px;
+.form-catatan .isi-catatan span {
+  margin-left: 25px;
+  margin-top: 10px;
+  display: block;
+  float: left;
+  width: 18.2%;
+  height: 140px;
+  padding-top: 5px;
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 15px;
 }
-  
 
 @media screen and (max-width: 1393px) {
-    .contact .form input,
-    .contact .form textarea {
+  .contact .form input,
+  .contact .form textarea {
     width: calc(100% - 35%);
-    }
+  }
 
-    .contact .form1 input,
-    .contact .form1 textarea {
+  .contact .form1 input,
+  .contact .form1 textarea {
     width: calc(100% - 35%);
-}
+  }
 }
 @media screen and (max-width: 1231px) {
-    .contact .form input,
-    .contact .form textarea {
+  .contact .form input,
+  .contact .form textarea {
     width: calc(100% - 40%);
-    }
+  }
 
-    .contact .form1 input,
-    .contact .form1 textarea {
+  .contact .form1 input,
+  .contact .form1 textarea {
     width: calc(100% - 40%);
-}
+  }
 }
 @media screen and (max-width: 1109px) {
-    .contact .form input,
-    .contact .form textarea {
+  .contact .form input,
+  .contact .form textarea {
     width: calc(100% - 46%);
-    }
+  }
 
-    .contact .form1 input,
-    .contact .form1 textarea {
+  .contact .form1 input,
+  .contact .form1 textarea {
     width: calc(100% - 45%);
+  }
 }
+#app {
+  margin-top: 90px;
+  width: 100%;
+  height: 25%;
+  background-color: white;
+  align-items: center;
+  border-radius: 10px;
 }
-  #app {
-    margin-top: 90px;
-    width: 100%;
-    height: 25%;
-    background-color: white;
-    align-items: center;
-    border-radius: 10px;
-  }
-  #app.container {
-    margin: 0;
-    padding-top: 20px;
-  }
-  .timeline {
-    margin-top: 10px;
-    list-style-type: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 0;
-    padding-top: 20px;
-    height: 200px;
-  }
-  .timeline li {
-    transition: all 200ms ease-in;
-  }
+#app.container {
+  margin: 0;
+  padding-top: 20px;
+}
+.timeline {
+  margin-top: 10px;
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0;
+  padding-top: 20px;
+  height: 200px;
+}
+.timeline li {
+  transition: all 200ms ease-in;
+}
 
-  .timestamp {
-    width: 100%; 
-    margin-bottom: 20px;
-    padding: 0px 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-weight: 100; 
-  }
+.timestamp {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 0px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: 100;
+}
 
-  /* buttoncatatan */
-  .swiper-slide .btn-catatan{
-    display: flex;
-    justify-content: center;
-  }
+/* buttoncatatan */
+.swiper-slide .btn-catatan {
+  display: flex;
+  justify-content: center;
+}
 
-  .swiper-slide .btn-catatan button{
-    margin-top: 20px;
-  }
+.swiper-slide .btn-catatan button {
+  margin-top: 20px;
+}
 
-  .swal-modal{
-    word-wrap: break-word;
-  }
+.swal-modal {
+  word-wrap: break-word;
+}
 
-  .status {
-    display: flex;
-    justify-content: center;
-    border-top: 4px solid rgb(27, 94, 190);
-    position: relative;
-    transition: all 200ms ease-in ;
-  }
-    
-  .status span {
-    font-weight: 600;
-    padding-top: 25px;
-    margin-bottom: 14px;
-  }
-  .status span:before {
-    content: '';
-    width: 25px;
-    height: 25px;
-    background-color: #e8eeff;
-    border-radius: 25px;
-    border: 4px solid rgb(27, 94, 190);
-    position: absolute;
-    top: -15px;
-    left: calc(50% - 12px); 
-    transition: all 200ms ease-in;
-  }
+.status {
+  display: flex;
+  justify-content: center;
+  border-top: 4px solid rgb(27, 94, 190);
+  position: relative;
+  transition: all 200ms ease-in;
+}
+
+.status span {
+  font-weight: 600;
+  padding-top: 25px;
+  margin-bottom: 14px;
+}
+.status span:before {
+  content: "";
+  width: 25px;
+  height: 25px;
+  background-color: #e8eeff;
+  border-radius: 25px;
+  border: 4px solid rgb(27, 94, 190);
+  position: absolute;
+  top: -15px;
+  left: calc(50% - 12px);
+  transition: all 200ms ease-in;
+}
 .swiper-wrapper {
-    width: 2600px;
-    padding: 20px 50px;
-    display: flex;
+  width: auto !important;
+  padding: 20px 50px;
+  display: flex;
 }
-  .swiper-slide {
-      width: 100%;
-  }
+.swiper-slide {
+  width: 100%;
+  min-width: 350px;
+}
 
-  .swiper-container {
-    overflow-x: scroll;
-  }
+.swiper-container {
+  overflow-x: scroll;
+}
 
-  .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 9999; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 9999; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
 }
 /* Modal Content/Box */
 .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
 }
 /* Close Button */
 .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
 }
 .close:hover,
 .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }

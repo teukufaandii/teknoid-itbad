@@ -28,10 +28,13 @@ if (!isset($_SESSION['pengguna_type'])) {
 </head>
 
 <body>
+
+
+
     <!-- sidenav -->
     <?php include "sidenav.php" ?>
 
-    
+
 
     <!-- content -->
     <div class="content" id="Content">
@@ -188,10 +191,36 @@ if (!isset($_SESSION['pengguna_type'])) {
 
         function fetchNotifications(container, modal) {
             const diteruskan_ke = '<?php echo $_SESSION['akses']; ?>';
-            const sql = `
-            SELECT * FROM tb_surat_dis 
-            WHERE (JSON_CONTAINS(diteruskan_ke, '"${diteruskan_ke}"') OR diteruskan_ke = '${diteruskan_ke}')
-            AND status_selesai = FALSE `;
+            const fullname = '<?php echo $_SESSION['jabatan']; ?>';
+            let sql = '';
+
+            //untuk dashboard eksekutor 
+            if (diteruskan_ke === 'prodi_si' || diteruskan_ke === 'prodi_ti' || diteruskan_ke === 'prodi_akuntansi' || diteruskan_ke === 'prodi_manajemen' ||
+                diteruskan_ke === 'prodi_arsitek' || diteruskan_ke === 'prodi_keuSyariah' || diteruskan_ke === 'prodi_dkv' || diteruskan_ke === 'bpm' ||
+                diteruskan_ke === 'umum' || diteruskan_ke === 'sdm' || diteruskan_ke === 'it_lab' || diteruskan_ke === 'marketing' || diteruskan_ke === 'kui_k' ||
+                diteruskan_ke === 'akademik' || diteruskan_ke === 'ppik_kmhs' || diteruskan_ke === 'lp3m' || diteruskan_ke === 'pusat_bisnis' || diteruskan_ke === 'upt_perpus'
+            ) {
+                sql = `
+                SELECT * FROM tb_disposisi 
+                WHERE 
+                    (nama_selesai != '${fullname}' AND 
+                    nama_selesai2 != '${fullname}' AND 
+                    nama_selesai3 != '${fullname}' AND 
+                    nama_selesai4 != '${fullname}' AND 
+                    nama_selesai5 != '${fullname}' AND 
+                    nama_selesai6 != '${fullname}' AND 
+                    nama_selesai7 != '${fullname}')
+                AND 
+                    (JSON_CONTAINS(diteruskan_ke, '"${diteruskan_ke}"') OR 
+                    diteruskan_ke = '${diteruskan_ke}');
+            `;
+            } else {
+                sql = `
+                SELECT * FROM tb_surat_dis 
+                WHERE 
+                    (JSON_CONTAINS(diteruskan_ke, '"${diteruskan_ke}"') OR diteruskan_ke = '${diteruskan_ke}')
+                AND (status_selesai = FALSE AND status_tolak = FALSE) `;
+            }
 
             fetch('fetch_notification.php', {
                     method: 'POST',
@@ -217,10 +246,10 @@ if (!isset($_SESSION['pengguna_type'])) {
                         data.forEach((surat) => {
                             const listItem = document.createElement('li');
                             listItem.innerHTML = `
-                        <a href="disposisi.php?id=${surat.id_surat}">
-                            Ada Surat Masuk - ${surat.perihal}
-                        </a>
-                    `;
+                            <a href="disposisi.php?id=${surat.id_surat}">
+                                Ada Surat Masuk - ${surat.perihal}
+                            </a>
+                        `;
                             notificationsList.appendChild(listItem);
                         });
                         notificationBadge.innerText = data.length;

@@ -88,14 +88,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $tanggal_surat = date("Y-m-d");
     $no_surat = $_POST['no_surat'];
 
-    // Mendapatkan nomor surat terakhir untuk bulan ini
-    $current_month = date('n');
-    $query_last_number = "SELECT MAX(SUBSTRING(kode_surat, 1, 3)) AS last_number FROM tb_surat_dis WHERE MONTH(tanggal_surat) = '$current_month'";
+    // Mendapatkan tahun saat ini
+    $current_year = date('Y');
+
+    // Mendapatkan nomor surat terakhir untuk tahun ini
+    $query_last_number = "SELECT MAX(SUBSTRING(kode_surat, 1, 3)) AS last_number FROM tb_surat_dis WHERE YEAR(tanggal_surat) = '$current_year'";
     $result_last_number = $conn->query($query_last_number);
     $last_number_row = $result_last_number->fetch_assoc();
     $last_number = $last_number_row['last_number'];
 
-    // Jika tidak ada nomor surat untuk bulan ini, atur ke 0
+    // Jika tidak ada nomor surat untuk tahun ini, atur ke 0
     if ($last_number === null) {
         $last_number = 0;
     }
@@ -105,9 +107,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     // Format nomor surat agar menjadi 3 digit dengan leading zeros
     $next_number_formatted = sprintf('%03d', $next_number);
     // Konversi angka bulan menjadi angka romawi
+    $current_month = date('n');
     $roman_month = intToRoman($current_month);
-    // Tahun saat ini
-    $current_year = date('Y');
 
     // Kode surat otomatis
     $kode_surat_otomatis = "$next_number_formatted/ITBAD/$roman_month/$current_year";
