@@ -358,16 +358,8 @@ if (!isset($_SESSION['pengguna_type'])) {
             let hakAkses = "<?php echo $_SESSION['jabatan']; ?>"; // assume you have stored the user's access level in a session variable
 
             if (hakAkses === 'Karyawan' || hakAkses === 'Bagian Kepegawaian') {
-                Swal.fire({
-                    title: 'Tambah Surat',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'Surat Disposisi'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Redirect to tambah surat disposisi page
-                        window.location.href = "tambah_surat2.php";
-                    }
-                });
+                window.location.href = "tambah_surat2.php";
+
             } else if (hakAkses === 'Mahasiswa') {
                 Swal.fire({
                     title: 'Tambah Surat',

@@ -148,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     if ($notification_sent) {
         echo '<script>alert("Surat berhasil dikirim");</script>';
     } else {
-        echo '<script>alert("Data berhasil disimpan, tetapi gagal mengirim notifikasi WhatsApp.")</script>';
+        echo '<script>alert("Surat berhasil dikirim")</script>'; //Data berhasil disimpan, tetapi gagal mengirim notifikasi WhatsApp.
     }
 
     if ($conn->query($sql) === TRUE) {

@@ -107,6 +107,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                                 LEFT JOIN tb_disposisi d ON sd.id_surat = d.id_surat
                                                                 WHERE JSON_CONTAINS(sd.diteruskan_ke, '\"$akses\"') OR sd.diteruskan_ke = '$akses'
                                                                 OR d.dispo1 = '$jabatan' || d.dispo2 = '$jabatan' || d.dispo3 = '$jabatan' || d.dispo4 = '$jabatan' || d.dispo5 = '$jabatan'
+                                                                ORDER BY sd.id_surat DESC
                                                                 LIMIT ?, ?");
                             $stmt->bind_param("ii", $start, $rows_per_page);
                             $stmt->execute();
