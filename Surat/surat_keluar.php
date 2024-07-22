@@ -360,7 +360,7 @@ if (!isset($_SESSION['pengguna_type'])) {
             if (hakAkses === 'Karyawan' || hakAkses === 'Bagian Kepegawaian') {
                 window.location.href = "tambah_surat2.php";
 
-            } else if (hakAkses === 'Mahasiswa') {
+            } else if (hakAkses === 'Mahasiswa' || hakAkses === 'Dosen') {
                 Swal.fire({
                     title: 'Tambah Surat',
                     text: 'Pilih jenis surat yang ingin Anda tambahkan',
