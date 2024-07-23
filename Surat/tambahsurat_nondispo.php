@@ -105,6 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="css/dashboard-style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -287,7 +288,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <label for="jenis_surat">Jenis Surat*</label>
                             <div class="custom_select">
                                 <select name="jenis_surat" id="jenis_surat" class="select" required>
-                                    <option value="" hidden>Pilih Jenis Surat</option>
                                     <option value="5">Surat Pengajuan Insentif Dosen</option>
                                     <option value="6">Surat Pengajuan Riset Dosen</option>
                                 </select>
@@ -311,14 +311,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
 
                         <div class="inputfield">
-                            <label for="status_pengusul">Status pengusul</label>
-                            <button type="radio" class="input" name="nama_lengkap">
-                                <select> Ketua </select>
-                                <select> Anggota </select>
-                            </button>
-                        </div>
-
-                        <div class="inputfield">
                             <label for="nim_dosen1">NIDN</label>
                             <input type="number" class="input" name="nidn" placeholder="Masukkan NIDN">
                         </div>
@@ -331,12 +323,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <!-- untuk surat insentif -->
                         <div id="input_insentif">
                             <div class="inputfield">
+                                <label for="status_pengusul">Status pengusul</label>
+                                <div class="custom_select">
+                                    <select name="status" id="status" class="select" required>
+                                        <option value="" hidden>Pilih Status Pengusul</option>
+                                        <option>Ketua</option>
+                                        <option>Anggota</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="inputfield">
                                 <label for="id_sinta">ID SINTA*</label>
                                 <input type="text" class="input" name="id_sinta" id="id_sinta" placeholder="Masukkan ID SINTA">
                             </div>
                             <div class="inputfield">
                                 <label for="prodi">Program Studi Pengusul*</label>
-                                <div class="custom_select"><select name="prodi" id="prodi" class="select" required>
+                                <div class="custom_select">
+                                    <select name="prodi" id="prodi" class="select" required>
                                         <option value="" hidden>Pilih Program Studi</option>
                                         <option>Prodi S2 Keuangan Syariah</option>
                                         <option>Prodi S1 Sistem Informasi</option>
@@ -352,83 +355,103 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                             <div class="inputfield">
                                 <label for="prodi">Jenis Insentif*</label>
-                                <div class="custom_select"><select name="prodi" id="prodi" class="select" required>
+                                <div class="custom_select">
+                                    <select name="jenis_insentif" id="jenis_insentif" class="select" required>
                                         <option value="" hidden>Pilih Jenis Insentif</option>
-                                        <option>Penelitian & Pengabdian Masyarakat dengan Pendanaan Eksternal-Kompetitif</option>
-                                        <option>Publikasi Ilmiah</option>
-                                        <option>Penyaji paper dalam pertemuan ilmiah</option>
-                                        <option>Pembicara utama [keynote speaker] dalam pertemuan ilmiah</option>
-                                        <option>Visiting Lecturer/Researcher</option>
-                                        <option>Hak Atas Kekayaan Intelektual [HKI]</option>
-                                        <option>Teknologi Tepat Guna</option>
-                                        <option>Model, prototype, desain, karya seni, rekayasa sosial, kebijakan</option>
-                                        <option>Buku</option>
-                                        <option>Insentif publikasi berita kegiatan pengabdian masyarakat di koran, majalah, tabloid, TV dan Media Online</option>
+                                        <option value="penelitian">Penelitian & Pengabdian Masyarakat dengan Pendanaan Eksternal - Kompetitif</option>
+                                        <option value="publikasi">Publikasi Ilmiah</option>
+                                        <option value="pertemuan_ilmiah">Penyaji Paper Dalam Pertemuan Ilmiah</option>
+                                        <option value="keynote_speaker">Pembicara Utama [Keynote Speaker] Dalam Pertemuan ilmiah</option>
+                                        <option value="visiting">Visiting Lecturer/Researcher</option>
+                                        <option value="hki">Hak Atas Kekayaan Intelektual [HKI]</option>
+                                        <option value="teknologi">Teknologi Tepat Guna</option>
+                                        <option value="buku">Buku</option>
+                                        <option value="model">Model, Prototype, Desain, Karya Seni, Rekayasa Sosial, Kebijakan</option>
+                                        <option value="insentif_publikasi">Insentif Publikasi Berita Kegiatan Pengabdian masyarakat di Koran, Majalah, Tabloid, TV dan Media Online</option>
                                     </select>
                                 </div>
                             </div>
 
                             <!-- Penelitian & Pengabdian Masyarakat dengan Pendanaan Eksternal-Kompetitif -->
-                            <div class="inputfield">
-                                <label for="skema">Skema*</label>
-                                <div class="custom_select"><select name="skema" id="skema" class="select" required>
-                                        <option value="" hidden>Pilih Jenis Skema</option>
-                                        <option>Penelitian Berbasis Kompetitif (atau skema lain yang lebih tinggi dari skema berbasis kompetensi)</option>
-                                        <option>Semua Skema Pengabdian masyarakat dari Kemenristekdikti RI </option>
-                                    </select>
+                            <div id="penelitian" style="display: none;">
+                                <div class="inputfield">
+                                    <label for="skema">Skema*</label>
+                                    <div class="custom_select">
+                                        <select name="skema" id="skema" class="select" required>
+                                            <option value="" hidden>Pilih Jenis Skema</option>
+                                            <option>Penelitian Berbasis Kompetitif (atau skema lain yang lebih tinggi dari skema berbasis kompetensi)</option>
+                                            <option>Semua Skema Pengabdian Masyarakat dari Kemenristekdikti RI </option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="inputfield">
-                                <label for="id_sinta">Judul Penelitian/Pengabdian Masyarakat*</label>
-                                <input type="text" class="input" name="id_sinta" id="id_sinta" placeholder="Masukkan Judul Penelitian/Pengabdian Masyarakat">
+                                <div class="inputfield">
+                                    <label for="id_sinta">Judul Penelitian/Pengabdian Masyarakat*</label>
+                                    <input type="text" class="input" name="id_sinta" id="id_sinta" placeholder="Masukkan Judul Penelitian/Pengabdian Masyarakat">
+                                </div>
+                                <div class="inputfield">
+                                    <label for="">Upload Berkas Pendukung</label>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
+                                </div>
                             </div>
 
                             <!-- Publikasi Ilmiah -->
-                            <div class="inputfield">
-                                <label for="prodi">Jenis Publikasi/Jurnal*</label>
-                                <div class="custom_select"><select name="skema" id="skema" class="select" required>
-                                        <option value="" hidden>Pilih Publikasi/Jurnal</option>
-                                        <option>Internasional bereputasi [terindeks ISI Knowledge, Thomson Reuter, USA dan Scopus, Netherland]</option>
-                                        <option>Internasional bereputasi Q1</option>
-                                        <option>Internasional bereputasi Q2</option>
-                                        <option>Internasional bereputasi Q3</option>
-                                        <option>Internasional bereputasi Q4</option>
-                                        <option>Internasional tidak bereputasi</option>
-                                        <option>Nasional terakreditasi (SINTA 1)</option>
-                                        <option>Nasional terakreditasi (SINTA 2)</option>
-                                        <option>Nasional terakreditasi (SINTA 3)</option>
-                                        <option>Nasional terakreditasi (SINTA 4)</option>
-                                        <option>Nasional terakreditasi (SINTA 5)</option>
-                                        <option>Nasional terakreditasi (SINTA 6)</option>
-                                        <option>Lokal tidak ber-ISSN</option>
-                                        <option>Koran/Tabloid/Majalah Lokal</option>
-                                        <option>Koran/Tabloid/Majalah Nasional</option>
-                                    </select>
+                            <div id="publikasi" style="display: none;">
+                                <div class="inputfield">
+                                    <label for="prodi">Jenis Publikasi/Jurnal*</label>
+                                    <div class="custom_select">
+                                        <select name="jenis_publikasi" id="jenis_publikasi" class="select" required>
+                                            <option value="" hidden>Pilih Publikasi/Jurnal</option>
+                                            <option>Internasional Bereputasi [Terindeks ISI Knowledge, Thomson Reuter, USA dan Scopus, Netherland]</option>
+                                            <option>Internasional Bereputasi Q1</option>
+                                            <option>Internasional Bereputasi Q2</option>
+                                            <option>Internasional Bereputasi Q3</option>
+                                            <option>Internasional Bereputasi Q4</option>
+                                            <option>Internasional Tidak Bereputasi</option>
+                                            <option>Nasional Terakreditasi (SINTA 1)</option>
+                                            <option>Nasional Terakreditasi (SINTA 2)</option>
+                                            <option>Nasional Terakreditasi (SINTA 3)</option>
+                                            <option>Nasional Terakreditasi (SINTA 4)</option>
+                                            <option>Nasional Terakreditasi (SINTA 5)</option>
+                                            <option>Nasional Terakreditasi (SINTA 6)</option>
+                                            <option>Nasional tidak Terakreditasi (ber-ISSN)</option>
+                                            <option>Lokal Tidak ber-ISSN</option>
+                                            <option>Koran/Tabloid/Majalah Lokal</option>
+                                            <option>Koran/Tabloid/Majalah Nasional</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="inputfield">
+                                    <label for="judul_publikasi">Judul Publikasi*</label>
+                                    <input type="text" class="input" name="judul_publikasi" id="judul_publikasi" placeholder="Masukkan Judul Publikasi">
+                                </div>
+                                <div class="inputfield">
+                                    <label for="nama_jurnal">Nama Jurnal/Koran/Majalah/Penerbit*</label>
+                                    <input type="text" class="input" name="nama_jurnal" id="nama_jurnal" placeholder="Masukkan Nama Jurnal/Koran/Majalah/Penerbit">
+                                </div>
+                                <div class="inputfield">
+                                    <label for="">Vol. No. Tahun. ISSN-Edisi-Halaman*</label>
+                                    <input type="text" class="input" name="nama_jurnal" id="nama_jurnal" placeholder="Contoh: Vol. 2 No. 1 th. 2022 ISSN: 12345 Hal. 12-30">
+                                </div>
+                                <div class="inputfield">
+                                    <label for="">Tautan/link jurnal atau berkas pendukung</label>
+                                    <input type="text" class="input" name="link" id="link" placeholder="">
+                                </div>
+                                <div class="inputfield">
+                                    <label for="">Upload Berkas Pendukung</label>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                                 </div>
                             </div>
-                            <div class="inputfield">
-                                <label for="judul_publikasi">Judul Publikasi*</label>
-                                <input type="text" class="input" name="judul_publikasi" id="judul_publikasi" placeholder="Masukkan Judul Publikasi">
-                            </div>
-                            <div class="inputfield">
-                                <label for="nama_jurnal">Nama Jurnal/Koran/Majalah/Penerbit*</label>
-                                <input type="text" class="input" name="nama_jurnal" id="nama_jurnal" placeholder="Masukkan Nama Jurnal/Koran/Majalah/Penerbit">
-                            </div>
-                            <div class="inputfield">
-                                <label for="">Vol. No. Tahun. ISSN-Edisi-Halaman*</label>
-                                <input type="text" class="input" name="nama_jurnal" id="nama_jurnal" placeholder="Contoh: Vol. 2 No. 1 th. 2022 ISSN: 12345 Hal. 12-30">
-                            </div>
-                            <div class="inputfield">
-                                <label for="">Tautan/link jurnal atau berkas pendukung</label>
-                                <input type="text" class="input" name="link" id="link" placeholder="">
-                            </div>
 
-                            <div id="input_paper_keynote" style="display: none;">
-                                <!-- Penyaji paper dalam pertemuan ilmiah-->
+
+                            <!-- Penyaji paper dalam pertemuan ilmiah-->
+                            <div id="pertemuan_ilmiah" style="display: none;">
                                 <div class="inputfield">
                                     <label for="">Skala*</label>
-                                    <div class="custom_select"><select name="skala" id="skala" class="select" required>
-                                            <option value="" hidden>Pilih Skala Paper l</option>
+                                    <div class="custom_select">
+                                        <select name="skala" id="skala" class="select" required>
+                                            <option value="" hidden>Pilih Skala Paper</option>
                                             <option>International</option>
                                             <option>Nasional</option>
                                             <option>Lokal/Regional</option>
@@ -437,131 +460,200 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
 
                                 <div class="inputfield">
-                                    <label for="">Nama pertemuan*</label>
-                                    <input type="text" class="input" name="nama_pertemuan" id="nama_pertemuan" placeholder="Sebutkan nama acara, penyelenggara, dan waktu pelaksana">
+                                    <label for="">Nama Pertemuan*</label>
+                                    <input type="text" class="input" name="nama_pertemuan" id="nama_pertemuan" placeholder="Sebutkan nama acara, penyelenggara, dan waktu pelaksanaan">
                                 </div>
 
                                 <div class="inputfield">
                                     <label for="">Usulan Biaya*</label>
                                     <input type="text" class="input" name="usulan_biaya" id="usulan_biaya" placeholder="Sebutkan biaya yang diusulkan seperti biaya registasi, transportasi, hotel, dll.">
                                 </div>
-                            </div>
 
-                            <!-- Penyaji paper dalam keynote speaker-->
-                            <div class="inputfield">
-                                <label for="">Skala*</label>
-                                <div class="custom_select"><select name="skala_keynote" id="skala_keynote" class="select" required>
-                                        <option value="" hidden>Pilih Skala Paper l</option>
-                                        <option>International</option>
-                                        <option>Nasional</option>
-                                        <option>Lokal/Regional</option>
-                                    </select>
+                                <div class="inputfield">
+                                    <label for="">Upload Berkas Pendukung</label>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                                 </div>
                             </div>
 
-                            <div class="inputfield">
-                                <label for="">Nama pertemuan Ilmiah*</label>
-                                <input type="text" class="input" name="nama_keynote" id="nama_keynote" placeholder="Sebutkan juga nama penyelenggara, dan waktu pelaksana">
+
+                            <!-- Penyaji paper dalam keynote speaker-->
+                            <div id="keynote_speaker" style="display: none;">
+                                <div class="inputfield">
+                                    <label for="">Skala*</label>
+                                    <div class="custom_select"><select name="skala_keynote" id="skala_keynote" class="select" required>
+                                            <option value="" hidden>Pilih Skala Paper l</option>
+                                            <option>International</option>
+                                            <option>Nasional</option>
+                                            <option>Lokal/Regional</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="inputfield">
+                                    <label for="">Nama pertemuan Ilmiah*</label>
+                                    <input type="text" class="input" name="nama_keynote" id="nama_keynote" placeholder="Sebutkan juga nama penyelenggara, dan waktu pelaksana">
+                                </div>
+                                <div class="inputfield">
+                                    <label for="">Upload Berkas Pendukung</label>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
+                                </div>
                             </div>
 
 
                             <!-- visiting lecturer-->
-                            <div class="inputfield">
-                                <label for="">Sebutkan nama kegiatan dam lembaga tujuan*</label>
-                                <input type="text" class="input" name="visiting_nama" id="nama_pertemuan" placeholder="" required>
+                            <div id="visiting" style="display: none;">
+                                <div class="inputfield">
+                                    <label for="">Sebutkan Nama Kegiatan dan Lembaga Tujuan*</label>
+                                    <input type="text" class="input" name="visiting_nama" id="nama_pertemuan" placeholder="" required>
+                                </div>
+
+                                <div class="inputfield">
+                                    <label for="">Waktu Pelaksanaan*</label>
+                                    <input type="datetime-local" class="input" name="visiting_waktu" id="nama_pertemuan" placeholder="" required>
+                                </div>
+
+                                <div class="inputfield">
+                                    <label for="">Upload Berkas Pendukung</label>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
+                                </div>
                             </div>
 
-                            <div class="inputfield">
-                                <label for="">Waktu Pelaksanaan*</label>
-                                <input type="text" class="input" name="visiting_waktu" id="nama_pertemuan" placeholder="" required>
-                            </div>
 
                             <!-- Hak kekayaan intelektual (HKI) -->
-                            <div class="inputfield">
-                                <label for="">Jenis Kekayaan Intelektual*</label>
-                                <div class="custom_select"><select name="HKI_jenis" id="HKI_jenis" class="select" required>
-                                        <option value="" hidden>Pilih Jenis Kekayaan Intelektual</option>
-                                        <option>HKI atas hasil penelitian/buku</option>
-                                        <option>Paten, Paten Sederhana</option>
-                                        <option>Hak Cipta, merek Dagang, Rahasia Dagang, Desain Produk Industri, Indikasi Geografis</option>
-                                    </select>
+                            <div id="hki" style="display: none;">
+                                <div class="inputfield">
+                                    <label for="">Jenis Kekayaan Intelektual*</label>
+                                    <div class="custom_select"><select name="HKI_jenis" id="HKI_jenis" class="select" required>
+                                            <option value="" hidden>Pilih Jenis Kekayaan Intelektual</option>
+                                            <option>HKI atas hasil penelitian/buku</option>
+                                            <option>Paten, Paten Sederhana</option>
+                                            <option>Hak Cipta, Merek Dagang, Rahasia Dagang, Desain Produk Industri, Indikasi Geografis</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="inputfield">
+                                    <label for="">Judul Kekayaan Intelektual*</label>
+                                    <input type="text" class="input" name="HKI_judul" id="HKI_judul" placeholder="Lengkapi dengan nomor atau identitas lainnya" required>
+                                </div>
+
+                                <div class="inputfield">
+                                    <label for="">Upload Berkas Pendukung* <br> Lengkapi dengan nomor atau Identitas Lainnya</label>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                                 </div>
                             </div>
 
-                            <div class="inputfield">
-                                <label for="">Judul Kekayaan*</label>
-                                <input type="text" class="input" name="HKI_judul" id="HKI_judul" placeholder="Lengkapi dengan nomor atau identitas lainnya" required>
-                            </div>
 
                             <!-- teknologi tepat guna -->
-                            <div class="inputfield">
-                                <label for="">Sebutkan Teknologi Tepat Guna Yang Diusulkan*</label>
-                                <textarea type="text" class="input" name="" id="" placeholder="Masukkan ID SINTA"></textarea>
-                            </div>
-                            <div class="inputfield">
-                                <label for="">Deskripsikan Teknologi Tepat Guna Yang Diusulkan*</label>
-                                <textarea type="text" class="input" name="deskripsi" id="deskripsi" placeholder="Masukkan ID SINTA"></textarea>
-                            </div>
-
-                            <!-- buku -->
-                            <div class="inputfield">
-                                <label for="">Jenis Buku*</label>
-                                <div class="custom_select"><select name="HKI_jenis" id="HKI_jenis" class="select" required>
-                                        <option value="" hidden>Pilih Jenis Buku</option>
-                                        <option>Buku Teks [ber-ISBN]</option>
-                                        <option>Buku Ajar [ber-ISBN]</option>
-                                        <option>Chapter book dalam buku bereputasi internasional [Springer, Sage Publication; dll]</option>
-                                    </select>
+                            <div id="teknologi" style="display: none;">
+                                <div class="inputfield">
+                                    <label for="">Sebutkan Teknologi Tepat Guna Yang Diusulkan*</label>
+                                    <textarea type="text" class="input" name="" id="" style="resize: none;"></textarea>
+                                </div>
+                                <div class="inputfield">
+                                    <label for="">Deskripsikan Teknologi Tepat Guna Yang Diusulkan*</label>
+                                    <textarea type="text" class="input" name="deskripsi" id="deskripsi" style="resize: none;"></textarea>
+                                </div>
+                                <div class="inputfield">
+                                    <label for="">Upload Berkas Pendukung*</label>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                                 </div>
                             </div>
-                            <div class="inputfield">
-                                <label for="">Judul Buku*</label>
-                                <input type="text" class="input" name="judul_buku" id="judul_buku" placeholder="Masukkan Judul Buku" required>
+
+
+                            <!-- buku -->
+                            <div id="buku" style="display: none;">
+                                <div class="inputfield">
+                                    <label>Jenis Buku*</label>
+                                    <div class="custom_select"><select name="HKI_jenis" id="HKI_jenis" class="select" required>
+                                            <option value="" hidden>Pilih Jenis Buku</option>
+                                            <option>Buku Teks [ber-ISBN]</option>
+                                            <option>Buku Ajar [ber-ISBN]</option>
+                                            <option>Chapter book dalam buku bereputasi internasional [Springer, Sage Publication; dll]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="inputfield">
+                                    <label for="">Judul Buku*</label>
+                                    <input type="text" class="input" name="judul_buku" id="judul_buku" placeholder="Masukkan Judul Buku" required>
+                                </div>
+                                <div class="inputfield">
+                                    <label for="">Sinopsis*</label>
+                                    <textarea type="text" class="input" name="sinopsis" id="sinopsis" style="resize: none;" placeholder="Masukkan Sinopsis" required></textarea>
+                                </div>
+                                <div class="inputfield">
+                                    <label for="">ISBN/Jumlah halaman/Penerbit*</label>
+                                    <input type="text" class="input" name="isbn" id="isbn" placeholder="Masukkan ISBN/Jumlah halaman/Penerbit" required>
+                                </div>
+
+                                <div class="inputfield">
+                                    <label for="">Upload Buku*</label>
+                                    <i class="fa-solid fa-circle-info" data-tooltip="additional-info"></i>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
+                                    <p class="additional-info" style="color:red; display: none;">
+                                        ! Jika buku dalam dicetak/hard copy silahkan upload foto sampulnya, versi cetak silahkan langsung sampaikan kepada LP3M
+                                    </p>
+                                </div>
                             </div>
-                            <div class="inputfield">
-                                <label for="">Sinopsis*</label>
-                                <input type="text" class="input" name="sinopsis" id="sinopsis" placeholder="Masukkan Sinopsis" required>
+
+
+                            <!-- Model, prototype, desain, karya seni, rekayasa sosial, kebijakan-->
+                            <div id="model" style="display: none;">
+                                <div class="inputfield">
+                                    <label for="">Sebutkan Nama Model, Prototype, Desain, Karya Seni, Rekayasa Sosial, Kebijakan yang Diusulkan*</label>
+                                    <input type="text" class="input" name="prototype_nama" id="prototype_nama" placeholder="" required>
+                                </div>
+
+                                <div class="inputfield">
+                                    <label for="">Deskripsikan Model, Prototype, Desain, Karya Seni, Rekayasa Sosial, Kebijakan yang Diusulkan*</label>
+                                    <input type="text" class="input" name="prototype_deskripsi" id="prototype_deskripsi" placeholder="" required>
+                                </div>
+
+                                <div class="inputfield">
+                                    <label for="">Upload Berkas Pendukung*</label>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
+                                </div>
                             </div>
+
+
+                            <!-- Insentif publikasi berita kegiatan pengabdian masyarakat di koran, majalah, tabloid, TV dan Media Online-->
+                            <div id="insentif_publikasi" style="display: none;">
+                                <div class="inputfield">
+                                    <label for="">Judul Publikasi*</label>
+                                    <input type="text" class="input" name="publikasi_judul" id="publikasi_judul" placeholder="" required>
+                                </div>
+
+                                <div class="inputfield">
+                                    <label for="">Nama Penerbit dan Waktu Terbit*</label>
+                                    <input type="text" class="input" name="publikasi_nama_waktu" id="publikasi_nama_waktu" placeholder="" required>
+                                </div>
+
+                                <div class="inputfield">
+                                    <label for="">Tautan Publikasi Berita (jika online)*</label>
+                                    <input type="text" class="input" name="publikasi_tautan" id="publikasi_tautan" placeholder="" required>
+                                </div>
+                                <div class="inputfield">
+                                    <label for="">Upload Publikasi Berita (jika media cetak)*</label>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;">
+                                    <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
+                                </div>
+
+                            </div>
+
                             <div class="inputfield">
-                                <label for="">ISBN/Jumlah halaman/Penerbit*</label>
-                                <input type="text" class="input" name="isbn" id="isbn" placeholder="Masukkan ISBN/Jumlah halaman/Penerbit" required>
+                                <label for="">Upload Form Insentif</label>
+                                <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                             </div>
                         </div>
 
-                        <!-- Model, prototype, desain, karya seni, rekayasa sosial, kebijakan-->
-                        <div class="inputfield">
-                            <label for="">Sebutkan nama model, prototype, desain, karya seni, rekayasa sosial, kebijakan yang diusulkan*</label>
-                            <input type="text" class="input" name="prototype_nama" id="prototype_nama" placeholder="" required>
-                        </div>
-
-                        <div class="inputfield">
-                            <label for="">Deskripsikan model, prototype, desain, karya seni, rekayasa sosial, kebijakan yang diusulkan*</label>
-                            <input type="text" class="input" name="prototype_deskripsi" id="prototype_deskripsi" placeholder="" required>
-                        </div>
-
-                        <!-- Insentif publikasi berita kegiatan pengabdian masyarakat di koran, majalah, tabloid, TV dan Media Online-->
-                        <div class="inputfield">
-                            <label for="">Judul Publikasi*</label>
-                            <input type="text" class="input" name="publikasi_judul" id="publikasi_judul" placeholder="" required>
-                        </div>
-
-                        <div class="inputfield">
-                            <label for="">Nama penerbit dan waktu terbit*</label>
-                            <input type="text" class="input" name="publikasi_nama_waktu" id="publikasi_nama_waktu" placeholder="" required>
-                        </div>
-
-                        <div class="inputfield">
-                            <label for="">Tautan Publikasi berita (jika online)*</label>
-                            <input type="text" class="input" name="publikasi_tautan" id="publikasi_tautan" placeholder="" required>
-                        </div>
-
-                        <div class="inputfield">
-                            <label for="">Upload Form Insentif</label>
-                            <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
-                            <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
-                        </div>
-
-                        <!-- untuk surat riset dosen -->
+                        <!------------------- untuk surat riset dosen ----------------->
                         <div id="input_riset" style="display: none;">
                             <div class="inputfield" id="surat_riset_fields_1">
                                 <label for="ttl">Tempat, tanggal lahir*</label>
@@ -676,7 +768,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             let no_hp2 = document.getElementById('no_hp2');
             let no_hp3 = document.getElementById('no_hp3');
 
-
             // Tampilkan atau sembunyikan input tambahan untuk Surat KKL atau Surat Riset
             if (this.value === '3') {
                 suratKKLFields.style.display = 'none';
@@ -743,6 +834,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 mahasiswa3.style.display = 'flex';
                 nim_mahasiswa3.style.display = 'flex';
                 no_hp3.style.display = 'flex';
+            }
+        });
+    </script>
+
+    <script>
+        // Menambahkan event listener untuk elemen select dengan id 'jenis_surat'
+        document.getElementById('jenis_surat').addEventListener('change', function() {
+
+            // Mendapatkan referensi ke elemen-elemen yang ingin diubah tampilannya
+            let inputInsentif = document.getElementById('input_insentif');
+            let inputRiset = document.getElementById('input_riset');
+
+            inputInsentif.style.display = 'none';
+            inputRiset.style.display = 'none';
+
+            // Tampilkan atau sembunyikan input tambahan untuk Surat KKL atau Surat Riset
+            if (this.value === '5') {
+                inputInsentif.style.display = 'block';
+                inputRiset.style.display = 'none';
+            } else if (this.value === '6') {
+                inputInsentif.style.display = 'none';
+                inputRiset.style.display = 'block';
+            }
+        });
+
+
+        // Menambahkan event listener untuk elemen select dengan id 'jenis_insentif'
+        document.getElementById('jenis_insentif').addEventListener('change', function() {
+
+            // Mendapatkan referensi ke elemen-elemen yang ingin diubah tampilannya
+            let penelitian = document.getElementById('penelitian');
+            let publikasi = document.getElementById('publikasi');
+            let pertemuanIlmiah = document.getElementById('pertemuan_ilmiah');
+            let keynoteSpeaker = document.getElementById('keynote_speaker');
+            let visiting = document.getElementById('visiting');
+            let hki = document.getElementById('hki');
+            let teknologi = document.getElementById('teknologi');
+            let buku = document.getElementById('buku');
+            let model = document.getElementById('model');
+            let insentifPublikasi = document.getElementById('insentif_publikasi');
+
+            penelitian.style.display = 'none';
+            publikasi.style.display = 'none';
+            pertemuanIlmiah.style.display = 'none';
+            keynoteSpeaker.style.display = 'none';
+            visiting.style.display = 'none';
+            hki.style.display = 'none';
+            teknologi.style.display = 'none';
+            model.style.display = 'none';
+            buku.style.display = 'none';
+            insentifPublikasi.style.display = 'none';
+
+            // Menampilkan elemen yang dipilih berdasarkan nilai yang dipilih dari dropdown
+            if (this.value === 'penelitian') {
+                penelitian.style.display = 'block';
+            } else if (this.value === 'publikasi') {
+                publikasi.style.display = 'block';
+            } else if (this.value === 'pertemuan_ilmiah') {
+                pertemuanIlmiah.style.display = 'block';
+            } else if (this.value === 'keynote_speaker') {
+                keynoteSpeaker.style.display = 'block';
+            } else if (this.value === 'visiting') {
+                visiting.style.display = 'block';
+            } else if (this.value === 'hki') {
+                hki.style.display = 'block';
+            } else if (this.value === 'teknologi') {
+                teknologi.style.display = 'block';
+            } else if (this.value === 'model') {
+                model.style.display = 'block';
+            } else if (this.value === 'buku') {
+                buku.style.display = 'block';
+            } else if (this.value === 'insentif_publikasi') {
+                insentifPublikasi.style.display = 'block';
             }
         });
     </script>

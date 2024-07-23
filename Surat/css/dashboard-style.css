@@ -635,6 +635,30 @@ input::-webkit-inner-spin-button {
   font-size: 14px;
   color: #757575;
 }
+
+.inputfield .info-icon {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.additional-info {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  z-index: 1;
+  margin-top: 10px;
+}
+
+.inputfield .fa-circle-info:hover +.additional-info {
+  display: block;
+}
+
 .contentBox .form .btn {
   padding: 8px 10px;
   font-size: 12px;
@@ -1156,5 +1180,4 @@ td {
   position: fixed;
   right: 10px;
   bottom: 20px;
-  
 }
