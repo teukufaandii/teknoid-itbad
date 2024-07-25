@@ -76,12 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             tujuan_surat, email, nama_lengkap, nim, prodi, no_hp, nama_perusahaan, alamat_perusahaan, deskripsi, ttl, alamat_domisili, diteruskan_ke)
                     VALUES ('$jenis_surat', '$asal_surat', '$perihal', '$nomor_surat', '$tanggal_surat', '$tujuan_surat', '$email', 
                             '$nama_lengkap', '$nim', '$prodi', '$no_hp', '$nama_perusahaan', '$alamat_perusahaan', '$deskripsi', '$ttl', '$alamat_domisili', '$ke_humas')";
-    } elseif (isSuratRisetDosen($jenis_surat)) {
-        $sql = "INSERT INTO tb_surat_dis (jenis_surat, asal_surat, perihal, nomor_surat, tanggal_surat, 
-                tujuan_surat, email, nama_lengkap, nidn, no_hp, nama_perusahaan, alamat_perusahaan, deskripsi, ttl, alamat_domisili, diteruskan_ke)
-                    VALUES ('$jenis_surat', '$asal_surat', '$perihal', '$nomor_surat', '$tanggal_surat', '$tujuan_surat', '$email', 
-                            '$nama_lengkap', '$nidn', '$no_hp', '$nama_perusahaan', '$alamat_perusahaan', '$deskripsi', '$ttl', '$alamat_domisili', '$ke_lp3m')";
-    }
+    } 
 
     if ($conn->query($sql) === TRUE) {
         echo "<script>alert('Surat berhasil dikirim'); setTimeout(function() {
@@ -97,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <head>
     <title>Tambah Surat - Teknoid</title>
-    <!-- Required meta tags -->
+    <!--  meta tags -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -131,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="inputfield">
                             <label for="jenis_surat">Jenis Surat*</label>
                             <div class="custom_select">
-                                <select name="jenis_surat" id="jenis_surat" class="select" required>
+                                <select name="jenis_surat_dsn" id="jenis_surat" class="select" >
                                     <option value="" hidden>Pilih Jenis Surat</option>
                                     <option value="3">Surat KKL</option>
                                     <option value="4">Surat Riset</option>
@@ -213,18 +208,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <div class="inputfield">
                             <label for="">Perihal*</label>
-                            <input type="text" class="input" name="perihal" placeholder="Masukkan Perihal" required>
+                            <input type="text" class="input" name="perihal" placeholder="Masukkan Perihal" >
                         </div>
 
                         <div class="inputfield">
                             <label for="">Alamat Email*</label>
-                            <input type="email" class="input" name="email" placeholder="Masukkan Alamat Email" required>
+                            <input type="email" class="input" name="email" placeholder="Masukkan Alamat Email" >
                         </div>
 
                         <div class="inputfield">
                             <label for="">Program Studi*</label>
                             <div class="custom_select">
-                                <select name="prodi" id="prodi" class="select" required>
+                                <select name="prodi" id="prodi" class="select" >
                                     <option value="" hidden>Pilih Program Studi</option>
                                     <option>Prodi S2 Keuangan Syariah</option>
                                     <option>Prodi S1 Sistem Informasi</option>
@@ -283,11 +278,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <?php } ?>
 
                 <?php if ($_SESSION['jabatan'] == 'Dosen') { ?>
-                    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="form" enctype="multipart/form-data">
+                    <form method="post" action="sql/proses_tambahsurat_nondispo.php" class="form" enctype="multipart/form-data">
                         <div class="inputfield">
                             <label for="jenis_surat">Jenis Surat*</label>
                             <div class="custom_select">
-                                <select name="jenis_surat" id="jenis_surat" class="select" required>
+                                <select name="jenis_surat_dsn" id="jenis_surat" class="select" >
                                     <option value="5">Surat Pengajuan Insentif Dosen</option>
                                     <option value="6">Surat Pengajuan Riset Dosen</option>
                                 </select>
@@ -295,7 +290,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="inputfield">
                             <label for="">Asal Surat*</label>
-                            <input type="text" class="input" name="asal_surat" placeholder="Masukkan Asal Surat" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" readonly>
+                            <input type="text" class="input" name="asal_surat_dsn" placeholder="Masukkan Asal Surat" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" readonly>
                         </div>
 
                         <div class="inputfield" id="jumlah_dosen_atas" style="display: none;">
@@ -307,7 +302,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <div class="inputfield">
                             <label for="nama_dosen1">Nama Dosen</label>
-                            <input type="text" class="input" name="nama_lengkap" placeholder="Masukkan Nama">
+                            <input type="text" class="input" name="nama_dosen" placeholder="Masukkan Nama">
                         </div>
 
                         <div class="inputfield">
@@ -317,7 +312,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <div class="inputfield">
                             <label for="no_hp1">Nomor Telepon </label>
-                            <input type="number" class="input" name="no_hp" placeholder="Masukkan Nomor Telepon">
+                            <input type="number" class="input" name="no_telpon" placeholder="Masukkan Nomor Telepon">
                         </div>
 
                         <!-- untuk surat insentif -->
@@ -325,7 +320,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="inputfield">
                                 <label for="status_pengusul">Status pengusul</label>
                                 <div class="custom_select">
-                                    <select name="status" id="status" class="select" required>
+                                    <select name="status_pengusul" id="status" class="select" >
                                         <option value="" hidden>Pilih Status Pengusul</option>
                                         <option>Ketua</option>
                                         <option>Anggota</option>
@@ -339,7 +334,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="inputfield">
                                 <label for="prodi">Program Studi Pengusul*</label>
                                 <div class="custom_select">
-                                    <select name="prodi" id="prodi" class="select" required>
+                                    <select name="prodi_pengusul" id="prodi" class="select" >
                                         <option value="" hidden>Pilih Program Studi</option>
                                         <option>Prodi S2 Keuangan Syariah</option>
                                         <option>Prodi S1 Sistem Informasi</option>
@@ -356,7 +351,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="inputfield">
                                 <label for="prodi">Jenis Insentif*</label>
                                 <div class="custom_select">
-                                    <select name="jenis_insentif" id="jenis_insentif" class="select" required>
+                                    <select name="jenis_insentif" id="jenis_insentif" class="select" >
                                         <option value="" hidden>Pilih Jenis Insentif</option>
                                         <option value="penelitian">Penelitian & Pengabdian Masyarakat dengan Pendanaan Eksternal - Kompetitif</option>
                                         <option value="publikasi">Publikasi Ilmiah</option>
@@ -377,7 +372,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="inputfield">
                                     <label for="skema">Skema*</label>
                                     <div class="custom_select">
-                                        <select name="skema" id="skema" class="select" required>
+                                        <select name="skema_ppmdpek" id="skema" class="select" >
                                             <option value="" hidden>Pilih Jenis Skema</option>
                                             <option>Penelitian Berbasis Kompetitif (atau skema lain yang lebih tinggi dari skema berbasis kompetensi)</option>
                                             <option>Semua Skema Pengabdian Masyarakat dari Kemenristekdikti RI </option>
@@ -386,11 +381,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="inputfield">
                                     <label for="id_sinta">Judul Penelitian/Pengabdian Masyarakat*</label>
-                                    <input type="text" class="input" name="id_sinta" id="id_sinta" placeholder="Masukkan Judul Penelitian/Pengabdian Masyarakat">
+                                    <input type="text" class="input" name="judul_penelitian_ppm" id="id_sinta" placeholder="Masukkan Judul Penelitian/Pengabdian Masyarakat">
                                 </div>
                                 <div class="inputfield">
                                     <label for="">Upload Berkas Pendukung</label>
-                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" >
                                     <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                                 </div>
                             </div>
@@ -400,7 +395,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="inputfield">
                                     <label for="prodi">Jenis Publikasi/Jurnal*</label>
                                     <div class="custom_select">
-                                        <select name="jenis_publikasi" id="jenis_publikasi" class="select" required>
+                                        <select name="jenis_publikasi_ppm" id="jenis_publikasi" class="select" >
                                             <option value="" hidden>Pilih Publikasi/Jurnal</option>
                                             <option>Internasional Bereputasi [Terindeks ISI Knowledge, Thomson Reuter, USA dan Scopus, Netherland]</option>
                                             <option>Internasional Bereputasi Q1</option>
@@ -423,23 +418,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="inputfield">
                                     <label for="judul_publikasi">Judul Publikasi*</label>
-                                    <input type="text" class="input" name="judul_publikasi" id="judul_publikasi" placeholder="Masukkan Judul Publikasi">
+                                    <input type="text" class="input" name="judul_publikasi_ppm" id="judul_publikasi" placeholder="Masukkan Judul Publikasi">
                                 </div>
                                 <div class="inputfield">
                                     <label for="nama_jurnal">Nama Jurnal/Koran/Majalah/Penerbit*</label>
-                                    <input type="text" class="input" name="nama_jurnal" id="nama_jurnal" placeholder="Masukkan Nama Jurnal/Koran/Majalah/Penerbit">
+                                    <input type="text" class="input" name="nama_jurnal_ppm" id="nama_jurnal" placeholder="Masukkan Nama Jurnal/Koran/Majalah/Penerbit">
                                 </div>
                                 <div class="inputfield">
                                     <label for="">Vol. No. Tahun. ISSN-Edisi-Halaman*</label>
-                                    <input type="text" class="input" name="nama_jurnal" id="nama_jurnal" placeholder="Contoh: Vol. 2 No. 1 th. 2022 ISSN: 12345 Hal. 12-30">
+                                    <input type="text" class="input" name="vol_notahun_ppm" id="nama_jurnal" placeholder="Contoh: Vol. 2 No. 1 th. 2022 ISSN: 12345 Hal. 12-30">
                                 </div>
                                 <div class="inputfield">
                                     <label for="">Tautan/link jurnal atau berkas pendukung</label>
-                                    <input type="text" class="input" name="link" id="link" placeholder="">
+                                    <input type="text" class="input" name="link_jurnal_ppm" id="link" placeholder="">
                                 </div>
                                 <div class="inputfield">
                                     <label for="">Upload Berkas Pendukung</label>
-                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" >
                                     <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                                 </div>
                             </div>
@@ -450,7 +445,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="inputfield">
                                     <label for="">Skala*</label>
                                     <div class="custom_select">
-                                        <select name="skala" id="skala" class="select" required>
+                                        <select name="skala_ppm" id="skala" class="select" >
                                             <option value="" hidden>Pilih Skala Paper</option>
                                             <option>International</option>
                                             <option>Nasional</option>
@@ -461,17 +456,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                 <div class="inputfield">
                                     <label for="">Nama Pertemuan*</label>
-                                    <input type="text" class="input" name="nama_pertemuan" id="nama_pertemuan" placeholder="Sebutkan nama acara, penyelenggara, dan waktu pelaksanaan">
+                                    <input type="text" class="input" name="nama_pertemuan_ppm" id="nama_pertemuan" placeholder="Sebutkan nama acara, penyelenggara, dan waktu pelaksanaan">
                                 </div>
 
                                 <div class="inputfield">
                                     <label for="">Usulan Biaya*</label>
-                                    <input type="text" class="input" name="usulan_biaya" id="usulan_biaya" placeholder="Sebutkan biaya yang diusulkan seperti biaya registasi, transportasi, hotel, dll.">
+                                    <input type="text" class="input" name="usulan_biaya_ppm" id="usulan_biaya" placeholder="Sebutkan biaya yang diusulkan seperti biaya registasi, transportasi, hotel, dll.">
                                 </div>
 
                                 <div class="inputfield">
                                     <label for="">Upload Berkas Pendukung</label>
-                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" >
                                     <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                                 </div>
                             </div>
@@ -481,7 +476,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div id="keynote_speaker" style="display: none;">
                                 <div class="inputfield">
                                     <label for="">Skala*</label>
-                                    <div class="custom_select"><select name="skala_keynote" id="skala_keynote" class="select" required>
+                                    <div class="custom_select"><select name="skala_ppdks" id="skala_keynote" class="select" >
                                             <option value="" hidden>Pilih Skala Paper l</option>
                                             <option>International</option>
                                             <option>Nasional</option>
@@ -491,11 +486,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="inputfield">
                                     <label for="">Nama pertemuan Ilmiah*</label>
-                                    <input type="text" class="input" name="nama_keynote" id="nama_keynote" placeholder="Sebutkan juga nama penyelenggara, dan waktu pelaksana">
+                                    <input type="text" class="input" name="nama_pertemuan_ppdks" id="nama_keynote" placeholder="Sebutkan juga nama penyelenggara, dan waktu pelaksana">
                                 </div>
                                 <div class="inputfield">
                                     <label for="">Upload Berkas Pendukung</label>
-                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" >
                                     <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                                 </div>
                             </div>
@@ -505,17 +500,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div id="visiting" style="display: none;">
                                 <div class="inputfield">
                                     <label for="">Sebutkan Nama Kegiatan dan Lembaga Tujuan*</label>
-                                    <input type="text" class="input" name="visiting_nama" id="nama_pertemuan" placeholder="" required>
+                                    <input type="text" class="input" name="nm_kegiatan_vl" id="nama_pertemuan" placeholder="" >
                                 </div>
 
                                 <div class="inputfield">
                                     <label for="">Waktu Pelaksanaan*</label>
-                                    <input type="datetime-local" class="input" name="visiting_waktu" id="nama_pertemuan" placeholder="" required>
+                                    <input type="datetime-local" class="input" name="waktu_pelaksanaan_vl" id="nama_pertemuan" placeholder="" >
                                 </div>
 
                                 <div class="inputfield">
                                     <label for="">Upload Berkas Pendukung</label>
-                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" >
                                     <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                                 </div>
                             </div>
@@ -525,7 +520,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div id="hki" style="display: none;">
                                 <div class="inputfield">
                                     <label for="">Jenis Kekayaan Intelektual*</label>
-                                    <div class="custom_select"><select name="HKI_jenis" id="HKI_jenis" class="select" required>
+                                    <div class="custom_select"><select name="jenis_hki" id="HKI_jenis" class="select" >
                                             <option value="" hidden>Pilih Jenis Kekayaan Intelektual</option>
                                             <option>HKI atas hasil penelitian/buku</option>
                                             <option>Paten, Paten Sederhana</option>
@@ -536,12 +531,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                 <div class="inputfield">
                                     <label for="">Judul Kekayaan Intelektual*</label>
-                                    <input type="text" class="input" name="HKI_judul" id="HKI_judul" placeholder="Lengkapi dengan nomor atau identitas lainnya" required>
+                                    <input type="text" class="input" name="judul_hki" id="HKI_judul" placeholder="Lengkapi dengan nomor atau identitas lainnya" >
                                 </div>
 
                                 <div class="inputfield">
                                     <label for="">Upload Berkas Pendukung* <br> Lengkapi dengan nomor atau Identitas Lainnya</label>
-                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" >
                                     <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                                 </div>
                             </div>
@@ -551,15 +546,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div id="teknologi" style="display: none;">
                                 <div class="inputfield">
                                     <label for="">Sebutkan Teknologi Tepat Guna Yang Diusulkan*</label>
-                                    <textarea type="text" class="input" name="" id="" style="resize: none;"></textarea>
+                                    <textarea type="text" class="input" name="teknologi_tg" id="" style="resize: none;"></textarea>
                                 </div>
                                 <div class="inputfield">
                                     <label for="">Deskripsikan Teknologi Tepat Guna Yang Diusulkan*</label>
-                                    <textarea type="text" class="input" name="deskripsi" id="deskripsi" style="resize: none;"></textarea>
+                                    <textarea type="text" class="input" name="deskripsi_tg" id="deskripsi" style="resize: none;"></textarea>
                                 </div>
                                 <div class="inputfield">
                                     <label for="">Upload Berkas Pendukung*</label>
-                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" >
                                     <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                                 </div>
                             </div>
@@ -569,7 +564,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div id="buku" style="display: none;">
                                 <div class="inputfield">
                                     <label>Jenis Buku*</label>
-                                    <div class="custom_select"><select name="HKI_jenis" id="HKI_jenis" class="select" required>
+                                    <div class="custom_select"><select name="jenis_buku" id="HKI_jenis" class="select" >
                                             <option value="" hidden>Pilih Jenis Buku</option>
                                             <option>Buku Teks [ber-ISBN]</option>
                                             <option>Buku Ajar [ber-ISBN]</option>
@@ -579,21 +574,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="inputfield">
                                     <label for="">Judul Buku*</label>
-                                    <input type="text" class="input" name="judul_buku" id="judul_buku" placeholder="Masukkan Judul Buku" required>
+                                    <input type="text" class="input" name="judul_buku" id="judul_buku" placeholder="Masukkan Judul Buku" >
                                 </div>
                                 <div class="inputfield">
                                     <label for="">Sinopsis*</label>
-                                    <textarea type="text" class="input" name="sinopsis" id="sinopsis" style="resize: none;" placeholder="Masukkan Sinopsis" required></textarea>
+                                    <textarea type="text" class="input" name="sinopsis_buku" id="sinopsis" style="resize: none;" placeholder="Masukkan Sinopsis" ></textarea>
                                 </div>
                                 <div class="inputfield">
                                     <label for="">ISBN/Jumlah halaman/Penerbit*</label>
-                                    <input type="text" class="input" name="isbn" id="isbn" placeholder="Masukkan ISBN/Jumlah halaman/Penerbit" required>
+                                    <input type="text" class="input" name="isbn_buku" id="isbn" placeholder="Masukkan ISBN/Jumlah halaman/Penerbit" >
                                 </div>
 
                                 <div class="inputfield">
                                     <label for="">Upload Buku*</label>
                                     <i class="fa-solid fa-circle-info" data-tooltip="additional-info"></i>
-                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" >
                                     <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                                     <p class="additional-info" style="color:red; display: none;">
                                         ! Jika buku dalam dicetak/hard copy silahkan upload foto sampulnya, versi cetak silahkan langsung sampaikan kepada LP3M
@@ -606,17 +601,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div id="model" style="display: none;">
                                 <div class="inputfield">
                                     <label for="">Sebutkan Nama Model, Prototype, Desain, Karya Seni, Rekayasa Sosial, Kebijakan yang Diusulkan*</label>
-                                    <input type="text" class="input" name="prototype_nama" id="prototype_nama" placeholder="" required>
+                                    <input type="text" class="input" name="nama_model_mpdks" id="prototype_nama" placeholder="" >
                                 </div>
 
                                 <div class="inputfield">
                                     <label for="">Deskripsikan Model, Prototype, Desain, Karya Seni, Rekayasa Sosial, Kebijakan yang Diusulkan*</label>
-                                    <input type="text" class="input" name="prototype_deskripsi" id="prototype_deskripsi" placeholder="" required>
+                                    <input type="text" class="input" name="deskripsi_mpdks" id="prototype_deskripsi" placeholder="" >
                                 </div>
 
                                 <div class="inputfield">
                                     <label for="">Upload Berkas Pendukung*</label>
-                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                    <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" >
                                     <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                                 </div>
                             </div>
@@ -626,17 +621,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div id="insentif_publikasi" style="display: none;">
                                 <div class="inputfield">
                                     <label for="">Judul Publikasi*</label>
-                                    <input type="text" class="input" name="publikasi_judul" id="publikasi_judul" placeholder="" required>
+                                    <input type="text" class="input" name="judul_ipbk" id="publikasi_judul" placeholder="" >
                                 </div>
 
                                 <div class="inputfield">
                                     <label for="">Nama Penerbit dan Waktu Terbit*</label>
-                                    <input type="text" class="input" name="publikasi_nama_waktu" id="publikasi_nama_waktu" placeholder="" required>
+                                    <input type="text" class="input" name="namaPenerbit_dan_waktu_ipbk" id="publikasi_nama_waktu" placeholder="" >
                                 </div>
 
                                 <div class="inputfield">
                                     <label for="">Tautan Publikasi Berita (jika online)*</label>
-                                    <input type="text" class="input" name="publikasi_tautan" id="publikasi_tautan" placeholder="" required>
+                                    <input type="text" class="input" name="link_publikasi_ipbk" id="publikasi_tautan" placeholder="" >
                                 </div>
                                 <div class="inputfield">
                                     <label for="">Upload Publikasi Berita (jika media cetak)*</label>
@@ -648,7 +643,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <div class="inputfield">
                                 <label for="">Upload Form Insentif</label>
-                                <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" required>
+                                <input type="file" class="input" name="file_berkas" accept="application/pdf" style="border: none;" >
                                 <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                             </div>
                         </div>
@@ -657,47 +652,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div id="input_riset" style="display: none;">
                             <div class="inputfield" id="surat_riset_fields_1">
                                 <label for="ttl">Tempat, tanggal lahir*</label>
-                                <input type="text" class="input" name="ttl" id="ttl" placeholder="Masukkan Tempat, tanggal lahir">
+                                <input type="text" class="input" name="ttl_srd" id="ttl" placeholder="Masukkan Tempat, tanggal lahir">
                             </div>
 
                             <div class="inputfield" id="surat_riset_fields_2">
                                 <label for="alamat_domisili">Alamat Domisili*</label>
-                                <input type="text" class="input" name="alamat_domisili" id="alamat_domisili" placeholder="Masukkan Alamat Domisili">
+                                <input type="text" class="input" name="alamat_srd" id="alamat_domisili" placeholder="Masukkan Alamat Domisili">
                             </div>
 
                             <div class="inputfield">
                                 <label for="">Perihal*</label>
-                                <input type="text" class="input" name="perihal" placeholder="Masukkan Perihal" required>
+                                <input type="text" class="input" name="perihal_srd" placeholder="Masukkan Perihal" >
                             </div>
 
                             <div class="inputfield">
                                 <label for="">Alamat Email*</label>
-                                <input type="email" class="input" name="email" placeholder="Masukkan Alamat Email" required>
+                                <input type="email" class="input" name="email_srd" placeholder="Masukkan Alamat Email" >
                             </div>
 
                             <div class="inputfield">
                                 <label for="">Deskripsi Singkat</label>
-                                <input type="text" class="input" name="deskripsi" placeholder="Masukkan Deskripsi Singkat" maxlength="200">
+                                <input type="text" class="input" name="deskripsi_srd" placeholder="Masukkan Deskripsi Singkat" maxlength="200">
                             </div>
 
                             <div class="inputfield" id="surat_riset_fields_3">
                                 <label for="nama_perusahaan">Nama Perusahaan* </label>
-                                <input type="text" class="input" name="nama_perusahaan" id="nama_perusahaan" placeholder="Masukkan Nama Perusahaan">
+                                <input type="text" class="input" name="nama_perusahaan_srd" id="nama_perusahaan" placeholder="Masukkan Nama Perusahaan">
                             </div>
 
                             <div class="inputfield" id="surat_riset_fields_4">
                                 <label for="alamat_perusahaan">Alamat Perusahaan*</label>
-                                <input type="text" class="input" name="alamat_perusahaan" id="alamat_perusahaan" placeholder="Masukkan Alamat Perusahaan">
+                                <input type="text" class="input" name="alamat_perusahaan_srd" id="alamat_perusahaan" placeholder="Masukkan Alamat Perusahaan">
                             </div>
 
                             <div class="inputfield">
                                 <label for=""></label>
-                                <input type="text" class="input" name="tujuan_surat" placeholder="Masukkan Tujuan Surat" value="Humas" hidden>
+                                <input type="text" class="input" name="tujuan_surat_srd" placeholder="Masukkan Tujuan Surat" value="Humas" hidden>
                             </div>
 
                             <div class="inputfield">
                                 <label for=""></label>
-                                <input type="text" class="input" name="nomor_surat" placeholder="Masukkan Nomor Surat" hidden>
+                                <input type="text" class="input" name="nomor_surat_srd" placeholder="Masukkan Nomor Surat" hidden>
                             </div>
                         </div>
 
