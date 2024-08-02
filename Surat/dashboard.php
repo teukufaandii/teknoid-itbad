@@ -108,12 +108,24 @@ if (!isset($_SESSION['pengguna_type'])) {
 
                     $total_sm_row = mysqli_fetch_assoc($records);
                     $total_sm = $total_sm_row['total'];
+
+                    $records3 = mysqli_query($conn, "SELECT COUNT(*) AS total  FROM tb_srt_dosen WHERE tujuan_surat_srd = '$akses'");
+                    $total_sm_insentif_row = mysqli_fetch_assoc($records3);
+                    $total_sm_insentif = $total_sm_insentif_row['total'];
                     ?>
+
+
                     <button onclick="window.location.href='surat_masuk.php'" class="btn3">Surat Masuk
                         <i class="fas fa-envelope dash-icon"></i><br>
                         <span class="badge" id="" style="color: grey; padding: 2px; border-radius: 15px;"><?php echo $total_sm; ?></span>
                     </button>
 
+                    <?php if ($_SESSION['jabatan'] == 'LP3M') : ?>
+                        <button onclick="window.location.href='surat_masuk_insentif'" class="btn3">Surat Masuk Insentif
+                            <i class="fas fa-envelope dash-icon"></i><br>
+                            <span class="badge" id="" style="color: grey; padding: 2px; border-radius: 15px;"><?php echo $total_sm_insentif; ?></span>
+                        </button>
+                    <?php endif; ?>
 
                     <!-- BATAS SUCI -->
                     <?php
@@ -122,12 +134,24 @@ if (!isset($_SESSION['pengguna_type'])) {
                                 WHERE tb_surat_dis.asal_surat = '$fullname'");
                     $total_sk_row = mysqli_fetch_assoc($records);
                     $total_sk = $total_sk_row['total'];
+
+                    $records2 = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_srt_dosen
+                                WHERE tb_srt_dosen.asal_surat = '$fullname'");
+                    $total_sk_row_dos = mysqli_fetch_assoc($records2);
+                    $total_sk_dos = $total_sk_row_dos['total'];
                     ?>
 
                     <?php if ($_SESSION['akses'] != 'Rektor' && $_SESSION['akses'] != 'Warek1' && $_SESSION['akses'] != 'Warek2' && $_SESSION['akses'] != 'Warek3') : ?>
-                        <button onclick="window.location.href='surat_keluar.php'" class="btn4">Surat Keluar
+                        <button onclick="window.location.href='surat_keluar'" class="btn4">Surat Keluar
                             <i class="fa fa-envelope-open dash-icon"></i><br>
                             <span class="badge" id="" style="color: grey; padding: 2px; border-radius: 15px;"><?php echo $total_sk; ?></span>
+                        </button>
+                    <?php endif; ?>
+
+                    <?php if ($_SESSION['jabatan'] == 'Dosen') : ?>
+                        <button onclick="window.location.href='surat_keluar_nondis'" class="btn4">Surat Keluar Non Disposisi
+                            <i class="fa fa-envelope-open dash-icon"></i><br>
+                            <span class="badge" id="" style="color: grey; padding: 2px; border-radius: 15px;"><?php echo $total_sk_dos; ?></span>
                         </button>
                     <?php endif; ?>
                 </div>

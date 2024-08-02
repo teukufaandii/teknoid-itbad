@@ -1181,3 +1181,16 @@ td {
   right: 10px;
   bottom: 20px;
 }
+
+.aksi-btn {
+  display: flex;
+  gap: 10px; 
+  justify-content: center;
+}
+
+.aksi-btn button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 5px; 
+}

@@ -147,7 +147,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                         echo "<td>" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "</td>";
                                         echo "<td>" . $row['asal_surat'] . "</td>";
                                         echo "<td>" . $row['perihal'] . "</td>";
-                                        echo "<td>" . $row['tanggal_surat'] . "</td>";
+                                        echo "<td>" . (isset($row['tanggal_surat']) ? (new DateTime($row['tanggal_surat']))->format('d-m-Y') : '') . "</td>";
                                         echo "<td>";
 
                                         if ($jumlah_diteruskan_ke == 1 && $status_selesai) {
@@ -360,7 +360,25 @@ if (!isset($_SESSION['pengguna_type'])) {
             if (hakAkses === 'Karyawan' || hakAkses === 'Bagian Kepegawaian') {
                 window.location.href = "tambah_surat2.php";
 
-            } else if (hakAkses === 'Mahasiswa' || hakAkses === 'Dosen') {
+            } else if (hakAkses === 'Dosen') {
+                Swal.fire({
+                    title: 'Tambah Surat',
+                    text: 'Pilih jenis surat yang ingin Anda tambahkan',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Surat Disposisi',
+                    cancelButtonText: 'Surat Non-Disposisi'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Redirect to tambah surat disposisi page
+                        window.location.href = "tambah_surat2.php";
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        // Redirect to tambah surat non-disposisi page
+                        window.location.href = "tambah_surat_dosen.php";
+                    }
+                });
+            } else
                 Swal.fire({
                     title: 'Tambah Surat',
                     text: 'Pilih jenis surat yang ingin Anda tambahkan',
@@ -378,9 +396,8 @@ if (!isset($_SESSION['pengguna_type'])) {
                         window.location.href = "tambahsurat_nondispo.php";
                     }
                 });
-            }
-        }
 
+        }
 
         function downloadForm() {
             window.location.href = "download_form.php";

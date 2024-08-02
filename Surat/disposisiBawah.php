@@ -369,6 +369,26 @@
                               <input type="checkbox" name="diteruskan[]" value="pusat_bisnis">
                               <label for="">Pusat Bisnis</label>
                           </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="PSDOD">
+                              <label for="">PSDOD</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="PKAD">
+                              <label for="">PKAD</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="CHED">
+                              <label for="">CHED</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="PSIPP">
+                              <label for="">PSIPP</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="halal_center">
+                              <label for="">Halal Center</label>
+                          </div>
                       </div>
                   </div>
 
@@ -433,6 +453,11 @@
                               'ppik_kmhs': 'PPIK dan Kemahasiswaan',
                               'upt_perpus': 'UPT Perpus',
                               'pusat_bisnis': 'Pusat Bisnis',
+                              'PSDOD' : 'PSDOD',
+                              'PKAD' : 'PKAD',
+                              'CHED' : 'CHED',
+                              'PSIPP' : 'PSIPP',
+                              'halal_center' : 'Halal Center',
                           };
 
                           var tujuan = [];
@@ -682,6 +707,26 @@
                               <input type="checkbox" name="diteruskan[]" value="pusat_bisnis">
                               <label for="">Pusat Bisnis</label>
                           </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="PSDOD">
+                              <label for="">PSDOD</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="PKAD">
+                              <label for="">PKAD</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="CHED">
+                              <label for="">CHED</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="PSIPP">
+                              <label for="">PSIPP</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="halal_center">
+                              <label for="">Halal Center</label>
+                          </div>
                       </div>
                   </div>
                   <div class="input-disposisi">
@@ -743,6 +788,11 @@
                               'ppik_kmhs': 'PPIK dan Kemahasiswaan',
                               'upt_perpus': 'UPT Perpus',
                               'pusat_bisnis': 'Pusat Bisnis',
+                              'PSDOD' : 'PSDOD',
+                              'PKAD' : 'PKAD',
+                              'CHED' : 'CHED',
+                              'PSIPP' : 'PSIPP',
+                              'halal_center' : 'Halal Center',
                           };
                           var tujuan = [];
 
@@ -984,6 +1034,26 @@
                               <input type="checkbox" name="diteruskan[]" value="pusat_bisnis">
                               <label for="">Pusat Bisnis</label>
                           </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="PSDOD">
+                              <label for="">PSDOD</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="PKAD">
+                              <label for="">PKAD</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="CHED">
+                              <label for="">CHED</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="PSIPP">
+                              <label for="">PSIPP</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="diteruskan[]" value="halal_center">
+                              <label for="">Halal Center</label>
+                          </div>
                       </div>
                   </div>
                   <div class="input-disposisi">
@@ -1045,6 +1115,11 @@
                               'ppik_kmhs': 'PPIK dan Kemahasiswaan',
                               'upt_perpus': 'UPT Perpus',
                               'pusat_bisnis': 'Pusat Bisnis',
+                              'PSDOD' : 'PSDOD',
+                              'PKAD' : 'PKAD',
+                              'CHED' : 'CHED',
+                              'PSIPP' : 'PSIPP',
+                              'halal_center' : 'Halal Center',
                           };
                           var tujuan = [];
 
@@ -1861,7 +1936,9 @@
               <?php } elseif (
                     $_SESSION['akses'] == 'bpm' || $_SESSION['akses'] == 'umum' || $_SESSION['akses'] == 'it_lab' ||
                     $_SESSION['akses'] == 'marketing' || $_SESSION['akses'] == 'kui_k' || $_SESSION['akses'] == 'akademik' ||
-                    $_SESSION['akses'] == 'ppik_kmhs' || $_SESSION['akses'] == 'lp3m' || $_SESSION['akses'] == 'pusat_bisnis'
+                    $_SESSION['akses'] == 'ppik_kmhs' || $_SESSION['akses'] == 'lp3m' || $_SESSION['akses'] == 'pusat_bisnis' || 
+                    $_SESSION['akses'] == 'PKAD' || $_SESSION['akses'] == 'PSDOD'  || $_SESSION['akses'] == 'CHED' ||
+                    $_SESSION['akses'] == 'PSIPP' || $_SESSION['akses'] == 'halal_center' 
                 ) { ?>
                   <?php
                     $query = "SELECT dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10,

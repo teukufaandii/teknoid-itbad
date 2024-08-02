@@ -54,7 +54,7 @@ if (mysqli_num_rows($result) == 1) {
             $_SESSION['jabatan'] == 'S1 Akuntansi' ||
             $_SESSION['jabatan'] == 'Prodi D3 Akuntansi' ||
             $_SESSION['jabatan'] == 'Prodi D3 Keuangan dan Perbankan' ||
-            $_SESSION['jabatan'] == 'Prodi S2 Keuangan Syariah'
+            $_SESSION['jabatan'] == 'S2 Keuangan Syariah'
         ) {
             echo '<script language="javascript" type="text/javascript">
             alert("Anda Berhasil Masuk, Selamat Datang ' . $_SESSION['jabatan'] . '!");</script>';
@@ -68,6 +68,11 @@ if (mysqli_num_rows($result) == 1) {
         } elseif (
             $_SESSION['akses'] == 'bpm'
             || $_SESSION['akses'] == 'lp3m'
+            || $_SESSION['akses'] == 'halal_center'
+            || $_SESSION['akses'] == 'PKAD'
+            || $_SESSION['akses'] == 'PSIPP'
+            || $_SESSION['akses'] == 'CHED'
+            || $_SESSION['akses'] == 'PSDOD'
             || $_SESSION['akses'] == 'upt_perpus'
             || $_SESSION['akses'] == 'akademik'
             || $_SESSION['akses'] == 'it_lab'

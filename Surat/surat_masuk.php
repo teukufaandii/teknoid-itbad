@@ -128,7 +128,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['kode_surat'] . "</td>";
                                                 echo "<td>" . $row['asal_surat'] . "</td>";
                                                 echo "<td>" . $row['perihal'] . "</td>";
-                                                echo "<td>" . $row['tanggal_surat'] . "</td>";
+                                                echo "<td>" . (isset($row['tanggal_surat']) ? (new DateTime($row['tanggal_surat']))->format('d-m-Y') : '') . "</td>";
                                                 echo "<td>";
                                                 if ($row['status_baca']) {
                                                     echo 'Sudah Disposisi';
@@ -341,6 +341,56 @@ if (!isset($_SESSION['pengguna_type'])) {
                                             }
                                             // section unit
                                         } elseif ($_SESSION['akses'] == 'ppik_kmhs') {
+                                            if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
+                                                echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
+                                                echo "<td>" . $row['kode_surat'] . "</td>";
+                                                echo "<td>" . $row['asal_surat'] . "</td>";
+                                                echo "<td>" . $row['perihal'] . "</td>";
+                                                echo "<td>" . $row['tanggal_surat'] . "</td>";
+                                                echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
+                                                echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>Disposisi</a></td>";
+                                            }
+                                        } elseif ($_SESSION['akses'] == 'PSDOD') {
+                                            if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
+                                                echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
+                                                echo "<td>" . $row['kode_surat'] . "</td>";
+                                                echo "<td>" . $row['asal_surat'] . "</td>";
+                                                echo "<td>" . $row['perihal'] . "</td>";
+                                                echo "<td>" . $row['tanggal_surat'] . "</td>";
+                                                echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
+                                                echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>Disposisi</a></td>";
+                                            }
+                                        } elseif ($_SESSION['akses'] == 'CHED') {
+                                            if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
+                                                echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
+                                                echo "<td>" . $row['kode_surat'] . "</td>";
+                                                echo "<td>" . $row['asal_surat'] . "</td>";
+                                                echo "<td>" . $row['perihal'] . "</td>";
+                                                echo "<td>" . $row['tanggal_surat'] . "</td>";
+                                                echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
+                                                echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>Disposisi</a></td>";
+                                            }
+                                        } elseif ($_SESSION['akses'] == 'PSIPP') {
+                                            if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
+                                                echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
+                                                echo "<td>" . $row['kode_surat'] . "</td>";
+                                                echo "<td>" . $row['asal_surat'] . "</td>";
+                                                echo "<td>" . $row['perihal'] . "</td>";
+                                                echo "<td>" . $row['tanggal_surat'] . "</td>";
+                                                echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
+                                                echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>Disposisi</a></td>";
+                                            }
+                                        } elseif ($_SESSION['akses'] == 'halal_center') {
+                                            if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
+                                                echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
+                                                echo "<td>" . $row['kode_surat'] . "</td>";
+                                                echo "<td>" . $row['asal_surat'] . "</td>";
+                                                echo "<td>" . $row['perihal'] . "</td>";
+                                                echo "<td>" . $row['tanggal_surat'] . "</td>";
+                                                echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
+                                                echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>Disposisi</a></td>";
+                                            }
+                                        } elseif ($_SESSION['akses'] == 'PKAD') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
                                                 echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
                                                 echo "<td>" . $row['kode_surat'] . "</td>";
