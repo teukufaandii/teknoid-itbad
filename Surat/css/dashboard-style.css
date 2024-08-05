@@ -1194,3 +1194,27 @@ td {
   cursor: pointer;
   padding: 5px; 
 }
+
+.disabled-button {
+  cursor: cell;
+}
+
+.disabled-button {
+  cursor: not-allowed;
+}
+
+.disabled-button:hover {
+  cursor:context-menu;
+}
+
+.warning {
+  color: white; /* Text color */
+  background-color: rgb(27, 94, 190); /* Background color */
+  padding: 3px 6px; /* Padding around the text */
+  border-radius: 10px; /* Rounded corners */
+  font-size: 12px; /* Font size */
+  font-weight: bold; /* Bold text */
+  display: flex;
+  margin-top: 5px;
+  width: 220px;
+}

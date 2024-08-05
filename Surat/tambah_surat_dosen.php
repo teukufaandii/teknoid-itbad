@@ -67,27 +67,14 @@ function isSuratRisetDosen($jenis_surat)
                         </div>
                     </div>
 
-                    
                     <div class="inputfield">
-                        <label for="">Asal Surat*</label>
-                        <input type="text" class="input" name="asal_surat_dsn" placeholder="Masukkan Asal Surat" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" readonly required>
-                    </div>
-
-                    <div class="inputfield" id="jumlah_dosen_atas" style="display: none;">
-                        <label for="jumlah_dosen">Jumlah Dosen*</label>
-                        <div class="custom_select">
-                            <input type="number" name="jumlah_dosen" id="jumlah_dosen" class="select" value="1" required>
-                        </div>
-                    </div>
-
-                    <div class="inputfield">
-                        <label for="nama_dosen1">Nama Dosen</label>
-                        <input type="text" class="input" name="nama_dosen" placeholder="Masukkan Nama" required>
+                        <label for="">Nama Dosen*</label>
+                        <input type="text" class="input" name="asal_surat_dsn" placeholder="Masukkan Asal Surat" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" readonly>
                     </div>
 
                     <div class="inputfield">
                         <label for="nim_dosen1">NIDN</label>
-                        <input type="number" class="input" name="nidn" placeholder="Masukkan NIDN" required>
+                        <input type="number" class="input" name="nidn" placeholder="Masukkan NIDN" value="<?php echo isset($_SESSION['pengguna']) ? $_SESSION['pengguna'] : ''; ?>"  readonly>
                     </div>
 
                     <div class="inputfield">
@@ -664,7 +651,7 @@ function isSuratRisetDosen($jenis_surat)
             } else if (this.value === '6') {
                 inputInsentif.style.display = 'none';
                 inputRiset.style.display = 'block';
-            } 
+            }
         });
 
 
@@ -721,6 +708,7 @@ function isSuratRisetDosen($jenis_surat)
 
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="js/dashboard-js.js"></script>
 </body>
 
 </html>

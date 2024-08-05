@@ -15,7 +15,7 @@ if (!isset($_SESSION['pengguna_type'])) {
 $id = $_GET['id'] ?? null;
 
 // Fetch data from the first table based on the provided ID
-$sql1 = "SELECT sd.jenis_surat, sd.asal_surat, sd.nama_dosen, sd.status_pengusul, sd.NIDN, sd.no_telpon, sd.id_sinta, sd.prodi_pengusul, 
+$sql1 = "SELECT sd.jenis_surat, sd.asal_surat,  sd.status_pengusul, sd.NIDN, sd.no_telpon, sd.id_sinta, sd.prodi_pengusul, 
             sd.jenis_insentif, sd.skema_ppmdpek, sd.judul_penelitian_ppm, sd.jenis_publikasi_pi, sd.nama_jurnal_pi, sd.vol_notahun_pi, 
             sd.link_jurnal_pi, sd.skala_ppdpi, sd.usulan_biaya_ppdpi, sd.skala_ppdks, sd.nama_pertemuan_ppdks, sd.nm_kegiatan_vl, 
             sd.jenis_hki, sd.judul_hki, sd.teknologi_tg, sd.deskripsi_tg, sd.jenis_buku, sd.judul_buku, sd.sinopsis_buku, sd.isbn_buku, 
@@ -26,14 +26,12 @@ $sql1 = "SELECT sd.jenis_surat, sd.asal_surat, sd.nama_dosen, sd.status_pengusul
          INNER JOIN tb_jenis j ON sd.jenis_surat = j.kd_jenissurat
          WHERE sd.id_srt = ?";
 
-
 $stmt1 = $koneksi->prepare($sql1);
 $stmt1->bind_param("i", $id);
 $stmt1->execute();
 $stmt1->bind_result(
     $jenis_surat,
     $asal_surat,
-    $nama_dosen,
     $status_pengusul,
     $NIDN,
     $no_telpon,
@@ -78,21 +76,127 @@ $stmt1->bind_result(
 $stmt1->fetch();
 $stmt1->close();
 
-$sql3 = "SELECT nama_berkas FROM file_berkas WHERE id_surat = ?";
-$stmt3 = $koneksi->prepare($sql3);
-$stmt3->bind_param("i", $id);
-$stmt3->execute();
-$stmt3->bind_result($file_berkas_name);
-$stmt3->fetch();
-$stmt3->close();
 
-$sql4 = "SELECT nama_laporan FROM file_laporan WHERE id_surat = ?";
+$sql3 = "SELECT 
+  file_berkas_insentif_ppm, 
+  file_berkas_insentif_pi, 
+  file_berkas_insentif_ppdpi,  
+  file_berkas_insentif_ppdks, 
+  file_berkas_insentif_vl, 
+  file_berkas_insentif_hki, 
+  file_berkas_insentif_tg, 
+  file_berkas_insentif_buku, 
+  file_berkas_insentif_mpdks, 
+  file_berkas_insentif_ipbk
+FROM tb_srt_dosen
+WHERE id_srt = ?";
+
+// Menyiapkan statement
+$stmt3 = $koneksi->prepare($sql3);
+
+// Mengikat parameter untuk WHERE clause
+$stmt3->bind_param("i", $id);
+
+// Menjalankan query
+$stmt3->execute();
+
+// Mengambil hasil sebagai array
+$stmt3->store_result();
+$stmt3->bind_result(
+    $file_berkas_insentif_ppm,
+    $file_berkas_insentif_pi,
+    $file_berkas_insentif_ppdpi,
+    $file_berkas_insentif_ppdks,
+    $file_berkas_insentif_vl,
+    $file_berkas_insentif_hki,
+    $file_berkas_insentif_tg,
+    $file_berkas_insentif_buku,
+    $file_berkas_insentif_mpdks,
+    $file_berkas_insentif_ipbk
+);
+
+// Memasukkan semua hasil ke dalam array
+$row = [];
+if ($stmt3->fetch()) {
+    $row = [
+        'file_berkas_insentif_ppm' => $file_berkas_insentif_ppm,
+        'file_berkas_insentif_pi' => $file_berkas_insentif_pi,
+        'file_berkas_insentif_ppdpi' => $file_berkas_insentif_ppdpi,
+        'file_berkas_insentif_ppdks' => $file_berkas_insentif_ppdks,
+        'file_berkas_insentif_vl' => $file_berkas_insentif_vl,
+        'file_berkas_insentif_hki' => $file_berkas_insentif_hki,
+        'file_berkas_insentif_tg' => $file_berkas_insentif_tg,
+        'file_berkas_insentif_buku' => $file_berkas_insentif_buku,
+        'file_berkas_insentif_mpdks' => $file_berkas_insentif_mpdks,
+        'file_berkas_insentif_ipbk' => $file_berkas_insentif_ipbk
+    ];
+}
+
+$stmt3->close();
+$file_berkas_combined = implode(", ", array_filter($row));
+$file_berkas_exists = !empty($file_berkas_combined);
+
+$sql4 = "SELECT 
+  file_berkas_ppm, 
+  file_berkas_pi, 
+  file_berkas_ppdpi, 
+  file_berkas_ppdks, 
+  file_berkas_vl, 
+  file_berkas_hki, 
+  file_berkas_tg, 
+  file_berkas_buku,
+  file_berkas_mpdks, 
+  file_berkas_ipbk, 
+  file_berkas_srd
+FROM tb_srt_dosen 
+WHERE id_srt = ?";
+
+// Menyiapkan statement
 $stmt4 = $koneksi->prepare($sql4);
+
+// Mengikat parameter untuk WHERE clause
 $stmt4->bind_param("i", $id);
+
+// Menjalankan query
 $stmt4->execute();
-$stmt4->bind_result($file_laporan_name);
-$stmt4->fetch();
+
+// Mengambil hasil dan menyimpannya dalam array
+$stmt4->store_result();
+$stmt4->bind_result(
+    $file_berkas_ppm,
+    $file_berkas_pi,
+    $file_berkas_ppdpi,
+    $file_berkas_ppdks,
+    $file_berkas_vl,
+    $file_berkas_hki,
+    $file_berkas_tg,
+    $file_berkas_buku,
+    $file_berkas_mpdks,
+    $file_berkas_ipbk,
+    $file_berkas_srd
+);
+
+// Memasukkan hasil binding ke dalam array asosiatif
+$row = [];
+if ($stmt4->fetch()) {
+    $row = [
+        'file_berkas_ppm' => $file_berkas_ppm,
+        'file_berkas_pi' => $file_berkas_pi,
+        'file_berkas_ppdpi' => $file_berkas_ppdpi,
+        'file_berkas_ppdks' => $file_berkas_ppdks,
+        'file_berkas_vl' => $file_berkas_vl,
+        'file_berkas_hki' => $file_berkas_hki,
+        'file_berkas_tg' => $file_berkas_tg,
+        'file_berkas_buku' => $file_berkas_buku,
+        'file_berkas_mpdks' => $file_berkas_mpdks,
+        'file_berkas_ipbk' => $file_berkas_ipbk,
+        'file_berkas_srd' => $file_berkas_srd
+    ];
+}
+
+// Menutup statement
 $stmt4->close();
+$file_berkas_combined_pendukung = implode(", ", array_filter($row));
 
 $sql5 = "SELECT nama_jenis FROM tb_jenis WHERE kd_jenissurat = ?";
 $stmt5 = $koneksi->prepare($sql5);
@@ -102,9 +206,8 @@ $stmt5->bind_result($jenis_surat);
 $stmt5->fetch();
 $stmt5->close();
 
-// Check if files exist
-$file_berkas_exists = !empty($file_berkas_name);
-$file_laporan_exists = !empty($file_laporan_name);
+$file_berkas_exists = !empty($file_berkas_combined);
+$file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
 ?>
 
 <head>
@@ -119,9 +222,6 @@ $file_laporan_exists = !empty($file_laporan_name);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-
-
-
     <style>
         /* Style untuk modal-content */
         .modal-content-file {
@@ -202,16 +302,16 @@ $file_laporan_exists = !empty($file_laporan_name);
         <!-- topnav -->
         <?php include "topnav.php" ?>
 
-        <div class="mainContent" id="mainContent">  
+        <div class="mainContent" id="mainContent">
             <div class="contentBox">
                 <div class="pageInfo">
-                    <h3>Disposisi Insentif - <?php echo $jenis_insentif; ?> <?php echo $_SESSION['jabatan'] ?></h3>
-                    <a href="surat_keluar_nondis.php"><button class="back">Kembali</button></a>
+                    <h3>Disposisi Insentif - <?php echo $jenis_insentif; ?> </h3>
+                    <button onclick="goBack()" class="back">Kembali</button>
                 </div>
                 <form class="form">
                     <div class="input-field">
                         <label for="">Nama Pengusul</label></label>
-                        <input type="text" class="input" name="#" value="<?php echo $nama_dosen; ?> " readonly>
+                        <input type="text" class="input" name="#" value="<?php echo $asal_surat; ?> " readonly>
                     </div>
 
                     <div class="input-field">
@@ -244,7 +344,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                         <input type="text" class="input" name="#" value="<?php echo $jenis_insentif; ?> " readonly>
                     </div>
 
-                    <?php if ($jenis_insentif= 'penelitian') { ?>
+                    <?php if ($jenis_insentif = 'penelitian') { ?>
                         <div class="input-field">
                             <label for="">Judul Penelitian/Pengabdian Masyarakat</label>
                             <input type="text" class="input" name="#" value="<?php echo $judul_penelitian_ppm; ?> " readonly>
@@ -255,7 +355,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                             <input type="text" class="input" name="#" value="<?php echo $skema_ppmdpek; ?> " readonly>
                         </div>
 
-                    <?php } elseif ($jenis_insentif= 'publikasi') { ?>
+                    <?php } elseif ($jenis_insentif = 'publikasi') { ?>
                         <div class="input-field">
                             <label for="">Jenis Publikasi/Jurnal</label>
                             <input type="text" class="input" name="#" value="<?php echo $jenis_publikasi_pi; ?> " readonly>
@@ -281,7 +381,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                             <input type="text" class="input" name="#" value="<?php echo $link_jurnal_pi; ?> " readonly>
                         </div>
 
-                    <?php } elseif ($jenis_insentif= 'pertemuan_ilmiah') { ?>
+                    <?php } elseif ($jenis_insentif = 'pertemuan_ilmiah') { ?>
 
                         <div class="input-field">
                             <label for="">Skala</label>
@@ -299,7 +399,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                         </div>
 
 
-                    <?php } elseif ($jenis_insentif= 'keynote_speaker') { ?>
+                    <?php } elseif ($jenis_insentif = 'keynote_speaker') { ?>
 
                         <div class="input-field">
                             <label for="">Skala</label>
@@ -311,7 +411,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                             <input type="text" class="input" name="#" value="<?php echo $nama_pertemuan_ppdks; ?> " readonly>
                         </div>
 
-                    <?php } elseif ($jenis_insentif='visiting_lecturer') { ?>
+                    <?php } elseif ($jenis_insentif = 'visiting_lecturer') { ?>
 
                         <div class="input-field">
                             <label for="">Nama Kegiatan dan Lembaga tujuan </label>
@@ -324,7 +424,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                         </div>
 
 
-                    <?php } elseif ($jenis_insentif= 'hki') { ?>
+                    <?php } elseif ($jenis_insentif = 'hki') { ?>
                         <div class="input-field">
                             <label for="">Jenis Kekayaan Intelektual</label>
                             <input type="text" class="input" name="#" value="<?php echo $jenis_hki; ?> " readonly>
@@ -335,7 +435,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                             <input type="text" class="input" name="#" value="<?php echo $judul_hki; ?> " readonly>
                         </div>
 
-                    <?php } elseif ($jenis_insentif= 'teknologi') { ?>
+                    <?php } elseif ($jenis_insentif = 'teknologi') { ?>
 
                         <div class="input-field">
                             <label for="">Tekonologi tepat guna yang diusulkan</label>
@@ -347,7 +447,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                             <input type="text" class="input" name="#" value="<?php echo $deskripsi_tg; ?> " readonly>
                         </div>
 
-                    <?php } elseif ($jenis_insentif= 'model') { ?>
+                    <?php } elseif ($jenis_insentif = 'model') { ?>
 
                         <div class="input-field">
                             <label for="">Nama Model</label>
@@ -359,7 +459,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                             <input type="text" class="input" name="#" value="<?php echo $deskripsi_mpdks; ?> " readonly>
                         </div>
 
-                    <?php } elseif ($jenis_insentif= 'buku') { ?>
+                    <?php } elseif ($jenis_insentif = 'buku') { ?>
 
                         <div class="input-field">
                             <label for="">Jenis Buku</label>
@@ -381,12 +481,12 @@ $file_laporan_exists = !empty($file_laporan_name);
                             <input type="text" class="input" name="#" value="<?php echo $isbn_buku; ?> " readonly>
                         </div>
 
-                    <?php } elseif ($jenis_insentif= 'insentif_publikasi') { ?>
+                    <?php } elseif ($jenis_insentif = 'insentif_publikasi') { ?>
 
                         <div class="input-field">
                             <label for="">Judul Publikasi</label>
                             <input type="text" class="input" name="#" value="<?php echo $judul_publikasi_pi; ?> " readonly>
-                        </div>  
+                        </div>
 
                         <div class="input-field">
                             <label for="">Nama Penerbit dan Waktu terbit</label>
@@ -406,24 +506,26 @@ $file_laporan_exists = !empty($file_laporan_name);
                             <div class="lihat">
                                 <?php if ($file_berkas_exists) : ?>
                                     <?php
-                                    // Path untuk berkas
-                                    $file_berkas_path = "uploads/berkas/" . $file_berkas_name;
+                                    // Path untuk insentif
+                                    $file_insentif_path = "uploads/dosen/" .  $file_berkas_combined;
                                     ?>
-                                    <button type="button" onclick="lihatBerkas('<?php echo $file_berkas_path; ?>')">Lihat Berkas</button>
+                                    <button type="button" onclick="lihatBerkas('<?php echo $file_insentif_path; ?>')">
+                                        Lihat Berkas Insentif
+                                    </button>
                                 <?php else : ?>
-                                    <p>Tidak ada berkas yang tersedia.</p>
+                                    <p>Tidak ada berkas insentif yang tersedia.</p>
                                 <?php endif; ?>
 
-
-                                <!--button laporan-->
-                                <?php if ($file_laporan_exists) : ?>
+                                <?php if ($file_berkas_pendukung) : ?>
                                     <?php
-                                    // Path untuk laporan
-                                    $file_laporan_path = "uploads/laporan/" . $file_laporan_name;
+                                    // Path untuk insentif
+                                    $file_pendukung_path = "uploads/dosen/" . $file_berkas_combined_pendukung;
                                     ?>
-                                    <button type="button" onclick="lihatLaporan('<?php echo $file_laporan_path; ?>')">Lihat Laporan</button>
+                                    <button type="button" onclick="lihatInsentif('<?php echo $file_pendukung_path; ?>')">
+                                        Lihat Berkas Pendukung
+                                    </button>
                                 <?php else : ?>
-                                    <p>Tidak ada laporan yang tersedia.</p>
+                                    <p>Tidak ada berkas insentif pendukung yang tersedia.</p>
                                 <?php endif; ?>
                             </div>
 
@@ -431,16 +533,16 @@ $file_laporan_exists = !empty($file_laporan_name);
                             <div id="modalBerkas" class="modal">
                                 <span class="close" onclick="closeModal()">&times;</span>
                                 <div class="modal-content-file">
-                                    <h2> PREVIEW BERKAS</h2>
+                                    <h2>PREVIEW BERKAS INSENTIF</h2>
                                     <iframe id="berkasFrame" frameborder="0"></iframe>
                                 </div>
                             </div>
 
                             <!-- Modal untuk tampilan laporan -->
-                            <div id="modalLaporan" class="modal" <?php if (!$file_laporan_exists) echo 'style="display: none;"'; ?>>
-                                <span class="close" onclick="closeModalLaporan()">&times;</span>
+                            <div id="modalLaporan" class="modal">
+                                <span class="close" onclick="closeModalInsentif()">&times;</span>
                                 <div class="modal-content-file">
-                                    <h2> PREVIEW LAPORAN </h2>
+                                    <h2>PREVIEW BERKAS PENDUKUNG</h2>
                                     <iframe id="laporanFrame" frameborder="0"></iframe>
                                 </div>
                             </div>
@@ -449,7 +551,7 @@ $file_laporan_exists = !empty($file_laporan_name);
                     </div>
 
                     <!-- form disposisi bawah -->
-                    <?php include "disposisiBawah.php" ?>
+                    <?php include "srtDosenAct.php" ?>
                 </form>
             </div>
         </div>
@@ -503,7 +605,7 @@ $file_laporan_exists = !empty($file_laporan_name);
         }
 
         // Function to display report modal and set iframe source for reports
-        function lihatLaporan(filePath) {
+        function lihatInsentif(filePath) {
             // Close file modal if it's open
             closeModal();
             // Set iframe source and display report modal
@@ -512,7 +614,7 @@ $file_laporan_exists = !empty($file_laporan_name);
         }
 
         // Function to close report modal
-        function closeModalLaporan() {
+        function closeModalInsentif() {
             document.getElementById("modalLaporan").style.display = "none";
         }
     </script>

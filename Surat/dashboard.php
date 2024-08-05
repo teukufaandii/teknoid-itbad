@@ -112,6 +112,10 @@ if (!isset($_SESSION['pengguna_type'])) {
                     $records3 = mysqli_query($conn, "SELECT COUNT(*) AS total  FROM tb_srt_dosen WHERE tujuan_surat_srd = '$akses'");
                     $total_sm_insentif_row = mysqli_fetch_assoc($records3);
                     $total_sm_insentif = $total_sm_insentif_row['total'];
+
+                    $records4 = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_srt_dosen WHERE verifikasi = 0 AND tujuan_surat_srd = '$akses'");
+                    $total_sm_verif_row = mysqli_fetch_assoc($records4);
+                    $total_sm_verif = $total_sm_verif_row['total'];
                     ?>
 
 
@@ -121,9 +125,10 @@ if (!isset($_SESSION['pengguna_type'])) {
                     </button>
 
                     <?php if ($_SESSION['jabatan'] == 'LP3M') : ?>
-                        <button onclick="window.location.href='surat_masuk_insentif'" class="btn3">Surat Masuk Insentif
+                        <button onclick="window.location.href='surat_masuk_insentif'" class="btn3">Surat Masuk Insentif. 
+                            <span class="warning" id="warning">Ada <?php echo $total_sm_verif; ?> surat yang belum ditanggapi</span>
                             <i class="fas fa-envelope dash-icon"></i><br>
-                            <span class="badge" id="" style="color: grey; padding: 2px; border-radius: 15px;"><?php echo $total_sm_insentif; ?></span>
+                            <span class="badge" id="badge1" style="color: grey; padding: 2px; border-radius: 15px; position: relative; top: -10px;"><?php echo $total_sm_insentif; ?></span>
                         </button>
                     <?php endif; ?>
 
@@ -179,6 +184,18 @@ if (!isset($_SESSION['pengguna_type'])) {
     </div>
     <script src="js/dashboard-js.js"></script>
     <script>
+
+        const total_sm_verif = <?php echo $total_sm_verif; ?>;
+
+        const badge1 = document.getElementById('badge1');
+        const warning = document.getElementById('warning');
+
+        if (total_sm_verif == 0) {
+            warning.style.display = 'none';
+            badge1.style.position = 'static';
+        }
+
+
         // Panggil fetchNotifications saat halaman dimuat untuk pertama kalinya
         document.addEventListener('DOMContentLoaded', function() {
             const notificationsContainer = document.querySelector('.notifications');

@@ -54,7 +54,7 @@ if (!isset($_SESSION['pengguna_type'])) {
         <div class="mainContent" id="mainContent">
             <div class="contentBox">
                 <div class="pageInfo">
-                    <h3>Surat Keluar</h3>
+                    <h3>Surat Keluar Insentif</h3>
                 </div>
                 <div class="tombol">
                     <div class="tambah">
@@ -121,7 +121,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                             // tabel db surat
                             $stmt = $conn->prepare(
                                 "SELECT 
-                                srt.id_srt, srt.tanggal_surat,srt.jenis_surat, srt.asal_surat, srt.jumlah_dosen, srt.nama_dosen,
+                                srt.id_srt, srt.tanggal_surat,srt.jenis_surat, srt.asal_surat,
                                 srt.status_pengusul, srt.NIDN, srt.no_telpon, srt.id_sinta, srt.prodi_pengusul,
                                 srt.jenis_insentif, srt.skema_ppmdpek, srt.judul_penelitian_ppm, srt.jenis_publikasi_pi,
                                 srt.judul_publikasi_pi, srt.nama_jurnal_pi, srt.vol_notahun_pi, srt.link_jurnal_pi,
@@ -151,9 +151,8 @@ if (!isset($_SESSION['pengguna_type'])) {
                                         echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
                                         echo "<td>" . (isset($row['jenis_surat']) ? ($row['jenis_surat'] == 5 ? "Surat Insentif" : ($row['jenis_surat'] == 6 ? "Surat Riset Dosen" : "Jenis Surat Tidak Dikenali")) : "Data Tidak Tersedia") . "</td>";
                                         echo "<td>" . (isset($row['asal_surat']) ? $row['asal_surat'] : 'Data Tidak Tersedia') . "</td>";
-                                        echo "<td>" . (!empty($row['jenis_insentif']) ? $row['jenis_insentif'] : '-') . "</td>";
-                                        echo "<td>" . (isset($row['tanggal_surat']) ? $row['tanggal_surat'] : '') . "</td>";
-
+                                        echo "<td>" . (!empty($row['jenis_insentif']) ? ucwords($row['jenis_insentif']) : '-') . "</td>";
+                                        echo "<td>" . (isset($row['tanggal_surat']) ? (new DateTime($row['tanggal_surat']))->format('d-m-Y') : '') . "</td>";
                                         echo "<td>";
                                         if ($row['verifikasi'] == 1) {
                                             echo '<i class="fas fa-check-square" style="background-color: white; color: green;"></i> Terverifikasi';
