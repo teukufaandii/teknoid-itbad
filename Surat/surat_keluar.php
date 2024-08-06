@@ -390,17 +390,17 @@ if (!isset($_SESSION['pengguna_type'])) {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Redirect to tambah surat disposisi page
-                        window.location.href = "tambah_surat2.php";
+                        window.location.href = "tambah_surat2";
                     } else if (result.dismiss === Swal.DismissReason.cancel) {
                         // Redirect to tambah surat non-disposisi page
-                        window.location.href = "tambahsurat_nondispo.php";
+                        window.location.href = "tambahsurat_nondispo";
                     }
                 });
 
         }
 
         function downloadForm() {
-            window.location.href = "download_form.php";
+            window.location.href = "download_form";
         }
     </script>
     <script src="js/dashboard-js.js"></script>

@@ -187,7 +187,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
         <script>
             // logout
             function redirectToIndex() {
-                window.location.href = "/Teknoid-ITBAD/index.php";
+                window.location.href = "/Teknoid-ITBAD/";
             }
 
             // sidebar

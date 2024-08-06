@@ -2,11 +2,24 @@
 session_start();
 include 'koneksi.php';
 include "logout-checker.php";
+
 // Periksa apakah session username telah diatur
 if (!isset($_SESSION['pengguna_type'])) {
     echo '<script language="javascript" type="text/javascript">
     alert("Anda Tidak Berhak Masuk Kehalaman Ini!");</script>';
     echo "<meta http-equiv='refresh' content='0; url=../index.php'>";
+    exit;
+}
+
+// Get the current user's ID from the session
+$current_user_id = $_SESSION['pengguna']; // Make sure 'user_id' is set in your session
+
+// Get the ID from the URL
+$edit_id = $_GET['ids'];
+
+// Check if the ID from the URL matches the current user's ID
+if ($edit_id != $current_user_id) {
+    header("Location: access-denied.php");
     exit;
 }
 ?>
@@ -40,13 +53,11 @@ if (!isset($_SESSION['pengguna_type'])) {
                         <h3>Edit Akun</h3>
                     </div>
                     <?php
-                    include "koneksi.php";
-
-                    $sqln = mysqli_query($koneksi,"SELECT * FROM tb_pengguna where noinduk='$_GET[ids]' order by nama_lengkap");
+                    $sqln = mysqli_query($koneksi, "SELECT * FROM tb_pengguna WHERE noinduk='$edit_id' ORDER BY nama_lengkap");
                     $row = mysqli_num_rows($sqln);
-                    $no=0;
+                    $no = 0;
 
-                    while($rn = mysqli_fetch_array($sqln)) { ?>
+                    while ($rn = mysqli_fetch_array($sqln)) { ?>
                         <form class="form" id="form" method="post" action="edit_user_mhsProcess.php">
                         
                             <div class="inputfield">
@@ -76,33 +87,13 @@ if (!isset($_SESSION['pengguna_type'])) {
                             
                         </form> 
                     <?php } ?>
-                </div>	
+                </div>    
             </div>
             <?php include './footer.php'; ?>
         </div>
 
         <script src="js/dashboard-js.js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-      <!--  <script src="js/dashboard-js.js"></script>
-          <script>
-            function confirmSave() {
-            Swal.fire({
-                title: 'Simpan Data?',
-                text: "Anda yakin ingin menyimpan data?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Simpan!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Submit form jika tombol "Ya, Simpan!" ditekan
-                    document.getElementById("form").submit();
-                }
-            });
-        }
-        </script> -->
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     </body>
 </html>

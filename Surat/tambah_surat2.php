@@ -146,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $notification_recipient = '+6285213042065';
     $notification_sent = sendWhatsAppMessage($notification_recipient, $notification_message);
     if ($notification_sent) {
-        echo '<script>alert("Surat berhasil dikirim");</script>';
+        header();
     } else {
         echo '<script>alert("Surat berhasil dikirim")</script>'; //Data berhasil disimpan, tetapi gagal mengirim notifikasi WhatsApp.
     }

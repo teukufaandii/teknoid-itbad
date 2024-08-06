@@ -15,7 +15,7 @@ if (!isset($_SESSION['pengguna_type'])) {
 $id = $_GET['id'] ?? null;
 
 // Fetch data from the first table based on the provided ID
-$sql1 = "SELECT sd.jenis_surat, sd.asal_surat,  sd.status_pengusul, sd.NIDN, sd.no_telpon, sd.id_sinta, sd.prodi_pengusul, 
+$sql1 = "SELECT sd.jenis_surat, sd.verifikasi, sd.memo, sd.asal_surat, sd.status_pengusul, sd.NIDN, sd.no_telpon, sd.id_sinta, sd.prodi_pengusul, 
             sd.jenis_insentif, sd.skema_ppmdpek, sd.judul_penelitian_ppm, sd.jenis_publikasi_pi, sd.nama_jurnal_pi, sd.vol_notahun_pi, 
             sd.link_jurnal_pi, sd.skala_ppdpi, sd.usulan_biaya_ppdpi, sd.skala_ppdks, sd.nama_pertemuan_ppdks, sd.nm_kegiatan_vl, 
             sd.jenis_hki, sd.judul_hki, sd.teknologi_tg, sd.deskripsi_tg, sd.jenis_buku, sd.judul_buku, sd.sinopsis_buku, sd.isbn_buku, 
@@ -31,6 +31,8 @@ $stmt1->bind_param("i", $id);
 $stmt1->execute();
 $stmt1->bind_result(
     $jenis_surat,
+    $verifikasi,
+    $memo,
     $asal_surat,
     $status_pengusul,
     $NIDN,
@@ -221,7 +223,10 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
     <link href="css/disposisi-style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.js"></script>
+    
     <style>
         /* Style untuk modal-content */
         .modal-content-file {
@@ -549,9 +554,6 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                         </div>
 
                     </div>
-
-                    <!-- form disposisi bawah -->
-                    <?php include "srtDosenAct.php" ?>
                 </form>
             </div>
         </div>
