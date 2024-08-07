@@ -601,16 +601,12 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
             document.getElementById("modalBerkas").style.display = "block";
         }
 
-        // Function to close file modal
         function closeModal() {
             document.getElementById("modalBerkas").style.display = "none";
         }
 
-        // Function to display report modal and set iframe source for reports
         function lihatInsentif(filePath) {
-            // Close file modal if it's open
             closeModal();
-            // Set iframe source and display report modal
             document.getElementById("laporanFrame").src = filePath;
             document.getElementById("modalLaporan").style.display = "block";
         }

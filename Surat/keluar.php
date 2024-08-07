@@ -51,9 +51,9 @@ session_destroy();
             
             if (countdown <= 0) {
                 clearInterval(countdownInterval);
-                window.location.href = "../"; // Redirect after countdown reaches 0
+                window.location.href = "../"; 
             }
-        }, 1000); // Update every second
+        }, 1000);
     </script>
 </body>
 </html>
