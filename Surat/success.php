@@ -1,3 +1,7 @@
+<?php
+$jabatan = isset($_SESSION['jabatan']) ? $_SESSION['jabatan'] : '';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,11 +10,16 @@
     <title>Success</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../logo itbad.png">
     <link rel="stylesheet" href="css/success.css">
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(function() {
-                window.location.href = "../Surat/surat_keluar_nondis";
+                <?php if ($jabatan == 'Dosen') { ?>
+                    window.location.href = "../surat/surat_keluar_nondis";
+                <?php } else { ?>
+                    window.location.href = "surat_keluar";
+                <?php } ?>
             }, 3000);
         });
     </script>
