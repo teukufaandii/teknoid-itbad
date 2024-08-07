@@ -76,7 +76,7 @@ if (mysqli_num_rows($result) == 1) {
             || $_SESSION['akses'] == 'formasi'
             || $_SESSION['akses'] == 'ppik_kmhs'
         ) {
-            $redirectUrl = "login_success.php";
+            $redirectUrl = "Surat/dashboard";
         } elseif ($_SESSION['akses'] == 'Humas' || $_SESSION['akses'] == 'Sekretaris') {
             $redirectUrl = "Surat/dashboard";
         }
