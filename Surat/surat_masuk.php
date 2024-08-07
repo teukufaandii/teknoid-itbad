@@ -146,7 +146,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                             }
                                         } elseif ($_SESSION['akses'] == 'Warek1') {
                                             if (
-                                                $row['diteruskan_ke'] == 'Warek1' || $row['dispo2'] == $jabatan ||
+                                                $row['diteruskan_ke'] == $akses || strpos($row['diteruskan_ke'], $akses) || $row['dispo2'] == $jabatan ||
                                                 $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan || $row['dispo5'] == $jabatan
                                             ) {
 

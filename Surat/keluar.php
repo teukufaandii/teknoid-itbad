@@ -30,7 +30,7 @@ session_destroy();
                     <h5 class="modal-title" id="logoutModalLabel">Berhasil Logout</h5>
                 </div>
                 <div class="modal-body">
-                    Dalam 2 detik, Anda akan diarahkan ke halaman login.
+                    Dalam <span id="countdown">2</span> detik, Anda akan diarahkan ke halaman login.
                 </div>
             </div>
         </div>
@@ -42,9 +42,18 @@ session_destroy();
         var modal = new bootstrap.Modal(modalEl);
         modal.show();
 
-        setTimeout(function() {
-            window.location.href = "../"; // Redirect after 3 seconds
-        }, 2000); // Adjust delay as needed
+        var countdownEl = document.getElementById('countdown');
+        var countdown = 2;
+        
+        var countdownInterval = setInterval(function() {
+            countdown--;
+            countdownEl.textContent = countdown;
+            
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+                window.location.href = "../"; // Redirect after countdown reaches 0
+            }
+        }, 1000); // Update every second
     </script>
 </body>
 </html>
