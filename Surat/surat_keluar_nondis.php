@@ -168,7 +168,6 @@ if (!isset($_SESSION['pengguna_type'])) {
                                             echo '-';
                                         }
                                         echo "</td>";
-                                        echo "</td>";
                                         echo "<td><a href='dispo_dosen.php?id=" . $row['id_srt'] . "' ><i class='fas fa-eye' style='background-color: white; color: #1b5ebe;'></i></a></td>";
                                         ?>
                                     </tr>
@@ -250,7 +249,7 @@ if (!isset($_SESSION['pengguna_type'])) {
             $("#search").keyup(function() {
                 var search = $(this).val();
                 $.ajax({
-                    url: 'ajax/searchSk.php',
+                    url: 'ajax/searchSkInsentif.php',
                     method: 'POST',
                     data: {
                         query: search

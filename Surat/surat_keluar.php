@@ -359,7 +359,7 @@ if (!isset($_SESSION['pengguna_type'])) {
 
             if (hakAkses === 'Karyawan' || hakAkses === 'Bagian Kepegawaian') {
                 window.location.href = "tambah_surat2.php";
-
+                
             } else if (hakAkses === 'Dosen') {
                 Swal.fire({
                     title: 'Tambah Surat',
@@ -377,6 +377,23 @@ if (!isset($_SESSION['pengguna_type'])) {
                         // Redirect to tambah surat non-disposisi page
                         window.location.href = "tambah_surat_dosen.php";
                     }
+                });
+            } else if (hakAkses === 'S1 TI' || hakAkses === 'S1 SI' || hakAkses === 'S1 DKV'   || hakAkses === 'S1 Arsitektur'   || hakAkses === 'S1 Manajemen '   || hakAkses === 'S1 Akuntansi'   || hakAkses === 'S2 Keuangan Syariah') {
+                Swal.fire({
+                    title: 'Tambah Surat',
+                    text: 'Pilih jenis surat yang ingin Anda tambahkan',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Surat Disposisi',
+                    cancelButtonText: 'Surat Non-Disposisi'
+                }).then((result) => {
+                    if (result.isConfirmed) {        // Redirect to tambah surat disposisi page
+                        cation.href = "tambah_surat2.php";
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        // Redirect to tambah surat non-disposisi page
+                        window.location.href = "tambah_surat_dosen.php";
+                    }                
                 });
             } else
                 Swal.fire({

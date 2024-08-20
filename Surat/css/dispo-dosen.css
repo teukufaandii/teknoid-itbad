@@ -1,0 +1,10 @@
+.btn-kirim-dsn button {
+  display: block;
+  background: rgb(27, 94, 190);
+  border-radius: 8px;
+  border: none;
+  color: white;
+  float: right;
+  padding: 10px 35px;
+  margin-top: -35px;
+}

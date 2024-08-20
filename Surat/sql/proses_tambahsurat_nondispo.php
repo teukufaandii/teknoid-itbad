@@ -206,7 +206,7 @@
         }
 
         $_SESSION['message'] = 'Data Berhasil Disimpan';
-        header("Location: ../success.php");
+    header("Location: ../success.php?id_srt=$last_id"); // Pass the id_srt to success.php
     } else {
         $_SESSION['error'] = 'Data Gagal Disimpan';
         header("Location: ../error.php");

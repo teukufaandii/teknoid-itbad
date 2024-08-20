@@ -125,7 +125,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                     </button>
 
                     <?php if ($_SESSION['jabatan'] == 'LP3M') : ?>
-                        <button onclick="window.location.href='surat_masuk_insentif'" class="btn3">Surat Masuk Insentif. 
+                        <button onclick="window.location.href='surat_masuk_insentif'" class="btn3">Surat Masuk Insentif.
                             <span class="warning" id="warning">Ada <?php echo $total_sm_verif; ?> surat yang belum ditanggapi</span>
                             <i class="fas fa-envelope dash-icon"></i><br>
                             <span class="badge" id="badge1" style="color: grey; padding: 2px; border-radius: 15px; position: relative; top: -10px;"><?php echo $total_sm_insentif; ?></span>
@@ -153,10 +153,24 @@ if (!isset($_SESSION['pengguna_type'])) {
                         </button>
                     <?php endif; ?>
 
+                    <!-- NON DISPO DOSEN -->
                     <?php if ($_SESSION['jabatan'] == 'Dosen') : ?>
                         <button onclick="window.location.href='surat_keluar_nondis'" class="btn4">Surat Keluar Non Disposisi
                             <i class="fa fa-envelope-open dash-icon"></i><br>
                             <span class="badge" id="" style="color: grey; padding: 2px; border-radius: 15px;"><?php echo $total_sk_dos; ?></span>
+                        </button>
+                    <?php endif; ?>
+
+                    <!-- NON DISPO PRODI -->
+                    <?php if (
+                        $_SESSION['jabatan'] == 'S2 Keuangan Syariah' || $_SESSION['jabatan'] == 'S1 SI'
+                        || $_SESSION['jabatan'] == 'S1 TI' || $_SESSION['jabatan'] == 'S1 DKV'
+                        || $_SESSION['jabatan'] == 'S1 Arsitektur' || $_SESSION['jabatan'] == 'S1 Manajemen'
+                        || $_SESSION['jabatan'] == 'S1 Akuntansi') : ?>
+                        <button onclick="window.location.href='surat_keluar_honorium'" class="btn3">Surat Keluar Non Disposisi
+                            <span class="warning" id="warning">Ada <?php echo $total_sm_verif; ?> surat yang belum ditanggapi</span>
+                            <i class="fas fa-envelope dash-icon"></i><br>
+                            <span class="badge" id="badge1" style="color: grey; padding: 2px; border-radius: 15px; position: relative; top: -10px;"><?php echo $total_sm_insentif; ?></span>
                         </button>
                     <?php endif; ?>
                 </div>
@@ -184,7 +198,6 @@ if (!isset($_SESSION['pengguna_type'])) {
     </div>
     <script src="js/dashboard-js.js"></script>
     <script>
-
         const total_sm_verif = <?php echo $total_sm_verif; ?>;
 
         const badge1 = document.getElementById('badge1');

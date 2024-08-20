@@ -15,7 +15,7 @@ $date = date('c'); // ISO 8601 format (e.g., 2023-03-16T14:30:00+07:00)
   }
 
   // auto logout
-  setInterval(checkSession, 10000); // check every 10 seconds
+  setInterval(checkSession, 100000); // hapus 0 nya 1 klo udh beres
 
   // detect user activity
   $(document).on('click keydown keyup keypress', function() {

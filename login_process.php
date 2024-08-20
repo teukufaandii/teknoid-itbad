@@ -29,55 +29,10 @@ if (mysqli_num_rows($result) == 1) {
 
         // Create a success message
         $message = "Anda Berhasil Masuk, Selamat Datang " . $_SESSION['nama_lengkap'] . "!";
-        $redirectUrl = "Surat/dashboard"; // Default redirection URL
 
-        // Determine the redirection URL based on user role
-        if ($_SESSION['akses'] == 'Admin') {
-            $redirectUrl = "Surat/pengaturan_akun";
-        } elseif ($_SESSION['akses'] == 'Rektor' || $_SESSION['akses'] == 'Warek1' || $_SESSION['akses'] == 'Warek2' || $_SESSION['akses'] == 'Warek3') {
-            $redirectUrl = "Surat/dashboard";
-        } elseif ($_SESSION['akses'] == 'User') {
-            $redirectUrl = "Surat/dashboard";
-        } elseif (
-            $_SESSION['akses'] == 'bpm'
-            || $_SESSION['akses'] == 'lp3m'
-            || $_SESSION['akses'] == 'halal_center'
-            || $_SESSION['akses'] == 'PKAD'
-            || $_SESSION['akses'] == 'PSIPP'
-            || $_SESSION['akses'] == 'CHED'
-            || $_SESSION['akses'] == 'PSDOD'
-            || $_SESSION['akses'] == 'upt_perpus'
-            || $_SESSION['akses'] == 'akademik'
-            || $_SESSION['akses'] == 'it_lab'
-            || $_SESSION['akses'] == 'umum'
-            || $_SESSION['akses'] == 'sdm'
-            || $_SESSION['akses'] == 'keuangan'
-            || $_SESSION['akses'] == 'marketing'
-            || $_SESSION['akses'] == 'kui_k'
-            || $_SESSION['akses'] == 'kmhs'
-            || $_SESSION['akses'] == 'ppik'
-            || $_SESSION['akses'] == 'Olga'
-            || $_SESSION['akses'] == 'KMPM'
-            || $_SESSION['akses'] == 'Alpiniste'
-            || $_SESSION['akses'] == 'Nasbung'
-            || $_SESSION['akses'] == 'Kopma'
-            || $_SESSION['akses'] == 'Kummis'
-            || $_SESSION['akses'] == 'IMM'
-            || $_SESSION['akses'] == 'TS'
-            || $_SESSION['akses'] == 'BEM'
-            || $_SESSION['akses'] == 'DPM'
-            || $_SESSION['akses'] == 'IMDIMENSI'
-            || $_SESSION['akses'] == 'IMSISFO'
-            || $_SESSION['akses'] == 'IMTI'
-            || $_SESSION['akses'] == 'IMARS'
-            || $_SESSION['akses'] == 'IMMADA'
-            || $_SESSION['akses'] == 'IMAKSI'
-            || $_SESSION['akses'] == 'pusat_bisnis'
-            || $_SESSION['akses'] == 'formasi'
-            || $_SESSION['akses'] == 'ppik_kmhs'
-        ) {
-            $redirectUrl = "Surat/dashboard";
-        } elseif ($_SESSION['akses'] == 'Humas' || $_SESSION['akses'] == 'Sekretaris') {
+        if($_SESSION['akses'] == 'Admin'){
+            $redirectUrl = "surat/pengaturan_akun";
+        } else {
             $redirectUrl = "Surat/dashboard";
         }
 

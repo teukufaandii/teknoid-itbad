@@ -210,6 +210,7 @@ $stmt5->close();
 
 $file_berkas_exists = !empty($file_berkas_combined);
 $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
+
 ?>
 
 <head>
@@ -221,12 +222,13 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
     <link rel="icon" type="image/x-icon" href="../logo itbad.png">
     <link href="css/dashboard-style.css" rel="stylesheet">
     <link href="css/disposisi-style.css" rel="stylesheet">
+    <link href="css/dispo-dosen.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.js"></script>
-    
+
     <style>
         /* Style untuk modal-content */
         .modal-content-file {
@@ -315,41 +317,41 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                 </div>
                 <form class="form">
                     <div class="input-field">
-                        <label for="">Nama Pengusul</label></label>
+                        <label for="">Nama Pengusul</label>
                         <input type="text" class="input" name="#" value="<?php echo $asal_surat; ?> " readonly>
                     </div>
 
                     <div class="input-field">
-                        <label for="">Status Pengusul</label></label>
+                        <label for="">Status Pengusul</label>
                         <input type="text" class="input" name="#" value="<?php echo $status_pengusul; ?> " readonly>
                     </div>
 
                     <div class="input-field">
-                        <label for="">NIDN</label></label>
+                        <label for="">NIDN</label>
                         <input type="text" class="input" name="#" value="<?php echo $NIDN; ?> " readonly>
                     </div>
 
                     <div class="input-field">
-                        <label for="">ID Sinta</label></label>
+                        <label for="">ID Sinta</label>
                         <input type="text" class="input" name="#" value="<?php echo $id_sinta; ?> " readonly>
                     </div>
 
                     <div class="input-field">
-                        <label for="">NO Telpon/HP</label></label>
+                        <label for="">NO Telpon/HP</label>
                         <input type="text" class="input" name="#" value="<?php echo $no_telpon; ?> " readonly>
                     </div>
 
                     <div class="input-field">
-                        <label for="">Program Studi Pengusul</label></label>
+                        <label for="">Program Studi Pengusul</label>
                         <input type="text" class="input" name="#" value="<?php echo $prodi_pengusul; ?> " readonly>
                     </div>
 
                     <div class="input-field">
-                        <label for="">Jenis Insentif</label></label>
+                        <label for="">Jenis Insentif</label>
                         <input type="text" class="input" name="#" value="<?php echo $jenis_insentif; ?> " readonly>
                     </div>
 
-                    <?php if ($jenis_insentif = 'penelitian') { ?>
+                    <?php if ($jenis_insentif == 'penelitian') { ?>
                         <div class="input-field">
                             <label for="">Judul Penelitian/Pengabdian Masyarakat</label>
                             <input type="text" class="input" name="#" value="<?php echo $judul_penelitian_ppm; ?> " readonly>
@@ -386,7 +388,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                             <input type="text" class="input" name="#" value="<?php echo $link_jurnal_pi; ?> " readonly>
                         </div>
 
-                    <?php } elseif ($jenis_insentif = 'pertemuan_ilmiah') { ?>
+                    <?php } elseif ($jenis_insentif == 'pertemuan_ilmiah') { ?>
 
                         <div class="input-field">
                             <label for="">Skala</label>
@@ -404,7 +406,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                         </div>
 
 
-                    <?php } elseif ($jenis_insentif = 'keynote_speaker') { ?>
+                    <?php } elseif ($jenis_insentif == 'keynote_speaker') { ?>
 
                         <div class="input-field">
                             <label for="">Skala</label>
@@ -416,7 +418,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                             <input type="text" class="input" name="#" value="<?php echo $nama_pertemuan_ppdks; ?> " readonly>
                         </div>
 
-                    <?php } elseif ($jenis_insentif = 'visiting_lecturer') { ?>
+                    <?php } elseif ($jenis_insentif == 'visiting_lecturer') { ?>
 
                         <div class="input-field">
                             <label for="">Nama Kegiatan dan Lembaga tujuan </label>
@@ -429,7 +431,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                         </div>
 
 
-                    <?php } elseif ($jenis_insentif = 'hki') { ?>
+                    <?php } elseif ($jenis_insentif == 'hki') { ?>
                         <div class="input-field">
                             <label for="">Jenis Kekayaan Intelektual</label>
                             <input type="text" class="input" name="#" value="<?php echo $jenis_hki; ?> " readonly>
@@ -440,7 +442,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                             <input type="text" class="input" name="#" value="<?php echo $judul_hki; ?> " readonly>
                         </div>
 
-                    <?php } elseif ($jenis_insentif = 'teknologi') { ?>
+                    <?php } elseif ($jenis_insentif == 'teknologi') { ?>
 
                         <div class="input-field">
                             <label for="">Tekonologi tepat guna yang diusulkan</label>
@@ -452,7 +454,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                             <input type="text" class="input" name="#" value="<?php echo $deskripsi_tg; ?> " readonly>
                         </div>
 
-                    <?php } elseif ($jenis_insentif = 'model') { ?>
+                    <?php } elseif ($jenis_insentif == 'model') { ?>
 
                         <div class="input-field">
                             <label for="">Nama Model</label>
@@ -464,7 +466,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                             <input type="text" class="input" name="#" value="<?php echo $deskripsi_mpdks; ?> " readonly>
                         </div>
 
-                    <?php } elseif ($jenis_insentif = 'buku') { ?>
+                    <?php } elseif ($jenis_insentif == 'buku') { ?>
 
                         <div class="input-field">
                             <label for="">Jenis Buku</label>
@@ -486,7 +488,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                             <input type="text" class="input" name="#" value="<?php echo $isbn_buku; ?> " readonly>
                         </div>
 
-                    <?php } elseif ($jenis_insentif = 'insentif_publikasi') { ?>
+                    <?php } elseif ($jenis_insentif == 'insentif_publikasi') { ?>
 
                         <div class="input-field">
                             <label for="">Judul Publikasi</label>
@@ -499,15 +501,16 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                         </div>
 
                         <div class="input-field">
-                            <label for=""> Tautan Publikasi</label></label>
+                            <label for="">Tautan Publikasi</label>
                             <input type="text" class="input" name="#" value="<?php echo $link_publikasi_ipbk; ?> " readonly>
                         </div>
 
                     <?php } ?>
 
+
                     <div class="input-field">
-                        <label> </label>
-                        <div class="input" style="color: black; text-align: center; background-color: rgba(0, 0, 0, 0); border: none">
+                        <label></label>
+                        <div class="input" style="padding: 0 !important; color: black;; background-color: rgba(0, 0, 0, 0); border: none">
                             <div class="lihat">
                                 <?php if ($file_berkas_exists) : ?>
                                     <?php
@@ -552,48 +555,119 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                                 </div>
                             </div>
                         </div>
-
                     </div>
+
+                    <?php if ($_SESSION['jabatan'] == 'LP3M') : ?>
+                        <div class="txt-disposisi">
+                            <h3> Memo </h3>
+                        </div>
+
+                        <div class="input-disposisi">
+                            <label for="">Memo</label>
+                            <input type="text" class="input" placeholder="Masukkan Catatan" name="memo" id="memo" valuerequired>
+                            <input type="hidden" name="id" value="<?php echo $id; ?>">
+                        </div>
+
+                        <div class="btn-kirim-dsn" style="display: flex; justify-content: end; gap: 15px; position: relative; top: 20px;">
+                            <div class="floatFiller">ffff</div>
+                            <button id="btnKirim" type="button" style="cursor: pointer; text-align: center; height: 35px; width: 10%;">Kirim</button>
+                        </div>
+
+                        <div class="btnVerif" style="display: flex; justify-content: end; gap: 15px; position: relative; top: 20px;">
+                            <button id="btnVerifikasi" type="button" style="border-radius: 8px; cursor: pointer; text-align: center; color: #fff; background-color: #31763d; height: 35px; width: 10%;">Verifikasi</button>
+                        </div>
+
+                    <?php endif; ?>
+
                 </form>
             </div>
         </div>
         <?php include './footer.php'; ?>
     </div>
     <script>
-        // Get the modal
         var accMdl = document.getElementById("accModal");
 
-        // Get the button that opens the modal
         var accBtn = document.getElementById("accModalBtn");
 
-        // When the user clicks the button, toggle the modal
         accBtn.onclick = function() {
             accMdl.style.display === "block" ? closeModalAcc() : openModalAcc();
         }
 
-        // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
             if (event.target == accMdl) {
                 closeModalAcc();
             }
         }
 
-        // Function to open modal
         function openModalAcc() {
             accMdl.style.display = "block";
         }
 
-        // Function to close modal
         function closeModalAcc() {
             accMdl.style.display = "none";
         }
     </script>
+
     <script src="js/dashboard-js.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script>
+        document.getElementById('btnKirim').addEventListener('click', function() {
+            const memo = document.getElementById('memo').value;
+            sendRequest('kirim', memo);
+        });
+
+        document.getElementById('btnVerifikasi').addEventListener('click', function() {
+            sendRequest('verifikasi');
+        });
+
+        function sendRequest(action) {
+            const memo = document.getElementById('memo').value;
+            const id_srt = document.querySelector('input[name="id"]').value;
+
+            fetch('update_memo.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        'action': action,
+                        'memo': memo,
+                        'id_srt': id_srt
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.success) {
+                        if (action === 'kirim') {
+                            if (data.memoFilled) {
+                                alert('Memo sudah terisi.');
+                            } else {
+                                alert('Catatan Berhasil Ditambahkan');
+                            }
+                        } else if (action === 'verifikasi') {
+                            if (data.verifikasiFilled) {
+                                alert('Verifikasi sudah terisi.');
+                            } else {
+                                alert('Verifikasi Berhasil');
+                                setTimeout(() => {
+                                    window.location.href = 'surat_keluar_nondis.php';
+                                }, 3000);
+                            }
+                        }
+                    } else {
+                        alert('Update failed: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+
 
     <!-- Modal script -->
-
     <script>
         // Function to display file modal and set iframe source for files
         function lihatBerkas(filePath) {
