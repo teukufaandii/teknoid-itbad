@@ -144,6 +144,11 @@ if (!isset($_SESSION['pengguna_type'])) {
                                 WHERE tb_srt_dosen.asal_surat = '$fullname'");
                     $total_sk_row_dos = mysqli_fetch_assoc($records2);
                     $total_sk_dos = $total_sk_row_dos['total'];
+
+                    $records3 = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_srt_honor
+                                WHERE tb_srt_honor.asal_surat = '$fullname'");
+                    $total_sk_row_hon = mysqli_fetch_assoc($records3);
+                    $total_sk_hon = $total_sk_row_hon['total'];
                     ?>
 
                     <?php if ($_SESSION['akses'] != 'Rektor' && $_SESSION['akses'] != 'Warek1' && $_SESSION['akses'] != 'Warek2' && $_SESSION['akses'] != 'Warek3') : ?>
@@ -168,9 +173,9 @@ if (!isset($_SESSION['pengguna_type'])) {
                         || $_SESSION['jabatan'] == 'S1 Arsitektur' || $_SESSION['jabatan'] == 'S1 Manajemen'
                         || $_SESSION['jabatan'] == 'S1 Akuntansi') : ?>
                         <button onclick="window.location.href='surat_keluar_honorium'" class="btn3">Surat Keluar Non Disposisi
-                            <span class="warning" id="warning">Ada <?php echo $total_sm_verif; ?> surat yang belum ditanggapi</span>
+                            <span class="warning" id="warning">Ada <?php echo $total_sk_hon; ?> surat yang belum ditanggapi</span>
                             <i class="fas fa-envelope dash-icon"></i><br>
-                            <span class="badge" id="badge1" style="color: grey; padding: 2px; border-radius: 15px; position: relative; top: -10px;"><?php echo $total_sm_insentif; ?></span>
+                            <span class="badge" id="badge1" style="color: grey; padding: 2px; border-radius: 15px; position: relative; top: -10px;"><?php echo $total_sk_hon; ?></span>
                         </button>
                     <?php endif; ?>
                 </div>

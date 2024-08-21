@@ -24,10 +24,10 @@ if ($isProdi) {
         'S1 Akuntansi' => 'Prodi S1 Akuntansi',
         'S2 Keuangan Syariah' => 'Prodi S2 Keuangan Syariah',
     );
-    
+
     // Ambil nilai dari session atau default kosong
     $asal_surat = isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : '';
-    
+
     // Menggunakan alias jika ada, jika tidak, tampilkan nilai asli
     $alias = isset($prodi_alias[$asal_surat]) ? $prodi_alias[$asal_surat] : $asal_surat;
     ?>
@@ -43,12 +43,76 @@ if ($isProdi) {
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="icon" type="image/x-icon" href="../logo itbad.png">
         <link href="css/dashboard-style.css" rel="stylesheet">
+        <link href="css/disposisi-style.css" rel="stylesheet">
         <!-- ajax live search -->
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
         <script type="text/javascript" src="tablesorter/jquery.tablesorter.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <style>
+            /* Style untuk modal-content */
+            .modal-content-file {
+                background-color: whitesmoke;
+                margin: auto;
+                height: 85vh;
+                width: 80%;
+                display: flex;
+                flex-direction: column;
+                backdrop-filter: blur(5px);
+                /* Apply blur effect */
+            }
+
+            .modal .modal-content-file h2 {
+                color: black;
+                padding-top: 20px;
+            }
+
+            .close {
+                color: #aaa;
+                float: right;
+                padding-right: 5vw;
+                margin-right: 0px;
+                font-size: 35px;
+                font-weight: bold;
+                color: red;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            iframe {
+                border: 1px solid black;
+            }
+
+            #berkasFrame {
+                width: 90%;
+                height: 60vh;
+                margin: auto;
+            }
+
+            @media (max-width: 600px) {
+                .modal-content-file {
+                    width: 90%;
+                    height: 70vh;
+                }
+
+                #berkasFrame {
+                    width: 90%;
+                    height: 60vh;
+                    margin: auto;
+                }
+
+                .close {
+                    font-size: 25px;
+                    margin-right: 10px;
+                }
+            }
+        </style>
     </head>
 
     <body>
@@ -77,6 +141,7 @@ if ($isProdi) {
                     <div class="pageInfo">
                         <h3>Surat Keluar Honorium</h3>
                     </div>
+
                     <div class="tombol">
                         <div class="tambah">
                             <button onclick="confirmAddSurat()">
@@ -94,95 +159,120 @@ if ($isProdi) {
                         </div>
                     </div>
 
-                    <div class="tableOverflow">
+                    <div class="tableOverflow" id="table-container">
                         <table id="tablesk" class="tablesorter">
                             <thead>
                                 <tr>
                                     <th style="min-width: 75px;">No<i class="fas fa-sort"></i></th>
-                                    <th>Jenis Surat <i class="fas fa-sort"></i></th>
-                                    <th>Asal Surat <i class="fas fa-sort"></i></th>
-                                    <th>Nama Kegiatan<i class="fas fa-sort"></i></th>
+                                    <th>Jenis Surat<i class="fas fa-sort" style="margin-left: 5px;"></i></th>
+                                    <th>Asal Surat<i class="fas fa-sort" style="margin-left: 5px;"></i></th>
+                                    <th>Nama Kegiatan<i class="fas fa-sort" style="margin-left: 5px;"></i></th>
                                     <th>Tanggal Surat</th>
                                     <th>Status</th>
                                     <th>Berkas</th>
                                 </tr>
                             </thead>
                             <tbody>
+    <?php
+    $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Pengaturan baris
+    $start = 0;
+    $rows_per_page = 10;
+    $fullname = $_SESSION['nama_lengkap'];
+
+    // Dapatkan parameter sort dari URL (default adalah 'id' dengan 'asc')
+    $sort_column = isset($_GET['sort']) ? $_GET['sort'] : 'id';
+    $sort_order = isset($_GET['order']) ? $_GET['order'] : 'asc';
+
+    // Validasi parameter sort
+    $valid_columns = ['id', 'asal_surat', 'jenis_surat', 'nm_kegiatan', 'tanggal_surat', 'diteruskan_ke', 'status', 'berkas'];
+    if (!in_array($sort_column, $valid_columns)) {
+        $sort_column = 'id';
+    }
+    if ($sort_order != 'asc' && $sort_order != 'desc') {
+        $sort_order = 'asc';
+    }
+
+    // Total nomor baris
+    $records = mysqli_query($conn, "SELECT * FROM tb_srt_honor WHERE asal_surat = '$fullname'");
+    $nr_of_rows = $records->num_rows;
+
+    // Kalkulasi nomor per halaman
+    $pages = ceil($nr_of_rows / $rows_per_page);
+
+    // Start point
+    if (isset($_GET['page-nr'])) {
+        $page = $_GET['page-nr'] - 1;
+        $start = $page * $rows_per_page;
+    }
+
+    // Query dengan LIMIT, OFFSET, dan ORDER BY
+    $sql = "SELECT * FROM tb_srt_honor WHERE asal_surat = '$fullname' ORDER BY $sort_column $sort_order LIMIT $start, $rows_per_page";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $counter = $start + 1;
+        while ($row = $result->fetch_assoc()) {
+            $row_class = ($counter % 2 == 0) ? 'even-row' : 'odd-row';
+    ?>
+            <tr class="<?php echo $row_class; ?>">
+                <td style="min-width: 75px;"><?php echo $counter++; ?></td>
+                <td><?php echo ($row['jenis_surat'] == 7) ? "Surat Honorium" : "Data Tidak Tersedia"; ?></td>
+                <td><?php echo htmlspecialchars($alias); ?></td>
+                <td><?php echo !empty($row['nm_kegiatan']) ? ucwords($row['nm_kegiatan']) : '-'; ?></td>
+                <td><?php echo isset($row['tanggal_surat']) ? (new DateTime($row['tanggal_surat']))->format('d-m-Y') : ''; ?></td>
+                <td>
+                    <?php
+                    if ($row['status'] == 1) {
+                        echo '<i class="fas fa-check-square" style="background-color: white; color: green;"></i> Terverifikasi';
+                    } else {
+                        echo ' Belum Diverifikasi';
+                    }
+                    ?>
+                </td>
+                <td>
+                    <div class="input-field">
+                        <label></label>
+                        <div class="input" style="color: black; text-align: center; background-color: rgba(0, 0, 0, 0); border: none">
+                            <div class="lihat">
                                 <?php
-                                $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
-                                if ($conn->connect_error) {
-                                    die("Connection failed: " . $conn->connect_error);
-                                }
-
-                                // pengaturan baris
-                                $start = 0;
-                                $rows_per_page = 20;
-                                $fullname = $_SESSION['nama_lengkap'];
-
-                                // total nomor baris
-                                $records = mysqli_query($conn, "SELECT sd.id_surat, sd.kode_surat, sd.kd_surat, sd.asal_surat,
-                                    sd.perihal, sd.diteruskan_ke, sd.status_baca, sd.status_tolak, sd.status_selesai,
-                                    d.dispo1, d.dispo2, d.dispo3, d.dispo4, d.dispo5
-                                    FROM tb_surat_dis sd
-                                    LEFT JOIN tb_disposisi d ON sd.id_surat = d.id_surat
-                                    WHERE sd.asal_surat = '$fullname' ");
-
-                                $nr_of_rows = $records->num_rows;
-
-                                // kalkulasi nomor per halaman
-                                $pages = ceil($nr_of_rows / $rows_per_page);
-
-                                // start point
-                                if (isset($_GET['page-nr'])) {
-                                    $page = $_GET['page-nr'] - 1;
-                                    $start = $page * $rows_per_page;
-                                }
-
-                                $sql = "SELECT * FROM tb_srt_honor WHERE asal_surat = '$fullname'";
-                                $stmt = $conn->prepare($sql);
-                                $stmt->execute();
-                                $result = $stmt->get_result();
-
-                                // SQL query untuk mengambil data dari tabel tb_srt_honor
-                                // $sql = "SELECT * FROM tb_srt_honor WHERE asal_surat = ? LIMIT ?, ?";
-                                // $stmt = $conn->prepare($sql);
-                                // $stmt->bind_param("sii", $fullname, $start, $rows_per_page);
-                                // $stmt->execute();
-                                // $result = $stmt->get_result();
-
-                                if ($result->num_rows > 0) {
-                                    $counter = $start + 1;
-                                    while ($row = $result->fetch_assoc()) {
-                                ?>
-                                        <tr>
-                                            <td style="min-width: 75px;"><?php echo $counter++; ?></td>
-                                            <td><p><?php echo ($row['jenis_surat'] == 7) ? "Surat Honorium" : "Data Tidak Tersedia"; ?></p></td>
-                                            <td><?php echo htmlspecialchars($alias); ?></td>
-                                            <td><?php echo !empty($row['nm_kegiatan']) ? ucwords($row['nm_kegiatan']) : '-'; ?></td>
-                                            <td><?php echo isset($row['tanggal_surat']) ? (new DateTime($row['tanggal_surat']))->format('d-m-Y') : ''; ?></td>
-                                            <td>
-                                                <?php
-                                                if ($row['status'] == 1) {
-                                                    echo '<i class="fas fa-check-square" style="background-color: white; color: green;"></i> Terverifikasi';
-                                                } else {
-                                                    echo ' Belum Diverifikasi';
-                                                }
-                                                ?>
-                                            </td>
-                                            <td><a href='dispo_dosen.php?id=<?php echo $row['id_srt']; ?>'><i class='fas fa-eye' style='background-color: white; color: #1b5ebe;'></i></a></td>
-                                        </tr>
-
-                                        
-                                <?php
-                                    }
+                                if (!empty($row['berkas'])) {
+                                    $filePath = 'uploads/honorium/' . htmlspecialchars($row['berkas']);
+                                    echo '<i class="fas fa-eye" style="background-color: white; color: #1b5ebe; cursor: pointer;" onclick="lihatBerkas(\'' . $filePath . '\')"></i>';
                                 } else {
-                                    echo "<tr><td colspan='7'>0 results</td></tr>";
+                                    echo 'Tidak ada berkas';
                                 }
-                                $conn->close();
                                 ?>
-                            </tbody>
+                                <div id="modalBerkas" class="modal">
+                                    <span class="close" onclick="closeModal()">&times;</span>
+                                    <div class="modal-content-file">
+                                        <h2>PREVIEW BERKAS HONORIUM</h2>
+                                        <iframe id="berkasFrame" frameborder="0"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+    <?php
+        }
+    } else {
+        echo "<tr><td colspan='7'>0 results</td></tr>";
+    }
+    $conn->close();
+    ?>
+</tbody>
+
                         </table>
                     </div>
+
                     <?php
                     if (isset($_GET['page-nr'])) {
                         $id = $_GET['page-nr'];
@@ -251,7 +341,7 @@ if ($isProdi) {
                 $("#search").keyup(function() {
                     var search = $(this).val();
                     $.ajax({
-                        url: 'ajax/searchSk.php',
+                        url: 'ajax/searchSkHonor.php',
                         method: 'POST',
                         data: {
                             query: search
@@ -273,6 +363,18 @@ if ($isProdi) {
                 });
             }
         </script>
+
+        <script>
+            function lihatBerkas(filePath) {
+                document.getElementById("berkasFrame").src = filePath;
+                document.getElementById("modalBerkas").style.display = "block";
+            }
+
+            function closeModal() {
+                document.getElementById("modalBerkas").style.display = "none";
+            }
+        </script>
+
         <script>
             // efek page number //
             let links = document.querySelectorAll('.pageNumber a');
@@ -358,7 +460,6 @@ if ($isProdi) {
                         }
                     });
             }
-
 
             function downloadForm() {
                 window.location.href = "download_form";

@@ -5,18 +5,18 @@ session_start();
 $id_srt = isset($_GET['id_srt']) ? $_GET['id_srt'] : 'Undefined';
 $jabatan = isset($_SESSION['jabatan']) ? $_SESSION['jabatan'] : 'Undefined';
 
-    $query = "SELECT jenis_insentif FROM tb_srt_dosen WHERE id_srt = ?";
-    $stmt = $koneksi->prepare($query); 
-    $stmt->bind_param("i", $id_srt);
-    $stmt->execute();
-    $result = $stmt->get_result();
+$query = "SELECT jenis_insentif FROM tb_srt_dosen WHERE id_srt = ?";
+$stmt = $koneksi->prepare($query);
+$stmt->bind_param("i", $id_srt);
+$stmt->execute();
+$result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $jenis = $row['jenis_insentif'];
-    }
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $jenis = $row['jenis_insentif'];
+}
 
-    $stmt->close();
+$stmt->close();
 ?>
 
 <!DOCTYPE html>
@@ -35,6 +35,11 @@ $jabatan = isset($_SESSION['jabatan']) ? $_SESSION['jabatan'] : 'Undefined';
             setTimeout(function() {
                 <?php if ($jabatan == 'Dosen' && !empty($jenis)) { ?>
                     window.location.href = "./surat_keluar_nondis";
+                <?php } elseif (($jabatan == 'S2 Keuangan Syariah' ||
+                    $jabatan == 'S1 SI' || $jabatan == 'S1 TI' || $jabatan == 'S1 DKV' ||
+                    $jabatan == 'S1 Arsitektur' || $jabatan == 'S1 Manajemen' ||
+                    $jabatan == 'S1 Akuntansi') && empty($jenis)) { ?>
+                    window.location.href = "./surat_keluar_honorium";
                 <?php } else { ?>
                     window.location.href = "./surat_keluar";
                 <?php } ?>

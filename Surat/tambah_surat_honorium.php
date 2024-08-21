@@ -12,21 +12,18 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ambil nilai input dari form
     $jenis_surat = $_POST['jenis_surat']; // Mengambil id jenis surat yang dipilih
     $asal_surat = $_POST['asal_surat'];
     $nm_kegiatan = $_POST['nm_kegiatan'];
-    $deskripsi = $_POST['deskripsi'];
-    $tanggal_surat = date("d-m-Y");
+    $tanggal_surat = date("Y-m-d H:i:s");
     $ke_keuangan = "keuangan";
 
+    // Folder untuk menyimpan file yang diunggah
+    $upload_berkas_dir = "./uploads/honorium/";
 
-    // Move uploaded files to desired location
-    $upload_berkas_dir = "uploads/honorium";
-
-    // Check if both files are uploaded or not
+    // Cek apakah file berkas diunggah
     $is_berkas_uploaded = !empty($_FILES['file_berkas']['name']) && is_uploaded_file($_FILES['file_berkas']['tmp_name']);
 
     if (!$is_berkas_uploaded) {
@@ -36,51 +33,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validasi ukuran file
     $max_file_size = 10 * 1024 * 1024; // 10MB dalam byte
-    if ($is_berkas_uploaded && $_FILES['file_berkas']['size'] > $max_file_size) {
+    if ($_FILES['file_berkas']['size'] > $max_file_size) {
         echo "Maaf, ukuran file berkas surat tidak boleh melebihi 10MB.";
         exit();
     }
 
+    // Nama file yang unik untuk disimpan
+    $file_berkas_name = uniqid() . '_' . $_FILES['file_berkas']['name'];
+
+    // Move the uploaded file to the desired location
+    if (!move_uploaded_file($_FILES['file_berkas']['tmp_name'], $upload_berkas_dir . $file_berkas_name)) {
+        echo "Maaf, terjadi kesalahan saat mengunggah file.";
+        exit();
+    }
+
     // Insert data into database
-    $sql = "INSERT INTO tb_srt_honor (asal_surat, jenis_surat, nm_kegiatan, deskripsi, tanggal_surat) 
-            VALUES ('$asal_surat', '$jenis_surat', '$nm_kegiatan', '$deskripsi', '$tanggal_surat')";
+    $sql = "INSERT INTO tb_srt_honor (asal_surat, jenis_surat, nm_kegiatan, tanggal_surat, diteruskan_ke, berkas) 
+            VALUES ('$asal_surat', '$jenis_surat', '$nm_kegiatan', '$tanggal_surat', '$ke_keuangan', '$file_berkas_name')";
 
     if (mysqli_query($conn, $sql)) {
-        // If the query was successful, redirect to success.php
+        // Jika query berhasil, arahkan ke success.php
         header('Location: success.php');
-        exit(); // Ensure no further code is executed
+        exit();
     } else {
-        // If the query failed, get the error code and message
-        $error_code = mysqli_errno($conn);
-        $error_message = mysqli_error($conn);
-    }
-
-    if ($conn->query($sql) === TRUE) {
-        // Ambil ID surat yang baru saja dimasukkan
-        $id_surat_baru = $conn->insert_id;
-
-        // Simpan informasi file berkas ke dalam tabel file_berkas
-        if ($is_berkas_uploaded) {
-            $file_berkas_name = uniqid() . '_' . $_FILES['file_berkas']['name']; // Mendapatkan nama file yang diunggah
-            $sql_file_berkas = "INSERT INTO tb_srt_honor (id_surat, berkas) VALUES ('$id_surat_baru', '$file_berkas_name')";
-            $conn->query($sql_file_berkas);
-            move_uploaded_file($_FILES['file_berkas']['tmp_name'], $upload_berkas_dir . $file_berkas_name); // Simpan file dengan nama yang sesuai
-        }
-
-        $update_url_sql = "UPDATE tb_srt_honor SET diteruskan_ke = 'keuangan' WHERE id_surat = '$id_surat_baru'";
-        if ($conn->query($update_url_sql) === TRUE)
-
-            echo "<script> setTimeout(function() {
-            window.location.href = 'surat_keluar.php';}, 1000);
-            </script>";
-    } else {
-        // Tampilkan pesan error SQL
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        // Jika query gagal, tampilkan pesan error
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
 }
-
-
 ?>
+
 
 <!doctype html>
 <html lang="en">
@@ -112,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="contentBox">
                 <div class="pageInfo">
                     <h3>Tambah Surat</h3>
-                    <a href="surat_keluar.php"> <button class="back">Kembali</button> </a>
+                    <a href="surat_keluar_honorium.php"> <button class="back">Kembali</button> </a>
                 </div>
                 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="form" enctype="multipart/form-data">
                 
@@ -126,11 +107,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="inputfield">
                         <label for="ttl">Nama Kegiatan*</label>
                         <input type="text" class="input" name="nm_kegiatan" id="nm_kegiatan" placeholder="Masukkan Nama Kegiatan">
-                    </div>
-
-                    <div class="inputfield">
-                        <label for="">Deskripsi Singkat*</label>
-                        <input type="text" class="input" name="deskripsi" placeholder="Masukkan Deskripsi Singkat" autocomplete="off" maxlength="100" required>
                     </div>
 
                     <script>

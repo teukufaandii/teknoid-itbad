@@ -820,86 +820,201 @@ p {
   }
 }
 /*------------------- table surat keluar -------------------*/
+
+/* Table Container */
+#table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Table Header and General Styles */
 #tablesk {
   width: 100%;
   border-collapse: collapse;
-  position: relative;
-  text-decoration: none;
+  margin: 20px 0;
+  font-size: 16px;
+  text-align: left;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
   overflow: hidden;
 }
 
-#tablesk th,
-td {
-  padding: 10px 20px;
-  min-width: 190px;
-  border-bottom: 1px solid #ddd;
-  background-color: #ffffff;
-  font-size: 15px;
-  font-weight: 500;
+/* Header Styling */
+#tablesk thead {
+  background-color: #4663ac; /* Dark Blue */
+  color: white;
+  font-weight: bold;
 }
 
 #tablesk thead th {
-  cursor: pointer;
-  font-weight: bold;
-}
-
-#tablesk thead th:nth-child(7) {
-  color: black;
-  text-decoration: none;
-  cursor: text;
-}
-
-#tablesk th {
-  border-bottom: 1px solid #000;
+  padding: 15px 20px;
   text-align: center;
-  font-weight: bold;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
+
+/* Even and Odd Row Styling */
+tbody tr.odd-row {
+  background-color: #ffffff; /* White for odd rows */
+}
+
+tbody tr.even-row {
+  background-color: #f2f2f2; /* Light gray for even rows */
+}
+
+/* Additional Styles */
+tbody tr:hover {
+  background-color: #e1f1fd; /* Hover color */
+}
+
+#tablesk tbody td {
+  padding: 15px 20px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Button Styling */
 .contentBox #tablesk button {
-  padding: 1px;
-  border: none;
-  color: #000;
+  padding: 5px 10px;
+  border: 1px solid #4663ac;
+  background-color: transparent;
+  color: #4663ac;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .contentBox #tablesk button:hover {
-  color: rgb(22, 79, 159);
+  background-color: #4663ac;
+  color: white;
 }
+
+/* Memo Column Style */
+#tablesk thead th:nth-child(7) {
+  color: white;
+  cursor: default;
+}
+
+#tablesk tbody tr td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: #ffffff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  #tablesk thead th, 
+  #tablesk tbody td {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+
+  #tablesk th, 
+  #tablesk td {
+    min-width: 150px;
+  }
+}
+
+
 /*------------------- table surat masuk -------------------*/
+/* Table Container */
+
+/* Table Header and General Styles */
 #tablesm {
   width: 100%;
   border-collapse: collapse;
-  position: relative;
-  text-decoration: none;
+  margin: 20px 0;
+  font-size: 16px;
+  text-align: left;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-#tablesm th,
-td {
-  padding: 10px 20px;
-  min-width: 190px;
-  border-bottom: 1px solid #ddd;
-  background-color: #ffffff;
-  font-size: 15px;
-  font-weight: 500;
-}
-
-#tablesm th {
-  border-bottom: 1px solid #000;
-  text-align: center;
+/* Header Styling */
+#tablesm thead {
+  background-color: #4663ac; /* Dark Blue */
+  color: white;
   font-weight: bold;
 }
 
+#tablesm thead th {
+  padding: 15px 20px;
+  text-align: center;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Even and Odd Row Styling */
+tbody tr:nth-child(odd) {
+  background-color: #ffffff; /* White for odd rows */
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2; /* Light gray for even rows */
+}
+
+/* Additional Styles */
+tbody tr:hover {
+  background-color: #e1f1fd; /* Hover color */
+}
+
+#tablesm tbody td {
+  padding: 15px 20px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Button Styling */
 .contentBox #tablesm button {
-  padding: 1px;
-  border: none;
-  color: #000;
+  padding: 5px 10px;
+  border: 1px solid #4663ac;
+  background-color: transparent;
+  color: #4663ac;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .contentBox #tablesm button:hover {
-  color: #871e1e;
+  background-color: #4663ac;
+  color: white;
 }
+
+/* Memo Column Style */
+#tablesm thead th:nth-child(7) {
+  color: white;
+  cursor: default;
+}
+
+#tablesm tbody tr td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: #ffffff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  #tablesm thead th, 
+  #tablesm tbody td {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+
+  #tablesm th, 
+  #tablesm td {
+    min-width: 150px;
+  }
+}
+
 /*------------------- pagination -------------------*/
 .pageInfo #kontenhalaman {
   font-size: 15px;
