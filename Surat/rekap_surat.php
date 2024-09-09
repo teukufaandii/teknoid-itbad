@@ -33,6 +33,8 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://kit.fontawesome.com/9e9ad697fd.js" crossorigin="anonymous"></script>
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     </head>
 
     <body>
@@ -59,7 +61,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                             <label for="jenis_surat">Jenis Surat</label>
                             <div class="custom_select">
                                 <select name="jenis_surat" id="jenis_surat" required>
-                                    <option hidden>Option (Permohonan, laporan, kkl, riset)</option>
+                                    <option hidden>Option (Permohonan, laporan, kkl, riset, insentif, riset dosen, honorium)</option>
                                     <?php
                                     $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
                                     if ($conn->connect_error) {
@@ -84,11 +86,11 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                             </div>
                         </div>
                         <div class="tanggal">
-                            <div class="inputfield">
+                            <div class="inputfield" style="margin:0; gap:20px;">
                                 <label for="tanggal_awal">Tanggal Awal Surat</label>
-                                <input type="date" id="tanggal_awal" name="tanggal_awal">
+                                <input type="date" id="tanggal_awal" name="tanggal_awal" style="margin-left:8px;">
                             </div>
-                            <div class="inputfield">
+                            <div class="inputfield" style="margin:0; gap:20px; margin-left: 10px;">
                                 <label for="tanggal_akhir">Tanggal Akhir Surat</label>
                                 <input type="date" id="tanggal_akhir" name="tanggal_akhir">
                             </div>
@@ -96,22 +98,153 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                         <input type="submit" name="search" class="search" value="Cari" id="searchForm">
                     </form>
 
-                    <form method='post' action='export.php' id="exportForm">
+                    <form method='POST' action='export.php' id="exportForm">
                         <input type='submit' value='Export' class="ekspor" name='Export'>
                         <div class="tableOverflow">
                             <table id="tablerekap">
-                                <thead>
-                                    <tr>
-                                        <th> NO </th>
-                                        <th>Kode Surat</th>
-                                        <th>Jenis Surat</th>
-                                        <th>Asal Surat</th>
-                                        <th>Perihal</th>
-                                        <th>Tanggal Surat</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                                <?php
+                                if (isset($_POST['search'])) {
+                                    $jenis_surat = mysqli_real_escape_string($conn, $_POST['jenis_surat']);
+                                    // Tentukan query berdasarkan jenis_surat
+                                    if (in_array($jenis_surat, [1])) {
+                                        $query = "SELECT s.kode_surat, s.kd_surat, s.jenis_surat, s.asal_surat, s.perihal, s.tanggal_surat
+                                                  FROM tb_surat_dis AS s
+                                                  JOIN tb_jenis AS js ON s.jenis_surat = js.kd_jenissurat
+                                                  WHERE s.jenis_surat = $jenis_surat";
+                                    } elseif (in_array($jenis_surat, [2])) {
+                                        $query = "SELECT s.kode_surat, s.kd_surat, s.jenis_surat, s.asal_surat, s.perihal, s.tanggal_surat
+                                                  FROM tb_surat_dis AS s
+                                                  JOIN tb_jenis AS js ON s.jenis_surat = js.kd_jenissurat
+                                                  WHERE s.jenis_surat = $jenis_surat";
+                                    } elseif (in_array($jenis_surat, [3])) {
+                                        $query = "SELECT s.kode_surat, s.kd_surat, s.jenis_surat, s.asal_surat, s.perihal, s.tanggal_surat
+                                                  FROM tb_surat_dis AS s
+                                                  JOIN tb_jenis AS js ON s.jenis_surat = js.kd_jenissurat
+                                                  WHERE s.jenis_surat = $jenis_surat";
+                                    } elseif (in_array($jenis_surat, [4])) {
+                                        $query = "SELECT s.kode_surat, s.kd_surat, s.jenis_surat, s.asal_surat, s.perihal, s.tanggal_surat
+                                                  FROM tb_surat_dis AS s
+                                                  JOIN tb_jenis AS js ON s.jenis_surat = js.kd_jenissurat
+                                                  WHERE s.jenis_surat = $jenis_surat";
+                                    } elseif (in_array($jenis_surat, [5])) {
+                                        $query = "SELECT *
+                                                  FROM tb_srt_dosen AS sd
+                                                  JOIN tb_jenis AS js ON sd.jenis_surat = js.kd_jenissurat
+                                                  WHERE sd.jenis_surat = $jenis_surat";
+                                    } elseif (in_array($jenis_surat, [6])) {
+                                        $query = "SELECT *
+                                                  FROM tb_srt_dosen AS sd
+                                                  JOIN tb_jenis AS js ON sd.jenis_surat = js.kd_jenissurat
+                                                  WHERE sd.jenis_surat = $jenis_surat";
+                                    } elseif (in_array($jenis_surat, [7])) {
+                                        $query = "SELECT *
+                                                  FROM tb_srt_honor AS sh
+                                                  JOIN tb_jenis AS js ON sh.jenis_surat = js.kd_jenissurat
+                                                  WHERE sh.jenis_surat = $jenis_surat";
+                                    } else {
+                                        die("Jenis surat tidak valid.");
+                                    }
+
+
+                                    // Jalankan query
+                                    $result = $conn->query($query);
+
+                                    $thead = '';
+                                    if ($result && $result->num_rows > 0) {
+                                        // Ambil nama jenis surat dari tabel tb_jenis
+                                        $row = $result->fetch_assoc();
+                                        $jenis_surat_query = "SELECT nama_jenis FROM tb_jenis WHERE kd_jenissurat = " . $row["jenis_surat"];
+                                        $jenis_surat_result = $conn->query($jenis_surat_query);
+                                        $jenis_surat_row = $jenis_surat_result->fetch_assoc();
+                                        $jenis_surat_nama = $jenis_surat_row["nama_jenis"];
+
+                                        // Tentukan header berdasarkan jenis surat
+                                        if (in_array($jenis_surat, [1])) {
+                                            $thead = "<thead>
+                                                        <tr>
+                                                            <th>NO</th>
+                                                            <th>Kode Surat</th>
+                                                            <th>Jenis Surat</th>
+                                                            <th>Asal Surat</th>
+                                                            <th>Perihal</th>
+                                                            <th>Tanggal Surat</th>
+                                                            <th>Aksi</th>
+                                                        </tr>
+                                                    </thead>";
+                                        } elseif (in_array($jenis_surat, [2])) {
+                                            $thead = "<thead>
+                                                        <tr>
+                                                            <th>NO</th>
+                                                            <th>Kode Surat</th>
+                                                            <th>Jenis Surat</th>
+                                                            <th>Asal Surat</th>
+                                                            <th>Perihal</th>
+                                                            <th>Tanggal Surat</th>
+                                                            <th>Aksi</th>
+                                                        </tr>
+                                                    </thead>";
+                                        } elseif (in_array($jenis_surat, [3])) {
+                                            $thead = "<thead>
+                                                        <tr>
+                                                            <th>NO</th>
+                                                            <th>Kode Surat</th>
+                                                            <th>Jenis Surat</th>
+                                                            <th>Asal Surat</th>
+                                                            <th>Perihal</th>
+                                                            <th>Tanggal Surat</th>
+                                                            <th>Aksi</th>
+                                                        </tr>
+                                                    </thead>";
+                                        } elseif (in_array($jenis_surat, [4])) {
+                                            $thead = "<thead>
+                                                        <tr>
+                                                            <th>NO</th>
+                                                            <th>Kode Surat</th>
+                                                            <th>Jenis Surat</th>
+                                                            <th>Asal Surat</th>
+                                                            <th>Perihal</th>
+                                                            <th>Tanggal Surat</th>
+                                                            <th>Aksi</th>
+                                                        </tr>
+                                                    </thead>";
+                                        } elseif (in_array($jenis_surat, [5])) {
+                                            $thead = "<thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Jenis Surat</th>
+                                                            <th>Asal Surat</th>
+                                                            <th>Jenis Insentif</th>
+                                                            <th>Tanggal Surat</th>
+                                                            <th>Aksi</th>
+                                                        </tr>
+                                                    </thead>";
+                                        } elseif (in_array($jenis_surat, [6])) {
+                                            $thead = "<thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Jenis Surat</th>
+                                                            <th>Asal Surat</th>
+                                                            <th>Jenis Insentif</th>
+                                                            <th>Tanggal Surat</th>
+                                                            <th>Aksi</th>
+                                                        </tr>
+                                                    </thead>";
+                                        } elseif (in_array($jenis_surat, [7])) {
+                                            $thead = "<thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Jenis Surat</th>
+                                                            <th>Asal Surat</th>
+                                                            <th>Nama Kegiatan</th>
+                                                            <th>Tanggal Surat</th>
+                                                            <th>Aksi</th>
+                                                        </tr>
+                                                    </thead>";
+                                        }
+                                    }
+                                ?>
+                                    <?php echo $thead; ?>
+                                    <tbody>
                                     <?php
                                     $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
                                     if ($conn->connect_error) {
@@ -124,14 +257,58 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                         $tanggal_awal = mysqli_real_escape_string($conn, $_POST['tanggal_awal']);
                                         $tanggal_akhir = mysqli_real_escape_string($conn, $_POST['tanggal_akhir']);
 
-                                        // Query to fetch data only from tb_surat_dis
-                                        $query = "
-                                                    SELECT s.kode_surat, s.kd_surat, s.jenis_surat, s.asal_surat, s.perihal, s.tanggal_surat
-                                                    FROM tb_surat_dis AS s
-                                                    JOIN tb_jenis AS js ON s.jenis_surat = js.kd_jenissurat
-                                                    WHERE s.jenis_surat = '$jenis_surat'
-                                                    AND s.tanggal_surat BETWEEN '$tanggal_awal' AND '$tanggal_akhir'
-                                                ";
+
+                                        // Tentukan query berdasarkan jenis_surat
+                                        if (in_array($jenis_surat, [1])) {
+                                            // Query untuk jenis surat 1-4
+                                            $query = "SELECT s.kode_surat, s.kd_surat, s.jenis_surat, s.asal_surat, s.perihal, s.tanggal_surat
+                                            FROM tb_surat_dis AS s
+                                            JOIN tb_jenis AS js ON s.jenis_surat = js.kd_jenissurat
+                                            WHERE s.jenis_surat = 1
+                                            AND s.tanggal_surat BETWEEN '$tanggal_awal' AND '$tanggal_akhir'";
+                                        } elseif (in_array($jenis_surat, [2])) {
+                                            // Query untuk jenis surat 1-4
+                                            $query = "SELECT s.kode_surat, s.kd_surat, s.jenis_surat, s.asal_surat, s.perihal, s.tanggal_surat
+                                             FROM tb_surat_dis AS s
+                                             JOIN tb_jenis AS js ON s.jenis_surat = js.kd_jenissurat
+                                             WHERE s.jenis_surat = 2
+                                             AND s.tanggal_surat BETWEEN '$tanggal_awal' AND '$tanggal_akhir'";
+                                        } elseif (in_array($jenis_surat, [3])) {
+                                            // Query untuk jenis surat 1-4
+                                            $query = "SELECT s.kode_surat, s.kd_surat, s.jenis_surat, s.asal_surat, s.perihal, s.tanggal_surat
+                                            FROM tb_surat_dis AS s
+                                            JOIN tb_jenis AS js ON s.jenis_surat = js.kd_jenissurat
+                                            WHERE s.jenis_surat = 3
+                                            AND s.tanggal_surat BETWEEN '$tanggal_awal' AND '$tanggal_akhir'";
+                                        } elseif (in_array($jenis_surat, [4])) {
+                                            // Query untuk jenis surat 1-4
+                                            $query = "SELECT s.kode_surat, s.kd_surat, s.jenis_surat, s.asal_surat, s.perihal, s.tanggal_surat
+                                            FROM tb_surat_dis AS s
+                                            JOIN tb_jenis AS js ON s.jenis_surat = js.kd_jenissurat
+                                            WHERE s.jenis_surat = 4
+                                            AND s.tanggal_surat BETWEEN '$tanggal_awal' AND '$tanggal_akhir'";
+                                        } elseif (in_array($jenis_surat, [5])) {
+                                            // Query untuk jenis surat 5-6
+                                            $query = "SELECT *
+                                            FROM tb_srt_dosen AS sd
+                                            JOIN tb_jenis AS js ON sd.jenis_surat = js.kd_jenissurat
+                                            WHERE sd.jenis_surat = 5
+                                            AND sd.tanggal_surat BETWEEN '$tanggal_awal' AND '$tanggal_akhir'";
+                                        } elseif (in_array($jenis_surat, [6])) {
+                                            // Query untuk jenis surat 5-6
+                                            $query = "SELECT *
+                                            FROM tb_srt_dosen AS sd
+                                            JOIN tb_jenis AS js ON sd.jenis_surat = js.kd_jenissurat
+                                            WHERE sd.jenis_surat = 6 
+                                            AND sd.tanggal_surat BETWEEN '$tanggal_awal' AND '$tanggal_akhir'";
+                                        } elseif ($jenis_surat == 7) {
+                                            // Query untuk jenis surat 7
+                                            $query = "SELECT *
+                                            FROM tb_srt_honor AS sh
+                                            JOIN tb_jenis AS js ON sh.jenis_surat = js.kd_jenissurat
+                                            WHERE sh.jenis_surat = 7
+                                            AND sh.tanggal_surat BETWEEN '$tanggal_awal' AND '$tanggal_akhir'";
+                                        }
 
                                         // Eksekusi query
                                         $result = mysqli_query($conn, $query);
@@ -146,35 +323,118 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                                 $jenis_surat_row = $jenis_surat_result->fetch_assoc();
                                                 $jenis_surat = $jenis_surat_row["nama_jenis"];
 
-                                                $id = $row['kode_surat'];
-                                                $id2 = $row['kd_surat'];
-                                                $asal_surat = $row['asal_surat'];
-                                                $perihal = $row['perihal'];
-                                                $tgl_surat = $row['tanggal_surat'];
+                                                // Format tanggal
+                                                $formatted_date = date('d-m-Y', strtotime($row["tanggal_surat"]));
 
+                                                // Kondisi untuk menampilkan data sesuai jenis surat
+                                                if (in_array($row['jenis_surat'], [1])) {
+                                                    // Hanya untuk jenis surat 1-4
+                                                    $id = $row['kode_surat'];
+                                                    $id2 = $row['kd_surat'];
+                                                    $asal_surat = $row['asal_surat'];
+                                                    $perihal = $row['perihal'];
+                                                    $tgl_surat = $row['tanggal_surat'];
 
-                                                $user_arr[] = array((!empty($id) ? $id : $id2), $jenis_surat, $asal_surat, $perihal, $tgl_surat);
-                                                echo "<tr id='hasilSearch'>
-                                                                <td style='width:10px;'>" . $nomor . "</td>
-                                                                <td>" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "</td>
-                                                                <td>" . $jenis_surat . "</td>
-                                                                <td>" . $row["asal_surat"] . "</td>
-                                                                <td>" . $row["perihal"] . "</td>
-                                                                <td>" . $row["tanggal_surat"] . "</td>
-                                                                <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "'>Hapus</button></td>
-                                                            </tr>";
+                                                    $user_arr[] = array((!empty($id) ? $id : $id2), $jenis_surat, $asal_surat, $perihal, $tgl_surat);
+                                                    echo "<tr>
+                                                                            <td style='width:10px;'>" . $nomor . "</td>
+                                                                            <td>" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "</td>
+                                                                            <td>" . $jenis_surat . "</td>
+                                                                            <td>" . $row["asal_surat"] . "</td>
+                                                                            <td>" . $row["perihal"] . "</td>
+                                                                            <td>" . $formatted_date . "</td>
+                                                                            <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "'>Hapus</button></td>
+                                                                        </tr>";
+                                                } elseif (in_array($row['jenis_surat'], [2])) {
+                                                    // Hanya untuk jenis surat 1-4
+                                                    $id = $row['kode_surat'];
+                                                    $id2 = $row['kd_surat'];
+                                                    $asal_surat = $row['asal_surat'];
+                                                    $perihal = $row['perihal'];
+                                                    $tgl_surat = $row['tanggal_surat'];
+                                                    $user_arr[] = array((!empty($id) ? $id : $id2), $jenis_surat, $asal_surat, $perihal, $tgl_surat);
+                                                    echo "<tr>
+                                                                            <td style='width:10px;'>" . $nomor . "</td>
+                                                                            <td>" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "</td>
+                                                                            <td>" . $jenis_surat . "</td>
+                                                                            <td>" . $row["asal_surat"] . "</td>
+                                                                            <td>" . $row["perihal"] . "</td>
+                                                                            <td>" . $formatted_date . "</td>
+                                                                            <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "'>Hapus</button></td>
+                                                                        </tr>";
+                                                } elseif (in_array($row['jenis_surat'], [3])) {
+                                                    // Hanya untuk jenis surat 1-4
+                                                    $id = $row['kode_surat'];
+                                                    $id2 = $row['kd_surat'];
+                                                    $asal_surat = $row['asal_surat'];
+                                                    $perihal = $row['perihal'];
+                                                    $tgl_surat = $row['tanggal_surat'];
+                                                    $user_arr[] = array((!empty($id) ? $id : $id2), $jenis_surat, $asal_surat, $perihal, $tgl_surat);
+                                                    echo "<tr>
+                                                                            <td style='width:10px;'>" . $nomor . "</td>
+                                                                            <td>" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "</td>
+                                                                            <td>" . $jenis_surat . "</td>
+                                                                            <td>" . $row["asal_surat"] . "</td>
+                                                                            <td>" . $row["perihal"] . "</td>
+                                                                            <td>" . $formatted_date . "</td>
+                                                                            <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "'>Hapus</button></td>
+                                                                        </tr>";
+                                                } elseif (in_array($row['jenis_surat'], [4])) {
+                                                    // Hanya untuk jenis surat 1-4
+                                                    $id = $row['kode_surat'];
+                                                    $id2 = $row['kd_surat'];
+                                                    $asal_surat = $row['asal_surat'];
+                                                    $perihal = $row['perihal'];
+                                                    $tgl_surat = $row['tanggal_surat'];
+                                                    $user_arr[] = array((!empty($id) ? $id : $id2), $jenis_surat, $asal_surat, $perihal, $tgl_surat);
+                                                    echo "<tr>
+                                                                            <td style='width:10px;'>" . $nomor . "</td>
+                                                                            <td>" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "</td>
+                                                                            <td>" . $jenis_surat . "</td>
+                                                                            <td>" . $row["asal_surat"] . "</td>
+                                                                            <td>" . $row["perihal"] . "</td>
+                                                                            <td>" . $formatted_date . "</td>
+                                                                            <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "'>Hapus</button></td>
+                                                                        </tr>";
+                                                } elseif (in_array($row['jenis_surat'], [5])) {
+                                                    echo "<tr id='hasilSearch'>
+                                                            <td style='width:10px;'>" . $nomor . "</td>
+                                                            <td>" . $jenis_surat . "</td>
+                                                            <td>" . $row["asal_surat"] . "</td>
+                                                            <td>" . $formatted_date . "</td>
+                                                            <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . ($row['id_srt']) . "'>Hapus</button></td>
+                                                        </tr>";
+                                                } elseif (in_array($row['jenis_surat'], [6])) {
+                                                    echo "<tr id='hasilSearch'>
+                                                            <td style='width:10px;'>" . $nomor . "</td>
+                                                            <td>" . $jenis_surat . "</td>
+                                                            <td>" . $row["asal_surat"] . "</td>
+                                                            <td>" . $formatted_date . "</td>
+                                                            <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . ($row['id_srt']) . "'>Hapus</button></td>
+                                                        </tr>";
+                                                } elseif (in_array($row['jenis_surat'], [7])) {
+                                                    echo "<tr id='hasilSearch'>
+                                                            <td style='width:10px;'>" . $nomor . "</td>
+                                                            <td>" . $jenis_surat . "</td>
+                                                            <td>" . $row["asal_surat"] . "</td>
+                                                            <td>" . $row["nm_kegiatan"] . "</td>
+                                                            <td>" . $formatted_date . "</td>
+                                                            <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . ($row['id']) . "'>Hapus</button></td>
+                                                        </tr>";
+                                                }
                                                 $nomor++;
                                             }
                                         } else {
                                             echo "<tr><td colspan='7'>0 hasil ditemukan</td></tr>";
                                         }
                                     }
-                                    $conn->close();
+                                }
+                                $conn->close();
                                     ?>
-                                </tbody>
+                                    </tbody>
                             </table>
                             <?php
-                            $serailze_user_arr = serialize($user_arr);
+                            // $serailze_user_arr = serialize($user_arr);
                             ?>
                             <textarea name='export_data' style='display: none;'><?php echo $serailze_user_arr; ?></textarea>
                         </div>
@@ -269,9 +529,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                 }
             });
 
-            // Fungsi untuk fetch_data (misalnya dari fungsi yang sudah ada)
             function fetch_data() {
-                // Tambahkan implementasi sesuai kebutuhan Anda
                 console.log('Fetching data...');
             }
         </script>

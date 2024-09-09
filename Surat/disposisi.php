@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html lang="eng">
+
+<?php
+session_start(); // Start the session at the beginning of the script
+if (isset($_SESSION['akses']) && $_SESSION['akses'] !== 'User') { 
+?>
+
 <?php
 session_start();
 include 'koneksi.php';
@@ -421,5 +427,10 @@ $file_laporan_exists = !empty($file_laporan_name);
     </script>
 
 </body>
-
 </html>
+
+<?php
+} else {
+    include "./access-denied.php";
+}
+?>

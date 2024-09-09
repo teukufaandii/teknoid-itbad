@@ -1,8 +1,7 @@
-<?php
+<?php 
 session_start(); // Start the session at the beginning of the script
-if (isset($_SESSION['akses']) && ($_SESSION['akses'] == 'Admin' || $_SESSION['akses'] == 'Humas')) { // Check if $_SESSION['akses'] is set and equals 'Humas'
+if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin' || $_SESSION['akses'] == 'Humas') {
 ?>
-
     <?php
     include 'koneksi.php';
     // Periksaaaa apakah session username telah diatur
@@ -31,6 +30,8 @@ if (isset($_SESSION['akses']) && ($_SESSION['akses'] == 'Admin' || $_SESSION['ak
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://kit.fontawesome.com/9e9ad697fd.js" crossorigin="anonymous"></script>
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     </head>
 
     <body></body>
@@ -83,7 +84,7 @@ if (isset($_SESSION['akses']) && ($_SESSION['akses'] == 'Admin' || $_SESSION['ak
 
                             // pengaturan baris
                             $start = 0;
-                            $rows_per_page = 10;
+                            $rows_per_page = 20;
 
                             // total nomor baris
                             $records = mysqli_query($conn, "SELECT * FROM tb_pengguna");

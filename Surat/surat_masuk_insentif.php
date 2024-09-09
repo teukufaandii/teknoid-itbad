@@ -30,6 +30,20 @@ if (!isset($_SESSION['pengguna_type'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.js"></script>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            position: sticky !important;
+            top: 0 !important;
+            background-color: #fff;
+            z-index: 10;
+            border-bottom: 2px solid #000;
+        }
+    </style>
 </head>
 
 <body>
@@ -58,14 +72,14 @@ if (!isset($_SESSION['pengguna_type'])) {
                     <table id="tablesm" class="tablesorter">
                         <thead>
                             <tr>
-                                <th style="min-width: 75px;">No <i class="fas fa-sort"></i></th>
-                                <th>Judul <i class="fas fa-sort"></i></th>
-                                <th>Asal Surat <i class="fas fa-sort"></i></th>
-                                <th>Perihal <i class="fas fa-sort"></i></th>
-                                <th>Tanggal Surat <i class="fas fa-sort"></i></th>
-                                <th>Status <i class="fas fa-sort"></i></th>
+                                <th onclick="sortTable(0, this)" style="min-width: 75px; border-top-left-radius: 8px;">No<i id="sort-icon-0" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></i></th>
+                                <th onclick="sortTable(1, this)">Judul<i id="sort-icon-1" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                <th onclick="sortTable(2, this)">Asal Surat<i id="sort-icon-2" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                <th onclick="sortTable(3, this)">Perihal<i id="sort-icon-3" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                <th onclick="sortTable(4, this)">Tanggal Surat<i id="sort-icon-4" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                <th onclick="sortTable(5, this)">Status<i id="sort-icon-5" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
                                 <th>Aksi</th>
-                                <th>Detail</th>
+                                <th style="border-top-right-radius: 8px;">Detail</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -131,7 +145,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>
                                                 <div class='aksi-btn'>
                                                     <button class='memo-button' data-id='" . $row['id_srt'] . "'><i class='fas fa-sticky-note' style='color:#ffde21; background-color: none;'></i></button>";
-                                                
+
                                                 // Add condition to disable the verify button if already verified
                                                 if ($row['verifikasi'] == 1) {
                                                     echo "<button style='cursor: not-allowed;' class='verify-button' data-id='" . $row['id_srt'] . "' disabled><i class='fa-solid fa-check'></i></button>";
@@ -142,7 +156,6 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "</div>
                                                 </td>";
                                                 echo "<td><a href='dispo_dosen.php?id=" . $row['id_srt'] . "' ><i class='fas fa-eye' style='background-color: white; color: #1b5ebe;'></i></a></td>";
-
                                             }
                                         }
                                         ?>
@@ -221,67 +234,123 @@ if (!isset($_SESSION['pengguna_type'])) {
     </div>
 
     <script type="text/javascript">
-    // pencarian
-    $(document).ready(function() {
-        $("#search").keyup(function() {
-            var search = $(this).val();
-            $.ajax({
-                url: 'ajax/searchSM.php',
-                method: 'POST',
-                data: {
-                    query: search
-                },
-                success: function(response) {
-                    $("#tablesm").html(response);
-                }
+        // pencarian
+        $(document).ready(function() {
+            $("#search").keyup(function() {
+                var search = $(this).val();
+                $.ajax({
+                    url: 'ajax/searchSM.php',
+                    method: 'POST',
+                    data: {
+                        query: search
+                    },
+                    success: function(response) {
+                        $("#tablesm").html(response);
+                    }
+                });
             });
         });
-    });
 
-    document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.memo-button').forEach(function(button) {
-        button.addEventListener('click', function() {
-            var suratId = this.getAttribute('data-id');
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.memo-button').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var suratId = this.getAttribute('data-id');
 
-            // Cek apakah memo sudah ada untuk surat ini
-            $.ajax({
-                url: 'sql/cek_memo.php',
-                method: 'POST',
-                data: {
-                    id_srt: suratId
-                },
-                success: function(response) {
-                    var data = JSON.parse(response);
-                    var memoExists = data.exists;
-                    var existingMemo = data.memo;
+                    // Cek apakah memo sudah ada untuk surat ini
+                    $.ajax({
+                        url: 'sql/cek_memo.php',
+                        method: 'POST',
+                        data: {
+                            id_srt: suratId
+                        },
+                        success: function(response) {
+                            var data = JSON.parse(response);
+                            var memoExists = data.exists;
+                            var existingMemo = data.memo;
 
-                    if (memoExists) {
-                        Swal.fire({
-                            title: 'Edit Memo',
-                            input: 'textarea',
-                            inputLabel: 'Isi Memo',
-                            inputValue: existingMemo,
-                            inputAttributes: {
-                                readonly: true
-                            },
-                            showCancelButton: true,
-                            confirmButtonText: 'Edit Memo',
-                            cancelButtonText: 'Batal',
-                            preConfirm: () => {
-                                return {
-                                    memo: existingMemo,
-                                    id_srt: suratId
-                                };
-                            }
-                        }).then((result) => {
-                            if (result.isConfirmed) {
+                            if (memoExists) {
                                 Swal.fire({
                                     title: 'Edit Memo',
                                     input: 'textarea',
                                     inputLabel: 'Isi Memo',
                                     inputValue: existingMemo,
+                                    inputAttributes: {
+                                        readonly: true
+                                    },
                                     showCancelButton: true,
-                                    confirmButtonText: 'Simpan',
+                                    confirmButtonText: 'Edit Memo',
+                                    cancelButtonText: 'Batal',
+                                    preConfirm: () => {
+                                        return {
+                                            memo: existingMemo,
+                                            id_srt: suratId
+                                        };
+                                    }
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        Swal.fire({
+                                            title: 'Edit Memo',
+                                            input: 'textarea',
+                                            inputLabel: 'Isi Memo',
+                                            inputValue: existingMemo,
+                                            showCancelButton: true,
+                                            confirmButtonText: 'Simpan',
+                                            cancelButtonText: 'Batal',
+                                            preConfirm: (memo) => {
+                                                if (!memo) {
+                                                    Swal.showValidationMessage('Memo tidak boleh kosong');
+                                                }
+                                                return {
+                                                    memo: memo,
+                                                    id_srt: suratId
+                                                };
+                                            }
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                // Save the memo
+                                                $.ajax({
+                                                    url: 'sql/tambah_memo.php',
+                                                    method: 'POST',
+                                                    data: {
+                                                        id_srt: result.value.id_srt,
+                                                        memo: result.value.memo
+                                                    },
+                                                    success: function(response) {
+                                                        if (response === 'success') {
+                                                            Swal.fire({
+                                                                icon: 'success',
+                                                                title: 'Berhasil',
+                                                                text: 'Memo berhasil disimpan'
+                                                            }).then(() => {
+                                                                location.reload();
+                                                            });
+                                                        } else {
+                                                            Swal.fire({
+                                                                icon: 'error',
+                                                                title: 'Gagal',
+                                                                text: 'Terjadi kesalahan, coba lagi nanti'
+                                                            });
+                                                        }
+                                                    },
+                                                    error: function() {
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Gagal',
+                                                            text: 'Terjadi kesalahan, coba lagi nanti'
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Tambah Memo',
+                                    input: 'textarea',
+                                    inputLabel: 'Isi Memo',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Tambah',
                                     cancelButtonText: 'Batal',
                                     preConfirm: (memo) => {
                                         if (!memo) {
@@ -330,119 +399,63 @@ if (!isset($_SESSION['pengguna_type'])) {
                                     }
                                 });
                             }
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Tambah Memo',
-                            input: 'textarea',
-                            inputLabel: 'Isi Memo',
-                            showCancelButton: true,
-                            confirmButtonText: 'Tambah',
-                            cancelButtonText: 'Batal',
-                            preConfirm: (memo) => {
-                                if (!memo) {
-                                    Swal.showValidationMessage('Memo tidak boleh kosong');
-                                }
-                                return {
-                                    memo: memo,
+                        }
+                    });
+                });
+            });
+        });
+
+        // Handle verify button click
+        document.querySelectorAll('.verify-button').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var suratId = this.getAttribute('data-id');
+
+                Swal.fire({
+                    title: 'Verifikasi Surat',
+                    text: "Apakah Anda yakin ingin memverifikasi surat ini?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Verifikasi',
+                    cancelButtonText: 'Batal',
+                    preConfirm: () => {
+                        return new Promise((resolve, reject) => {
+                            $.ajax({
+                                url: 'sql/verifikasi_surat.php',
+                                method: 'POST',
+                                data: {
                                     id_srt: suratId
-                                };
-                            }
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // Save the memo
-                                $.ajax({
-                                    url: 'sql/tambah_memo.php',
-                                    method: 'POST',
-                                    data: {
-                                        id_srt: result.value.id_srt,
-                                        memo: result.value.memo
-                                    },
-                                    success: function(response) {
-                                        if (response === 'success') {
-                                            Swal.fire({
-                                                icon: 'success',
-                                                title: 'Berhasil',
-                                                text: 'Memo berhasil disimpan'
-                                            }).then(() => {
-                                                location.reload();
-                                            });
-                                        } else {
-                                            Swal.fire({
-                                                icon: 'error',
-                                                title: 'Gagal',
-                                                text: 'Terjadi kesalahan, coba lagi nanti'
-                                            });
-                                        }
-                                    },
-                                    error: function() {
+                                },
+                                success: function(response) {
+                                    if (response === 'success') {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Berhasil',
+                                            text: 'Surat berhasil diverifikasi'
+                                        }).then(() => {
+                                            location.reload();
+                                        });
+                                    } else {
                                         Swal.fire({
                                             icon: 'error',
                                             title: 'Gagal',
                                             text: 'Terjadi kesalahan, coba lagi nanti'
                                         });
                                     }
-                                });
-                            }
-                        });
-                    }
-                }
-            });
-        });
-    });
-});
-
-    // Handle verify button click
-    document.querySelectorAll('.verify-button').forEach(function(button) {
-        button.addEventListener('click', function() {
-            var suratId = this.getAttribute('data-id');
-
-            Swal.fire({
-                title: 'Verifikasi Surat',
-                text: "Apakah Anda yakin ingin memverifikasi surat ini?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Verifikasi',
-                cancelButtonText: 'Batal',
-                preConfirm: () => {
-                    return new Promise((resolve, reject) => {
-                        $.ajax({
-                            url: 'sql/verifikasi_surat.php',
-                            method: 'POST',
-                            data: {
-                                id_srt: suratId
-                            },
-                            success: function(response) {
-                                if (response === 'success') {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Berhasil',
-                                        text: 'Surat berhasil diverifikasi'
-                                    }).then(() => {
-                                        location.reload();
-                                    });
-                                } else {
+                                },
+                                error: function() {
                                     Swal.fire({
                                         icon: 'error',
                                         title: 'Gagal',
                                         text: 'Terjadi kesalahan, coba lagi nanti'
                                     });
                                 }
-                            },
-                            error: function() {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Gagal',
-                                    text: 'Terjadi kesalahan, coba lagi nanti'
-                                });
-                            }
+                            });
                         });
-                    });
-                }
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
 
     <script>
         // efek page number //
@@ -461,6 +474,51 @@ if (!isset($_SESSION['pengguna_type'])) {
         $(document).ready(function() {
             $("#tablesm").tablesorter();
         });
+
+        let sortDirection = {}; // To keep track of the sort direction for each column
+
+        function sortTable(columnIndex, header) {
+            const table = document.querySelector('table tbody');
+            const rows = Array.from(table.querySelectorAll('tr'));
+            const isDescending = sortDirection[columnIndex] || false; // Get the current sort direction for this column
+
+            // Sort rows
+            rows.sort((rowA, rowB) => {
+                const cellA = rowA.children[columnIndex].textContent.trim();
+                const cellB = rowB.children[columnIndex].textContent.trim();
+
+                if (columnIndex === 0) { // Special case for the "No" column
+                    return isDescending ? cellA - cellB : cellB - cellA;
+                } else {
+                    if (isDescending) {
+                        return cellA.localeCompare(cellB);
+                    } else {
+                        return cellB.localeCompare(cellA);
+                    }
+                }
+            });
+
+            // Update table
+            rows.forEach(row => table.appendChild(row));
+
+            // Toggle sort direction
+            sortDirection[columnIndex] = !isDescending;
+
+            // Update sort icons
+            document.querySelectorAll('.sort-icon').forEach(icon => {
+                icon.classList.remove('fa-sort', 'fa-sort-up', 'fa-sort-down');
+                icon.classList.add('fa-sort');
+            });
+
+            const sortIcon = header.querySelector('.sort-icon');
+            if (sortDirection[columnIndex]) {
+                sortIcon.classList.remove('fa-sort', 'fa-sort-up');
+                sortIcon.classList.add('fa-sort-down');
+            } else {
+                sortIcon.classList.remove('fa-sort', 'fa-sort-down');
+                sortIcon.classList.add('fa-sort-up');
+            }
+        }
     </script>
 
     <script src="js/dashboard-js.js"></script>

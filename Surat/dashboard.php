@@ -25,6 +25,8 @@ if (!isset($_SESSION['pengguna_type'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://kit.fontawesome.com/9e9ad697fd.js" crossorigin="anonymous"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
 <body>
@@ -149,6 +151,11 @@ if (!isset($_SESSION['pengguna_type'])) {
                                 WHERE tb_srt_honor.asal_surat = '$fullname'");
                     $total_sk_row_hon = mysqli_fetch_assoc($records3);
                     $total_sk_hon = $total_sk_row_hon['total'];
+
+                    $records4 = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_srt_honor
+                                WHERE tb_srt_honor.diteruskan_ke = '$akses'");
+                    $total_sm_hon_ttl = mysqli_fetch_assoc($records4);
+                    $total_sm_hon = $total_sm_hon_ttl['total'];
                     ?>
 
                     <?php if ($_SESSION['akses'] != 'Rektor' && $_SESSION['akses'] != 'Warek1' && $_SESSION['akses'] != 'Warek2' && $_SESSION['akses'] != 'Warek3') : ?>
@@ -171,11 +178,23 @@ if (!isset($_SESSION['pengguna_type'])) {
                         $_SESSION['jabatan'] == 'S2 Keuangan Syariah' || $_SESSION['jabatan'] == 'S1 SI'
                         || $_SESSION['jabatan'] == 'S1 TI' || $_SESSION['jabatan'] == 'S1 DKV'
                         || $_SESSION['jabatan'] == 'S1 Arsitektur' || $_SESSION['jabatan'] == 'S1 Manajemen'
-                        || $_SESSION['jabatan'] == 'S1 Akuntansi') : ?>
+                        || $_SESSION['jabatan'] == 'S1 Akuntansi'
+                    ) : ?>
                         <button onclick="window.location.href='surat_keluar_honorium'" class="btn3">Surat Keluar Non Disposisi
-                            <span class="warning" id="warning">Ada <?php echo $total_sk_hon; ?> surat yang belum ditanggapi</span>
+                            <span class="warning" id="warning">Ada <?php echo $total_sk_hon; ?> Surat yang belum ditanggapi</span>
                             <i class="fas fa-envelope dash-icon"></i><br>
                             <span class="badge" id="badge1" style="color: grey; padding: 2px; border-radius: 15px; position: relative; top: -10px;"><?php echo $total_sk_hon; ?></span>
+                        </button>
+                    <?php endif; ?>
+
+                    <!-- NON DISPO BAK -->
+                    <?php if (
+                        $_SESSION['jabatan'] == 'Bagian Administrasi Keuangan'
+                    ) : ?>
+                        <button onclick="window.location.href='surat_masuk_honorium'" class="btn3">Surat Masuk Honorium
+                            <span class="warning" id="warning">Ada <?php echo $total_sm_hon; ?> Surat yang belum ditanggapi</span>
+                            <i class="fas fa-envelope dash-icon"></i><br>
+                            <span class="badge" id="badge1" style="color: grey; padding: 2px; border-radius: 15px; position: relative; top: -10px;"><?php echo $total_sm_hon; ?></span>
                         </button>
                     <?php endif; ?>
                 </div>

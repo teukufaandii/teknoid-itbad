@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 $date = date('c'); // ISO 8601 format (e.g., 2023-03-16T14:30:00+07:00)
 ?>
 
@@ -21,4 +21,4 @@ $date = date('c'); // ISO 8601 format (e.g., 2023-03-16T14:30:00+07:00)
   $(document).on('click keydown keyup keypress', function() {
     sessOut = new Date(Date.now() + sessTimeout * 1000); // reset timeout
   });
-</script>
+</script> -->

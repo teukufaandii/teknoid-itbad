@@ -30,9 +30,10 @@ if (!isset($_SESSION['pengguna_type'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.js"></script>
+    <script src="https://kit.fontawesome.com/9e9ad697fd.js" crossorigin="anonymous"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     
     <style>
-
         .sort-icon {
             position: absolute;
             margin-left: 5px;
@@ -77,13 +78,13 @@ if (!isset($_SESSION['pengguna_type'])) {
                     <table id="tablesm" class="tablesorter">
                         <thead>
                             <tr>
-                                <th onclick="sortTable(0, this)" style="min-width: 75px;">No <i id="sort-icon-0" class="fas fa-sort sort-icon"></i></th>
+                                <th onclick="sortTable(0, this)" style="min-width: 75px; border-top-left-radius: 8px;">No <i id="sort-icon-0" class="fas fa-sort sort-icon"></i></th>
                                 <th onclick="sortTable(1, this)">Jenis <i id="sort-icon-1" class="fas fa-sort sort-icon"></i></th>
                                 <th onclick="sortTable(2, this)">Asal Surat<i id="sort-icon-2" class="fas fa-sort sort-icon"></i></th>
                                 <th onclick="sortTable(3, this)">Nama Kegiatan<i id="sort-icon-3" class="fas fa-sort sort-icon"></i></th>
                                 <th onclick="sortTable(4, this)">Tanggal Surat <i id="sort-icon-4" class="fas fa-sort sort-icon"></i></th>
                                 <th onclick="sortTable(5, this)">Status <i id="sort-icon-5" class="fas fa-sort sort-icon"></i></th>
-                                <th>Aksi</th>
+                                <th style="border-top-right-radius: 8px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>

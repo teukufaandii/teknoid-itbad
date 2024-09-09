@@ -128,14 +128,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
     // Validasi ukuran file
     $max_file_size = 10 * 1024 * 1024; // 10MB dalam byte
-    if ($is_berkas_uploaded && $_FILES['file_berkas']['size'] > $max_file_size) {
-        echo "Maaf, ukuran file berkas surat tidak boleh melebihi 10MB.";
-        exit();
-    }
-
-    if ($is_laporan_uploaded && $_FILES['file_laporan']['size'] > $max_file_size) {
-        echo "Maaf, ukuran file laporan tidak boleh melebihi 10MB.";
-        exit();
+    $allowed_file_types = ['application/pdf']; // Allowed MIME types
+    
+    if ($is_berkas_uploaded) {
+        $file_berkas_type = $_FILES['file_berkas']['type'];
+        if ($_FILES['file_berkas']['size'] > $max_file_size) {
+            header("Location: error.php?error=filesize");
+            exit();
+        }
+        if (!in_array($file_berkas_type, $allowed_file_types)) {
+            header("Location: error.php?error=filetype");
+            exit();
+        }
     }
 
     // Insert data into database

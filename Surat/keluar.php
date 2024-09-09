@@ -30,7 +30,7 @@ session_destroy();
                     <h5 class="modal-title" id="logoutModalLabel">Berhasil Logout</h5>
                 </div>
                 <div class="modal-body">
-                    Dalam <span id="countdown">2</span> detik, Anda akan diarahkan ke halaman login.
+                    Dalam <span id="countdown">3</span> detik, Anda akan diarahkan ke halaman login.
                 </div>
             </div>
         </div>
@@ -43,13 +43,13 @@ session_destroy();
         modal.show();
 
         var countdownEl = document.getElementById('countdown');
-        var countdown = 2;
+        var countdown = 3;
         
         var countdownInterval = setInterval(function() {
             countdown--;
             countdownEl.textContent = countdown;
             
-            if (countdown <= 0) {
+            if (countdown <= 1) {
                 clearInterval(countdownInterval);
                 window.location.href = "../"; 
             }

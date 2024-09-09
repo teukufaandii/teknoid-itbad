@@ -27,7 +27,23 @@ if (!isset($_SESSION['pengguna_type'])) {
     <script type="text/javascript" src="tablesorter/jquery.tablesorter.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/9e9ad697fd.js" crossorigin="anonymous"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 10;
+            border-bottom: 2px solid #000;
+        }
+    </style>
 </head>
 
 <body>
@@ -59,10 +75,12 @@ if (!isset($_SESSION['pengguna_type'])) {
                 <div class="tombol">
                     <div class="tambah">
                         <button onclick="confirmAddSurat()">
-                            <i class="fa fa-plus"> &nbsp; Tambah Surat</i>
+                            <i class="fa fa-plus"></i>
+                            &nbsp; Tambah Surat
                         </button>
                         <button onclick="downloadForm()">
-                            <i class="fas fa-download"> &nbsp; Download Form</i>
+                            <i class="fas fa-download"></i>
+                            &nbsp; Download Form
                         </button>
                     </div>
 
@@ -77,13 +95,13 @@ if (!isset($_SESSION['pengguna_type'])) {
                     <table id="tablesk" class="tablesorter">
                         <thead>
                             <tr>
-                                <th style="min-width: 75px;">No <i class="fas fa-sort"></i></th>
-                                <th>Kode Surat <i class="fas fa-sort"></i></th>
-                                <th>Asal Surat <i class="fas fa-sort"></i></th>
-                                <th>Perihal <i class="fas fa-sort"></i></th>
-                                <th>Tanggal Surat <i class="fas fa-sort"></i></th>
-                                <th>Status <i class="fas fa-sort"></i></th>
-                                <th>Aksi</th>
+                                <th onclick="sortTable(0, this)" style="min-width: 75px; border-top-left-radius: 8px;">No <i id="sort-icon-0" class="fas fa-sort sort-icon"></i></th>
+                                <th onclick="sortTable(1, this)">Kode Surat <i id="sort-icon-1" class="fas fa-sort sort-icon"></i></th>
+                                <th onclick="sortTable(2, this)">Asal Surat <i id="sort-icon-2" class="fas fa-sort sort-icon"></i></th>
+                                <th onclick="sortTable(3, this)">Perihal <i id="sort-icon-3" class="fas fa-sort sort-icon"></i></th>
+                                <th onclick="sortTable(4, this)">Tanggal Surat <i id="sort-icon-4" class="fas fa-sort sort-icon"></i></th>
+                                <th onclick="sortTable(5, this)">Status <i id="sort-icon-5" class="fas fa-sort sort-icon"></i></th>
+                                <th style="border-top-right-radius: 8px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -359,7 +377,7 @@ if (!isset($_SESSION['pengguna_type'])) {
 
             if (hakAkses === 'Karyawan' || hakAkses === 'Bagian Kepegawaian') {
                 window.location.href = "tambah_surat2.php";
-                
+
             } else if (hakAkses === 'Dosen') {
                 Swal.fire({
                     title: 'Tambah Surat',
@@ -378,7 +396,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                         window.location.href = "tambah_surat_dosen.php";
                     }
                 });
-            } else if (hakAkses === 'S1 TI' || hakAkses === 'S1 SI' || hakAkses === 'S1 DKV'   || hakAkses === 'S1 Arsitektur'   || hakAkses === 'S1 Manajemen '   || hakAkses === 'S1 Akuntansi'   || hakAkses === 'S2 Keuangan Syariah') {
+            } else if (hakAkses === 'S1 TI' || hakAkses === 'S1 SI' || hakAkses === 'S1 DKV' || hakAkses === 'S1 Arsitektur' || hakAkses === 'S1 Manajemen ' || hakAkses === 'S1 Akuntansi' || hakAkses === 'S2 Keuangan Syariah') {
                 Swal.fire({
                     title: 'Tambah Surat',
                     text: 'Pilih jenis surat yang ingin Anda tambahkan',
@@ -388,12 +406,12 @@ if (!isset($_SESSION['pengguna_type'])) {
                     confirmButtonText: 'Surat Disposisi',
                     cancelButtonText: 'Surat Non-Disposisi'
                 }).then((result) => {
-                    if (result.isConfirmed) {        // Redirect to tambah surat disposisi page
+                    if (result.isConfirmed) { // Redirect to tambah surat disposisi page
                         cation.href = "tambah_surat2.php";
                     } else if (result.dismiss === Swal.DismissReason.cancel) {
                         // Redirect to tambah surat non-disposisi page
                         window.location.href = "tambah_surat_dosen.php";
-                    }                
+                    }
                 });
             } else
                 Swal.fire({
@@ -419,6 +437,51 @@ if (!isset($_SESSION['pengguna_type'])) {
         function downloadForm() {
             window.location.href = "download_form";
         }
+
+        let sortDirection = {}; // To keep track of the sort direction for each column
+
+        function sortTable(columnIndex, header) {
+                const table = document.querySelector('table tbody');
+                const rows = Array.from(table.querySelectorAll('tr'));
+                const isDescending = sortDirection[columnIndex] || false; // Get the current sort direction for this column
+
+                // Sort rows
+                rows.sort((rowA, rowB) => {
+                    const cellA = rowA.children[columnIndex].textContent.trim();
+                    const cellB = rowB.children[columnIndex].textContent.trim();
+
+                    if (columnIndex === 0) { // Special case for the "No" column
+                        return isDescending ? cellA - cellB : cellB - cellA;
+                    } else {
+                        if (isDescending) {
+                            return cellA.localeCompare(cellB);
+                        } else {
+                            return cellB.localeCompare(cellA);
+                        }
+                    }
+                });
+
+                // Update table
+                rows.forEach(row => table.appendChild(row));
+
+                // Toggle sort direction
+                sortDirection[columnIndex] = !isDescending;
+
+                // Update sort icons
+                document.querySelectorAll('.sort-icon').forEach(icon => {
+                    icon.classList.remove('fa-sort', 'fa-sort-up', 'fa-sort-down');
+                    icon.classList.add('fa-sort');
+                });
+
+                const sortIcon = header.querySelector('.sort-icon');
+                if (sortDirection[columnIndex]) {
+                    sortIcon.classList.remove('fa-sort', 'fa-sort-up');
+                    sortIcon.classList.add('fa-sort-down');
+                } else {
+                    sortIcon.classList.remove('fa-sort', 'fa-sort-down');
+                    sortIcon.classList.add('fa-sort-up');
+                }
+            }
     </script>
     <script src="js/dashboard-js.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

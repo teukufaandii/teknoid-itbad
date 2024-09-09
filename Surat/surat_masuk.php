@@ -28,6 +28,22 @@ if (!isset($_SESSION['pengguna_type'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://kit.fontawesome.com/9e9ad697fd.js" crossorigin="anonymous"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: black;
+        }
+
+        thead th {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 10;
+            border-bottom: 2px solid #000;
+        }
+    </style>
 </head>
 
 <body>
@@ -56,13 +72,13 @@ if (!isset($_SESSION['pengguna_type'])) {
                     <table id="tablesm" class="tablesorter">
                         <thead style="position: sticky; top: 0;">
                             <tr>
-                                <th style="min-width: 75px;">No <i class="fas fa-sort"></i></th>
-                                <th>Kode Surat <i class="fas fa-sort"></i></th>
-                                <th>Asal Surat <i class="fas fa-sort"></i></th>
-                                <th>Perihal <i class="fas fa-sort"></i></th>
-                                <th>Tanggal Surat <i class="fas fa-sort"></i></th>
-                                <th>Status <i class="fas fa-sort"></i></th>
-                                <th>Aksi</th>
+                                <th onclick="sortTable(0, this)" style="min-width: 75px; border-top-left-radius: 8px;">No <i id="sort-icon-0" class="fas fa-sort sort-icon"></i></i></th>
+                                <th onclick="sortTable(1, this)">Kode Surat <i id="sort-icon-1" class="fas fa-sort sort-icon"></i></th>
+                                <th onclick="sortTable(2, this)">Asal Surat <i id="sort-icon-2" class="fas fa-sort sort-icon"></i></th>
+                                <th onclick="sortTable(3, this)">Perihal <i id="sort-icon-3" class="fas fa-sort sort-icon"></i></th>
+                                <th onclick="sortTable(4, this)">Tanggal Surat <i id="sort-icon-4" class="fas fa-sort sort-icon"></i></th>
+                                <th onclick="sortTable(5, this)">Status <i id="sort-icon-5" class="fas fa-sort sort-icon"></i></th>
+                                <th style="border-top-right-radius: 8px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -143,7 +159,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 }
                                                 echo "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'> 
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'Warek1') {
                                             if (
@@ -163,7 +179,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                     echo 'Belum Disposisi';
                                                 }
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'> 
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'Warek2') {
                                             if (
@@ -183,7 +199,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                     echo 'Belum Disposisi';
                                                 }
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'Warek3') {
                                             if (
@@ -203,7 +219,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                     echo 'Belum Disposisi';
                                                 }
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'Admin') {
                                             echo "<td>" . ($row['status_baca'] ? 'Sudah Disposisi' : 'Belum Disposisi') . "</td>";
@@ -226,7 +242,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                     echo 'Belum Disposisi';
                                                 }
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'DekanFEB') {
                                             if (
@@ -247,7 +263,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                     echo 'Belum Disposisi';
                                                 }
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'direkPasca') {
                                             if (
@@ -267,7 +283,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                     echo 'Belum Disposisi';
                                                 }
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'prodi_ti') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -279,7 +295,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'prodi_si') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -291,7 +307,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'prodi_manajemen') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -303,7 +319,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'prodi_akuntansi') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -315,7 +331,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'prodi_dkv') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -327,7 +343,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'prodi_arsitek') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -339,7 +355,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'prodi_keuSyariah') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -351,7 +367,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                             // section unit
                                         } elseif ($_SESSION['akses'] == 'ppik_kmhs') {
@@ -363,7 +379,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'PSDOD') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -374,7 +390,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'CHED') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -385,7 +401,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'PSIPP') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -396,7 +412,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'halal_center') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -407,7 +423,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'PKAD') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -418,7 +434,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'keuangan') {
                                             if (
@@ -432,7 +448,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'akademik') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -443,7 +459,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'Humas') {
                                             if (
@@ -479,7 +495,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'umum') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -490,7 +506,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'it_lab') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -501,7 +517,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'sdm') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -512,7 +528,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'lp3m') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -523,7 +539,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'bpm') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -534,7 +550,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'kui_k') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -545,7 +561,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'upt_perpus') {
                                             if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
@@ -556,7 +572,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'pusat_bisnis') {
                                             if ($row['diteruskan_ke'] == $akses || strpos($row['diteruskan_ke'], $akses) !== false) {
@@ -568,7 +584,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
                                                 echo "<td>" . ($row['status_selesai'] == TRUE ? 'Sudah Diselesaikan' : 'Belum Diselesaikan') . "</td>";
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
-                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";  
+                                                <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         }
                                         ?>
@@ -681,6 +697,51 @@ if (!isset($_SESSION['pengguna_type'])) {
         $(document).ready(function() {
             $("#tablesm").tablesorter();
         });
+
+        let sortDirection = {}; // To keep track of the sort direction for each column
+
+        function sortTable(columnIndex, header) {
+            const table = document.querySelector('table tbody');
+            const rows = Array.from(table.querySelectorAll('tr'));
+            const isDescending = sortDirection[columnIndex] || false; // Get the current sort direction for this column
+
+            // Sort rows
+            rows.sort((rowA, rowB) => {
+                const cellA = rowA.children[columnIndex].textContent.trim();
+                const cellB = rowB.children[columnIndex].textContent.trim();
+
+                if (columnIndex === 0) { // Special case for the "No" column
+                    return isDescending ? cellA - cellB : cellB - cellA;
+                } else {
+                    if (isDescending) {
+                        return cellA.localeCompare(cellB);
+                    } else {
+                        return cellB.localeCompare(cellA);
+                    }
+                }
+            });
+
+            // Update table
+            rows.forEach(row => table.appendChild(row));
+
+            // Toggle sort direction
+            sortDirection[columnIndex] = !isDescending;
+
+            // Update sort icons
+            document.querySelectorAll('.sort-icon').forEach(icon => {
+                icon.classList.remove('fa-sort', 'fa-sort-up', 'fa-sort-down');
+                icon.classList.add('fa-sort');
+            });
+
+            const sortIcon = header.querySelector('.sort-icon');
+            if (sortDirection[columnIndex]) {
+                sortIcon.classList.remove('fa-sort', 'fa-sort-up');
+                sortIcon.classList.add('fa-sort-down');
+            } else {
+                sortIcon.classList.remove('fa-sort', 'fa-sort-down');
+                sortIcon.classList.add('fa-sort-up');
+            }
+        }
     </script>
 
     <script src="js/dashboard-js.js"></script>

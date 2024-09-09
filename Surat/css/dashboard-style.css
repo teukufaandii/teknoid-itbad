@@ -475,6 +475,7 @@ a:-webkit-any-link,
   margin-top: 0px;
   font-size: 17px;
   border: none;
+  border-radius: 5px;
 }
 
 .search-box button {
@@ -498,6 +499,13 @@ a:-webkit-any-link,
   max-height: 100vh;
   cursor: default !important;
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+}
+
 #tableakun {
   width: 100%;
   border-collapse: collapse;
@@ -506,6 +514,19 @@ a:-webkit-any-link,
 #tableakun tr {
   width: 100%;
 }
+
+#tableakun thead th {
+  padding: 15px 20px;
+  text-align: center;
+  white-space: nowrap;
+  position: sticky;
+  background-color: #4663ac;
+  top: 0;
+  z-index: 10;
+  border-bottom: 2px solid #000;
+  color: #fff;
+}
+
 #tableakun th,
 td {
   padding: 10px 20px;
@@ -523,7 +544,7 @@ td {
 #tableakun button {
   padding: 1px;
   border: none;
-  color: #000000;
+  color: black;
   cursor: pointer;
   font-size: 12px;
   width: 35px;
@@ -556,6 +577,7 @@ input::-webkit-inner-spin-button {
   margin-bottom: 15px;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .contentBox .form .inputfield label {
@@ -655,7 +677,7 @@ input::-webkit-inner-spin-button {
   margin-top: 10px;
 }
 
-.inputfield .fa-circle-info:hover +.additional-info {
+.inputfield .fa-circle-info:hover + .additional-info {
   display: block;
 }
 
@@ -825,6 +847,7 @@ p {
 #table-container {
   width: 100%;
   overflow-x: auto;
+  padding-right: 5px;
 }
 
 /* Table Header and General Styles */
@@ -835,15 +858,14 @@ p {
   font-size: 16px;
   text-align: left;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  overflow: hidden;
 }
 
 /* Header Styling */
 #tablesk thead {
-  background-color: #4663ac; /* Dark Blue */
+  background-color: #4663ac;
   color: white;
   font-weight: bold;
+  border-radius: 20px;
 }
 
 #tablesk thead th {
@@ -851,8 +873,9 @@ p {
   text-align: center;
   white-space: nowrap;
   position: sticky;
+  background-color: #4663ac;
   top: 0;
-  z-index: 1;
+  z-index: 10;
 }
 
 /* Even and Odd Row Styling */
@@ -907,18 +930,17 @@ tbody tr:hover {
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-  #tablesk thead th, 
+  #tablesk thead th,
   #tablesk tbody td {
     padding: 10px 15px;
     font-size: 14px;
   }
 
-  #tablesk th, 
+  #tablesk th,
   #tablesk td {
     min-width: 150px;
   }
 }
-
 
 /*------------------- table surat masuk -------------------*/
 /* Table Container */
@@ -932,12 +954,11 @@ tbody tr:hover {
   text-align: left;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  overflow: hidden;
 }
 
 /* Header Styling */
 #tablesm thead {
-  background-color: #4663ac; /* Dark Blue */
+  background-color: #4663ac;
   color: white;
   font-weight: bold;
 }
@@ -946,9 +967,10 @@ tbody tr:hover {
   padding: 15px 20px;
   text-align: center;
   white-space: nowrap;
+  background-color: #4663ac;
   position: sticky;
-  top: 0;
-  z-index: 1;
+  top: 0 !important;
+  z-index: 10;
 }
 
 /* Even and Odd Row Styling */
@@ -1003,13 +1025,13 @@ tbody tr:hover {
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-  #tablesm thead th, 
+  #tablesm thead th,
   #tablesm tbody td {
     padding: 10px 15px;
     font-size: 14px;
   }
 
-  #tablesm th, 
+  #tablesm th,
   #tablesm td {
     min-width: 150px;
   }
@@ -1117,8 +1139,12 @@ form .tanggal {
   display: flex;
   position: relative;
   justify-content: space-between;
-  margin: auto;
-  flex-direction: column;
+}
+
+@media screen and (max-width: 378px) {
+  form .tanggal {
+    flex: column wrap;
+  }
 }
 
 /*-------------------untuk modal surat keluar----------------*/
@@ -1186,6 +1212,8 @@ form .tanggal {
   border-collapse: collapse;
   position: relative;
   text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 #tablerekap th,
@@ -1194,15 +1222,17 @@ td {
   min-width: 190px;
   border-bottom: 1px solid #ddd;
   background-color: #ffffff;
-  font-size: 15px;
-  font-weight: 500;
 }
 
 #tablerekap th {
-  border-bottom: 1px solid #000;
+  padding: 15px 20px;
   text-align: center;
-  cursor: default;
-  font-weight: bold;
+  white-space: nowrap;
+  background-color: #4663ac;
+  color: #fff;
+  position: sticky;
+  top: 0 !important;
+  z-index: 10;
 }
 
 .notificationsBadge {
@@ -1299,7 +1329,7 @@ td {
 
 .aksi-btn {
   display: flex;
-  gap: 10px; 
+  gap: 10px;
   justify-content: center;
 }
 
@@ -1307,7 +1337,7 @@ td {
   border: none;
   background: none;
   cursor: pointer;
-  padding: 5px; 
+  padding: 5px;
 }
 
 .disabled-button {
@@ -1319,7 +1349,7 @@ td {
 }
 
 .disabled-button:hover {
-  cursor:context-menu;
+  cursor: context-menu;
 }
 
 .warning {

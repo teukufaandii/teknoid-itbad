@@ -77,14 +77,14 @@ if (!isset($_SESSION['pengguna_type'])) {
                     <table id="tablesk" class="tablesorter">
                         <thead>
                             <tr>
-                                <th style="min-width: 75px;">No <i class="fas fa-sort"></i></th>
-                                <th>Jenis Surat <i class="fas fa-sort"></i></th>
-                                <th>Asal Surat <i class="fas fa-sort"></i></th>
-                                <th>Jenis Insentif <i class="fas fa-sort"></i></th>
-                                <th>Tanggal Surat <i class="fas fa-sort"></i></th>
-                                <th>Status <i class="fas fa-sort"></i></th>
+                                <th onclick="sortTable(0, this)" style="min-width: 75px; border-top-left-radius: 8px;">No<i id="sort-icon-0" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                <th onclick="sortTable(1, this)">Jenis Surat<i id="sort-icon-1" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                <th onclick="sortTable(2, this)">Asal Surat<i id="sort-icon-2" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                <th onclick="sortTable(3, this)">Jenis Insentif<i id="sort-icon-3" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                <th onclick="sortTable(4, this)">Tanggal Surat<i id="sort-icon-4" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                <th onclick="sortTable(5, this)">Status<i id="sort-icon-5" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
                                 <th>Memo</th>
-                                <th>Aksi</th>
+                                <th style="border-top-right-radius: 8px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -353,9 +353,53 @@ if (!isset($_SESSION['pengguna_type'])) {
                 });
         }
 
-
         function downloadForm() {
             window.location.href = "download_form";
+        }
+
+        let sortDirection = {}; // To keep track of the sort direction for each column
+
+        function sortTable(columnIndex, header) {
+            const table = document.querySelector('table tbody');
+            const rows = Array.from(table.querySelectorAll('tr'));
+            const isDescending = sortDirection[columnIndex] || false; // Get the current sort direction for this column
+
+            // Sort rows
+            rows.sort((rowA, rowB) => {
+                const cellA = rowA.children[columnIndex].textContent.trim();
+                const cellB = rowB.children[columnIndex].textContent.trim();
+
+                if (columnIndex === 0) { // Special case for the "No" column
+                    return isDescending ? cellA - cellB : cellB - cellA;
+                } else {
+                    if (isDescending) {
+                        return cellA.localeCompare(cellB);
+                    } else {
+                        return cellB.localeCompare(cellA);
+                    }
+                }
+            });
+
+            // Update table
+            rows.forEach(row => table.appendChild(row));
+
+            // Toggle sort direction
+            sortDirection[columnIndex] = !isDescending;
+
+            // Update sort icons
+            document.querySelectorAll('.sort-icon').forEach(icon => {
+                icon.classList.remove('fa-sort', 'fa-sort-up', 'fa-sort-down');
+                icon.classList.add('fa-sort');
+            });
+
+            const sortIcon = header.querySelector('.sort-icon');
+            if (sortDirection[columnIndex]) {
+                sortIcon.classList.remove('fa-sort', 'fa-sort-up');
+                sortIcon.classList.add('fa-sort-down');
+            } else {
+                sortIcon.classList.remove('fa-sort', 'fa-sort-down');
+                sortIcon.classList.add('fa-sort-up');
+            }
         }
     </script>
     <script src="js/dashboard-js.js"></script>
