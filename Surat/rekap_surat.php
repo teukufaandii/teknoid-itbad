@@ -98,11 +98,12 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                         <input type="submit" name="search" class="search" value="Cari" id="searchForm">
                     </form>
 
-                    <form method='POST' action='export.php' id="exportForm">
+                    <form method='POST' action='export.php'>
                         <input type='submit' value='Export' class="ekspor" name='Export'>
                         <div class="tableOverflow">
                             <table id="tablerekap">
                                 <?php
+                                $user_arr = array();
                                 if (isset($_POST['search'])) {
                                     $jenis_surat = mysqli_real_escape_string($conn, $_POST['jenis_surat']);
                                     // Tentukan query berdasarkan jenis_surat
@@ -224,7 +225,8 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                                             <th>No</th>
                                                             <th>Jenis Surat</th>
                                                             <th>Asal Surat</th>
-                                                            <th>Jenis Insentif</th>
+                                                            <th>Perihal</th>
+                                                            <th>Nama Perusahaan</th>
                                                             <th>Tanggal Surat</th>
                                                             <th>Aksi</th>
                                                         </tr>
@@ -253,6 +255,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                     $user_arr = array();
                                     // Proses pencarian rekap
                                     if (isset($_POST['search'])) {
+
                                         $jenis_surat = mysqli_real_escape_string($conn, $_POST['jenis_surat']); // Escaping to prevent SQL injection
                                         $tanggal_awal = mysqli_real_escape_string($conn, $_POST['tanggal_awal']);
                                         $tanggal_akhir = mysqli_real_escape_string($conn, $_POST['tanggal_akhir']);
@@ -330,12 +333,10 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                                 if (in_array($row['jenis_surat'], [1])) {
                                                     // Hanya untuk jenis surat 1-4
                                                     $id = $row['kode_surat'];
-                                                    $id2 = $row['kd_surat'];
                                                     $asal_surat = $row['asal_surat'];
                                                     $perihal = $row['perihal'];
                                                     $tgl_surat = $row['tanggal_surat'];
-
-                                                    $user_arr[] = array((!empty($id) ? $id : $id2), $jenis_surat, $asal_surat, $perihal, $tgl_surat);
+                                                    $user_arr[] = array($id, $jenis_surat, $asal_surat, $perihal, $tgl_surat);
                                                     echo "<tr>
                                                                             <td style='width:10px;'>" . $nomor . "</td>
                                                                             <td>" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "</td>
@@ -343,16 +344,15 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                                                             <td>" . $row["asal_surat"] . "</td>
                                                                             <td>" . $row["perihal"] . "</td>
                                                                             <td>" . $formatted_date . "</td>
-                                                                            <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "'>Hapus</button></td>
+                                                                            <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . ($row['kode_surat']) . "'>Hapus</button></td>
                                                                         </tr>";
                                                 } elseif (in_array($row['jenis_surat'], [2])) {
                                                     // Hanya untuk jenis surat 1-4
                                                     $id = $row['kode_surat'];
-                                                    $id2 = $row['kd_surat'];
                                                     $asal_surat = $row['asal_surat'];
                                                     $perihal = $row['perihal'];
                                                     $tgl_surat = $row['tanggal_surat'];
-                                                    $user_arr[] = array((!empty($id) ? $id : $id2), $jenis_surat, $asal_surat, $perihal, $tgl_surat);
+                                                    $user_arr[] = array($id, $jenis_surat, $asal_surat, $perihal, $tgl_surat);
                                                     echo "<tr>
                                                                             <td style='width:10px;'>" . $nomor . "</td>
                                                                             <td>" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "</td>
@@ -360,16 +360,15 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                                                             <td>" . $row["asal_surat"] . "</td>
                                                                             <td>" . $row["perihal"] . "</td>
                                                                             <td>" . $formatted_date . "</td>
-                                                                            <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "'>Hapus</button></td>
+                                                                            <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . ($row['kode_surat']) . "'>Hapus</button></td>
                                                                         </tr>";
                                                 } elseif (in_array($row['jenis_surat'], [3])) {
                                                     // Hanya untuk jenis surat 1-4
-                                                    $id = $row['kode_surat'];
                                                     $id2 = $row['kd_surat'];
                                                     $asal_surat = $row['asal_surat'];
                                                     $perihal = $row['perihal'];
                                                     $tgl_surat = $row['tanggal_surat'];
-                                                    $user_arr[] = array((!empty($id) ? $id : $id2), $jenis_surat, $asal_surat, $perihal, $tgl_surat);
+                                                    $user_arr[] = array($id2, $jenis_surat, $asal_surat, $perihal, $tgl_surat);
                                                     echo "<tr>
                                                                             <td style='width:10px;'>" . $nomor . "</td>
                                                                             <td>" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "</td>
@@ -377,16 +376,15 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                                                             <td>" . $row["asal_surat"] . "</td>
                                                                             <td>" . $row["perihal"] . "</td>
                                                                             <td>" . $formatted_date . "</td>
-                                                                            <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "'>Hapus</button></td>
+                                                                            <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . ($row['kd_surat']) . "'>Hapus</button></td>
                                                                         </tr>";
                                                 } elseif (in_array($row['jenis_surat'], [4])) {
                                                     // Hanya untuk jenis surat 1-4
-                                                    $id = $row['kode_surat'];
                                                     $id2 = $row['kd_surat'];
                                                     $asal_surat = $row['asal_surat'];
                                                     $perihal = $row['perihal'];
                                                     $tgl_surat = $row['tanggal_surat'];
-                                                    $user_arr[] = array((!empty($id) ? $id : $id2), $jenis_surat, $asal_surat, $perihal, $tgl_surat);
+                                                    $user_arr[] = array($id2, $jenis_surat, $asal_surat, $perihal, $tgl_surat);
                                                     echo "<tr>
                                                                             <td style='width:10px;'>" . $nomor . "</td>
                                                                             <td>" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "</td>
@@ -394,25 +392,44 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                                                             <td>" . $row["asal_surat"] . "</td>
                                                                             <td>" . $row["perihal"] . "</td>
                                                                             <td>" . $formatted_date . "</td>
-                                                                            <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . (!empty($row['kode_surat']) ? $row['kode_surat'] : $row['kd_surat']) . "'>Hapus</button></td>
+                                                                            <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . ($row['kd_surat']) . "'>Hapus</button></td>
                                                                         </tr>";
                                                 } elseif (in_array($row['jenis_surat'], [5])) {
+                                                    $id_srt = $row['id_srt'];
+                                                    $asal_surat = $row['asal_surat'];
+                                                    $jenis_insentif = $row['jenis_insentif'];
+                                                    $tgl_surat = $row['tanggal_surat'];
+                                                    $user_arr[] = array($id_srt, $jenis_surat, $asal_surat, $jenis_insentif, $tgl_surat);
                                                     echo "<tr id='hasilSearch'>
                                                             <td style='width:10px;'>" . $nomor . "</td>
                                                             <td>" . $jenis_surat . "</td>
-                                                            <td>" . $row["asal_surat"] . "</td>
+                                                            <td>" . $asal_surat . "</td>
+                                                            <td>" . ucwords($jenis_insentif) . "</td>
                                                             <td>" . $formatted_date . "</td>
                                                             <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . ($row['id_srt']) . "'>Hapus</button></td>
                                                         </tr>";
                                                 } elseif (in_array($row['jenis_surat'], [6])) {
+                                                    $id_srt = $row['id_srt'];
+                                                    $asal_surat = $row['asal_surat'];
+                                                    $tgl_surat = $row['tanggal_surat'];
+                                                    $perihalsrd = $row['perihal_srd'];
+                                                    $nama_perusahaan = $row['nama_perusahaan_srd'];
+                                                    $user_arr[] = array($id_srt, $jenis_surat, $asal_surat, $perihalsrd, $nama_perusahaan, $tgl_surat);
                                                     echo "<tr id='hasilSearch'>
                                                             <td style='width:10px;'>" . $nomor . "</td>
                                                             <td>" . $jenis_surat . "</td>
-                                                            <td>" . $row["asal_surat"] . "</td>
+                                                            <td>" . $asal_surat . "</td>
+                                                            <td>" . $perihalsrd . "</td>
+                                                            <td>" . $nama_perusahaan . "</td>
                                                             <td>" . $formatted_date . "</td>
                                                             <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . ($row['id_srt']) . "'>Hapus</button></td>
                                                         </tr>";
                                                 } elseif (in_array($row['jenis_surat'], [7])) {
+                                                    $id = $row['id'];
+                                                    $asal_surat = $row['asal_surat'];
+                                                    $nm_kegiatan = $row['nm_kegiatan'];
+                                                    $tgl_surat = $row['tanggal_surat'];
+                                                    $user_arr[] = array($id, $jenis_surat, $asal_surat, $nm_kegiatan, $tgl_surat);
                                                     echo "<tr id='hasilSearch'>
                                                             <td style='width:10px;'>" . $nomor . "</td>
                                                             <td>" . $jenis_surat . "</td>
@@ -434,9 +451,11 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                     </tbody>
                             </table>
                             <?php
-                            // $serailze_user_arr = serialize($user_arr);
+                            // Serialize the filtered data to pass to export.php
+                            $serialize_user_arr = serialize($user_arr);
                             ?>
-                            <textarea name='export_data' style='display: none;'><?php echo $serailze_user_arr; ?></textarea>
+                            <textarea name='export_data' style='display: none;'><?php echo $serialize_user_arr; ?></textarea>
+                            <textarea name='jenis_surat' style='display: none;'><?php echo $jenis_surat; ?></textarea>
                         </div>
                     </form>
                 </div>
@@ -466,7 +485,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                 document.getElementById("Content").style.marginLeft = "0";
             }
 
-            // Function to check if search form is valid 
+            // Function to check if search form is valid
             function isSearchFormValid() {
                 var jenis_surat = document.getElementById("jenis_surat").value;
                 var tanggal_awal = document.getElementById("tanggal_awal").value;
