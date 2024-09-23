@@ -1,4 +1,13 @@
 <?php
+
+require '../vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+
 if (isset($_POST['export_data'])) {
     // Database connection (adjust as needed)
     $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
@@ -24,65 +33,85 @@ if (isset($_POST['export_data'])) {
     $kode_surat_list = array_column($user_arr, 0); // Assuming 0 index contains `kode_surat` or `id`
     $kode_surat_str = implode("','", $kode_surat_list);
 
-    // Adjust the SQL query to fetch data based on the filtered `kode_surat`
-    if ($jenis_surat == "Surat Permohonan") {
+    if ($jenis_surat == "Surat Permohonan" || $jenis_surat == 1) {
         $sql = "SELECT kode_surat, jenis_surat, asal_surat, perihal, tanggal_surat 
                 FROM tb_surat_dis 
-                WHERE kode_surat IN ('$kode_surat_str')";
-        $judul = ['No', 'Kode Surat', 'Jenis Surat',
+                WHERE jenis_surat = 1";
+        $judul = [
+            'No',
+            'Kode Surat',
+            'Jenis Surat',
             'Asal Surat',
             'Perihal',
             'Tanggal Surat'
         ];
-    } elseif ($jenis_surat == "Surat Laporan") {
+    } elseif ($jenis_surat == "Surat Laporan" || $jenis_surat == 2) {
         $sql = "SELECT kode_surat, jenis_surat, asal_surat, perihal, tanggal_surat 
                 FROM tb_surat_dis 
-                WHERE kode_surat IN ('$kode_surat_str')";
-        $judul = ['No', 'Kode Surat', 'Jenis Surat',
+                WHERE jenis_surat = 2";
+        $judul = [
+            'No',
+            'Kode Surat',
+            'Jenis Surat',
             'Asal Surat',
             'Perihal',
             'Tanggal Surat'
         ];
-    } elseif ($jenis_surat == "Surat KKL") {
+    } elseif ($jenis_surat == "Surat KKL" || $jenis_surat == 3) {
         $sql = "SELECT kode_surat, jenis_surat, asal_surat, perihal, tanggal_surat 
                 FROM tb_surat_dis 
-                WHERE kode_surat IN ('$kode_surat_str')";
-        $judul = ['No', 'Kode Surat', 'Jenis Surat',
+                WHERE kode_surat IN ('$kode_surat_str') AND jenis_surat = 3";
+        $judul = [
+            'No',
+            'Kode Surat',
+            'Jenis Surat',
             'Asal Surat',
             'Perihal',
             'Tanggal Surat'
         ];
-    } elseif ($jenis_surat == "Surat Riset") {
+    } elseif ($jenis_surat == "Surat Riset" || $jenis_surat == 4) {
         $sql = "SELECT kode_surat, jenis_surat, asal_surat, perihal, tanggal_surat 
                 FROM tb_surat_dis 
-                WHERE kode_surat IN ('$kode_surat_str')";
-        $judul = ['No', 'Kode Surat', 'Jenis Surat',
+                WHERE kode_surat IN ('$kode_surat_str') AND jenis_surat = 4";
+        $judul = [
+            'No',
+            'Kode Surat',
+            'Jenis Surat',
             'Asal Surat',
             'Perihal',
             'Tanggal Surat'
         ];
-    } elseif ($jenis_surat == "Surat Insentif") {
+    } elseif ($jenis_surat == "Surat Insentif" || $jenis_surat == 5) {
         $sql = "SELECT id_srt, jenis_surat, asal_surat, jenis_insentif, tanggal_surat 
                 FROM tb_srt_dosen 
-                WHERE id_srt IN ('$kode_surat_str')";
-        $judul = ['No', 'Jenis Surat', 'Asal Surat',
+                WHERE jenis_surat = 5";
+        $judul = [
+            'No',
+            'Jenis Surat',
+            'Asal Surat',
             'Jenis Insentif',
             'Tanggal Surat'
         ];
-    } elseif ($jenis_surat == "Surat Riset Dosen") {
+    } elseif ($jenis_surat == "Surat Riset Dosen" || $jenis_surat == 6) {
         $sql = "SELECT id_srt, jenis_surat, asal_surat, perihal_srd, nama_perusahaan_srd, tanggal_surat 
                 FROM tb_srt_dosen 
-                WHERE id_srt IN ('$kode_surat_str')";
-        $judul = ['No', 'Jenis Surat', 'Asal Surat',
+                WHERE jenis_surat = 6";
+        $judul = [
+            'No',
+            'Jenis Surat',
+            'Asal Surat',
             'Perihal',
             'Nama Perusahaan',
             'Tanggal Surat'
         ];
-    } elseif ($jenis_surat == "Surat Honorium") {
+    } elseif ($jenis_surat == "Surat Honorium" || $jenis_surat == 7) {
         $sql = "SELECT id, jenis_surat, asal_surat, nm_kegiatan, tanggal_surat 
                 FROM tb_srt_honor 
-                WHERE id IN ('$kode_surat_str')";
-        $judul = ['No', 'Jenis Surat', 'Asal Surat',
+                WHERE id IN ('$kode_surat_str') AND jenis_surat = 7";
+        $judul = [
+            'No',
+            'Jenis Surat',
+            'Asal Surat',
             'Nama Kegiatan',
             'Tanggal Surat'
         ];
@@ -95,53 +124,162 @@ if (isset($_POST['export_data'])) {
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        // Create CSV
-        $filename = 'RekapSurat.csv';
-        $file = fopen($filename, "w");
+        // Create new Spreadsheet
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
 
-        // Menulis judul ke file CSV
-        fputcsv($file, $judul);
+        // Menulis judul ke file Excel
+        $sheet->fromArray($judul, NULL, 'A1');
 
-        // Add row data
+        // Define border style
+        $borderStyle = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => ['argb' => 'FF000000'],
+                ],
+            ],
+        ];
+
+        // Define colors for even and odd rows
+        $evenRowStyle = [
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['argb' => 'E3E3E3'], // Gray for even rows
+            ],
+        ];
+
+        $oddRowStyle = [
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['argb' => 'FFFFFF'], // Light Gray for odd rows
+            ],
+        ];
+
+        // Add row data based on jenis_surat
         $no = 1; // Start numbering
+        $rowNumber = 2; // Starting row for data
         while ($row = $result->fetch_assoc()) {
             // Convert 'jenis_surat' values
             if ($row['jenis_surat'] == 1) {
                 $row['jenis_surat'] = "Surat Permohonan";
+                $dataRow = [
+                    $no,
+                    $row['kode_surat'],
+                    $row['jenis_surat'],
+                    $row['asal_surat'],
+                    $row['perihal'],
+                    date('d-m-Y', strtotime($row['tanggal_surat']))
+                ];
             } elseif ($row['jenis_surat'] == 2) {
                 $row['jenis_surat'] = "Surat Laporan";
+                $dataRow = [
+                    $no,
+                    $row['kode_surat'],
+                    $row['jenis_surat'],
+                    $row['asal_surat'],
+                    $row['perihal'],
+                    date('d-m-Y', strtotime($row['tanggal_surat']))
+                ];
             } elseif ($row['jenis_surat'] == 3) {
                 $row['jenis_surat'] = "Surat KKL";
+                $dataRow = [
+                    $no,
+                    $row['kode_surat'],
+                    $row['jenis_surat'],
+                    $row['asal_surat'],
+                    $row['perihal'],
+                    date('d-m-Y', strtotime($row['tanggal_surat']))
+                ];
             } elseif ($row['jenis_surat'] == 4) {
                 $row['jenis_surat'] = "Surat Riset";
+                $dataRow = [
+                    $no,
+                    $row['kode_surat'],
+                    $row['jenis_surat'],
+                    $row['asal_surat'],
+                    $row['perihal'],
+                    date('d-m-Y', strtotime($row['tanggal_surat']))
+                ];
             } elseif ($row['jenis_surat'] == 5) {
                 $row['jenis_surat'] = "Surat Insentif";
+                $dataRow = [
+                    $no,
+                    $row['jenis_surat'],
+                    $row['asal_surat'],
+                    $row['jenis_insentif'],
+                    date('d-m-Y', strtotime($row['tanggal_surat']))
+                ];
             } elseif ($row['jenis_surat'] == 6) {
                 $row['jenis_surat'] = "Surat Riset Dosen";
+                $dataRow = [
+                    $no,
+                    $row['jenis_surat'],
+                    $row['asal_surat'],
+                    $row['perihal_srd'],
+                    $row['nama_perusahaan_srd'],
+                    date('d-m-Y', strtotime($row['tanggal_surat']))
+                ];
             } elseif ($row['jenis_surat'] == 7) {
                 $row['jenis_surat'] = "Surat Honorium";
+                $dataRow = [
+                    $no,
+                    $row['jenis_surat'],
+                    $row['asal_surat'],
+                    $row['nm_kegiatan'],
+                    date('d-m-Y', strtotime($row['tanggal_surat']))
+                ];
             }
 
-            // Format date
-            if (isset($row['tanggal_surat'])) {
-                $row['tanggal_surat'] = date('d-m-Y', strtotime($row['tanggal_surat']));
-            }
+            // Add the data row to the spreadsheet
+            $sheet->fromArray($dataRow, NULL, 'A' . $rowNumber);
 
-            array_unshift($row, $no); // Add numbering to each row
-            fputcsv($file, $row);
+            // Apply styling: borders and background color (even/odd)
+            $style = ($rowNumber % 2 == 0) ? $evenRowStyle : $oddRowStyle;
+            $sheet->getStyle("A$rowNumber:F$rowNumber")->applyFromArray($style);
+            $sheet->getStyle("A$rowNumber:F$rowNumber")->applyFromArray($borderStyle);
+
+            $rowNumber++;
             $no++;
         }
 
-        fclose($file);
+        // Apply border and styling to header row
+        $sheet->getStyle('A1:F1')->applyFromArray([
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['argb' => 'FF4F81BD'], // Blue header background
+            ],
+            'font' => [
+                'bold' => true,
+                'color' => ['argb' => 'FFFFFFFF'], // White font for header
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => ['argb' => 'FF000000'],
+                ],
+            ],
+        ]);
 
-        // Download the file
-        header("Content-Description: File Transfer");
+        // Set auto column width for better readability
+        foreach (range('A', $sheet->getHighestColumn()) as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        // Create writer to save as Excel or CSV
+        $writerType = $_POST['export_type'] ?? 'xlsx'; // Example: 'xlsx' for Excel or 'csv' for CSV
+        if ($writerType === 'xlsx') {
+            $writer = new Xlsx($spreadsheet);
+            $filename = 'RekapSurat.xlsx';
+        } else {
+            $writer = new Csv($spreadsheet);
+            $filename = 'RekapSurat.csv';
+        }
+
+        // Output file for download
+        header('Content-Type: application/vnd.ms-excel');
         header("Content-Disposition: attachment; filename=$filename");
-        header("Content-Type: application/csv;");
-        readfile($filename);
-
-        // Remove the file after download
-        unlink($filename);
+        $writer->save('php://output');
         exit();
     } else {
         echo "No data available for export.";

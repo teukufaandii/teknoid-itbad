@@ -4,9 +4,10 @@ $output='';
 
 if(isset($_POST['query'])){
     $search = $_POST['query'];
-    $stmt = $koneksi->prepare("SELECT * FROM tb_pengguna WHERE noinduk LIKE ? OR nama_lengkap LIKE ? OR jabatan LIKE ? OR akses LIKE ? OR password LIKE ? OR no_hp LIKE ?");
+    $stmt = $koneksi->prepare("SELECT * FROM tb_pengguna WHERE noinduk LIKE ? OR nama_lengkap LIKE ? OR jabatan LIKE ? OR akses LIKE ? OR password LIKE ? OR no_hp LIKE ? OR email LIKE ?");
     $search = "%$search%"; // Tambahkan tanda persen untuk pencarian wildcard
-    $stmt->bind_param("ssssss", $search, $search, $search, $search, $search, $search);
+    $stmt->bind_param("sssssss", $search, $search, $search, $search, $search, $search, $search);
+
 }
 else{
     $stmt = $koneksi->prepare("SELECT * FROM tb_pengguna");

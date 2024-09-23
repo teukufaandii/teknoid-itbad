@@ -57,7 +57,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                 <i class="fa fa-exclamation dash-icon"></i>
                                 <div class="notifications"></div>
                                 <span class="badge" id="notificationBadge" style="color: grey; padding: 2px; border-radius: 15px;"></span>
-                            </button>';
+                              </button>';
                     }
                     ?>
 
