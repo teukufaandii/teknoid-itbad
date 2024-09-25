@@ -162,3 +162,49 @@ form .input-disposisi .tgl {
   width: 100%;
   font-size: 14px;
 }
+
+.disposisi-dropdown {
+  display: flex;                  /* Align items horizontally */
+  align-items: center;           /* Center vertically */
+  margin-bottom: 10px;           /* Spacing between dropdowns */
+}
+
+.diteruskan-dropdown {
+  padding: 10px;                 /* Padding inside the dropdown */
+  border: 1px solid #ccc;        /* Border around the dropdown */
+  border-radius: 5px;            /* Rounded corners */
+  font-size: 16px;               /* Font size */
+  color: #333;                   /* Font color */
+  background-color: #f9f9f9;     /* Background color */
+  transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+/* Change border color on focus */
+.diteruskan-dropdown:focus {
+  border-color: #4663ac;         /* Border color on focus */
+  outline: none;                 /* Remove default outline */
+}
+
+button {
+  margin-left: 10px;             /* Spacing between dropdown and button */
+  padding: 10px 15px;            /* Padding inside the button */
+  border: none;                  /* Remove border */
+  border-radius: 5px;            /* Rounded corners */
+  background-color: #4663ac;     /* Background color */
+  color: white;                  /* Text color */
+  font-size: 16px;               /* Font size */
+  cursor: pointer;               /* Pointer cursor on hover */
+  transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+}
+
+/* Change background color on hover */
+button:hover {
+  background-color: #365a8c;     /* Darker background on hover */
+  transform: translateY(-2px);   /* Slight lift effect on hover */
+}
+
+/* Change background color on active */
+button:active {
+  background-color: #2a4d74;     /* Darker background when clicked */
+  transform: translateY(0);       /* Reset lift effect */
+}

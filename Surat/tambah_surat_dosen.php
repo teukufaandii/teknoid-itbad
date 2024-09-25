@@ -79,7 +79,7 @@ function isSuratRisetDosen($jenis_surat)
 
                     <div class="inputfield">
                         <label for="no_hp1">Nomor Telepon </label>
-                        <input type="number" class="input" name="no_telpon" placeholder="Masukkan Nomor Telepon">
+                        <input type="number" class="input" name="no_telpon" placeholder="Masukkan Nomor Telepon"  value="<?php echo isset($_SESSION['phone_number']) ? $_SESSION['phone_number'] : ''; ?>">
                     </div>
 
                     <!-- untuk surat insentif -->

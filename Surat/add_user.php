@@ -93,6 +93,8 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin') { // Check if $_
                                     <option>Unit PPIK dan Kemahasiswaan</option>
                                     <option>Unit IT & Laboratorium</option>
                                     <option>Unit Pusat Bisnis</option>
+                                    <option>Unit Pusat Studi</option>
+                                    <option>Unit Kegiatan mahasiswa</option>
                                     <option>Dosen</option>
                                     <option>Karyawan</option>
                                     <option>Mahasiswa</option>

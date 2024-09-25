@@ -564,19 +564,14 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
 
                         <div class="input-disposisi">
                             <label for="">Memo</label>
-                            <input type="text" class="input" placeholder="Masukkan Catatan" name="memo" id="memo" valuerequired>
+                            <input type="text" class="input" placeholder="Masukkan Catatan" name="memo" id="memo" value="<?php echo $memo; ?>" <?php echo (!empty($memo)) ? 'readonly style="background-color: #ccc;"' : ''; ?> required>
                             <input type="hidden" name="id" value="<?php echo $id; ?>">
                         </div>
 
                         <div class="btn-kirim-dsn" style="display: flex; justify-content: end; gap: 15px; position: relative; top: 20px;">
-                            <div class="floatFiller">ffff</div>
-                            <button id="btnKirim" type="button" style="cursor: pointer; text-align: center; height: 35px; width: 10%;">Kirim</button>
+                            <button id="btnKirim" type="button" style="cursor: pointer; text-align: center; height: 35px; width: 10%;">Kirim Memo</button>
+                             <button id="btnVerifikasi" type="button" style="border-radius: 8px; cursor: pointer; text-align: center; color: #fff; background-color: #31763d; height: 35px; width: 10%;">Verifikasi</button>
                         </div>
-
-                        <div class="btnVerif" style="display: flex; justify-content: end; gap: 15px; position: relative; top: 20px;">
-                            <button id="btnVerifikasi" type="button" style="border-radius: 8px; cursor: pointer; text-align: center; color: #fff; background-color: #31763d; height: 35px; width: 10%;">Verifikasi</button>
-                        </div>
-
                     <?php endif; ?>
 
                 </form>

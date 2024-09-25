@@ -75,7 +75,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                 <th onclick="sortTable(0, this)" style="min-width: 75px; border-top-left-radius: 8px;">No<i id="sort-icon-0" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></i></th>
                                 <th onclick="sortTable(1, this)">Judul<i id="sort-icon-1" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
                                 <th onclick="sortTable(2, this)">Asal Surat<i id="sort-icon-2" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
-                                <th onclick="sortTable(3, this)">Perihal<i id="sort-icon-3" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                <th onclick="sortTable(3, this)">ID Sinta<i id="sort-icon-3" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
                                 <th onclick="sortTable(4, this)">Tanggal Surat<i id="sort-icon-4" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
                                 <th onclick="sortTable(5, this)">Status<i id="sort-icon-5" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
                                 <th>Aksi</th>
@@ -133,24 +133,24 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
                                                 echo "<td>" . (!empty($row['judul_penelitian_ppm']) ? $row['judul_penelitian_ppm'] : (!empty($row['judul_publikasi_pi']) ? $row['judul_publikasi_pi'] : (!empty($row['judul_hki']) ? $row['judul_hki'] : (!empty($row['judul_buku']) ? $row['judul_buku'] : (!empty($row['judul_ipbk']) ? $row['judul_ipbk'] : 'Data Tidak Tersedia'))))) . "</td>";
                                                 echo "<td>" . $row['asal_surat'] . "</td>";
-                                                echo "<td>" . $row['id_srt'] . "</td>";
+                                                echo "<td>" . $row['id_sinta'] . "</td>";
                                                 echo "<td>" . (isset($row['tanggal_surat']) ? (new DateTime($row['tanggal_surat']))->format('d-m-Y') : '') . "</td>";
                                                 echo "<td>";
-                                                if ($row['verifikasi'] == 1) {
-                                                    echo '<i class="fa-solid fa-square-check" style="background-color: white; color: green;"></i> Terverifikasi';
+                                                if ($row['verifikasi_keuangan'] == 1) {
+                                                    echo '<i class="fa-solid fa-square-check" style="background-color: white; color: green;"></i> Terverifikasi - Keuangan';
+                                                } elseif ($row['verifikasi'] == 1) {
+                                                    echo '<i class="fa-solid fa-square-check" style="background-color: white; color: green;"></i> Terverifikasi ';
                                                 } else {
                                                     echo ' Belum Diverifikasi';
                                                 }
                                                 echo "</td>";
                                                 echo "<td>
-                                                <div class='aksi-btn'>
-                                                    <button class='memo-button' data-id='" . $row['id_srt'] . "'><i class='fas fa-sticky-note' style='color:#ffde21; background-color: none;'></i></button>";
-
+                                                <div class='aksi-btn'>";
                                                 // Add condition to disable the verify button if already verified
-                                                if ($row['verifikasi'] == 1) {
-                                                    echo "<button style='cursor: not-allowed;' class='verify-button' data-id='" . $row['id_srt'] . "' disabled><i class='fa-solid fa-check'></i></button>";
+                                                if ($row['verifikasi_keuangan'] == 1) {
+                                                    echo "<button style='cursor: not-allowed;' class='verify-button' data-id='" . $row['id_srt'] . "' disabled><i class='fa-solid fa-check'></i> Sudah Diverifikasi ke keuangan</button>";
                                                 } else {
-                                                    echo "<button class='verify-button' data-id='" . $row['id_srt'] . "'><i class='fa-solid fa-check'></i></button>";
+                                                    echo "<button class='verify-button' data-id='" . $row['id_srt'] . "'>Proses ke keuangan</button>";
                                                 }
 
                                                 echo "</div>
@@ -239,7 +239,7 @@ if (!isset($_SESSION['pengguna_type'])) {
             $("#search").keyup(function() {
                 var search = $(this).val();
                 $.ajax({
-                    url: 'ajax/searchSM.php',
+                    url: 'ajax/searchSM_Insentif.php',
                     method: 'POST',
                     data: {
                         query: search
@@ -420,7 +420,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                     preConfirm: () => {
                         return new Promise((resolve, reject) => {
                             $.ajax({
-                                url: 'sql/verifikasi_surat.php',
+                                url: 'sql/verifikasi_keuangan.php',
                                 method: 'POST',
                                 data: {
                                     id_srt: suratId

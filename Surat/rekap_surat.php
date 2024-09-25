@@ -586,7 +586,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                         type: 'POST',
                         data: {
                             delete: 1,
-                            id: id
+                            id: id,
                         },
                         success: function(data) {
                             alert('Data berhasil dihapus'); // Tampilkan alert

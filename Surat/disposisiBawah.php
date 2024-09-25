@@ -1,224 +1,265 @@
-              <!--disposisi untuk rektor-->
-              <?php if ($_SESSION['akses'] == 'Rektor') { ?>
-                  <?php
-                    // Query untuk mendapatkan data disposisi
-                    $query = "SELECT  dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10, catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
-                    keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10, diteruskan_ke
-                    FROM tb_disposisi WHERE id_surat = '$id'";
-                    $result = mysqli_query($koneksi, $query);
-                    ?>
-                  <div class="txt-disposisi">
-                      <h3>Disposisi</h3>
-                  </div>
+<?php if ($_SESSION['akses'] == 'Rektor') { ?>
+    <?php
+    // Query untuk mendapatkan data disposisi
+    $query = "SELECT  dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10, catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
+    keputusan_disposisi1, keputusan_disposisi2, keputusan_disposisi3, keputusan_disposisi4, keputusan_disposisi5, keputusan_disposisi6, keputusan_disposisi7, keputusan_disposisi8, keputusan_disposisi9, keputusan_disposisi10, diteruskan_ke
+    FROM tb_disposisi WHERE id_surat = '$id'";
+    $result = mysqli_query($koneksi, $query);
+    ?>
+    <div class="txt-disposisi">
+        <h3>Disposisi</h3>
+    </div>
 
-                  <?php include 'riwayat_dispo.php'; ?>
+    <?php include 'riwayat_dispo.php'; ?>
 
-                  <div class="input-disposisi">
-                      <label for="">Diteruskan kepada</label>
-                      <div class="radio">
-                          <div>
-                              <input type="radio" name="diteruskan" value="Warek1">
-                              <label for="">Warek 1</label>
-                          </div>
-                          <div>
-                              <input type="radio" name="diteruskan" value="Warek2">
-                              <label for="">Warek 2</label>
-                          </div>
-                          <div>
-                              <input type="radio" name="diteruskan" value="Warek3">
-                              <label for="">Warek 3</label>
-                          </div>
-                          <div>
-                              <input type="radio" name="diteruskan" value="sekretaris">
-                              <label for="">Sekretaris</label>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="input-disposisi">
-                      <label for="">Keputusan Rektor*</label>
-                      <div class="radio">
-                          <div>
-                              <input type="radio" name="keputusan" value="Tindak Lanjuti">
-                              <label for="">Tindak Lanjuti</label>
-                          </div>
-                          <div>
-                              <input type="radio" name="keputusan" value="Dibicarakan dengan Rektor">
-                              <label for="">Dibicarakan dengan rektor</label>
-                          </div>
-                          <div>
-                              <input type="radio" name="keputusan" value="Pendapat dan masukkan">
-                              <label for="">Pendapat dan masukkan</label>
-                          </div>
-                          <div>
-                              <input type="radio" name="keputusan" value="Dicek dan Diteliti">
-                              <label for="">Dicek dan diteliti</label>
-                          </div>
-                          <div>
-                              <input type="radio" name="keputusan" value="Dirapikan">
-                              <label for="">Dirapikan</label>
-                          </div>
-                          <div>
-                              <input type="radio" name="keputusan" value="Dikoordinasikan">
-                              <label for="">Dikoordinasikan</label>
-                          </div>
-                      </div>
-                  </div>
+    <div class="input-disposisi">
+        <label for="">Diteruskan kepada</label>
+        <div id="dropdown-container" class="disposisi-dropdown">
+            <select id="diteruskan-dropdown-1" name="diteruskan[]" class="diteruskan-dropdown">
+                <option value="Warek1">Warek 1</option>
+                <option value="Warek2">Warek 2</option>
+                <option value="Warek3">Warek 3</option>
+                <option value="sekretaris">Sekretaris</option>
+            </select>
+            <button type="button" onclick="removeOption(this)">Hapus</button>
+        </div>
+        <button type="button" onclick="addOption()">Tambah</button>
+    </div>
 
-                  <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
+    <div class="input-disposisi">
+        <label for="">Keputusan Rektor*</label>
+        <div class="radio">
+            <div>
+                <input type="radio" name="keputusan" value="Tindak Lanjuti">
+                <label for="">Tindak Lanjuti</label>
+            </div>
+            <div>
+                <input type="radio" name="keputusan" value="Dibicarakan dengan Rektor">
+                <label for="">Dibicarakan dengan Rektor</label>
+            </div>
+            <div>
+                <input type="radio" name="keputusan" value="Pendapat dan masukkan">
+                <label for="">Pendapat dan masukkan</label>
+            </div>
+            <div>
+                <input type="radio" name="keputusan" value="Dicek dan Diteliti">
+                <label for="">Dicek dan diteliti</label>
+            </div>
+            <div>
+                <input type="radio" name="keputusan" value="Dirapikan">
+                <label for="">Dirapikan</label>
+            </div>
+            <div>
+                <input type="radio" name="keputusan" value="Dikoordinasikan">
+                <label for="">Dikoordinasikan</label>
+            </div>
+        </div>
+    </div>
 
-                  <div class="input-disposisi">
-                      <label for="">Catatan Disposisi*</label>
-                      <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi" required>
-                  </div>
-                  <div class="input-disposisi">
-                      <label for="">Tanggal Disposisi</label>
-                      <div class="tgl">
-                          <span id="tanggalwaktu"></span>
-                      </div>
-                  </div>
-                  <?php
-                    if (isset($_SESSION['akses'])) {
-                        $sql = "SELECT diteruskan_ke FROM tb_surat_dis WHERE id_surat = ?";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->bind_param("i", $id);
-                        $stmt->execute();
+    <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
 
-                        // Ambil baris (row) hasil query
-                        $result = $stmt->get_result();
-                        if ($result->num_rows > 0) {
-                            $row = $result->fetch_assoc();
-                            $diteruskan_ke_tb_surat_dis = $row['diteruskan_ke'];
+    <div class="input-disposisi">
+        <label for="">Catatan Disposisi*</label>
+        <input type="text" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi" required>
+    </div>
+    <div class="input-disposisi">
+        <label for="">Tanggal Disposisi</label>
+        <div class="tgl">
+            <span id="tanggalwaktu"></span>
+        </div>
+    </div>
+    <?php
+    if (isset($_SESSION['akses'])) {
+        $sql = "SELECT diteruskan_ke FROM tb_surat_dis WHERE id_surat = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
 
-                            // Periksa jika diteruskan_ke yang berada di tb_surat_dis tidak sama dengan session akses
-                            if ($diteruskan_ke_tb_surat_dis == $_SESSION['akses']) {
-                                // Tampilkan button
-                    ?>
+        // Ambil baris (row) hasil query
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $diteruskan_ke_tb_surat_dis = $row['diteruskan_ke'];
 
-                              <div class="btn-kirim">
-                                  <div class="floatFiller">ffff</div>
-                                  <button type="button" onclick="kirimDisposisi()" style="cursor: pointer;">Kirim</button>
-                                  <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button>
-                              </div>
+            // Periksa jika diteruskan_ke yang berada di tb_surat_dis tidak sama dengan session akses
+            if ($diteruskan_ke_tb_surat_dis == $_SESSION['akses']) {
+                // Tampilkan button
+    ?>
+                <div class="btn-kirim">
+                    <div class="floatFiller">ffff</div>
+                    <button type="button" onclick="kirimDisposisi()" style="cursor: pointer;">Kirim</button>
+                    <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px;">Tolak</button>
+                </div>
 
-                  <?php
-                            }
-                        }
+    <?php
+            }
+        }
+    }
+    ?>
+
+    <script>
+        const optionsList = [
+        { value: "Warek1", text: "Warek 1" },
+        { value: "Warek2", text: "Warek 2" },
+        { value: "Warek3", text: "Warek 3" },
+        { value: "sekretaris", text: "Sekretaris" }
+    ];
+
+    function addOption() {
+        // Check if all options have been selected before allowing to add more
+        const selectedValues = Array.from(document.querySelectorAll('.diteruskan-dropdown'))
+            .map(select => select.value);
+
+        if (selectedValues.length >= optionsList.length) {
+            alert("Semua opsi sudah ditambahkan.");
+            return; // Stop if all options have been used
+        }
+
+        const dropdownContainer = document.getElementById('dropdown-container');
+        const newSelect = document.createElement('select');
+        newSelect.name = "diteruskan[]";
+        newSelect.className = "diteruskan-dropdown";
+
+        // Populate new select with available options
+        optionsList.forEach(option => {
+            // Only add options that have not been selected
+            if (!selectedValues.includes(option.value)) {
+                const newOption = document.createElement('option');
+                newOption.value = option.value;
+                newOption.text = option.text;
+                newSelect.appendChild(newOption);
+            }
+        });
+
+        const removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.textContent = 'Hapus';
+        removeButton.onclick = function() { removeOption(removeButton); };
+
+        const dropdownWrapper = document.createElement('div');
+        dropdownWrapper.appendChild(newSelect);
+        dropdownWrapper.appendChild(removeButton);
+        dropdownContainer.appendChild(dropdownWrapper);
+
+        // Check if all options have been used and hide the "Tambah" button
+        updateAddButtonVisibility();
+    }
+
+    function removeOption(button) {
+        const dropdownWrapper = button.parentElement; // Get the parent div of the button
+        dropdownWrapper.remove(); // Remove the dropdown and button
+
+        // Check if all options have been used and show the "Tambah" button
+        updateAddButtonVisibility();
+    }
+
+    function updateAddButtonVisibility() {
+        const selectedValues = Array.from(document.querySelectorAll('.diteruskan-dropdown'))
+            .map(select => select.value);
+        
+        const addButton = document.querySelector('#dropdown-container button[type="button"]:last-of-type');
+        
+        // Hide add button if all options are used, else show it
+        if (selectedValues.length >= optionsList.length) {
+            addButton.style.display = 'none';
+        } else {
+            addButton.style.display = 'block';
+        }
+    }
+
+        function kirimDisposisi() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "check_disposisi.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = xhr.responseText;
+                    if (response === "allowed") {
+                        // Lanjutkan dengan proses disposisi
+                        proceedDisposisi();
+                    } else {
+                        swal("Gagal Disposisi!", "Anda sudah mendisposisi surat ini.", "error");
                     }
-                    ?>
+                }
+            };
+            xhr.send("id_surat=<?php echo $id; ?>");
+        }
 
-                  <script>
-                      function kirimDisposisi() {
-                          var xhr = new XMLHttpRequest();
-                          xhr.open("POST", "check_disposisi.php", true);
-                          xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                          xhr.onreadystatechange = function() {
-                              if (xhr.readyState === 4 && xhr.status === 200) {
-                                  var response = xhr.responseText;
-                                  if (response === "allowed") {
-                                      // Lanjutkan dengan proses disposisi
-                                      proceedDisposisi();
-                                  } else {
-                                      swal("Gagal Disposisi!", "Anda sudah mendisposisi surat ini.", "error");
-                                  }
-                              }
-                          };
-                          xhr.send("id_surat=<?php echo $id; ?>");
-                      }
+        function proceedDisposisi() {
+            var selectedOptions = Array.from(document.querySelectorAll('select[name="diteruskan[]"] option:checked')).map(option => option.value);
+            var tujuan = selectedOptions.join(", ");
+            swal({
+                title: "Anda yakin ingin mengirim disposisi ke " + tujuan + "?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willProceed) => {
+                if (willProceed) {
+                    var keputusan = document.querySelector('input[name="keputusan"]:checked').value;
+                    var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value; // Sesuaikan dengan name pada input
 
-                      function proceedDisposisi() {
-                          var diteruskan = document.querySelector('input[name="diteruskan"]:checked').value;
-                          var tujuanMapping = {
-                              'Warek1': 'Warek 1',
-                              'Warek2': 'Warek 2',
-                              'Warek3': 'Warek 3'
-                          };
-                          var tujuan = tujuanMapping[diteruskan];
-                          swal({
-                              title: "Anda yakin ingin mengirim disposisi ke " + tujuan + "?",
-                              icon: "warning",
-                              buttons: true,
-                              dangerMode: true,
-                          }).then((willProceed) => {
-                              if (willProceed) {
-                                  if (willProceed) {
-                                      var keputusan = document.querySelector('input[name="keputusan"]:checked').value;
+                    // Buat objek XMLHttpRequest
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "update_disposisi.php", true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            swal("Disposisi Berhasil!", {
+                                icon: "success",
+                                buttons: "OK"
+                            }).then(() => {
+                                window.location.href = "dashboard.php";
+                            });
+                        }
+                    };
 
-                                      var perihal = document.querySelector('input[name="perihal"]').value;
+                    // Set tanggal disposisi
+                    var today = new Date();
+                    var year = today.getFullYear();
+                    var month = today.getMonth() + 1; // January is 0
+                    var day = today.getDate();
+                    var tanggal_disposisi = year + "-" + (month < 10 ? "0" : "") + month + "-" + (day < 10 ? "0" : "") + day;
 
-                                      var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value; // Sesuaikan dengan name pada input
+                    // Kirim data ke server
+                    xhr.send("id_surat=<?php echo $id; ?>&diteruskan=" + encodeURIComponent(JSON.stringify(selectedOptions)) + "&keputusan=" + encodeURIComponent(keputusan) + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&tanggal_disposisi=" + encodeURIComponent(tanggal_disposisi));
+                } else {
+                    swal("Disposisi dibatalkan.", { icon: "info" });
+                }
+            });
+        }
 
-                                      var diteruskan = document.querySelector('input[name="diteruskan"]:checked').value;
+        function batalDisposisi() {
+            swal({
+                title: "Anda yakin ingin menolak disposisi?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    var asalsurat = "<?php echo $id; ?>";
+                    var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
 
-                                      // Buat objek XMLHttpRequest
-                                      var xhr = new XMLHttpRequest();
-                                      xhr.open("POST", "update_disposisi.php", true);
-                                      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                                      xhr.onreadystatechange = function() {
-                                          if (xhr.readyState === 4 && xhr.status === 200) {
-                                              swal("Disposisi Berhasil!", {
-                                                      icon: "success",
-                                                      buttons: "OK"
-                                                  })
-                                                  .then(() => {
-                                                      window.location.href = "dashboard.php";
-                                                  });
-                                          }
-                                      };
+                    // Buat objek XMLHttpRequest
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', 'update_tolak.php', true);
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            console.log(xhr.responseText);
+                            swal("Berhasil!", "Surat Telah Ditolak!", "success")
+                                .then(function() {
+                                    window.location.href = "dashboard.php";
+                                });
+                        }
+                    };
+                    xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&asalsurat=" + asalsurat + "&action=tolak");
+                } else {
+                    swal("Dibatalkan", "Surat tidak ditolak", "info");
+                }
+            });
+        }
+    </script>
 
-                                      // Set tanggal disposisi
-                                      var today = new Date();
-                                      var year = today.getFullYear();
-                                      var month = today.getMonth() + 1; // January is 0
-                                      var day = today.getDate();
-                                      var tanggal_disposisi = year + '-' + month + '-' + day;
-
-                                      // Kirim data ke server
-                                      xhr.send("id_surat=<?php echo $id; ?>&keputusan=" + keputusan + "&tanggal_disposisi=" + tanggal_disposisi + "&perihal=" + perihal + "&catatan_disposisi=" + catatan_disposisi + "&diteruskan=" + diteruskan);
-                                  } else {
-                                      swal("Disposisi dibatalkan!", {
-                                          icon: "error",
-                                      });
-                                  }
-                              } else {
-                                  swal("Disposisi dibatalkan!", {
-                                      icon: "error"
-                                  });
-                              }
-                          });
-                      }
-
-                      function batalDisposisi() {
-                          swal({
-                                  title: "Konfirmasi",
-                                  text: "Apakah Anda yakin ingin menolak surat ini?",
-                                  icon: "warning",
-                                  buttons: true,
-                                  dangerMode: true,
-                              })
-                              .then((willProceed) => {
-                                  if (willProceed) {
-                                      var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
-                                      var asalsurat = document.querySelector('input[name="executor"]').value;
-                                      var xhr = new XMLHttpRequest();
-                                      var id = "<?php echo $id; ?>";
-                                      xhr.open('POST', 'update_tolak.php', true);
-                                      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                                      xhr.onreadystatechange = function() {
-                                          if (xhr.readyState == 4 && xhr.status == 200) {
-                                              console.log(xhr.responseText);
-                                              swal("Berhasil!", "Surat Telah Ditolak!", "success")
-                                                  .then(function() {
-                                                      window.location.href = "dashboard.php";
-                                                  });
-                                          }
-                                      };
-                                      xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&asalsurat=" + asalsurat + "&action=tolak");
-                                  } else {
-                                      swal("Dibatalkan", "Surat tidak ditolak", "info");
-                                  }
-                              });
-                      }
-                  </script>
 
                   <!--disposisi untuk warek 1-->
               <?php } elseif ($_SESSION['akses'] == 'Warek1') { ?>
