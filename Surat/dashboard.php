@@ -50,12 +50,12 @@ if (!isset($_SESSION['pengguna_type'])) {
                 </div>
                 <div class="dashboard-btn">
                     <?php
-                    // Periksa apakah session akses adalah user
+                    // Periksa apakah session akses adalah selain user
                     if ($_SESSION['akses'] != 'User') {
                         // Jika bukan user, tampilkan tombol "Belum Ditanggapi"
                         echo '<button class="btn1" onclick="toggleNotifications()">Belum Ditanggapi 
                                 <i class="fa fa-exclamation dash-icon"></i>
-                                <div class="notifications"></div>
+                                <div class="xs"></div>
                                 <span class="badge" id="notificationBadge" style="color: grey; padding: 2px; border-radius: 15px;"></span>
                               </button>';
                     }
@@ -82,9 +82,9 @@ if (!isset($_SESSION['pengguna_type'])) {
 
                     // Menghitung jumlah surat keluar yang dibuat pada hari ini
                     $fullname = $_SESSION['nama_lengkap'];
-                    $records_keluar = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_surat_dis
-                                                                 WHERE tb_surat_dis.asal_surat = '$fullname' 
-                                                                 AND DATE(tb_surat_dis.tanggal_surat) = '$tanggal_hari_ini'");
+                    $records_keluar = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_surat_dis sd
+                                                                 WHERE sd.asal_surat = '$fullname' 
+                                                                 AND DATE(sd.tanggal_surat) = '$tanggal_hari_ini'");
                     $total_sk_row = mysqli_fetch_assoc($records_keluar);
                     $total_sk_keluar = $total_sk_row['total'];
 
@@ -134,7 +134,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                         </button>
                     <?php endif; ?>
 
-                    <!-- BATAS SUCI -->
+                    <!-- Dispo Pimpinan -->
                     <?php
                     $fullname = $_SESSION['nama_lengkap'];
                     $records = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_surat_dis
@@ -294,7 +294,7 @@ if (!isset($_SESSION['pengguna_type'])) {
             `;
             } else {
                 sql = `
-                SELECT * FROM tb_surat_dis 
+                SELECT * FROM tb_surat_dis
                 WHERE 
                     (JSON_CONTAINS(diteruskan_ke, '"${diteruskan_ke}"') OR diteruskan_ke = '${diteruskan_ke}')
                 AND (status_selesai = FALSE AND status_tolak = FALSE) `;

@@ -71,9 +71,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('Surat berhasil dikirim'); setTimeout(function() {
-            window.location.href = 'surat_keluar.php';}, 1000);
-            </script>";
+        header('Location: success.php');
+        header('Refresh: 1; URL=surat_keluar.php');
+        exit;
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }

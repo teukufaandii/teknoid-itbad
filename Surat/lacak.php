@@ -1262,7 +1262,16 @@ $file_laporan_exists = !empty($file_laporan_name);
         }
 
         function goBack() {
-            window.history.back();
+            const previousPage = document.referrer;
+
+            // Mengecek apakah halaman sebelumnya adalah rekap_surat.php
+            if (previousPage.includes('rekap_surat.php')) {
+                // Jika iya, arahkan ke rekap_surat.php
+                window.location.href = 'rekap_surat.php';
+            } else {
+                // Jika tidak, kembali ke halaman sebelumnya
+                window.history.back();
+            }
         }
 
         function downloadFile(filePath) {

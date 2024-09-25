@@ -146,7 +146,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . $row['perihal'] . "</td>";
                                                 echo "<td>" . (isset($row['tanggal_surat']) ? (new DateTime($row['tanggal_surat']))->format('d-m-Y') : '') . "</td>";
                                                 echo "<td>";
-                                                if ($row['status_baca']) {
+                                                if ($row['status_baca'] || $row['status_selesai']) {
                                                     echo 'Sudah Disposisi';
                                                 } else {
                                                     echo 'Belum Disposisi';

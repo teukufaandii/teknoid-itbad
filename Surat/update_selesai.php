@@ -9,7 +9,6 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
     $catatan = mysqli_real_escape_string($koneksi, $_POST['catatan_disposisi']);
     $asal_surat = isset($_SESSION['jabatan']) ? $_SESSION['jabatan'] : 'Unknown'; // Use session's jabatan
     $action = mysqli_real_escape_string($koneksi, $_POST['action']); // Get action parameter
-    $kode_surat = mysqli_real_escape_string($koneksi, $_POST['kode_surat']);
 
     // cabang
     // Start transaction
