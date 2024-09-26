@@ -21,6 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             while ($row = $result->fetch_assoc()) {
                 $notifications[] = $row;
             }
+        } else {
+            // If there are no results, return a message
+            echo json_encode(array("message" => "No notifications found."));
         }
 
         // Kembalikan hasil dalam format JSON

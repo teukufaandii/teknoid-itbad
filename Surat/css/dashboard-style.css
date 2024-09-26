@@ -1359,7 +1359,7 @@ td {
   border-radius: 10px; /* Rounded corners */
   font-size: 12px; /* Font size */
   font-weight: bold; /* Bold text */
-  display: flex;
+  display: block;
   margin-top: 5px;
   width: 220px;
 }

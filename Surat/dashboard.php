@@ -222,17 +222,6 @@ if (!isset($_SESSION['pengguna_type'])) {
     </div>
     <script src="js/dashboard-js.js"></script>
     <script>
-        const total_sm_verif = <?php echo $total_sm_verif; ?>;
-
-        const badge1 = document.getElementById('badge1');
-        const warning = document.getElementById('warning');
-
-        if (total_sm_verif == 0) {
-            warning.style.display = 'none';
-            badge1.style.position = 'static';
-        }
-
-
         // Panggil fetchNotifications saat halaman dimuat untuk pertama kalinya
         document.addEventListener('DOMContentLoaded', function() {
             const notificationsContainer = document.querySelector('.notifications');
@@ -294,7 +283,7 @@ if (!isset($_SESSION['pengguna_type'])) {
             `;
             } else {
                 sql = `
-                SELECT * FROM tb_surat_dis
+                SELECT * FROM tb_surat_dis 
                 WHERE 
                     (JSON_CONTAINS(diteruskan_ke, '"${diteruskan_ke}"') OR diteruskan_ke = '${diteruskan_ke}')
                 AND (status_selesai = FALSE AND status_tolak = FALSE) `;

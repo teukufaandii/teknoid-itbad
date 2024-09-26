@@ -95,7 +95,7 @@ if (!isset($_SESSION['pengguna_type'])) {
 
                             // Perhatikan penambahan kurung pada kueri SQL berikut
                             $records = mysqli_query($conn, "SELECT sd.id_surat, sd.kode_surat, sd.kd_surat, sd.asal_surat,
-                                                                        sd.perihal, sd.diteruskan_ke, sd.status_baca, sd.status_tolak, sd.status_selesai,
+                                                                        sd.perihal, sd.diteruskan_ke, sd.status_baca, sd.status_tolak, sd.status_selesai, sd.status_selesai2, sd.status_selesai3, sd.status_selesai4, sd.status_selesai5, sd.status_selesai6, sd.status_selesai7,
                                                                         d.dispo1, d.dispo2, d.dispo3, d.dispo4, d.dispo5 
                                                                         FROM tb_surat_dis sd
                                                                         LEFT JOIN tb_disposisi d ON sd.id_surat = d.id_surat
@@ -118,7 +118,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                             // Perhatikan penambahan kurung pada kueri SQL berikut
                             $stmt = $conn->prepare("SELECT sd.id_surat, sd.kode_surat, sd.kd_surat, sd.asal_surat,
                                                                 sd.tanggal_surat, sd.perihal, sd.diteruskan_ke, sd.status_baca, sd.status_tolak,
-                                                                sd.status_selesai, d.dispo1, d.dispo2, d.dispo3, d.dispo4, d.dispo5
+                                                                sd.status_selesai, sd.status_selesai2, sd.status_selesai3, sd.status_selesai4, sd.status_selesai5, sd.status_selesai6, sd.status_selesai7, sd.status_selesai2, d.dispo1, d.dispo2, d.dispo3, d.dispo4, d.dispo5
                                                                 FROM tb_surat_dis sd
                                                                 LEFT JOIN tb_disposisi d ON sd.id_surat = d.id_surat
                                                                 WHERE JSON_CONTAINS(sd.diteruskan_ke, '\"$akses\"') OR sd.diteruskan_ke = '$akses'
@@ -238,6 +238,8 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>";
                                                 if ($row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan || $row['dispo5'] == $jabatan) {
                                                     echo 'Sudah Disposisi';
+                                                } elseif ($row['status_selesai'] == 1 || $row['status_selesai2'] == 1) {
+                                                    echo 'Selesai';
                                                 } else {
                                                     echo 'Belum Disposisi';
                                                 }
@@ -259,6 +261,8 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>";
                                                 if ($row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan || $row['dispo5'] == $jabatan) {
                                                     echo 'Sudah Disposisi';
+                                                } elseif ($row['status_selesai'] == 1 || $row['status_selesai2'] == 1) {
+                                                    echo 'Selesai';
                                                 } else {
                                                     echo 'Belum Disposisi';
                                                 }
@@ -286,86 +290,268 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'prodi_ti') {
-                                            if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
-
+                                            if (
+                                                strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses ||
+                                                $row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan ||
+                                                $row['dispo5'] == $jabatan || $row['dispo6'] == $jabatan || $row['dispo7'] == $jabatan ||
+                                                $row['dispo8'] == $jabatan || $row['dispo9'] == $jabatan || $row['dispo10'] == $jabatan
+                                            ) {
                                                 echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
                                                 echo "<td>" . $row['kode_surat'] . "</td>";
                                                 echo "<td>" . $row['asal_surat'] . "</td>";
                                                 echo "<td>" . $row['perihal'] . "</td>";
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
-                                                echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
+                                                echo "<td>";
+                                                if ($row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan || $row['dispo5'] == $jabatan) {
+                                                    echo 'Sudah Disposisi';
+                                                } elseif (
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai2'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai3'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai4'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai5'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai6'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai7'] == 1 ||
+                                                    (strpos($row['diteruskan_ke'], $akses) && isset($row['status_selesai']) && $row['status_selesai'] == 1) ||
+                                                    (strpos($row['diteruskan_ke'], $akses) && isset($row['status_selesai2']) && $row['status_selesai2'] == 1) ||
+                                                    (strpos($row['diteruskan_ke'], $akses) && isset($row['status_selesai3']) && $row['status_selesai3'] == 1) ||
+                                                    (strpos($row['diteruskan_ke'], $akses) && isset($row['status_selesai4']) && $row['status_selesai4'] == 1) ||
+                                                    (strpos($row['diteruskan_ke'], $akses) && isset($row['status_selesai5']) && $row['status_selesai5'] == 1) ||
+                                                    (strpos($row['diteruskan_ke'], $akses) && isset($row['status_selesai6']) && $row['status_selesai6'] == 1) ||
+                                                    (strpos($row['diteruskan_ke'], $akses) && isset($row['status_selesai7']) && $row['status_selesai7'] == 1)
+                                                ) {
+                                                    echo 'Selesai';
+                                                } else {
+                                                    echo 'Belum Disposisi';
+                                                }
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
                                                 <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'prodi_si') {
-                                            if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
-
+                                            if (
+                                                strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses ||
+                                                $row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan ||
+                                                $row['dispo5'] == $jabatan || $row['dispo6'] == $jabatan || $row['dispo7'] == $jabatan ||
+                                                $row['dispo8'] == $jabatan || $row['dispo9'] == $jabatan || $row['dispo10'] == $jabatan
+                                            ) {
                                                 echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
                                                 echo "<td>" . $row['kode_surat'] . "</td>";
                                                 echo "<td>" . $row['asal_surat'] . "</td>";
                                                 echo "<td>" . $row['perihal'] . "</td>";
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
-                                                echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
+                                                echo "<td>";
+                                                if ($row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan || $row['dispo5'] == $jabatan) {
+                                                    echo 'Sudah Disposisi';
+                                                } elseif (
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai2'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai3'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai4'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai5'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai6'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai7'] == 1 ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai2'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai3'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai4'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai5'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai6'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai7'] == 1))
+                                                ) {
+                                                    echo 'Selesai';
+                                                } else {
+                                                    echo 'Belum Disposisi';
+                                                }
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
                                                 <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'prodi_manajemen') {
-                                            if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
-
+                                            if (
+                                                strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses ||
+                                                $row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan ||
+                                                $row['dispo5'] == $jabatan || $row['dispo6'] == $jabatan || $row['dispo7'] == $jabatan ||
+                                                $row['dispo8'] == $jabatan || $row['dispo9'] == $jabatan || $row['dispo10'] == $jabatan
+                                            ) {
                                                 echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
                                                 echo "<td>" . $row['kode_surat'] . "</td>";
                                                 echo "<td>" . $row['asal_surat'] . "</td>";
                                                 echo "<td>" . $row['perihal'] . "</td>";
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
-                                                echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
+                                                echo "<td>";
+                                                if ($row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan || $row['dispo5'] == $jabatan) {
+                                                    echo 'Sudah Disposisi';
+                                                } elseif (
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai2'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai3'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai4'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai5'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai6'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai7'] == 1 ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai2'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai3'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai4'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai5'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai6'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai7'] == 1))
+                                                ) {
+                                                    echo 'Selesai';
+                                                } else {
+                                                    echo 'Belum Disposisi';
+                                                }
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
                                                 <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'prodi_akuntansi') {
-                                            if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
-
+                                            if (
+                                                strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses ||
+                                                $row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan ||
+                                                $row['dispo5'] == $jabatan || $row['dispo6'] == $jabatan || $row['dispo7'] == $jabatan ||
+                                                $row['dispo8'] == $jabatan || $row['dispo9'] == $jabatan || $row['dispo10'] == $jabatan
+                                            ) {
                                                 echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
                                                 echo "<td>" . $row['kode_surat'] . "</td>";
                                                 echo "<td>" . $row['asal_surat'] . "</td>";
                                                 echo "<td>" . $row['perihal'] . "</td>";
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
-                                                echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
+                                                echo "<td>";
+                                                if ($row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan || $row['dispo5'] == $jabatan) {
+                                                    echo 'Sudah Disposisi';
+                                                } elseif (
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai2'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai3'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai4'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai5'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai6'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai7'] == 1 ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai2'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai3'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai4'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai5'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai6'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai7'] == 1))
+                                                ) {
+                                                    echo 'Selesai';
+                                                } else {
+                                                    echo 'Belum Disposisi';
+                                                }
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
                                                 <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'prodi_dkv') {
-                                            if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
-
+                                            if (
+                                                strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses ||
+                                                $row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan ||
+                                                $row['dispo5'] == $jabatan || $row['dispo6'] == $jabatan || $row['dispo7'] == $jabatan ||
+                                                $row['dispo8'] == $jabatan || $row['dispo9'] == $jabatan || $row['dispo10'] == $jabatan
+                                            ) {
                                                 echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
                                                 echo "<td>" . $row['kode_surat'] . "</td>";
                                                 echo "<td>" . $row['asal_surat'] . "</td>";
                                                 echo "<td>" . $row['perihal'] . "</td>";
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
-                                                echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
+                                                echo "<td>";
+                                                if ($row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan || $row['dispo5'] == $jabatan) {
+                                                    echo 'Sudah Disposisi';
+                                                } elseif (
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai2'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai3'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai4'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai5'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai6'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai7'] == 1 ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai2'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai3'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai4'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai5'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai6'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai7'] == 1))
+                                                ) {
+                                                    echo 'Selesai';
+                                                } else {
+                                                    echo 'Belum Disposisi';
+                                                }
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
                                                 <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'prodi_arsitek') {
-                                            if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
-
+                                            if (
+                                                strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses ||
+                                                $row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan ||
+                                                $row['dispo5'] == $jabatan || $row['dispo6'] == $jabatan || $row['dispo7'] == $jabatan ||
+                                                $row['dispo8'] == $jabatan || $row['dispo9'] == $jabatan || $row['dispo10'] == $jabatan
+                                            ) {
                                                 echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
                                                 echo "<td>" . $row['kode_surat'] . "</td>";
                                                 echo "<td>" . $row['asal_surat'] . "</td>";
                                                 echo "<td>" . $row['perihal'] . "</td>";
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
-                                                echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
+                                                echo "<td>";
+                                                if ($row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan || $row['dispo5'] == $jabatan) {
+                                                    echo 'Sudah Disposisi';
+                                                } elseif (
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai2'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai3'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai4'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai5'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai6'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai7'] == 1 ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai2'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai3'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai4'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai5'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai6'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai7'] == 1))
+                                                ) {
+                                                    echo 'Selesai';
+                                                } else {
+                                                    echo 'Belum Disposisi';
+                                                }
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
                                                 <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }
                                         } elseif ($_SESSION['akses'] == 'prodi_keuSyariah') {
-                                            if (strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses) {
-
+                                            if (
+                                                strpos($row['diteruskan_ke'], $akses) !== false || $row['diteruskan_ke'] == $akses ||
+                                                $row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan ||
+                                                $row['dispo5'] == $jabatan || $row['dispo6'] == $jabatan || $row['dispo7'] == $jabatan ||
+                                                $row['dispo8'] == $jabatan || $row['dispo9'] == $jabatan || $row['dispo10'] == $jabatan
+                                            ) {
                                                 echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
                                                 echo "<td>" . $row['kode_surat'] . "</td>";
                                                 echo "<td>" . $row['asal_surat'] . "</td>";
                                                 echo "<td>" . $row['perihal'] . "</td>";
                                                 echo "<td>" . $row['tanggal_surat'] . "</td>";
-                                                echo "<td>" . ($row['status_selesai'] ? 'Selesai' : 'Belum Selesai') . "</td>";
+                                                echo "<td>";
+                                                if ($row['dispo2'] == $jabatan || $row['dispo3'] == $jabatan || $row['dispo4'] == $jabatan || $row['dispo5'] == $jabatan) {
+                                                    echo 'Sudah Disposisi';
+                                                } elseif (
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai2'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai3'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai4'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai5'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai6'] == 1 ||
+                                                    $row['diteruskan_ke'] == $akses && $row['status_selesai7'] == 1 ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai2'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai3'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai4'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai5'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai6'] == 1)) ||
+                                                    (strpos($row['diteruskan_ke'], $akses && $row['status_selesai7'] == 1))
+                                                ) {
+                                                    echo 'Selesai';
+                                                } else {
+                                                    echo 'Belum Disposisi';
+                                                }
                                                 echo "<td><a href='disposisi.php?id=" . $row['id_surat'] . "'>  
                                                 <button style='padding: 5px; border-radius: 5px; background-color: #1E2287; color: white;'> Disposisi </button></a></td>";
                                             }

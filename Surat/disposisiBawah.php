@@ -97,7 +97,7 @@
                 <div class="btn-kirim">
                     <div class="floatFiller">ffff</div>
                     <button type="button" onclick="kirimDisposisi()" style="cursor: pointer;">Kirim</button>
-                    <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button>
+                    <!-- <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button> -->
                 </div>
 
     <?php
@@ -404,7 +404,7 @@
     <div class="btn-kirim">
         <div class="floatFiller">ffff</div>
         <button type="button" onclick="kirimDisposisi()" style="cursor: pointer;">Kirim</button>
-        <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button>
+        <!--  <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button> -->
     </div>
 
 
@@ -739,7 +739,7 @@
     <div class="btn-kirim">
         <div class="floatFiller">ffff</div>
         <button type="button" onclick="kirimDisposisi()" style="cursor: pointer;">Kirim</button>
-        <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button>
+        <!-- <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button> -->
     </div>
 
     <script>
@@ -1066,7 +1066,7 @@
     <div class="btn-kirim">
         <div class="floatFiller">ffff</div>
         <button type="button" onclick="kirimDisposisi()" style="cursor: pointer;">Kirim</button>
-        <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button>
+        <!-- <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button> -->
     </div>
 
     <script>
@@ -1343,7 +1343,7 @@
     </div>
     <div class="btn-kirim">
         <div class="floatFiller">ffff</div>
-        <button type="button" onclick="kirimDisposisi()" style="cursor: pointer;">Kirim</button>
+        <button type="button" onclick="kirimDisposisi()" style="cursor: pointer;">Disposisi</button>
         <button type="button" id="btnSelesai" style="cursor: pointer;">Selesai</button>
         <!-- <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button> -->
     </div>
@@ -1550,8 +1550,6 @@
         <input type="radio" name="keputusan" value="Tindak Lanjuti" checked>
     </div>
 
-    <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
-
     <div class="input-disposisi">
         <label for="">Catatan Disposisi*</label>
         <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Catatan Disposisi" required>
@@ -1633,7 +1631,7 @@
     </div>
     <div class="btn-kirim">
         <div class="floatFiller">ffff</div>
-        <button type="button" onclick="kirimDisposisi()" style="cursor: pointer;">Kirim</button>
+        <button type="button" onclick="kirimDisposisi()" style="cursor: pointer;">Disposisi</button>
         <button type="button" id="btnSelesai" style="cursor: pointer;">Selesai</button>
         <!-- <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button> -->
     </div>
@@ -1650,7 +1648,6 @@
                 .then((willProceed) => {
                     if (willProceed) {
                         var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
-                        var asalsurat = document.querySelector('input[name="executor"]').value;
                         var xhr = new XMLHttpRequest();
                         var id = "<?php echo $id; ?>";
                         xhr.open('POST', 'update_selesai.php', true);
@@ -1664,7 +1661,7 @@
                                     });
                             }
                         };
-                        xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&asalsurat=" + asalsurat + "&action=selesai");
+                        xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&action=selesai");
                     } else {
                         swal("Dibatalkan", "Surat tidak diselesaikan", "info");
                     }
@@ -2162,6 +2159,7 @@
     || $_SESSION['akses'] == 'prodi_arsitek' || $_SESSION['akses'] == 'prodi_manajemen' || $_SESSION['akses'] == 'prodi_akuntansi'
     || $_SESSION['akses'] == 'prodi_keuSyariah' || $_SESSION['akses'] == 'upt_perpus'
 ) { ?>
+
     <?php
     $query = "SELECT dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10,
                     catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
@@ -2189,8 +2187,18 @@
 
     <?php include 'riwayat_dispo.php'; ?>
 
+    <div class="input-disposisi" style="display: none;">
+        <label for="">Keputusan Prodi*</label>
+        <div class="radio" style="display: none;">
+            <div>
+                <input type="radio" name="keputusan" value="Tindak Lanjuti" checked>
+                <label for=""></label>Tindak Lanjuti</label>
+            </div>
+        </div>
+    </div>
+
     <div class="input-disposisi">
-        <label for="">Catatan Penyelesaian / Penolakan *</label>
+        <label for="">Catatan Penyelesaian / Disposisi *</label>
         <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Penyelesaian / Penolakan">
     </div>
 
@@ -2201,10 +2209,62 @@
         </div>
     </div>
 
+    <div class="input-disposisi">
+        <label for="">Diteruskan kepada</label>
+        <div class="radio">
+            <div>
+                <input type="radio" name="diteruskan" value="keuangan">
+                <label for="">Bag. Keuangan</label>
+            </div>
+            <div>
+                <input type="radio" name="diteruskan" value="akademik">
+                <label for="">Bag. Akademik</label>
+            </div>
+            <div>
+                <input type="radio" name="diteruskan" value="umum">
+                <label for="">Bag. Umum</label>
+            </div>
+            <div>
+                <input type="radio" name="diteruskan" value="kui_k">
+                <label for="">KUI dan Kerjasama</label>
+            </div>
+            <div>
+                <input type="radio" name="diteruskan" value="marketing">
+                <label for="">Bag. Marketing</label>
+            </div>
+            <div>
+                <input type="radio" name="diteruskan" value="upt_perpus">
+                <label for="">UPT Perpus</label>
+            </div>
+            <div>
+                <input type="radio" name="diteruskan" value="sdm">
+                <label for="">SDM</label>
+            </div>
+            <div>
+                <input type="radio" name="diteruskan" value="bpm">
+                <label for="">BPM</label>
+            </div>
+            <div>
+                <input type="radio" name="diteruskan" value="lp3m">
+                <label for="">LP3M</label>
+            </div>
+            <div>
+                <input type="radio" name="diteruskan" value="it_lab">
+                <label for="">IT dan Lab</label>
+            </div>
+            <div>
+                <input type="radio" name="diteruskan" value="ppik_kmhs">
+                <label for="">PPIK dan Kemahasiswaan</label>
+            </div>
+        </div>
+    </div>
+
+
     <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
 
     <div class="btn-kirim">
         <div class="floatFiller">ff</div>
+        <button type="button" onclick="kirimDisposisi()" style="cursor: pointer;">Disposisi</button>
         <button type="button" id="btnSelesai" style="cursor: pointer;">Selesai</button>
         <!--  <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button> -->
     </div>
@@ -2242,6 +2302,94 @@
                     }
                 });
         });
+
+
+        function kirimDisposisi() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "check_disposisi.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = xhr.responseText;
+                    if (response === "allowed") {
+                        // Lanjutkan dengan proses disposisi
+                        proceedDisposisi();
+                    } else {
+                        swal("Gagal Disposisi!", "Anda sudah mendisposisi surat ini.", "error");
+                    }
+                }
+            };
+            xhr.send("id_surat=<?php echo $id; ?>");
+        }
+
+        function proceedDisposisi() {
+            var diteruskan = document.querySelector('input[name="diteruskan"]:checked').value;
+            var keputusan = document.querySelector('input[name="keputusan"]:checked').value;
+            var tujuanMapping = {
+                'keuangan': 'Bag. Keuangan',
+                'akademik': 'Bag. Akademik',
+                'umum': 'Bag. Umum',
+                'kui_k': 'KUI dan Kerjasama',
+                'marketing': 'Bag. Marketing',
+                'upt_perpus': 'UPT Perpus',
+                'sdm': 'SDM',
+                'bpm': 'BPM',
+                'lp3m': 'LP3M',
+                'it_lab': 'IT dan Lab',
+                'ppik_kmhs': 'PPIK dan Kemahasiswaan',
+            };
+            var tujuan = tujuanMapping[diteruskan];
+
+            swal({
+                title: "Anda yakin ingin mengirim disposisi ke " + tujuan + "?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willProceed) => {
+                if (willProceed) {
+                    if (willProceed) {
+                        var keputusan = document.querySelector('input[name="keputusan"]:checked').value;
+                        var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
+                        var diteruskan = document.querySelector('input[name="diteruskan"]:checked').value;
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("POST", "update_disposisi.php", true);
+                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                swal("Disposisi Berhasil!", {
+                                        icon: "success",
+                                        buttons: "OK"
+                                    })
+                                    .then(() => {
+                                        window.location.href = "dashboard.php";
+                                    });
+                            }
+                        };
+
+                        // Set tanggal disposisi
+                        var today = new Date();
+                        var year = today.getFullYear();
+                        var month = today.getMonth() + 1; // January is 0
+                        var day = today.getDate();
+                        var tanggal_disposisi = year + '-' + month + '-' + day;
+
+                        // Kirim data ke server
+                        xhr.send("id_surat=<?php echo $id; ?>&keputusan=" + keputusan + "&tanggal_disposisi=" + tanggal_disposisi + "&catatan_disposisi=" + catatan_disposisi + "&diteruskan=" + diteruskan);
+                    } else {
+                        swal("Disposisi dibatalkan!", {
+                            icon: "error",
+                        });
+                    }
+                } else {
+                    swal("Disposisi dibatalkan!", {
+                        icon: "error"
+                    });
+                }
+            });
+        }
+
+
+
 
         function batalDisposisi() {
             swal({
@@ -2332,7 +2480,7 @@
     <div class="btn-kirim">
         <div class="floatFiller">ff</div>
         <button type="button" id="btnSelesai" style="cursor: pointer;">Selesai</button>
-        <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button>
+        <!--  <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button> -->
     </div>
 
 
@@ -2448,7 +2596,7 @@
     <div class="btn-kirim">
         <div class="floatFiller">ff</div>
         <button type="button" id="btnSelesai" style="cursor: pointer;">Selesai</button>
-        <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button>
+        <!-- <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button> -->
     </div>
 
 
@@ -2572,7 +2720,7 @@
         <div class="btn-kirim">
             <div class="floatFiller">ffff</div>
             <button type="button" id="btnSelesai" style="cursor: pointer;">Selesai</button>
-            <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button>
+            <!-- <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button> -->
         </div>
     <?php else : ?>
 
@@ -2604,7 +2752,7 @@
         <div class="btn-kirim">
             <div class="floatFiller">ff</div>
             <button type="button" id="btnSelesaidispo" style="cursor: pointer;">Selesai</button>
-            <button type="button" onclick="batalDisposisidispo()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button>
+            <!-- <button type="button" onclick="batalDisposisidispo()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button> -->
         </div>
 
     <?php endif; ?>
