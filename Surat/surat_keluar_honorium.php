@@ -43,7 +43,6 @@ if ($isProdi) {
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="icon" type="image/x-icon" href="../logo itbad.png">
         <link href="css/dashboard-style.css" rel="stylesheet">
-        <link href="css/disposisi-style.css" rel="stylesheet">
         <!-- ajax live search -->
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
         <script type="text/javascript" src="tablesorter/jquery.tablesorter.js"></script>

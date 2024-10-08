@@ -216,6 +216,9 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 "<br><span style='text-align: left'>Catatan Penyelesaian dari <strong> $row[nama_selesai7] </strong> : </span>" . $row['catatan_selesai7'] .
                                                 "<br><br><span style='text-align: center'>Diterima oleh : </span><strong>" . $row['nama_selesai'] . ", " . $row['nama_selesai2'] . ", " . $row['nama_selesai3'] . ", " . $row['nama_selesai4'] . ", " . $row['nama_selesai5'] . ", " . $row['nama_selesai6'] . "</strong> dan <strong>" . $row['nama_selesai7'] . "</strong>");
                                             echo '<span class="status-notification"><span class="status" onclick="showStatusModal(\'' . $tooltipText . '\', \'Selesai\')"><span style="background-color: green; color: white; padding: 5px; border-radius: 5px; display: block; width: 130px; margin: auto; cursor: pointer;">Selesai</span></span><span class="notification-dot"></span></span>';
+                                        } elseif ($row['status_selesai'] == 1 && $row['status_baca'] == 1) {
+                                            $tooltipText = addslashes($row['catatan_tolak'] . "<br><span style='text-align: center'>Ditolak oleh : </span><strong>" . $row['nama_penolak'] . "</strong>");
+                                            echo '<span class="status-notification"><span class="status" onclick="showStatusModal(\'' . $tooltipText . '\', \'Selesai\')"><span style="background-color: green; color: white; padding: 5px; border-radius: 5px; display: block; width: 130px; margin: auto; cursor: pointer;">Selesai</span></span><span class="notification-dot"></span></span>';
                                         } elseif ($row['status_tolak']) {
                                             $tooltipText = addslashes($row['catatan_tolak'] . "<br><span style='text-align: center'>Ditolak oleh : </span><strong>" . $row['nama_penolak'] . "</strong>");
                                             echo '<span class="status-notification"><span class="status" onclick="showStatusModal(\'' . $tooltipText . '\', \'Ditolak\')"><span style="background-color: red; color: white; padding: 5px; border-radius: 5px; display: block; width: 130px; margin: auto; cursor: pointer;">Ditolak</span></span><span class="notification-dot"></span></span>';
@@ -441,47 +444,47 @@ if (!isset($_SESSION['pengguna_type'])) {
         let sortDirection = {}; // To keep track of the sort direction for each column
 
         function sortTable(columnIndex, header) {
-                const table = document.querySelector('table tbody');
-                const rows = Array.from(table.querySelectorAll('tr'));
-                const isDescending = sortDirection[columnIndex] || false; // Get the current sort direction for this column
+            const table = document.querySelector('table tbody');
+            const rows = Array.from(table.querySelectorAll('tr'));
+            const isDescending = sortDirection[columnIndex] || false; // Get the current sort direction for this column
 
-                // Sort rows
-                rows.sort((rowA, rowB) => {
-                    const cellA = rowA.children[columnIndex].textContent.trim();
-                    const cellB = rowB.children[columnIndex].textContent.trim();
+            // Sort rows
+            rows.sort((rowA, rowB) => {
+                const cellA = rowA.children[columnIndex].textContent.trim();
+                const cellB = rowB.children[columnIndex].textContent.trim();
 
-                    if (columnIndex === 0) { // Special case for the "No" column
-                        return isDescending ? cellA - cellB : cellB - cellA;
-                    } else {
-                        if (isDescending) {
-                            return cellA.localeCompare(cellB);
-                        } else {
-                            return cellB.localeCompare(cellA);
-                        }
-                    }
-                });
-
-                // Update table
-                rows.forEach(row => table.appendChild(row));
-
-                // Toggle sort direction
-                sortDirection[columnIndex] = !isDescending;
-
-                // Update sort icons
-                document.querySelectorAll('.sort-icon').forEach(icon => {
-                    icon.classList.remove('fa-sort', 'fa-sort-up', 'fa-sort-down');
-                    icon.classList.add('fa-sort');
-                });
-
-                const sortIcon = header.querySelector('.sort-icon');
-                if (sortDirection[columnIndex]) {
-                    sortIcon.classList.remove('fa-sort', 'fa-sort-up');
-                    sortIcon.classList.add('fa-sort-down');
+                if (columnIndex === 0) { // Special case for the "No" column
+                    return isDescending ? cellA - cellB : cellB - cellA;
                 } else {
-                    sortIcon.classList.remove('fa-sort', 'fa-sort-down');
-                    sortIcon.classList.add('fa-sort-up');
+                    if (isDescending) {
+                        return cellA.localeCompare(cellB);
+                    } else {
+                        return cellB.localeCompare(cellA);
+                    }
                 }
+            });
+
+            // Update table
+            rows.forEach(row => table.appendChild(row));
+
+            // Toggle sort direction
+            sortDirection[columnIndex] = !isDescending;
+
+            // Update sort icons
+            document.querySelectorAll('.sort-icon').forEach(icon => {
+                icon.classList.remove('fa-sort', 'fa-sort-up', 'fa-sort-down');
+                icon.classList.add('fa-sort');
+            });
+
+            const sortIcon = header.querySelector('.sort-icon');
+            if (sortDirection[columnIndex]) {
+                sortIcon.classList.remove('fa-sort', 'fa-sort-up');
+                sortIcon.classList.add('fa-sort-down');
+            } else {
+                sortIcon.classList.remove('fa-sort', 'fa-sort-down');
+                sortIcon.classList.add('fa-sort-up');
             }
+        }
     </script>
     <script src="js/dashboard-js.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

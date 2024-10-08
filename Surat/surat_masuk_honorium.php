@@ -32,7 +32,7 @@ if (!isset($_SESSION['pengguna_type'])) {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.js"></script>
     <script src="https://kit.fontawesome.com/9e9ad697fd.js" crossorigin="anonymous"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    
+
     <style>
         .sort-icon {
             position: absolute;
@@ -40,16 +40,118 @@ if (!isset($_SESSION['pengguna_type'])) {
             top: 50%;
             transform: translateY(-50%);
         }
+
         .fa-sort {
             color: white;
         }
+
         .fa-sort-up {
             color: white;
         }
+
         .fa-sort-down {
             color: white;
         }
-        </style>
+
+        /* Style for the modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Animation for fade-in effect */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Modal content */
+        .modal-content-file {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.5s ease;
+        }
+
+        /* Animation for slide-in effect */
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .modal-content-file h2 {
+            color: #333;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .close {
+            color: #fff;
+            float: right;
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: -10px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #ff6b6b;
+        }
+
+        #berkasFrame {
+            width: 100%;
+            height: 60vh;
+            border-radius: 5px;
+            border: 2px solid #1b5ebe;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        #berkasFrame:hover {
+            transform: scale(1.02);
+        }
+
+        /* Responsive styling */
+        @media (max-width: 600px) {
+            .modal-content-file {
+                width: 90%;
+                height: 70vh;
+            }
+
+            #berkasFrame {
+                height: 60vh;
+            }
+
+            .close {
+                font-size: 25px;
+            }
+        }
+    </style>
+
 </head>
 
 <body>
@@ -84,7 +186,8 @@ if (!isset($_SESSION['pengguna_type'])) {
                                 <th onclick="sortTable(3, this)">Nama Kegiatan<i id="sort-icon-3" class="fas fa-sort sort-icon"></i></th>
                                 <th onclick="sortTable(4, this)">Tanggal Surat <i id="sort-icon-4" class="fas fa-sort sort-icon"></i></th>
                                 <th onclick="sortTable(5, this)">Status <i id="sort-icon-5" class="fas fa-sort sort-icon"></i></th>
-                                <th style="border-top-right-radius: 8px;">Aksi</th>
+                                <th>Aksi</th>
+                                <th style="border-top-right-radius: 8px;">Detail</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -137,15 +240,35 @@ if (!isset($_SESSION['pengguna_type'])) {
                                         echo ' Belum Diverifikasi';
                                     }
                                     echo "</td>";
-
                                     echo "<td>";
+                                    if ($row['status'] == 1) {
+                                        echo "<button style='cursor: not-allowed;' class='verify-button' data-id='" . $row['id'] . "' disabled><i class='fa-solid fa-check'></i> Sudah Diverifikasi</button>";
+                                    } else {
+                                        echo "<button class='verify-button' data-id='" . $row['id'] . "'>Verifikasi</button>";
+                                    }
+                                    echo "</td>";
+                                    echo '<td>';
+                                    echo '<div class="input-field">';
+                                    echo '<label></label>';
+                                    echo '<div class="input" style="color: black; text-align: center; background-color: rgba(0, 0, 0, 0); border: none">';
+                                    echo '<div class="lihat">';
                                     if (!empty($row['berkas'])) {
                                         $filePath = 'uploads/honorium/' . htmlspecialchars($row['berkas']);
                                         echo '<i class="fas fa-eye" style="background-color: white; color: #1b5ebe; cursor: pointer;" onclick="lihatBerkas(\'' . $filePath . '\')"></i>';
                                     } else {
                                         echo 'Tidak ada berkas';
                                     }
-                                    echo "</td>";
+                                    echo '<div id="modalBerkas" class="modal">';
+                                    echo '<span class="close" onclick="closeModal()">&times;</span>';
+                                    echo '<div class="modal-content-file">';
+                                    echo '<h2>PREVIEW BERKAS HONORIUM</h2>';
+                                    echo '<iframe id="berkasFrame" frameborder="0"></iframe>';
+                                    echo '</div>'; // modal-content-file
+                                    echo '</div>'; // modal
+                                    echo '</div>'; // lihat
+                                    echo '</div>'; // input
+                                    echo '</div>'; // input-field
+                                    echo '</td>';
                                     echo "</tr>";
                                 }
                             } else {
@@ -218,6 +341,17 @@ if (!isset($_SESSION['pengguna_type'])) {
         </div>
         <?php include './footer.php'; ?>
     </div>
+
+    <script>
+        function lihatBerkas(filePath) {
+            document.getElementById("berkasFrame").src = filePath;
+            document.getElementById("modalBerkas").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("modalBerkas").style.display = "none";
+        }
+    </script>
 
     <script type="text/javascript">
         // pencarian
@@ -406,10 +540,10 @@ if (!isset($_SESSION['pengguna_type'])) {
                     preConfirm: () => {
                         return new Promise((resolve, reject) => {
                             $.ajax({
-                                url: 'sql/verifikasi_surat.php',
+                                url: 'sql/verifikasi_honorium.php',
                                 method: 'POST',
                                 data: {
-                                    id_srt: suratId
+                                    id: suratId
                                 },
                                 success: function(response) {
                                     if (response === 'success') {
@@ -463,10 +597,10 @@ if (!isset($_SESSION['pengguna_type'])) {
     </script>
 
     <script src="js/dashboard-js.js"></script>
-    
-    
 
-    
+
+
+
     <script>
         let sortDirection = {}; // To keep track of the sort direction for each column
 
@@ -512,7 +646,6 @@ if (!isset($_SESSION['pengguna_type'])) {
                 sortIcon.classList.add('fa-sort-up');
             }
         }
-
     </script>
 
 </body>
