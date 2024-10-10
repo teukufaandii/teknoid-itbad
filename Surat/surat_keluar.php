@@ -378,10 +378,10 @@ if (!isset($_SESSION['pengguna_type'])) {
         function confirmAddSurat() {
             let hakAkses = "<?php echo $_SESSION['jabatan']; ?>"; // assume you have stored the user's access level in a session variable
 
-            if (hakAkses === 'Karyawan' || hakAkses === 'Bagian Kepegawaian') {
+            if (hakAkses === 'Karyawan' || hakAkses === 'Bagian Kepegawaian' || hakAkses === 'Dosen') {
                 window.location.href = "tambah_surat2.php";
 
-            } else if (hakAkses === 'Dosen') {
+            } else if (hakAkses === '') {
                 Swal.fire({
                     title: 'Tambah Surat',
                     text: 'Pilih jenis surat yang ingin Anda tambahkan',
@@ -410,7 +410,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                     cancelButtonText: 'Surat Non-Disposisi'
                 }).then((result) => {
                     if (result.isConfirmed) { // Redirect to tambah surat disposisi page
-                        cation.href = "tambah_surat2.php";
+                        window.location.href = "tambah_surat2.php";
                     } else if (result.dismiss === Swal.DismissReason.cancel) {
                         // Redirect to tambah surat non-disposisi page
                         window.location.href = "tambah_surat_dosen.php";

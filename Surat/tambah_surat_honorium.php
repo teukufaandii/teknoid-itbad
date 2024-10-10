@@ -107,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="inputfield">
                         <label for="ttl">Nama Kegiatan*</label>
-                        <input type="text" class="input" name="nm_kegiatan" id="nm_kegiatan" placeholder="Masukkan Nama Kegiatan">
+                        <input type="text" class="input" name="nm_kegiatan" id="nm_kegiatan" placeholder="Masukkan Nama Kegiatan" required>
                     </div>
 
                     <script>

@@ -31,12 +31,8 @@ if (!isset($_SESSION['pengguna_type'])) {
 
 <body>
 
-
-
     <!-- sidenav -->
     <?php include "sidenav.php" ?>
-
-
 
     <!-- content -->
     <div class="content" id="Content">
@@ -257,37 +253,37 @@ if (!isset($_SESSION['pengguna_type'])) {
 
 
         function fetchNotifications(container, modal) {
-            const diteruskan_ke = '<?php echo $_SESSION['akses']; ?>';
+            const diteruskan_ke = '<?php echo json_encode($_SESSION['akses']); ?>'; // Menggunakan json_encode untuk mengubah menjadi JSON format
             const fullname = '<?php echo $_SESSION['jabatan']; ?>';
             let sql = '';
 
-            //untuk dashboard eksekutor 
-            if (diteruskan_ke === 'prodi_si' || diteruskan_ke === 'prodi_ti' || diteruskan_ke === 'prodi_akuntansi' || diteruskan_ke === 'prodi_manajemen' ||
-                diteruskan_ke === 'prodi_arsitek' || diteruskan_ke === 'prodi_keuSyariah' || diteruskan_ke === 'prodi_dkv' || diteruskan_ke === 'bpm' ||
-                diteruskan_ke === 'umum' || diteruskan_ke === 'sdm' || diteruskan_ke === 'it_lab' || diteruskan_ke === 'marketing' || diteruskan_ke === 'kui_k' ||
-                diteruskan_ke === 'akademik' || diteruskan_ke === 'ppik_kmhs' || diteruskan_ke === 'lp3m' || diteruskan_ke === 'pusat_bisnis' || diteruskan_ke === 'upt_perpus'
-            ) {
+            // Parsing diteruskan_ke dari string JSON
+            let diteruskanKeParsed = JSON.parse(diteruskan_ke);
+
+            // Jika diteruskan_ke adalah array (JSON format)
+            if (Array.isArray(diteruskanKeParsed)) {
                 sql = `
-                SELECT * FROM tb_disposisi 
-                WHERE 
-                    (nama_selesai != '${fullname}' AND 
-                    nama_selesai2 != '${fullname}' AND 
-                    nama_selesai3 != '${fullname}' AND 
-                    nama_selesai4 != '${fullname}' AND 
-                    nama_selesai5 != '${fullname}' AND 
-                    nama_selesai6 != '${fullname}' AND 
-                    nama_selesai7 != '${fullname}')
-                AND 
-                    (JSON_CONTAINS(diteruskan_ke, '"${diteruskan_ke}"') OR 
-                    diteruskan_ke = '${diteruskan_ke}');
+            SELECT * FROM tb_disposisi 
+            WHERE 
+                (nama_selesai != '${fullname}' AND 
+                nama_selesai2 != '${fullname}' AND 
+                nama_selesai3 != '${fullname}' AND 
+                nama_selesai4 != '${fullname}' AND 
+                nama_selesai5 != '${fullname}' AND 
+                nama_selesai6 != '${fullname}' AND 
+                nama_selesai7 != '${fullname}')
+            AND 
+                JSON_CONTAINS(diteruskan_ke, '["${diteruskanKeParsed.join('","')}"]')
             `;
-            } else {
-                sql = `
-                SELECT * FROM tb_surat_dis 
-                WHERE 
-                    (JSON_CONTAINS(diteruskan_ke, '"${diteruskan_ke}"') OR diteruskan_ke = '${diteruskan_ke}')
-                AND (status_selesai = FALSE AND status_tolak = FALSE) `;
-            }
+                } else {
+                    // Jika diteruskan_ke adalah string
+                    sql = `
+            SELECT * FROM tb_surat_dis 
+            WHERE 
+                (diteruskan_ke = '${diteruskanKeParsed}' OR JSON_CONTAINS(diteruskan_ke, '"${diteruskanKeParsed}"'))
+            AND (status_selesai = FALSE AND status_tolak = FALSE) 
+            `;
+                }
 
             fetch('fetch_notification.php', {
                     method: 'POST',
@@ -307,26 +303,15 @@ if (!isset($_SESSION['pengguna_type'])) {
                     if (data.length > 0) {
                         notificationBadge.innerText = data.length;
                         notificationBadge.style.display = 'inline-block';
-                    }
-
-                    if (data.length > 0) {
-                        data.forEach((surat) => {
-                            const listItem = document.createElement('li');
-                            listItem.innerHTML = `
-                            <a href="disposisi.php?id=${surat.id_surat}">
-                                Ada Surat Masuk - ${surat.perihal}
-                            </a>
-                        `;
-                            notificationsList.appendChild(listItem);
-                        });
-                        notificationBadge.innerText = data.length;
-                        notificationBadge.style.display = 'inline-block';
                     } else {
-                        const noNotificationItem = document.createElement('li');
-                        noNotificationItem.innerText = 'Tidak ada notifikasi.';
-                        notificationsList.appendChild(noNotificationItem);
                         notificationBadge.style.display = 'none';
                     }
+
+                    data.forEach(surat => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `<a href="disposisi.php?id=${surat.id_surat}">Ada Surat Masuk - ${surat.perihal}</a>`;
+                        notificationsList.appendChild(listItem);
+                    });
                 })
                 .catch(error => console.error('Error fetching notifications:', error));
         }

@@ -54,8 +54,8 @@
                 <label for="">Dicek dan diteliti</label>
             </div>
             <div>
-                <input type="radio" name="keputusan" value="Dirapikan">
-                <label for="">Dirapikan</label>
+                <input type="radio" name="keputusan" value="Dirapimkan">
+                <label for="">Dirapimkan</label>
             </div>
             <div>
                 <input type="radio" name="keputusan" value="Dikoordinasikan">
@@ -801,7 +801,7 @@
                 tujuan.push(tujuanMapping[checkbox.value]);
             });
             swal({
-                title: "Anda yakin ingin mengirim disposisi ke " + tujuan + "?",
+                title: "Anda yakin ingin mengirim disposisi ke " + tujuan.join(', ') + "?",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -812,8 +812,12 @@
 
                         var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value; // Sesuaikan dengan name pada input
 
-                        var diteruskan = document.querySelector('input[name="diteruskan"]:checked').value;
+                        var diteruskan_checkboxes = document.querySelectorAll('input[name="diteruskan[]"]:checked');
+                        var diteruskan_values = [];
 
+                        diteruskan_checkboxes.forEach(function(checkbox) {
+                            diteruskan_values.push(checkbox.value);
+                        });
                         // Buat objek XMLHttpRequest
                         var xhr = new XMLHttpRequest();
                         xhr.open("POST", "update_disposisi.php", true);
@@ -838,7 +842,7 @@
                         var tanggal_disposisi = year + '-' + month + '-' + day;
 
                         // Kirim data ke server
-                        xhr.send("id_surat=<?php echo $id; ?>&keputusan=" + keputusan + "&tanggal_disposisi=" + tanggal_disposisi + "&catatan_disposisi=" + catatan_disposisi + "&diteruskan=" + diteruskan);
+                        xhr.send("id_surat=<?php echo $id; ?>&keputusan=" + keputusan + "&tanggal_disposisi=" + tanggal_disposisi + "&catatan_disposisi=" + catatan_disposisi + "&diteruskan=" + JSON.stringify(diteruskan_values));
                     } else {
                         swal("Disposisi dibatalkan!", {
                             icon: "error",
@@ -1139,7 +1143,6 @@
                         var keputusan = document.querySelector('input[name="keputusan"]:checked').value;
 
                         var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value; // Sesuaikan dengan name pada input
-
                         // Mendapatkan semua checkbox yang dipilih
                         var diteruskan_checkboxes = document.querySelectorAll('input[name="diteruskan[]"]:checked');
                         var diteruskan_values = [];
@@ -1436,7 +1439,6 @@
                         var keputusan = document.querySelector('input[name="keputusan"]:checked').value;
 
                         var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value; // Sesuaikan dengan name pada input
-
                         // Mendapatkan semua checkbox yang dipilih
                         var diteruskan_checkboxes = document.querySelectorAll('input[name="diteruskan[]"]:checked');
                         var diteruskan_values = [];

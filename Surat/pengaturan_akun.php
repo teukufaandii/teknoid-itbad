@@ -54,6 +54,16 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin' || $_SESSION['aks
                         <a href="add_user.php"><button>
                                 <i class="fa fa-plus"></i>&nbsp; Tambah Akun
                             </button></a>
+
+                        <a href="FormatAddUser.xlsx" download>
+                            <button class="btn">
+                               <i class="fa-solid fa-file-arrow-down"></i>&nbsp; Form Tambah Akun</button>
+                        </a>
+                    </div>
+                    <div class="search-box">
+                        <form method="GET">
+                            <input type="text" placeholder="Search.." name="search" id="search">
+                        </form>
                     </div>
                     <div class="search-box">
                         <form method="GET">

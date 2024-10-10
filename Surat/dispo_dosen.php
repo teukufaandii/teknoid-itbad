@@ -196,11 +196,12 @@ if ($stmt4->fetch()) {
     ];
 }
 
-// Menutup statement
+
+
 $stmt4->close();
 $file_berkas_combined_pendukung = implode(", ", array_filter($row));
 
-$sql5 = "SELECT nama_jenis FROM tb_jenis WHERE kd_jenissurat = ?";
+$sql5 = "SELECT jenis_surat FROM tb_srt_dosen WHERE id_srt = ?";
 $stmt5 = $koneksi->prepare($sql5);
 $stmt5->bind_param("i", $id);
 $stmt5->execute();
@@ -210,7 +211,6 @@ $stmt5->close();
 
 $file_berkas_exists = !empty($file_berkas_combined);
 $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
-
 ?>
 
 <head>
@@ -312,18 +312,38 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
         <div class="mainContent" id="mainContent">
             <div class="contentBox">
                 <div class="pageInfo">
-                    <h3>Disposisi Insentif - <?php echo $jenis_insentif; ?> </h3>
+                    <script>
+                        // Mendapatkan nilai dari PHP
+                        let jenisInsentif = "<?php echo $jenis_insentif; ?>";
+
+                        // Mengganti underscore dengan spasi
+                        jenisInsentif = jenisInsentif.replace(/_/g, ' ');
+
+                        // Mengubah huruf depan per kata menjadi kapital
+                        jenisInsentif = jenisInsentif.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+
+                        // Menampilkan hasil berdasarkan jenis surat
+                        const jenisSurat = <?php echo $jenis_surat; ?>;
+                        let header;
+
+                        if (jenisSurat === 5) {
+                            header = `<h3>Disposisi Insentif - ${jenisInsentif}</h3>`;
+                        } else if (jenisSurat === 6) {
+                            header = `<h3>Disposisi Riset Dosen</h3>`;
+                        }
+
+                        // Menampilkan header di DOM
+                        document.write(header);
+                    </script>
                     <button onclick="goBack()" class="back">Kembali</button>
                 </div>
+
+
+
                 <form class="form">
                     <div class="input-field">
                         <label for="">Nama Pengusul</label>
                         <input type="text" class="input" name="#" value="<?php echo $asal_surat; ?> " readonly>
-                    </div>
-
-                    <div class="input-field">
-                        <label for="">Status Pengusul</label>
-                        <input type="text" class="input" name="#" value="<?php echo $status_pengusul; ?> " readonly>
                     </div>
 
                     <div class="input-field">
@@ -332,180 +352,205 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                     </div>
 
                     <div class="input-field">
-                        <label for="">ID Sinta</label>
-                        <input type="text" class="input" name="#" value="<?php echo $id_sinta; ?> " readonly>
-                    </div>
-
-                    <div class="input-field">
                         <label for="">NO Telpon/HP</label>
                         <input type="text" class="input" name="#" value="<?php echo $no_telpon; ?> " readonly>
                     </div>
 
-                    <div class="input-field">
-                        <label for="">Program Studi Pengusul</label>
-                        <input type="text" class="input" name="#" value="<?php echo $prodi_pengusul; ?> " readonly>
-                    </div>
+                    <?php if ($jenis_surat == 5) { ?>
 
-                    <div class="input-field">
-                        <label for="">Jenis Insentif</label>
-                        <input type="text" class="input" name="#" value="<?php echo $jenis_insentif; ?> " readonly>
-                    </div>
-
-                    <?php if ($jenis_insentif == 'penelitian') { ?>
                         <div class="input-field">
-                            <label for="">Judul Penelitian/Pengabdian Masyarakat</label>
-                            <input type="text" class="input" name="#" value="<?php echo $judul_penelitian_ppm; ?> " readonly>
+                            <label for="">Status Pengusul</label>
+                            <input type="text" class="input" name="#" value="<?php echo $status_pengusul; ?> " readonly>
                         </div>
 
                         <div class="input-field">
-                            <label for="">Skema</label>
-                            <input type="text" class="input" name="#" value="<?php echo $skema_ppmdpek; ?> " readonly>
-                        </div>
-
-                    <?php } elseif ($jenis_insentif = 'publikasi') { ?>
-                        <div class="input-field">
-                            <label for="">Jenis Publikasi/Jurnal</label>
-                            <input type="text" class="input" name="#" value="<?php echo $jenis_publikasi_pi; ?> " readonly>
+                            <label for="">ID Sinta</label>
+                            <input type="text" class="input" name="#" value="<?php echo $id_sinta; ?> " readonly>
                         </div>
 
                         <div class="input-field">
-                            <label for="">Judul Publikasi/Jurnal</label>
-                            <input type="text" class="input" name="#" value="<?php echo $judul_publikasi_pi; ?> " readonly>
+                            <label for="">Program Studi Pengusul</label>
+                            <input type="text" class="input" name="#" value="<?php echo $prodi_pengusul; ?> " readonly>
                         </div>
 
                         <div class="input-field">
-                            <label for="">Nama Jurnal/Koran/Majalah/Penerbit</label>
-                            <input type="text" class="input" name="#" value="<?php echo $nama_jurnal_pi; ?> " readonly>
+                            <label for="">Jenis Insentif</label>
+                            <input type="text" class="input" name="#" value="<?php echo $jenis_insentif; ?> " readonly>
                         </div>
 
+                        <?php if ($jenis_insentif == 'penelitian') { ?>
+                            <div class="input-field">
+                                <label for="">Judul Penelitian/Pengabdian Masyarakat</label>
+                                <input type="text" class="input" name="#" value="<?php echo $judul_penelitian_ppm; ?>" readonly>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="">Skema</label>
+                                <input type="text" class="input" name="#" value="<?php echo $skema_ppmdpek; ?>" readonly>
+                            </div>
+
+                        <?php } elseif ($jenis_insentif == 'publikasi') { ?>
+                            <div class="input-field">
+                                <label for="">Jenis Publikasi/Jurnal</label>
+                                <input type="text" class="input" name="#" value="<?php echo $jenis_publikasi_pi; ?>" readonly>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="">Nama Jurnal/Koran/Majalah/Penerbit</label>
+                                <input type="text" class="input" name="#" value="<?php echo $nama_jurnal_pi; ?>" readonly>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="">Vol. No. Tahun. ISSN-Edisi-Halaman</label>
+                                <input type="text" class="input" name="#" value="<?php echo $vol_notahun_pi; ?>" readonly>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="">Tautan/Link jurnal atau berkas pendukung (wajib untuk artikel pada jurnal ilmiah)</label>
+                                <input type="text" class="input" name="#" value="<?php echo $link_jurnal_pi; ?>" readonly>
+                            </div>
+
+                        <?php } elseif ($jenis_insentif == 'pertemuan_ilmiah') { ?>
+                            <div class="input-field">
+                                <label for="">Skala</label>
+                                <input type="text" class="input" name="#" value="<?php echo $skala_ppdpi; ?>" readonly>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="">Nama Pertemuan</label>
+                                <input type="text" class="input" name="#" value="<?php echo $nama_pertemuan_ppdpi; ?>" readonly>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="">Usulan Biaya</label>
+                                <input type="text" class="input" name="#" value="<?php echo $usulan_biaya_ppdpi; ?>" readonly>
+                            </div>
+
+                        <?php } elseif ($jenis_insentif == 'keynote_speaker') { ?>
+                            <div class="input-field">
+                                <label for="">Skala</label>
+                                <input type="text" class="input" name="#" value="<?php echo $skala_ppdks; ?>" readonly>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="">Nama Pertemuan Ilmiah</label>
+                                <input type="text" class="input" name="#" value="<?php echo $nama_pertemuan_ppdks; ?>" readonly>
+                            </div>
+
+                        <?php } elseif ($jenis_insentif == 'visiting_lecturer') { ?>
+                            <div class="input-field">
+                                <label for="">Nama Kegiatan dan Lembaga tujuan</label>
+                                <input type="text" class="input" name="#" value="<?php echo $nam; ?>" readonly>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="">Waktu Pelaksanaan</label>
+                                <input type="text" class="input" name="#" value="<?php echo $waktu_pelaksanaan_vl; ?>" readonly>
+                            </div>
+
+                        <?php } elseif ($jenis_insentif == 'hki') { ?>
+                            <div class="input-field">
+                                <label for="">Jenis Kekayaan Intelektual</label>
+                                <input type="text" class="input" name="#" value="<?php echo $jenis_hki; ?>" readonly>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="">Judul Kekayaan Intelektual</label>
+                                <input type="text" class="input" name="#" value="<?php echo $judul_hki; ?>" readonly>
+                            </div>
+
+                        <?php } elseif ($jenis_insentif == 'teknologi') { ?>
+                            <div class="input-field">
+                                <label for="">Tekonologi tepat guna yang diusulkan</label>
+                                <input type="text" class="input" name="#" value="<?php echo $teknologi_tg; ?>" readonly>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="">Deskripsi tekonologi tepat guna yang diusulkan</label>
+                                <input type="text" class="input" name="#" value="<?php echo $deskripsi_tg; ?>" readonly>
+                            </div>
+
+                        <?php } elseif ($jenis_insentif == 'model') { ?>
+                            <div class="input-field">
+                                <label for="">Nama Model</label>
+                                <input type="text" class="input" name="#" value="<?php echo $nama_model_mpdks; ?>" readonly>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="">Deskripsi Model</label>
+                                <input type="text" class="input" name="#" value="<?php echo $deskripsi_mpdks; ?>" readonly>
+                            </div>
+
+                        <?php } elseif ($jenis_insentif == 'buku') { ?>
+                            <div class="input-field">
+                                <label for="">Jenis Buku</label>
+                                <input type="text" class="input" name="#" value="<?php echo $jenis_buku; ?>" readonly>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="">Judul Buku</label>
+                                <input type="text" class="input" name="#" value="<?php echo $judul_buku; ?>" readonly>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="">Sinopsis</label>
+                                <input type="text" class="input" name="#" value="<?php echo $sinopsis_buku; ?>" readonly>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="">ISBN/Jumlah halaman/Penerbit</label>
+                                <input type="text" class="input" name="#" value="<?php echo $isbn_buku; ?>" readonly>
+                            </div>
+
+                        <?php } elseif ($jenis_insentif == 'insentif_publikasi') { ?>
+                            <div class="input-field">
+                                <label for="">Judul Publikasi</label>
+                                <input type="text" class="input" name="#" value="<?php echo $judul_publikasi_pi; ?>" readonly>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="">Nama Penerbit dan Waktu terbit</label>
+                                <input type="text" class="input" name="#" value="<?php echo $namaPenerbit_dan_waktu_ipbk; ?>" readonly>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="">Tautan Publikasi</label>
+                                <input type="text" class="input" name="#" value="<?php echo $link_publikasi_ipbk; ?>" readonly>
+                            </div>
+
+                        <?php } ?>
+
+                    <?php } elseif ($jenis_surat == 6) { ?>
                         <div class="input-field">
-                            <label for="">Vol. No. Tahun. ISSN-Edisi-Halaman</label>
-                            <input type="text" class="input" name="#" value="<?php echo $vol_notahun_pi; ?> " readonly>
+                            <label for="">Tempat, tanggal lahir</label>
+                            <input type="text" class="input" name="#" value="<?php echo $asal_surat; ?>" readonly>
                         </div>
-
                         <div class="input-field">
-                            <label for="">Tautan/Link jurnal atau berkas pendukung (wajib untuk artikel pada jurnal ilmiah) </label>
-                            <input type="text" class="input" name="#" value="<?php echo $link_jurnal_pi; ?> " readonly>
+                            <label for="">Alamat Domisili</label>
+                            <input type="text" class="input" name="#" value="<?php echo $ttl_srd; ?>" readonly>
                         </div>
-
-                    <?php } elseif ($jenis_insentif == 'pertemuan_ilmiah') { ?>
-
                         <div class="input-field">
-                            <label for="">Skala</label>
-                            <input type="text" class="input" name="#" value="<?php echo $skala_ppdpi; ?> " readonly>
+                            <label for="">Perihal</label>
+                            <input type="text" class="input" name="#" value="<?php echo $perihal_srd; ?>" readonly>
                         </div>
-
                         <div class="input-field">
-                            <label for="">Nama Pertemuan</label>
-                            <input type="text" class="input" name="#" value="<?php echo $nama_pertemuan_ppdpi; ?> " readonly>
+                            <label for="">Alamat Email</label>
+                            <input type="text" class="input" name="#" value="<?php echo $alamat_srd; ?>" readonly>
                         </div>
-
                         <div class="input-field">
-                            <label for="">Usulan Biaya</label>
-                            <input type="text" class="input" name="#" value="<?php echo $usulan_biaya_ppdpi; ?> " readonly>
+                            <label for="">Deskripsi Singkat</label>
+                            <input type="text" class="input" name="#" value="<?php echo $deskripsi_srd; ?>" readonly>
                         </div>
-
-
-                    <?php } elseif ($jenis_insentif == 'keynote_speaker') { ?>
-
                         <div class="input-field">
-                            <label for="">Skala</label>
-                            <input type="text" class="input" name="#" value="<?php echo $skala_ppdks; ?> " readonly>
+                            <label for="">Nama Perusahaan</label>
+                            <input type="text" class="input" name="#" value="<?php echo $nama_perusahaan_srd; ?>" readonly>
                         </div>
-
                         <div class="input-field">
-                            <label for="">Nama Pertemuan Ilmiah</label>
-                            <input type="text" class="input" name="#" value="<?php echo $nama_pertemuan_ppdks; ?> " readonly>
+                            <label for="">Alamat Perusahaan</label>
+                            <input type="text" class="input" name="#" value="<?php echo $alamat_perusahaan_srd; ?>" readonly>
                         </div>
-
-                    <?php } elseif ($jenis_insentif == 'visiting_lecturer') { ?>
-
-                        <div class="input-field">
-                            <label for="">Nama Kegiatan dan Lembaga tujuan </label>
-                            <input type="text" class="input" name="#" value="<?php echo $nam; ?> " readonly>
-                        </div>
-
-                        <div class="input-field">
-                            <label for="">Waktu Pelaksanaan</label>
-                            <input type="text" class="input" name="#" value="<?php echo $waktu_pelaksanaan_vl; ?> " readonly>
-                        </div>
-
-
-                    <?php } elseif ($jenis_insentif == 'hki') { ?>
-                        <div class="input-field">
-                            <label for="">Jenis Kekayaan Intelektual</label>
-                            <input type="text" class="input" name="#" value="<?php echo $jenis_hki; ?> " readonly>
-                        </div>
-
-                        <div class="input-field">
-                            <label for="">Judul Kekayaan Intelektual</label>
-                            <input type="text" class="input" name="#" value="<?php echo $judul_hki; ?> " readonly>
-                        </div>
-
-                    <?php } elseif ($jenis_insentif == 'teknologi') { ?>
-
-                        <div class="input-field">
-                            <label for="">Tekonologi tepat guna yang diusulkan</label>
-                            <input type="text" class="input" name="#" value="<?php echo $teknologi_tg; ?> " readonly>
-                        </div>
-
-                        <div class="input-field">
-                            <label for="">Deskripsi tekonologi tepat guna yang diusulkan</label>
-                            <input type="text" class="input" name="#" value="<?php echo $deskripsi_tg; ?> " readonly>
-                        </div>
-
-                    <?php } elseif ($jenis_insentif == 'model') { ?>
-
-                        <div class="input-field">
-                            <label for="">Nama Model</label>
-                            <input type="text" class="input" name="#" value="<?php echo $nama_model_mpdks; ?> " readonly>
-                        </div>
-
-                        <div class="input-field">
-                            <label for="">Deskripsi Model</label>
-                            <input type="text" class="input" name="#" value="<?php echo $deskripsi_mpdks; ?> " readonly>
-                        </div>
-
-                    <?php } elseif ($jenis_insentif == 'buku') { ?>
-
-                        <div class="input-field">
-                            <label for="">Jenis Buku</label>
-                            <input type="text" class="input" name="#" value="<?php echo $jenis_buku; ?> " readonly>
-                        </div>
-
-                        <div class="input-field">
-                            <label for="">Judul Buku</label>
-                            <input type="text" class="input" name="#" value="<?php echo $judul_buku; ?> " readonly>
-                        </div>
-
-                        <div class="input-field">
-                            <label for="">Sinopsis</label>
-                            <input type="text" class="input" name="#" value="<?php echo $sinopsis_buku; ?> " readonly>
-                        </div>
-
-                        <div class="input-field">
-                            <label for="">ISBN/Jumlah halaman/Penerbit</label>
-                            <input type="text" class="input" name="#" value="<?php echo $isbn_buku; ?> " readonly>
-                        </div>
-
-                    <?php } elseif ($jenis_insentif == 'insentif_publikasi') { ?>
-
-                        <div class="input-field">
-                            <label for="">Judul Publikasi</label>
-                            <input type="text" class="input" name="#" value="<?php echo $judul_publikasi_pi; ?> " readonly>
-                        </div>
-
-                        <div class="input-field">
-                            <label for="">Nama Penerbit dan Waktu terbit</label>
-                            <input type="text" class="input" name="#" value="<?php echo $namaPenerbit_dan_waktu_ipbk; ?> " readonly>
-                        </div>
-
-                        <div class="input-field">
-                            <label for="">Tautan Publikasi</label>
-                            <input type="text" class="input" name="#" value="<?php echo $link_publikasi_ipbk; ?> " readonly>
-                        </div>
-
                     <?php } ?>
+
 
 
                     <div class="input-field">
@@ -570,7 +615,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
 
                         <div class="btn-kirim-dsn" style="display: flex; justify-content: end; gap: 15px; position: relative; top: 20px;">
                             <button id="btnKirim" type="button" style="cursor: pointer; text-align: center; height: 35px; width: 10%;">Kirim Memo</button>
-                             <button id="btnVerifikasi" type="button" style="border-radius: 8px; cursor: pointer; text-align: center; color: #fff; background-color: #31763d; height: 35px; width: 10%;">Verifikasi</button>
+                            <button id="btnVerifikasi" type="button" style="border-radius: 8px; cursor: pointer; text-align: center; color: #fff; background-color: #31763d; height: 35px; width: 10%;">Verifikasi</button>
                         </div>
                     <?php endif; ?>
 
@@ -609,11 +654,45 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
     <script>
         document.getElementById('btnKirim').addEventListener('click', function() {
             const memo = document.getElementById('memo').value;
-            sendRequest('kirim', memo);
+
+            if (memo.trim() === '') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Memo kosong',
+                    text: 'Silakan isi memo terlebih dahulu.'
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Konfirmasi Pengiriman',
+                text: "Apakah Anda yakin ingin mengirim memo ini?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, kirim!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    sendRequest('kirim');
+                }
+            });
         });
 
         document.getElementById('btnVerifikasi').addEventListener('click', function() {
-            sendRequest('verifikasi');
+            Swal.fire({
+                title: 'Konfirmasi Verifikasi',
+                text: "Apakah Anda yakin ingin melakukan verifikasi?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, verifikasi!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    sendRequest('verifikasi');
+                }
+            });
         });
 
         function sendRequest(action) {
@@ -637,26 +716,30 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                     if (data.success) {
                         if (action === 'kirim') {
                             if (data.memoFilled) {
-                                alert('Memo sudah terisi.');
+                                Swal.fire('Memo Terisi', 'Memo sudah terisi sebelumnya.', 'info');
                             } else {
-                                alert('Catatan Berhasil Ditambahkan');
+                                Swal.fire('Berhasil', 'Catatan berhasil ditambahkan.', 'success');
                             }
                         } else if (action === 'verifikasi') {
                             if (data.verifikasiFilled) {
-                                alert('Verifikasi sudah terisi.');
+                                Swal.fire({
+                                    title: 'Verifikasi Berhasil',
+                                    text: 'Verifikasi berhasil dilakukan.',
+                                    icon: 'success'
+                                }).then(() => {
+                                    window.location.href = 'surat_masuk_insentif.php';
+                                });
                             } else {
-                                alert('Verifikasi Berhasil');
-                                setTimeout(() => {
-                                    window.location.href = 'surat_keluar_nondis.php';
-                                }, 3000);
+                                Swal.fire('Gagal', 'Verifikasi gagal: ' + data.message, 'error');
                             }
                         }
                     } else {
-                        alert('Update failed: ' + data.message);
+                        Swal.fire('Gagal', 'Update gagal: ' + data.message, 'error');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
+                    Swal.fire('Error', 'Terjadi kesalahan dalam permintaan.', 'error');
                 });
         }
     </script>

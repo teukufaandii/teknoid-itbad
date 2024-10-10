@@ -129,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     // Validasi ukuran file
     $max_file_size = 10 * 1024 * 1024; // 10MB dalam byte
     $allowed_file_types = ['application/pdf']; // Allowed MIME types
-    
+
     if ($is_berkas_uploaded) {
         $file_berkas_type = $_FILES['file_berkas']['type'];
         if ($_FILES['file_berkas']['size'] > $max_file_size) {
@@ -143,8 +143,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     }
 
     // Insert data into database
-    $sql = "INSERT INTO tb_surat_dis (asal_surat, kode_surat, tujuan_surat, no_hp, perihal, nomor_surat, jenis_surat, tanggal_surat, deskripsi) 
-            VALUES ('$asal_surat', '$kode_surat_otomatis', '$tujuan_surat', '$no_hp', '$perihal', '$no_surat', '$id_jenis_surat', '$tanggal_surat', '$deskripsi')";
+    $sql = "INSERT INTO tb_surat_dis (asal_surat, kode_surat, tujuan_surat, no_hp, perihal, nomor_surat, jenis_surat, tanggal_surat, deskripsi, status_selesai, status_tolak) 
+        VALUES ('$asal_surat', '$kode_surat_otomatis', '$tujuan_surat', '$no_hp', '$perihal', '$no_surat', '$id_jenis_surat', '$tanggal_surat', '$deskripsi', 0, 0)";
 
     $notification_message = "Surat baru telah masuk:\n\nAsal Surat: $asal_surat\nTujuan Surat: $tujuan_surat\nPerihal: $perihal\n\nMohon Ditanggapi";
     $notification_recipient = '+6285213042065';
