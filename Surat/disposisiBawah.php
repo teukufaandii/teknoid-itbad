@@ -17,19 +17,19 @@
         <label for="">Diteruskan kepada</label>
         <div class="radio">
             <div>
-                <input type="radio" name="diteruskan" value="Warek1">
+                <input type="checkbox" name="diteruskan[]" value="Warek1">
                 <label for="">Warek 1</label>
             </div>
             <div>
-                <input type="radio" name="diteruskan" value="Warek2">
+                <input type="checkbox" name="diteruskan[]" value="Warek2">
                 <label for="">Warek 2</label>
             </div>
             <div>
-                <input type="radio" name="diteruskan" value="Warek3">
+                <input type="checkbox" name="diteruskan[]" value="Warek3">
                 <label for="">Warek 3</label>
             </div>
             <div>
-                <input type="radio" name="diteruskan" value="sekretaris">
+                <input type="checkbox" name="diteruskan[]" value="sekretaris">
                 <label for="">Sekretaris</label>
             </div>
         </div>
@@ -126,62 +126,62 @@
         }
 
         function proceedDisposisi() {
-            var diteruskan = document.querySelector('input[name="diteruskan"]:checked').value;
+            var diteruskan_checkboxes = document.querySelectorAll('input[name="diteruskan[]"]:checked'); // Ambil semua checkbox yang dicentang
+
             var tujuanMapping = {
                 'Warek1': 'Warek 1',
                 'Warek2': 'Warek 2',
-                'Warek3': 'Warek 3'
+                'Warek3': 'Warek 3',
+                'sekretaris': 'Sekretaris'
             };
-            var tujuan = tujuanMapping[diteruskan];
+
+            var tujuan = [];
+            var diteruskan = []; // Array untuk menyimpan semua nilai tujuan
+
+            diteruskan_checkboxes.forEach(function(checkbox) {
+                tujuan.push(tujuanMapping[checkbox.value]);
+                diteruskan.push(checkbox.value); // Simpan nilai dari setiap checkbox yang dicentang
+            });
+
             swal({
-                title: "Anda yakin ingin mengirim disposisi ke " + tujuan + "?",
+                title: "Anda yakin ingin mengirim disposisi ke " + tujuan.join(', ') + "?",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
             }).then((willProceed) => {
                 if (willProceed) {
-                    if (willProceed) {
-                        var keputusan = document.querySelector('input[name="keputusan"]:checked').value;
+                    var keputusan = document.querySelector('input[name="keputusan"]:checked').value;
+                    var perihal = document.querySelector('input[name="perihal"]').value;
+                    var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
 
-                        var perihal = document.querySelector('input[name="perihal"]').value;
+                    // Buat objek XMLHttpRequest
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "update_disposisi.php", true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            swal("Disposisi Berhasil!", {
+                                    icon: "success",
+                                    buttons: "OK"
+                                })
+                                .then(() => {
+                                    window.location.href = "dashboard.php";
+                                });
+                        }
+                    };
 
-                        var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value; // Sesuaikan dengan name pada input
+                    // Set tanggal disposisi
+                    var today = new Date();
+                    var year = today.getFullYear();
+                    var month = today.getMonth() + 1; // January is 0
+                    var day = today.getDate();
+                    var tanggal_disposisi = year + '-' + month + '-' + day;
 
-                        var diteruskan = document.querySelector('input[name="diteruskan"]:checked').value;
-
-                        // Buat objek XMLHttpRequest
-                        var xhr = new XMLHttpRequest();
-                        xhr.open("POST", "update_disposisi.php", true);
-                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                        xhr.onreadystatechange = function() {
-                            if (xhr.readyState === 4 && xhr.status === 200) {
-                                swal("Disposisi Berhasil!", {
-                                        icon: "success",
-                                        buttons: "OK"
-                                    })
-                                    .then(() => {
-                                        window.location.href = "dashboard.php";
-                                    });
-                            }
-                        };
-
-                        // Set tanggal disposisi
-                        var today = new Date();
-                        var year = today.getFullYear();
-                        var month = today.getMonth() + 1; // January is 0
-                        var day = today.getDate();
-                        var tanggal_disposisi = year + '-' + month + '-' + day;
-
-                        // Kirim data ke server
-                        xhr.send("id_surat=<?php echo $id; ?>&keputusan=" + keputusan + "&tanggal_disposisi=" + tanggal_disposisi + "&perihal=" + perihal + "&catatan_disposisi=" + catatan_disposisi + "&diteruskan=" + diteruskan);
-                    } else {
-                        swal("Disposisi dibatalkan!", {
-                            icon: "error",
-                        });
-                    }
+                    // Kirim data ke server, gabungkan tujuan checkbox menjadi satu string dipisah koma
+                    xhr.send("id_surat=<?php echo $id; ?>&keputusan=" + keputusan + "&tanggal_disposisi=" + tanggal_disposisi + "&perihal=" + perihal + "&catatan_disposisi=" + catatan_disposisi + "&diteruskan=" + diteruskan.join(','));
                 } else {
                     swal("Disposisi dibatalkan!", {
-                        icon: "error"
+                        icon: "error",
                     });
                 }
             });
