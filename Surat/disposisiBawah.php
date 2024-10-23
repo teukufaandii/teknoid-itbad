@@ -2442,34 +2442,10 @@
     <?php include 'riwayat_dispo.php'; ?>
 
     <div class="input-disposisi">
-        <label for="">Keputusan Unit*</label>
-        <div class="radio">
-            <div>
-                <input type="radio" name="option">
-                <label for="">Tindak Lanjuti</label>
-            </div>
-            <div>
-                <input type="radio" name="option">
-                <label for="">Dibicarakan dengan rektor</label>
-            </div>
-            <div>
-                <input type="radio" name="option">
-                <label for="">Pendapat dan masukkan</label>
-            </div>
-            <div>
-                <input type="radio" name="option">
-                <label for="">Dicek dan diteliti</label>
-            </div>
-        </div>
-    </div>
-    <div class="input-disposisi">
         <label for="">Catatan Penyelesaian <br>/ Penolakan <span style="color: red;"></span></label>
         <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Penyelesaian / Penolakan">
     </div>
-    <div class="input-disposisi">
-        <label for="">Upload berkas<span style="color: red;"></span></label>
-        <input type="file" class="input" name="file_sdm" placeholder="Masukkan File" accept=".pdf">
-    </div>
+
     <div class="input-disposisi">
         <label for="">Tanggal Disposisi<br> </label>
         <div class="tgl">
@@ -2482,7 +2458,6 @@
     <div class="btn-kirim">
         <div class="floatFiller">ff</div>
         <button type="button" id="btnSelesai" style="cursor: pointer;">Selesai</button>
-        <!--  <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button> -->
     </div>
 
 
@@ -2501,7 +2476,7 @@
                         var asalsurat = document.querySelector('input[name="executor"]').value;
                         var xhr = new XMLHttpRequest();
                         var id = "<?php echo $id; ?>";
-                        xhr.open('POST', 'update_selesai_sdm.php', true);
+                        xhr.open('POST', 'update_selesai.php', true);
                         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -2724,7 +2699,7 @@
             <button type="button" id="btnSelesai" style="cursor: pointer;">Selesai</button>
             <!-- <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button> -->
         </div>
-    <?php else : ?>
+    <?php elseif ($jenis_surat == 1 || $jenis_surat == 2) : ?>
 
         <!-- surat dispo -->
         <?php

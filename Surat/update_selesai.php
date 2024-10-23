@@ -97,80 +97,58 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
     // cabang
 
     // Determine the update query based on the user's role and action
+    $update_query_disposisi = '';
     if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas') {
         $update_query_surat_dis = "UPDATE tb_surat_dis SET status_baca = true WHERE id_surat = '$id'";
         $jabatan = $_SESSION['jabatan'];
         $tanggal_eksekutor = date("Y-m-d");
         $asal_surat = $_POST['asalsurat'];
 
-        //disposisi
         if ($action == 'selesai') {
             $update_query_disposisi = "UPDATE tb_disposisi, tb_surat_dis SET 
-            tb_disposisi.tanggal_eksekutor = '$tanggal_eksekutor',
-            tb_disposisi.catatan_selesai = '$catatan',
-            tb_disposisi.nama_selesai = '$asal_surat',
-            tb_surat_dis.status_selesai = true
-            WHERE tb_disposisi.id_surat = '$id' AND tb_surat_dis.id_surat = '$id';";
+                tb_disposisi.tanggal_eksekutor = '$tanggal_eksekutor',
+                tb_disposisi.catatan_selesai = '$catatan',
+                tb_disposisi.nama_selesai = '$asal_surat',
+                tb_surat_dis.status_selesai = true
+                WHERE tb_disposisi.id_surat = '$id' AND tb_surat_dis.id_surat = '$id';";
         } elseif ($action == 'tolak') {
             $update_query_disposisi = "UPDATE tb_disposisi, tb_surat_dis SET
-            tb_disposisi.tanggal_eksekutor = '$tanggal_eksekutor', 
-            tb_disposisi.catatan_tolak = '$catatan',
-            tb_disposisi.nama_penolak = '$asal_surat',
-            tb_surat_dis.status_tolak = true
-            tb_surat_dis.status_baca = true
-            WHERE tb_disposisi.id_surat = '$id' AND tb_surat_dis.id_surat = '$id';";
+                tb_disposisi.tanggal_eksekutor = '$tanggal_eksekutor', 
+                tb_disposisi.catatan_tolak = '$catatan',
+                tb_disposisi.nama_penolak = '$asal_surat',
+                tb_surat_dis.status_tolak = true
+                WHERE tb_disposisi.id_surat = '$id' AND tb_surat_dis.id_surat = '$id';";
+        } else {
+            echo "Invalid action.";
+            mysqli_rollback($koneksi);
+            exit;
         }
     } else {
         // Update for other roles
-        if (
-            $action == 'selesai' && !$tanggal_eksekutor && !$nama_selesai && !$catatan_selesai
-        ) {
-            $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai = '$catatan', nama_selesai = '$asal_surat', tanggal_eksekutor=CURDATE() WHERE id_surat = '$id'";
-        } elseif (
-            $action == 'selesai' && $tanggal_eksekutor && $nama_selesai && $catatan_selesai &&
-            !$tanggal_eksekutor2 && !$nama_selesai2 && !$catatan_selesai2
-        ) {
-            $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai2 = '$catatan', nama_selesai2 = '$asal_surat', tanggal_eksekutor2=CURDATE() WHERE id_surat = '$id'";
-        } elseif (
-            $action == 'selesai' && $tanggal_eksekutor && $nama_selesai && $catatan_selesai &&
-            $tanggal_eksekutor2 && $nama_selesai2 && $catatan_selesai2 &&
-            !$tanggal_eksekutor3 && !$nama_selesai3 && !$catatan_selesai3
-        ) {
-            $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai3 = '$catatan', nama_selesai3 = '$asal_surat', tanggal_eksekutor3=CURDATE() WHERE id_surat = '$id'";
-        } elseif (
-            $action == 'selesai' && $tanggal_eksekutor && $nama_selesai && $catatan_selesai &&
-            $tanggal_eksekutor2 && $nama_selesai2 && $catatan_selesai2 &&
-            $tanggal_eksekutor3 && $nama_selesai3 && $catatan_selesai3 &&
-            !$tanggal_eksekutor4 && !$nama_selesai4 && !$catatan_selesai4
-        ) {
-            $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai4 = '$catatan', nama_selesai4 = '$asal_surat', tanggal_eksekutor4=CURDATE() WHERE id_surat = '$id'";
-        } elseif (
-            $action == 'selesai' && $tanggal_eksekutor && $nama_selesai && $catatan_selesai &&
-            $tanggal_eksekutor2 && $nama_selesai2 && $catatan_selesai2 &&
-            $tanggal_eksekutor3 && $nama_selesai3 && $catatan_selesai3 &&
-            $tanggal_eksekutor4 && $nama_selesai4 && $catatan_selesai4 &&
-            !$tanggal_eksekutor5 && !$nama_selesai5 && !$catatan_selesai5
-        ) {
-            $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai5 = '$catatan', nama_selesai5 = '$asal_surat', tanggal_eksekutor5=CURDATE() WHERE id_surat = '$id'";
-        } elseif (
-            $action == 'selesai' && $tanggal_eksekutor && $nama_selesai && $catatan_selesai &&
-            $tanggal_eksekutor2 && $nama_selesai2 && $catatan_selesai2 &&
-            $tanggal_eksekutor3 && $nama_selesai3 && $catatan_selesai3 &&
-            $tanggal_eksekutor4 && $nama_selesai4 && $catatan_selesai4 &&
-            $tanggal_eksekutor5 && $nama_selesai5 && $catatan_selesai5 &&
-            !$tanggal_eksekutor6 && !$nama_selesai6 && !$catatan_selesai6
-        ) {
-            $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai6 = '$catatan', nama_selesai6 = '$asal_surat', tanggal_eksekutor6=CURDATE() WHERE id_surat = '$id'";
-        } elseif (
-            $action == 'selesai' && $tanggal_eksekutor && $nama_selesai && $catatan_selesai &&
-            $tanggal_eksekutor2 && $nama_selesai2 && $catatan_selesai2 &&
-            $tanggal_eksekutor3 && $nama_selesai3 && $catatan_selesai3 &&
-            $tanggal_eksekutor4 && $nama_selesai4 && $catatan_selesai4 &&
-            $tanggal_eksekutor5 && $nama_selesai5 && $catatan_selesai5 &&
-            $tanggal_eksekutor6 && $nama_selesai6 && $catatan_selesai6 &&
-            !$tanggal_eksekutor7 && !$nama_selesai7 && !$catatan_selesai7
-        ) {
-            $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai7 = '$catatan', nama_selesai7 = '$asal_surat', tanggal_eksekutor7=CURDATE() WHERE id_surat = '$id'";
+        if ($action == 'selesai') {
+            if (!$tanggal_eksekutor && !$nama_selesai && !$catatan_selesai) {
+                $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai = '$catatan', nama_selesai = '$asal_surat', tanggal_eksekutor=CURDATE() WHERE id_surat = '$id'";
+            } elseif (!$tanggal_eksekutor2 && !$nama_selesai2 && !$catatan_selesai2) {
+                $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai2 = '$catatan', nama_selesai2 = '$asal_surat', tanggal_eksekutor2=CURDATE() WHERE id_surat = '$id'";
+            } elseif (!$tanggal_eksekutor3 && !$nama_selesai3 && !$catatan_selesai3) {
+                $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai3 = '$catatan', nama_selesai3 = '$asal_surat', tanggal_eksekutor3=CURDATE() WHERE id_surat = '$id'";
+            } elseif (!$tanggal_eksekutor4 && !$nama_selesai4 && !$catatan_selesai4) {
+                $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai4 = '$catatan', nama_selesai4 = '$asal_surat', tanggal_eksekutor4=CURDATE() WHERE id_surat = '$id'";
+            } elseif (!$tanggal_eksekutor5 && !$nama_selesai5 && !$catatan_selesai5) {
+                $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai5 = '$catatan', nama_selesai5 = '$asal_surat', tanggal_eksekutor5=CURDATE() WHERE id_surat = '$id'";
+            } elseif (!$tanggal_eksekutor6 && !$nama_selesai6 && !$catatan_selesai6) {
+                $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai6 = '$catatan', nama_selesai6 = '$asal_surat', tanggal_eksekutor6=CURDATE() WHERE id_surat = '$id'";
+            } elseif (!$tanggal_eksekutor7 && !$nama_selesai7 && !$catatan_selesai7) {
+                $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai7 = '$catatan', nama_selesai7 = '$asal_surat', tanggal_eksekutor7=CURDATE() WHERE id_surat = '$id'";
+            } else {
+                echo "All stages completed.";
+                mysqli_close($koneksi);
+                exit;
+            }
+        } else {
+            echo "Invalid action.";
+            mysqli_rollback($koneksi);
+            exit;
         }
     }
     // cabang
