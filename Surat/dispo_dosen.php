@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="eng">
 <?php
 session_start();
 include 'koneksi.php';
@@ -212,6 +210,9 @@ $stmt5->close();
 $file_berkas_exists = !empty($file_berkas_combined);
 $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
 ?>
+
+<!DOCTYPE html>
+<html lang="eng">
 
 <head>
     <title>Disposisi - Teknoid</title>
@@ -715,23 +716,19 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                     console.log(data);
                     if (data.success) {
                         if (action === 'kirim') {
-                            if (data.memoFilled) {
-                                Swal.fire('Memo Terisi', 'Memo sudah terisi sebelumnya.', 'info');
-                            } else {
-                                Swal.fire('Berhasil', 'Catatan berhasil ditambahkan.', 'success');
-                            }
+                            Swal.fire('Berhasil', 'Catatan berhasil ditambahkan.', 'success');
+                            setTimeout(() => {
+                                window.location.href = 'surat_masuk_insentif.php';
+                            }, 3000);
                         } else if (action === 'verifikasi') {
-                            if (data.verifikasiFilled) {
-                                Swal.fire({
-                                    title: 'Verifikasi Berhasil',
-                                    text: 'Verifikasi berhasil dilakukan.',
-                                    icon: 'success'
-                                }).then(() => {
-                                    window.location.href = 'surat_masuk_insentif.php';
-                                });
-                            } else {
-                                Swal.fire('Gagal', 'Verifikasi gagal: ' + data.message, 'error');
-                            }
+                            Swal.fire({
+                                title: 'Verifikasi Berhasil',
+                                text: 'Verifikasi berhasil dilakukan.',
+                                icon: 'success'
+                            });
+                            setTimeout(() => {
+                                window.location.href = 'surat_masuk_insentif.php';
+                            }, 3000);
                         }
                     } else {
                         Swal.fire('Gagal', 'Update gagal: ' + data.message, 'error');
@@ -743,7 +740,6 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                 });
         }
     </script>
-
 
     <!-- Modal script -->
     <script>

@@ -12,16 +12,7 @@ if ($action === 'kirim') {
     $stmt->bind_param("si", $memo, $id_srt);
 
     if ($stmt->execute()) {
-        // Check if the memo field is already filled
-        $sql_check = "SELECT memo FROM tb_srt_dosen WHERE id_srt = ?";
-        $stmt_check = $koneksi->prepare($sql_check);
-        $stmt_check->bind_param("i", $id_srt);
-        $stmt_check->execute();
-        $stmt_check->bind_result($existing_memo);
-        $stmt_check->fetch();
-
-        $memoFilled = !empty($existing_memo);
-        echo json_encode(['success' => true, 'memoFilled' => $memoFilled]);
+        echo json_encode(['success' => true]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Update failed']);
     }
@@ -33,16 +24,7 @@ if ($action === 'kirim') {
     $stmt->bind_param("i", $id_srt);
 
     if ($stmt->execute()) {
-        // Check if the verifikasi field is already filled
-        $sql_check = "SELECT verifikasi FROM tb_srt_dosen WHERE id_srt = ?";
-        $stmt_check = $koneksi->prepare($sql_check);
-        $stmt_check->bind_param("i", $id_srt);
-        $stmt_check->execute();
-        $stmt_check->bind_result($existing_verifikasi);
-        $stmt_check->fetch();
-
-        $verifikasiFilled = ($existing_verifikasi == 1);
-        echo json_encode(['success' => true, 'verifikasiFilled' => $verifikasiFilled]);
+        echo json_encode(['success' => true]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Update failed']);
     }
