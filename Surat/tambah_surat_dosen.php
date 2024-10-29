@@ -29,7 +29,7 @@ function isSuratRisetDosen($jenis_surat)
 
 <head>
     <title>Tambah Surat - Teknoid</title>
-    <!-- Required meta tags -->
+    <!--   meta tags -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -91,6 +91,7 @@ function isSuratRisetDosen($jenis_surat)
                                     <option value="" hidden>Pilih Status Pengusul</option>
                                     <option>Ketua</option>
                                     <option>Anggota</option>
+                                    <option>Korespondensi</option>
                                 </select>
                             </div>
                         </div>
@@ -532,37 +533,37 @@ function isSuratRisetDosen($jenis_surat)
                     <div id="input_riset" style="display: none;">
                         <div class="inputfield" id="surat_riset_fields_1">
                             <label for="ttl">Tempat, tanggal lahir*</label>
-                            <input type="text" class="input" name="ttl_srd" id="ttl" placeholder="Masukkan Tempat, tanggal lahir" required>
+                            <input type="text" class="input" name="ttl_srd" id="ttl" placeholder="Masukkan Tempat, tanggal lahir"  >
                         </div>
 
                         <div class="inputfield" id="surat_riset_fields_2">
                             <label for="alamat_domisili">Alamat Domisili*</label>
-                            <input type="text" class="input" name="alamat_srd" id="alamat_domisili" placeholder="Masukkan Alamat Domisili" required>
+                            <input type="text" class="input" name="alamat_srd" id="alamat_domisili" placeholder="Masukkan Alamat Domisili"  >
                         </div>
 
                         <div class="inputfield">
                             <label for="">Perihal*</label>
-                            <input type="text" class="input" name="perihal_srd" placeholder="Masukkan Perihal" required>
+                            <input type="text" class="input" name="perihal_srd" placeholder="Masukkan Perihal"  >
                         </div>
 
                         <div class="inputfield">
                             <label for="">Alamat Email*</label>
-                            <input type="email" class="input" name="email_srd" placeholder="Masukkan Alamat Email" required>
+                            <input type="email" class="input" name="email_srd" placeholder="Masukkan Alamat Email"  >
                         </div>
 
                         <div class="inputfield">
                             <label for="">Deskripsi Singkat</label>
-                            <input type="text" class="input" name="deskripsi_srd" placeholder="Masukkan Deskripsi Singkat" maxlength="200" required>
+                            <input type="text" class="input" name="deskripsi_srd" placeholder="Masukkan Deskripsi Singkat" maxlength="200"  >
                         </div>
 
                         <div class="inputfield" id="surat_riset_fields_3">
                             <label for="nama_perusahaan">Nama Perusahaan* </label>
-                            <input type="text" class="input" name="nama_perusahaan_srd" id="nama_perusahaan" placeholder="Masukkan Nama Perusahaan" required>
+                            <input type="text" class="input" name="nama_perusahaan_srd" id="nama_perusahaan" placeholder="Masukkan Nama Perusahaan"  >
                         </div>
 
                         <div class="inputfield" id="surat_riset_fields_4">
                             <label for="alamat_perusahaan">Alamat Perusahaan*</label>
-                            <input type="text" class="input" name="alamat_perusahaan_srd" id="alamat_perusahaan" placeholder="Masukkan Alamat Perusahaan" required>
+                            <input type="text" class="input" name="alamat_perusahaan_srd" id="alamat_perusahaan" placeholder="Masukkan Alamat Perusahaan"  >
                         </div>
 
                         <div class="inputfield">
@@ -577,7 +578,7 @@ function isSuratRisetDosen($jenis_surat)
 
                         <div class="inputfield">
                             <label for="">Upload Berkas Pendukung</label>
-                            <input type="file" class="input" name="file_berkas_srd" accept="application/pdf" style="border: none;" required>
+                            <input type="file" class="input" name="file_berkas_srd" accept="application/pdf" style="border: none;"  >
                             <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                         </div>
 
