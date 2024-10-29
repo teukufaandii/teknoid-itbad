@@ -400,22 +400,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                     }
                 });
             } else if (hakAkses === 'S1 TI' || hakAkses === 'S1 SI' || hakAkses === 'S1 DKV' || hakAkses === 'S1 Arsitektur' || hakAkses === 'S1 Manajemen ' || hakAkses === 'S1 Akuntansi' || hakAkses === 'S2 Keuangan Syariah') {
-                Swal.fire({
-                    title: 'Tambah Surat',
-                    text: 'Pilih jenis surat yang ingin Anda tambahkan',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Surat Disposisi',
-                    cancelButtonText: 'Surat Non-Disposisi'
-                }).then((result) => {
-                    if (result.isConfirmed) { // Redirect to tambah surat disposisi page
-                        window.location.href = "tambah_surat2.php";
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        // Redirect to tambah surat non-disposisi page
-                        window.location.href = "tambah_surat_dosen.php";
-                    }
-                });
+                window.location.href = "tambah_surat2.php";
             } else
                 Swal.fire({
                     title: 'Tambah Surat',
