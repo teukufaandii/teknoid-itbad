@@ -73,9 +73,9 @@ if (!isset($_SESSION['pengguna_type'])) {
                         <thead>
                             <tr>
                                 <th onclick="sortTable(0, this)" style="min-width: 75px; border-top-left-radius: 8px;">No<i id="sort-icon-0" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></i></th>
-                                <th onclick="sortTable(1, this)">Judul<i id="sort-icon-1" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                <th onclick="sortTable(1, this)">Jenis Insentif<i id="sort-icon-1" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
                                 <th onclick="sortTable(2, this)">Asal Surat<i id="sort-icon-2" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
-                                <th onclick="sortTable(3, this)">ID Sinta<i id="sort-icon-3" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                <th onclick="sortTable(3, this)">NIDN<i id="sort-icon-3" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
                                 <th onclick="sortTable(4, this)">Tanggal Surat<i id="sort-icon-4" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
                                 <th onclick="sortTable(5, this)">Status<i id="sort-icon-5" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
                                 <th>Aksi</th>
@@ -131,11 +131,50 @@ if (!isset($_SESSION['pengguna_type'])) {
                                         if ($_SESSION['jabatan'] == 'LP3M') {
                                             if ($row['tujuan_surat_srd'] == 'lp3m') {
                                                 echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
-                                                echo "<td>" . (!empty($row['judul_penelitian_ppm']) ? $row['judul_penelitian_ppm'] : (!empty($row['judul_publikasi_pi']) ? $row['judul_publikasi_pi'] : (!empty($row['judul_hki']) ? $row['judul_hki'] : (!empty($row['judul_buku']) ? $row['judul_buku'] : (!empty($row['judul_ipbk']) ? $row['judul_ipbk'] : 'Data Tidak Tersedia'))))) . "</td>";
+                                                
+                                                // Mapping for jenis_surat
+                                                switch ($row['jenis_surat']) {
+                                                    case 1:
+                                                        $jenis_surat_text = 'Penelitian & Pengabdian Masyarakat';
+                                                        break;
+                                                    case 2:
+                                                        $jenis_surat_text = 'Publikasi Ilmiah';
+                                                        break;
+                                                    case 3:
+                                                        $jenis_surat_text = 'Penyajian Paper Dalam Pertemuan Ilmiah';
+                                                        break;
+                                                    case 4:
+                                                        $jenis_surat_text = 'Keynote Speaker Dalam Pertemuan Ilmiah';
+                                                        break;
+                                                    case 5:
+                                                        $jenis_surat_text = 'Visiting Lecturer/Research';
+                                                        break;
+                                                    case 6:
+                                                        $jenis_surat_text = 'Hak Kekayaan Intelektual';
+                                                        break;
+                                                    case 7:
+                                                        $jenis_surat_text = 'Teknologi tepat Guna';
+                                                        break;
+                                                    case 8:
+                                                        $jenis_surat_text = 'Buku';
+                                                        break;
+                                                    case 9:
+                                                        $jenis_surat_text = 'Model, Prototype, Desain, karya Seni, Rekayasa Sosial, Kebijakan';
+                                                        break;
+                                                    case 10:
+                                                        $jenis_surat_text = 'Insentif Publikasi berita Kegiatan pengabdian Masyarakat';
+                                                        break;
+                                                    default:
+                                                        $jenis_surat_text = 'Unknown'; // Optional: Handle unexpected values
+                                                        break;
+                                                }
+                                            
+                                                echo "<td>" . $jenis_surat_text . "</td>";
                                                 echo "<td>" . $row['asal_surat'] . "</td>";
-                                                echo "<td>" . $row['id_sinta'] . "</td>";
+                                                echo "<td>" . $row['NIDN'] . "</td>";
                                                 echo "<td>" . (isset($row['tanggal_surat']) ? (new DateTime($row['tanggal_surat']))->format('d-m-Y') : '') . "</td>";
                                                 echo "<td>";
+
                                                 if ($row['verifikasi_keuangan'] == 1) {
                                                     echo '<i class="fa-solid fa-square-check" style="background-color: white; color: green;"></i> Terverifikasi - Keuangan';
                                                 } elseif ($row['verifikasi'] == 1) {
