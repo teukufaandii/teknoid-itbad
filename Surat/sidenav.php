@@ -18,6 +18,7 @@ $isPimpinan = in_array($_SESSION['akses'], ['Rektor', 'Warek1', 'Warek2', 'Warek
         </div>
         <a href="pengaturan_akun"><i class="fa-solid fa-gear" style="margin-right: 10px;"></i>Pengaturan&nbsp;Akun</a>
         <a href="rekap_surat"><i class='bx bxs-notepad' style="margin-right: 10px;"></i>Rekap&nbsp;Surat</a>
+        <a href="rekap_insentif"><i class='bx bxs-note' style="margin-right: 10px;"></i>Rekap&nbsp;Insentif</a>
         <a href="manajemen_form"><i class="fa-solid fa-wrench" style="margin-right: 10px;"></i>Pengaturan&nbsp;Formulir</a>
     </div>
 <?php } elseif ($_SESSION['akses'] == 'Humas') { ?>
@@ -99,7 +100,7 @@ $isPimpinan = in_array($_SESSION['akses'], ['Rektor', 'Warek1', 'Warek2', 'Warek
             <p><?php echo $_SESSION['jabatan']; ?></p>
         </div>
         <a href="dashboard"><i class="fas fa-tachometer-alt" style="margin-right: 10px;"></i>Dashboard</a>
-        <a href="rekap_surat"><i class='bx bxs-notepad' style="margin-right: 10px;"></i>Rekap&nbsp;Surat</a>
+        <a href="rekap_insentif"><i class='bx bxs-note' style="margin-right: 10px;"></i>Rekap&nbsp;Surat</a>
         <button class="dropdown-btn"><i class="fas fa-envelope" style="margin-right: 10px;"></i>Surat&nbsp;Menyurat
             <i class="fa fa-caret-down" style="margin-left: 5px;"></i>
         </button>
@@ -114,8 +115,6 @@ $isPimpinan = in_array($_SESSION['akses'], ['Rektor', 'Warek1', 'Warek2', 'Warek
             <a href="surat_keluar"><i class="fas fa-envelope-open-text" style="margin-right: 10px;"></i>Surat&nbsp;Keluar</a>
         </div>
     </div>
-
-
 
 <?php } elseif ($isProdi) { ?>
     <?php include "logout-checker.php" ?>
