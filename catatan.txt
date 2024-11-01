@@ -1,0 +1,16 @@
+rapat Selasa, 29 Oktober 2024 
+teknoid :
+- humas : tambah akun dgn excel hanya untuk mahasiswa ✅✅✅
+- ⁠surat non dispo tidak masuk ke dashboard belum ditanggapi, tp ke surat hari ini ✅✅✅ 
+- ⁠ketika percabangan jika salah satu sudah eksekusi, di akun lain ikut statusnya berubah jadi selesai ✅✅✅
+- ⁠SDM : ada tambahan untuk input/ upload balesan surat cuti dan balesannya masuk ke surat masuk pengirim ✅✅✅ 
+- ⁠prodi : pada non dispo hanya untuk honorium ✅✅✅ COMMIT
+- ⁠dosen : pada non dispo tambahkan korespondensi pada inputan status pengusul ✅✅✅ COMMIT
+- ⁠untuk pengajuan insentif ke LP3M dan riset ke humas 
+- ⁠LP3M : pada kolom judul diisi dgn jenis insentif ✅✅✅ COMMIT
+- ⁠LP3M :  export excel satuan berdasarkan jenis insentif ✅✅✅ COMMIT
+
+
+Note :
+publikasi OK
+Keynote speaker masih OK

@@ -1,192 +1,127 @@
 <?php
 session_start();
-
 include 'koneksi.php';
-include "logout-checker.php";
+include 'logout-checker.php';
 
-if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['action'])) {
+// Load PHPMailer
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
+
+// Cek apakah data POST ada
+if (isset($_POST['id'], $_POST['catatan_disposisi'], $_POST['action'])) {
+    // Escape input
     $id = mysqli_real_escape_string($koneksi, $_POST['id']);
     $catatan = mysqli_real_escape_string($koneksi, $_POST['catatan_disposisi']);
-    $asal_surat = isset($_SESSION['jabatan']) ? $_SESSION['jabatan'] : 'Unknown'; // Use session's jabatan
-    $action = mysqli_real_escape_string($koneksi, $_POST['action']); // Get action parameter
+    $asal_surat = isset($_SESSION['jabatan']) ? $_SESSION['jabatan'] : 'Unknown';
+    $jabatan = isset($_SESSION['jabatan']) ? $_SESSION['jabatan'] : 'Unknown';
 
-    // cabang
-    // Start transaction
+    // Mulai transaksi
     mysqli_autocommit($koneksi, false);
 
-    // Check if status_selesai is already true
-    $check_status_query = "SELECT status_selesai, status_selesai2, status_selesai3, status_selesai4, status_selesai5, status_selesai6, status_selesai7 FROM tb_surat_dis WHERE id_surat = '$id'";
-    $result_check_status = mysqli_query($koneksi, $check_status_query);
+    // Query status surat dan disposisi
+    $check_status_query = "SELECT status_selesai, status_selesai2, status_selesai3, status_selesai4, status_selesai5, status_selesai6, status_selesai7, asal_surat FROM tb_surat_dis WHERE id_surat = '$id'";
+    $check_disposisi_query = "SELECT tanggal_eksekutor, tanggal_eksekutor2, catatan_selesai, catatan_selesai2, nama_selesai, nama_selesai2 FROM tb_disposisi WHERE id_surat = '$id'";
 
-    $check_disposisi_query = "SELECT tanggal_eksekutor, tanggal_eksekutor2, tanggal_eksekutor3, tanggal_eksekutor4, tanggal_eksekutor5, tanggal_eksekutor6, tanggal_eksekutor7,
-                                    catatan_selesai, catatan_selesai2, catatan_selesai3, catatan_selesai4, catatan_selesai5, catatan_selesai6, catatan_selesai7,
-                                    nama_selesai, nama_selesai2, nama_selesai3, nama_selesai4, nama_selesai5, nama_selesai6, nama_selesai7 FROM tb_disposisi WHERE id_surat = '$id'";
+    $result_check_status = mysqli_query($koneksi, $check_status_query);
     $result_check_disposisi = mysqli_query($koneksi, $check_disposisi_query);
 
-    if (!$result_check_status) {
+    if (!$result_check_status || !$result_check_disposisi) {
         mysqli_rollback($koneksi);
-        echo "Gagal memeriksa status surat: " . mysqli_error($koneksi);
+        echo "Error checking surat or disposisi status: " . mysqli_error($koneksi);
         mysqli_close($koneksi);
         exit;
     }
 
-    if (!$result_check_disposisi) {
-        mysqli_rollback($koneksi);
-        echo "Gagal memeriksa disposisi surat: " . mysqli_error($koneksi);
-        mysqli_close($koneksi);
-        exit;
-    }
+    $status_row = mysqli_fetch_assoc($result_check_status);
+    $disposisi_row = mysqli_fetch_assoc($result_check_disposisi);
 
-    $row_status = mysqli_fetch_assoc($result_check_status);
-    $status_selesai = $row_status['status_selesai'];
-    $status_selesai2 = $row_status['status_selesai2'];
-    $status_selesai3 = $row_status['status_selesai3'];
-    $status_selesai4 = $row_status['status_selesai4'];
-    $status_selesai5 = $row_status['status_selesai5'];
-    $status_selesai6 = $row_status['status_selesai6'];
-    $status_selesai7 = $row_status['status_selesai7'];
+    $asal_surat = $status_row['asal_surat'];
 
-    $row_disposisi = mysqli_fetch_assoc($result_check_disposisi);
-    $tanggal_eksekutor = $row_disposisi['tanggal_eksekutor'];
-    $tanggal_eksekutor2 = $row_disposisi['tanggal_eksekutor2'];
-    $tanggal_eksekutor3 = $row_disposisi['tanggal_eksekutor3'];
-    $tanggal_eksekutor4 = $row_disposisi['tanggal_eksekutor4'];
-    $tanggal_eksekutor5 = $row_disposisi['tanggal_eksekutor5'];
-    $tanggal_eksekutor6 = $row_disposisi['tanggal_eksekutor6'];
-    $tanggal_eksekutor7 = $row_disposisi['tanggal_eksekutor7'];
+    // Daftar kolom untuk status, tanggal, catatan, dan nama
+    $status_fields = ['status_selesai', 'status_selesai2', 'status_selesai3', 'status_selesai4', 'status_selesai5', 'status_selesai6', 'status_selesai7'];
+    $date_fields = ['tanggal_eksekutor', 'tanggal_eksekutor2', 'tanggal_eksekutor3', 'tanggal_eksekutor4', 'tanggal_eksekutor5', 'tanggal_eksekutor6', 'tanggal_eksekutor7'];
+    $catatan_fields = ['catatan_selesai', 'catatan_selesai2', 'catatan_selesai3', 'catatan_selesai4', 'catatan_selesai5', 'catatan_selesai6', 'catatan_selesai7'];
+    $nama_fields = ['nama_selesai', 'nama_selesai2', 'nama_selesai3', 'nama_selesai4', 'nama_selesai5', 'nama_selesai6', 'nama_selesai7'];
 
-    $catatan_selesai = $row_disposisi['catatan_selesai'];
-    $catatan_selesai2 = $row_disposisi['catatan_selesai2'];
-    $catatan_selesai3 = $row_disposisi['catatan_selesai3'];
-    $catatan_selesai4 = $row_disposisi['catatan_selesai4'];
-    $catatan_selesai5 = $row_disposisi['catatan_selesai5'];
-    $catatan_selesai6 = $row_disposisi['catatan_selesai6'];
-    $catatan_selesai7 = $row_disposisi['catatan_selesai7'];
+    // Loop untuk menemukan status yang belum selesai
+    $update_done = false;
+    foreach ($status_fields as $index => $field) {
+        if (!$status_row[$field]) {
+            // Query update status dan disposisi
+            $update_query = "UPDATE tb_surat_dis SET $field = true WHERE id_surat = '$id';
+                             UPDATE tb_disposisi 
+                             SET {$date_fields[$index]} = CURDATE(), 
+                                 {$catatan_fields[$index]} = '$catatan', 
+                                 {$nama_fields[$index]} = '$jabatan' 
+                             WHERE id_surat = '$id'";
 
-    $nama_selesai = $row_disposisi['nama_selesai'];
-    $nama_selesai2 = $row_disposisi['nama_selesai2'];
-    $nama_selesai3 = $row_disposisi['nama_selesai3'];
-    $nama_selesai4 = $row_disposisi['nama_selesai4'];
-    $nama_selesai5 = $row_disposisi['nama_selesai5'];
-    $nama_selesai6 = $row_disposisi['nama_selesai6'];
-    $nama_selesai7 = $row_disposisi['nama_selesai7'];
-
-    // Update tb_surat_dis based on status conditions
-    if (!$status_selesai) {
-        // If status_selesai is false, update status_selesai to true
-        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai = true, status_baca = true WHERE id_surat = '$id'";
-    } elseif ($status_selesai && !$status_selesai2) {
-        // If status_selesai is true but status_selesai2 is false, update status_selesai2 to true
-        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai2 = true WHERE id_surat = '$id'";
-    } elseif ($status_selesai && $status_selesai2 && !$status_selesai3) {
-        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai3 = true WHERE id_surat = '$id'";
-    } elseif ($status_selesai && $status_selesai2 && $status_selesai3 && !$status_selesai4) {
-        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai4 = true WHERE id_surat = '$id'";
-    } elseif ($status_selesai && $status_selesai2 && $status_selesai3 && $status_selesai4 && !$status_selesai5) {
-        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai5 = true WHERE id_surat = '$id'";
-    } elseif ($status_selesai && $status_selesai2 && $status_selesai3 && $status_selesai4 && $status_selesai5 && !$status_selesai6) {
-        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai6 = true WHERE id_surat = '$id'";
-    } elseif ($status_selesai && $status_selesai2 && !$status_selesai3 && $status_selesai4 && $status_selesai5 && $status_selesai6 && !$status_selesai7) {
-        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai7 = true WHERE id_surat = '$id'";
-    } else {
-        // If both status_selesai and status_selesai2 are true, handle accordingly (optional, based on your application logic)
-        echo "Surat sudah dalam status selesai yang final.";
-        mysqli_close($koneksi);
-        exit;
-    }
-    // cabang
-
-    // Determine the update query based on the user's role and action
-    $update_query_disposisi = '';
-    if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas') {
-        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_baca = true WHERE id_surat = '$id'";
-        $jabatan = $_SESSION['jabatan'];
-        $tanggal_eksekutor = date("Y-m-d");
-        $asal_surat = $_POST['asalsurat'];
-
-        if ($action == 'selesai') {
-            $update_query_disposisi = "UPDATE tb_disposisi, tb_surat_dis SET 
-                tb_disposisi.tanggal_eksekutor = '$tanggal_eksekutor',
-                tb_disposisi.catatan_selesai = '$catatan',
-                tb_disposisi.nama_selesai = '$asal_surat',
-                tb_surat_dis.status_selesai = true
-                WHERE tb_disposisi.id_surat = '$id' AND tb_surat_dis.id_surat = '$id';";
-        } elseif ($action == 'tolak') {
-            $update_query_disposisi = "UPDATE tb_disposisi, tb_surat_dis SET
-                tb_disposisi.tanggal_eksekutor = '$tanggal_eksekutor', 
-                tb_disposisi.catatan_tolak = '$catatan',
-                tb_disposisi.nama_penolak = '$asal_surat',
-                tb_surat_dis.status_tolak = true
-                WHERE tb_disposisi.id_surat = '$id' AND tb_surat_dis.id_surat = '$id';";
-        } else {
-            echo "Invalid action.";
-            mysqli_rollback($koneksi);
-            exit;
-        }
-    } else {
-        // Update for other roles
-        if ($action == 'selesai') {
-            if (!$tanggal_eksekutor && !$nama_selesai && !$catatan_selesai) {
-                $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai = '$catatan', nama_selesai = '$asal_surat', tanggal_eksekutor=CURDATE() WHERE id_surat = '$id'";
-            } elseif (!$tanggal_eksekutor2 && !$nama_selesai2 && !$catatan_selesai2) {
-                $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai2 = '$catatan', nama_selesai2 = '$asal_surat', tanggal_eksekutor2=CURDATE() WHERE id_surat = '$id'";
-            } elseif (!$tanggal_eksekutor3 && !$nama_selesai3 && !$catatan_selesai3) {
-                $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai3 = '$catatan', nama_selesai3 = '$asal_surat', tanggal_eksekutor3=CURDATE() WHERE id_surat = '$id'";
-            } elseif (!$tanggal_eksekutor4 && !$nama_selesai4 && !$catatan_selesai4) {
-                $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai4 = '$catatan', nama_selesai4 = '$asal_surat', tanggal_eksekutor4=CURDATE() WHERE id_surat = '$id'";
-            } elseif (!$tanggal_eksekutor5 && !$nama_selesai5 && !$catatan_selesai5) {
-                $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai5 = '$catatan', nama_selesai5 = '$asal_surat', tanggal_eksekutor5=CURDATE() WHERE id_surat = '$id'";
-            } elseif (!$tanggal_eksekutor6 && !$nama_selesai6 && !$catatan_selesai6) {
-                $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai6 = '$catatan', nama_selesai6 = '$asal_surat', tanggal_eksekutor6=CURDATE() WHERE id_surat = '$id'";
-            } elseif (!$tanggal_eksekutor7 && !$nama_selesai7 && !$catatan_selesai7) {
-                $update_query_disposisi = "UPDATE tb_disposisi SET catatan_selesai7 = '$catatan', nama_selesai7 = '$asal_surat', tanggal_eksekutor7=CURDATE() WHERE id_surat = '$id'";
+            if (mysqli_multi_query($koneksi, $update_query)) {
+                do {
+                    if ($result = mysqli_store_result($koneksi)) {
+                        mysqli_free_result($result);
+                    }
+                } while (mysqli_next_result($koneksi));
+                $update_done = true;
+                break;
             } else {
-                echo "All stages completed.";
+                mysqli_rollback($koneksi);
+                echo "Error updating status: " . mysqli_error($koneksi);
                 mysqli_close($koneksi);
                 exit;
             }
-        } else {
-            echo "Invalid action.";
-            mysqli_rollback($koneksi);
-            exit;
         }
     }
-    // cabang
 
-    // Update tb_surat_dis
-    if (mysqli_query($koneksi, $update_query_surat_dis)) {
-        // Check if entry for id_surat exists in tb_disposisi
-        $check_query = "SELECT COUNT(*) as count FROM tb_disposisi WHERE id_surat = '$id'";
-        $result_check = mysqli_query($koneksi, $check_query);
-        $row = mysqli_fetch_assoc($result_check);
-        $count = $row['count'];
+    if ($update_done) {
+        mysqli_commit($koneksi);
+        echo "Status updated successfully.";
 
-        if ($count > 0) {
-            // If entry exists, update tb_disposisi
-            if (mysqli_query($koneksi, $update_query_disposisi)) {
-                mysqli_commit($koneksi);
-                echo "Status berhasil diperbarui";
-            } else {
-                mysqli_rollback($koneksi);
-                echo "Gagal memperbarui status pada tabel tb_disposisi: " . mysqli_error($koneksi);
+        if (isset($_SESSION['akses']) && $_SESSION['akses'] === 'sdm') {
+            $asal_surat_query = "SELECT email FROM tb_pengguna WHERE nama_lengkap = '$asal_surat'";
+            $asal_surat_result = mysqli_query($koneksi, $asal_surat_query);
+
+            if (!$asal_surat_result) {
+                echo "Error fetching email: " . mysqli_error($koneksi);
+                mysqli_close($koneksi);
+                exit;
             }
-        } else {
-            // If entry does not exist, insert new entry into tb_disposisi
-            $insert_query = "INSERT INTO tb_disposisi (id_surat, " . ($action == 'selesai' ? "catatan_selesai, nama_selesai" : ($action == 'tolak' ? "catatan_selesai, nama_penolak" : "catatan_terima, nama_terima")) . ") VALUES ('$id', '$catatan', '$asal_surat')";
-            if (mysqli_query($koneksi, $insert_query)) {
-                mysqli_commit($koneksi);
-                echo "Status berhasil diperbarui";
-            } else {
-                mysqli_rollback($koneksi);
-                echo "Gagal memperbarui status pada tabel tb_disposisi: " . mysqli_error($koneksi);
+
+            $asal_surat_row = mysqli_fetch_assoc($asal_surat_result);
+            $email_pengguna = $asal_surat_row['email'];
+
+            $mail = new PHPMailer(true);
+            try {
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'itbad.teknoid@gmail.com';
+                $mail->Password = 'scuf qqwz eeea ercg';
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port = 587;
+
+                $mail->setFrom('itbad.teknoid@gmail.com', 'Balasan Surat Cuti untuk ' . $asal_surat);
+                $mail->addAddress($email_pengguna);
+
+                $mail->isHTML(true);
+                $mail->Subject = 'Status Surat Updated';
+                $mail->Body    = 'Status surat dengan ID ' . $id . ' telah diupdate.';
+
+                if (isset($_FILES['file_sdm']) && $_FILES['file_sdm']['error'] === UPLOAD_ERR_OK) {
+                    $mail->addAttachment($_FILES['file_sdm']['tmp_name'], $_FILES['file_sdm']['name']);
+                }
+
+                $mail->send();
+                echo 'Email sent successfully.';
+            } catch (Exception $e) {
+                echo "Error sending email: {$mail->ErrorInfo}";
             }
         }
     } else {
-        mysqli_rollback($koneksi);
-        echo "Gagal memperbarui status pada tabel tb_surat_dis: " . mysqli_error($koneksi);
+        echo "All statuses are already set to completed.";
     }
 
     mysqli_close($koneksi);
-} else {
-    echo "ID surat, catatan disposisi, atau action tidak diterima.";
+    exit;
 }

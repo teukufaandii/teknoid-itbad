@@ -1,5 +1,5 @@
 <?php
-session_start(); // Start the session at the beginning of the script
+session_start(); 
 if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'lp3m' || isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin') {
 ?>
     <?php
@@ -129,10 +129,12 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'lp3m' || isset($_SESSION
                     var tanggal_awal = $('#tanggal_awal').val();
                     var tanggal_akhir = $('#tanggal_akhir').val();
 
-                    if (jenis_insentif) {
-                        window.location.href = 'sql/export_insentif.php?jenis_insentif=' + jenis_insentif;
+                    if (jenis_insentif && tanggal_awal && tanggal_akhir) {
+                        window.location.href = 'sql/export_insentif.php?jenis_insentif=' + encodeURIComponent(jenis_insentif) +
+                            '&tanggal_awal=' + encodeURIComponent(tanggal_awal) +
+                            '&tanggal_akhir=' + encodeURIComponent(tanggal_akhir);
                     } else {
-                        alert('Silakan pilih jenis insentif terlebih dahulu.');
+                        alert('Silakan pilih jenis insentif dan tentukan rentang tanggal terlebih dahulu.');
                     }
                 });
             });

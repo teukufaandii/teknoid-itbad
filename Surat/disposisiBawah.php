@@ -2435,6 +2435,11 @@
                     FROM tb_disposisi WHERE id_surat = '$id'";
     $result = mysqli_query($koneksi, $query);
     ?>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
     <div class="txt-disposisi">
         <h3>Disposisi</h3>
     </div>
@@ -2444,6 +2449,11 @@
     <div class="input-disposisi">
         <label for="">Catatan Penyelesaian <br>/ Penolakan <span style="color: red;"></span></label>
         <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Penyelesaian / Penolakan">
+    </div>
+
+    <div class="input-disposisi">
+        <label for="">Upload File</label>
+        <input type="file" name="file_sdm" accept=".pdf">
     </div>
 
     <div class="input-disposisi">
@@ -2472,22 +2482,42 @@
                 })
                 .then((willProceed) => {
                     if (willProceed) {
+                        // Show loading overlay
+                        document.getElementById('loadingOverlay').style.display = 'flex';
+
                         var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
                         var asalsurat = document.querySelector('input[name="executor"]').value;
-                        var xhr = new XMLHttpRequest();
+                        var file_sdm = document.querySelector('input[name="file_sdm"]').files[0];
                         var id = "<?php echo $id; ?>";
+
+                        // Create FormData object and append data
+                        var formData = new FormData();
+                        formData.append("id", id);
+                        formData.append("catatan_disposisi", catatan_disposisi);
+                        formData.append("asalsurat", asalsurat);
+                        formData.append("action", "selesai");
+                        formData.append("file_sdm", file_sdm);
+
+                        // Create an XMLHttpRequest to send the FormData
+                        var xhr = new XMLHttpRequest();
                         xhr.open('POST', 'update_selesai.php', true);
-                        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                         xhr.onreadystatechange = function() {
-                            if (xhr.readyState == 4 && xhr.status == 200) {
-                                console.log(xhr.responseText);
-                                swal("Berhasil!", "Surat Telah Dikonfirmasi Selesai!", "success")
-                                    .then(function() {
-                                        window.location.href = "dashboard.php";
-                                    });
+                            if (xhr.readyState == 4) {
+                                // Hide loading overlay
+                                document.getElementById('loadingOverlay').style.display = 'none';
+
+                                if (xhr.status == 200) {
+                                    console.log(xhr.responseText);
+                                    swal("Berhasil!", "Surat Telah Dikonfirmasi Selesai!", "success")
+                                        .then(function() {
+                                            window.location.href = "dashboard.php";
+                                        });
+                                } else {
+                                    swal("Error", "Terjadi kesalahan saat memproses surat.", "error");
+                                }
                             }
                         };
-                        xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&asalsurat=" + asalsurat + "&action=selesai");
+                        xhr.send(formData); // Send the FormData object
                     } else {
                         swal("Dibatalkan", "Surat tidak diselesaikan", "info");
                     }

@@ -116,7 +116,6 @@ if (!isset($_SESSION['pengguna_type'])) {
                     $total_sm_verif = $total_sm_verif_row['total'];
                     ?>
 
-
                     <button onclick="window.location.href='surat_masuk.php'" class="btn3">Surat Masuk
                         <i class="fas fa-envelope dash-icon"></i><br>
                         <span class="badge" id="" style="color: grey; padding: 2px; border-radius: 15px;"><?php echo $total_sm; ?></span>

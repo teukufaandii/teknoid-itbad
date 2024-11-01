@@ -174,6 +174,39 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] !== 'User') {
                     margin-right: 10px;
                 }
             }
+
+            .loading-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 9999;
+                justify-content: center;
+                align-items: center;
+            }
+
+            /* Spinner Animation */
+            .spinner {
+                border: 8px solid rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                border-top: 8px solid #ffffff;
+                width: 60px;
+                height: 60px;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
         </style>
 
     </head>

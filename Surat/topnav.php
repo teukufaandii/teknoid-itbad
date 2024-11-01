@@ -52,18 +52,14 @@ $no_hp = $row_pengguna['no_hp'];
 </div>
 
 <script>
-    // Panggil fetchNotifications saat halaman dimuat untuk pertama kalinya
     document.addEventListener('DOMContentLoaded', function() {
         const email = "<?php echo $email; ?>";
         const password = "<?php echo $password; ?>";
         const phoneNumber = "<?php echo $no_hp; ?>";
 
-        // Cek apakah data email, password, dan nomor telepon telah terisi
         if (email && password && phoneNumber) {
-            // Hilangkan running text
             document.querySelector('.running-text').style.display = 'none';
         } else {
-            // Tampilkan running text
             document.querySelector('.running-text').style.display = 'flex';
         }
     });

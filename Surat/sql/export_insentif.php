@@ -7,18 +7,25 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-$host = 'localhost';
-$dbname = 'db_teknoid';
-$username = 'root';
-$password = '';
+header('Content-Type: application/json');
 
-$conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+try {
+    $host = 'localhost';
+    $dbname = 'db_teknoid';
+    $username = 'root';
+    $password = '';
 
-if (isset($_POST['jenis_insentif']) && isset($_POST['tanggal_awal']) && isset($_POST['tanggal_akhir'])) {
-    $jenis_insentif = $_POST['jenis_insentif'];
-    $tanggal_awal = $_POST['tanggal_awal'];
-    $tanggal_akhir = $_POST['tanggal_akhir'];
+    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    if (!isset($_GET['jenis_insentif']) || !isset($_GET['tanggal_awal']) || !isset($_GET['tanggal_akhir'])) {
+        echo json_encode(["error" => "Jenis insentif, tanggal awal, atau tanggal akhir tidak ditentukan."]);
+        exit;
+    }
+
+    $jenis_insentif = $_GET['jenis_insentif'];
+    $tanggal_awal = $_GET['tanggal_awal'];
+    $tanggal_akhir = $_GET['tanggal_akhir'];
 
     $stmt = $conn->prepare("SELECT * FROM tb_srt_dosen WHERE jenis_insentif = :jenis_insentif AND tanggal_surat BETWEEN :tanggal_awal AND :tanggal_akhir");
     $stmt->bindParam(':jenis_insentif', $jenis_insentif);
@@ -29,6 +36,7 @@ if (isset($_POST['jenis_insentif']) && isset($_POST['tanggal_awal']) && isset($_
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if ($results) {
+        // Spreadsheet creation logic
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
@@ -123,16 +131,14 @@ if (isset($_POST['jenis_insentif']) && isset($_POST['tanggal_awal']) && isset($_
         $writer = new Xlsx($spreadsheet);
 
         $filename = 'Data Dosen - ' . date('Y-m-d') . '.xlsx';
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
         header('Cache-Control: max-age=0');
 
         $writer->save('php://output');
-        exit;
     } else {
-        echo "<p>Tidak ada data ditemukan.</p>";
+        echo json_encode(["error" => "Tidak ada data ditemukan."]);
     }
-} else {
-    echo "<p>Jenis insentif tidak ditentukan.</p>";
+} catch (Exception $e) {
+    echo json_encode(["error" => "Kesalahan pada server: " . $e->getMessage()]);
 }
 ?>

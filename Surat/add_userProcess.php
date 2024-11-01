@@ -2,12 +2,14 @@
 include 'koneksi.php'; // Sertakan koneksi ke database
 
 // Fungsi untuk menghasilkan UUID
-function generateUUID() {
+function generateUUID()
+{
     // Membuat format UUID versi 4 (berdasarkan random)
     return sprintf(
         '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
         // 32 bits for "time_low"
-        mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+        mt_rand(0, 0xffff),
+        mt_rand(0, 0xffff),
         // 16 bits for "time_mid"
         mt_rand(0, 0xffff),
         // 16 bits for "time_hi_and_version", 4 most significant bits hold version number 4
@@ -15,7 +17,9 @@ function generateUUID() {
         // 16 bits, 8 bits for "clk_seq_hi_res", 8 bits for "clk_seq_low", 2 most significant bits hold zero and one for variant DCE1.1
         mt_rand(0, 0x3fff) | 0x8000,
         // 48 bits for "node"
-        mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+        mt_rand(0, 0xffff),
+        mt_rand(0, 0xffff),
+        mt_rand(0, 0xffff)
     );
 }
 
@@ -45,4 +49,3 @@ if (mysqli_query($koneksi, $query)) {
 
 // Tutup koneksi database
 mysqli_close($koneksi);
-?>
