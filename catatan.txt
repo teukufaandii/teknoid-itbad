@@ -6,7 +6,7 @@ teknoid :
 - ⁠SDM : ada tambahan untuk input/ upload balesan surat cuti dan balesannya masuk ke surat masuk pengirim ✅✅✅ 
 - ⁠prodi : pada non dispo hanya untuk honorium ✅✅✅ COMMIT
 - ⁠dosen : pada non dispo tambahkan korespondensi pada inputan status pengusul ✅✅✅ COMMIT
-- ⁠untuk pengajuan insentif ke LP3M dan riset ke humas 
+- ⁠untuk pengajuan insentif ke LP3M dan riset ke humas TINGGAL INI
 - ⁠LP3M : pada kolom judul diisi dgn jenis insentif ✅✅✅ COMMIT
 - ⁠LP3M :  export excel satuan berdasarkan jenis insentif ✅✅✅ COMMIT
 

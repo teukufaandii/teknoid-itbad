@@ -25,8 +25,13 @@ if (!isset($_SESSION['pengguna_type'])) {
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="icon" type="image/x-icon" href="../logo itbad.png">
         <link href="css/dashboard-style.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="tablesorter/jquery.tablesorter.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://kit.fontawesome.com/9e9ad697fd.js" crossorigin="anonymous"></script>
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     </head>
     <body>
         <!-- sidenav -->
@@ -46,9 +51,9 @@ if (!isset($_SESSION['pengguna_type'])) {
                     </div>
                     <div class="tombol">
                         <div class="tambah">
-                                <a href="form_upload.php" style="color: white;"> <button>
-                                <i class="fa fa-plus"> &nbsp; Tambah Formulir</i>  </button>
-                                </a>
+                            <a href="form_upload.php" style="color: white;"> <button>
+                                <i class="fa fa-plus" style="font-family: arial"> &nbsp; Tambah Formulir</i>  </button>
+                            </a>
                         </div>
                     </div>
                     <form class="form">

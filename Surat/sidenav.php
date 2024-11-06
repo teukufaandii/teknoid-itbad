@@ -38,11 +38,18 @@ $isPimpinan = in_array($_SESSION['akses'], ['Rektor', 'Warek1', 'Warek2', 'Warek
         <button class="dropdown-btn"><i class="fas fa-envelope" style="margin-right: 10px;"></i>Surat&nbsp;Menyurat
             <i class="fa fa-caret-down" style="margin-left: 5px;"></i>
         </button>
-        <div class="dropdown-container">
-            <a href="surat_masuk"><i class="fas fa-envelope-open-text" style="margin-right: 10px;"></i>Surat&nbsp;Masuk</a>
-            <a href="surat_keluar"><i class="fas fa-envelope-open" style="margin-right: 10px;"></i>Surat&nbsp;Keluar</a>
+        <div class="dropdown-container" style="text-align: left;">
+            <button class="dropdown-btn"><i class="fas fa-envelope-open" style="margin-right: 10px;"></i>Surat&nbsp;Masuk
+                <i class="fa fa-caret-down" style="margin-left: 5px;"></i>
+            </button>
+            <div class="dropdown-container" style="text-align: left;">
+                <a href="surat_masuk">Disposisi</a>
+                <a href="surat_masuk_riset">Riset</a>
+            </div>
+            <a href="surat_keluar"><i class="fas fa-envelope-open-text" style="margin-right: 10px;"></i>Surat&nbsp;Keluar</a>
         </div>
     </div>
+
 <?php } elseif ($isPimpinan) { ?>
     <?php include "logout-checker.php" ?>
     <div class="sidenav" id="mySidenav">

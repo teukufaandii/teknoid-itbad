@@ -60,7 +60,7 @@ if (!isset($_SESSION['pengguna_type'])) {
         <div class="mainContent" id="mainContent">
             <div class="contentBox">
                 <div class="pageInfo">
-                    <h3>Surat Masuk Insentif</h3>
+                    <h3>Surat Masuk Riset</h3>
                 </div>
                 <div class="tombol" style="justify-content: flex-end; margin-bottom: 20px;">
                     <div class="search-box">
@@ -74,13 +74,13 @@ if (!isset($_SESSION['pengguna_type'])) {
                         <thead>
                             <tr>
                                 <th onclick="sortTable(0, this)" style="min-width: 75px; border-top-left-radius: 8px;">No<i id="sort-icon-0" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></i></th>
-                                <th onclick="sortTable(1, this)">Jenis Insentif<i id="sort-icon-1" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
-                                <th onclick="sortTable(2, this)">Asal Surat<i id="sort-icon-2" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
-                                <th onclick="sortTable(3, this)">NIDN<i id="sort-icon-3" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
-                                <th onclick="sortTable(4, this)">Tanggal Surat<i id="sort-icon-4" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
-                                <th onclick="sortTable(5, this)">Status<i id="sort-icon-5" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                <th onclick="sortTable(1, this)">Asal Surat<i id="sort-icon-1" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                <th onclick="sortTable(2, this)">NIDN<i id="sort-icon-2" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                <th onclick="sortTable(3, this)">Tanggal Surat<i id="sort-icon-3" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                <th onclick="sortTable(4, this)">Perihal<i id="sort-icon-4" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                <!--<th onclick="sortTable(5, this)">Status<i id="sort-icon-5" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th> -->
                                 <th>Aksi</th>
-                                <th style="border-top-right-radius: 8px;">Detail</th>
+                                <!-- <th style="border-top-right-radius: 8px;">Detail</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -129,73 +129,15 @@ if (!isset($_SESSION['pengguna_type'])) {
                                         $jabatan = $_SESSION['jabatan'];
                                         $verified = "Verifikasi";
 
-                                        if ($_SESSION['jabatan'] == 'LP3M') {
-                                            if ($row['tujuan_surat_srd'] == 'lp3m') {
+                                        if ($_SESSION['jabatan'] == 'Humas') {
+                                            if ($row['tujuan_surat_srd'] == 'humas') {
                                                 echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
-
-                                                // Mapping for jenis_surat
-                                                switch ($row['jenis_insentif']) {
-                                                    case 'penelitian':
-                                                        $jenis_surat_text = 'Penelitian & Pengabdian Masyarakat';
-                                                        break;
-                                                    case 'publikasi':
-                                                        $jenis_surat_text = 'Publikasi Ilmiah';
-                                                        break;
-                                                    case 'pertemuan_ilmiah':
-                                                        $jenis_surat_text = 'Penyajian Paper Dalam Pertemuan Ilmiah';
-                                                        break;
-                                                    case 'keynote_speaker':
-                                                        $jenis_surat_text = 'Keynote Speaker Dalam Pertemuan Ilmiah';
-                                                        break;
-                                                    case 'visiting':
-                                                        $jenis_surat_text = 'Visiting Lecturer/Research';
-                                                        break;
-                                                    case 'hki':
-                                                        $jenis_surat_text = 'Hak Kekayaan Intelektual';
-                                                        break;
-                                                    case 'teknologi':
-                                                        $jenis_surat_text = 'Teknologi tepat Guna';
-                                                        break;
-                                                    case 'buku':
-                                                        $jenis_surat_text = 'Buku';
-                                                        break;
-                                                    case 'model':
-                                                        $jenis_surat_text = 'Model, Prototype, Desain, karya Seni, Rekayasa Sosial, Kebijakan';
-                                                        break;
-                                                    case 'insentif_publikasi':
-                                                        $jenis_surat_text = 'Insentif Publikasi berita Kegiatan pengabdian Masyarakat';
-                                                        break;
-                                                    default:
-                                                        $jenis_surat_text = 'Unknown'; // Optional: Handle unexpected values
-                                                        break;
-                                                }
-
-                                                echo "<td>" . $jenis_surat_text . "</td>";
                                                 echo "<td>" . $row['asal_surat'] . "</td>";
                                                 echo "<td>" . $row['NIDN'] . "</td>";
                                                 echo "<td>" . (isset($row['tanggal_surat']) ? (new DateTime($row['tanggal_surat']))->format('d-m-Y') : '') . "</td>";
-                                                echo "<td>";
-
-                                                if ($row['verifikasi_keuangan'] == 1) {
-                                                    echo '<i class="fa-solid fa-square-check" style="background-color: white; color: green;"></i> Terverifikasi - Keuangan';
-                                                } elseif ($row['verifikasi'] == 1) {
-                                                    echo '<i class="fa-solid fa-square-check" style="background-color: white; color: green;"></i> Terverifikasi ';
-                                                } else {
-                                                    echo ' Belum Diverifikasi';
-                                                }
+                                                echo "<td>" . $row['perihal_srd'] . "</td>";
                                                 echo "</td>";
-                                                echo "<td>
-                                                <div class='aksi-btn'>";
-                                                // Add condition to disable the verify button if already verified
-                                                if ($row['verifikasi_keuangan'] == 1) {
-                                                    echo "<button style='cursor: not-allowed;' class='verify-button' data-id='" . $row['id_srt'] . "' disabled><i class='fa-solid fa-check'></i> Sudah Diverifikasi ke keuangan</button>";
-                                                } else {
-                                                    echo "<button class='verify-button' data-id='" . $row['id_srt'] . "'>Proses ke keuangan</button>";
-                                                }
-
-                                                echo "</div>
-                                                </td>";
-                                                echo "<td><a href='dispo_dosen.php?id=" . $row['id_srt'] . "' ><i class='fas fa-eye' style='background-color: white; color: #1b5ebe;'></i></a></td>";
+                                                echo "<td><a href='dispo_dosen.php?id=" . $row['id_srt'] . "' ><button style='background-color: white; color: #1b5ebe;'> Proses </button></a></td>";
                                             }
                                         }
                                         ?>
@@ -279,7 +221,7 @@ if (!isset($_SESSION['pengguna_type'])) {
             $("#search").keyup(function() {
                 var search = $(this).val();
                 $.ajax({
-                    url: 'ajax/searchSM_Insentif.php',
+                    url: 'ajax/searchSM_Riset.php',
                     method: 'POST',
                     data: {
                         query: search

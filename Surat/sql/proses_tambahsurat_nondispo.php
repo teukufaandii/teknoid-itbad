@@ -127,43 +127,44 @@
     $tujuan_surat = $_POST["tujuan_surat_srd"];
     $nomor_surat_srd = $_POST["nomor_surat_srd"];
 
-    $tujuan_surat_srd = "lp3m";
+    $tujuan_surat_insenstif = "lp3m";
+    $tujuan_surat_riset = "humas";
 
     $sql = "";
 
     if ($skema_ppmdpek) {
         $sql = "INSERT INTO tb_srt_dosen (jenis_surat, asal_surat, status_pengusul, nidn, no_telpon, id_sinta, prodi_pengusul, jenis_insentif, skema_ppmdpek, judul_penelitian_ppm, tujuan_surat_srd, tanggal_surat)
-        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$skema_ppmdpek', '$judul_penelitian_ppm', '$tujuan_surat_srd', '$curdate')";
+        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$skema_ppmdpek', '$judul_penelitian_ppm', '$tujuan_surat_insenstif', '$curdate')";
     } elseif ($jenis_publikasi_pi) {
         $sql = "INSERT INTO tb_srt_dosen (jenis_surat, asal_surat, status_pengusul, nidn, no_telpon, id_sinta, prodi_pengusul, jenis_insentif, jenis_publikasi_pi, judul_publikasi_pi, nama_jurnal_pi, vol_notahun_pi, link_jurnal_pi, tujuan_surat_srd, tanggal_surat)
-        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$jenis_publikasi_pi', '$judul_publikasi_pi', '$nama_jurnal_pi', '$vol_notahun_pi', '$link_jurnal_pi', '$tujuan_surat_srd', '$curdate')";
+        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$jenis_publikasi_pi', '$judul_publikasi_pi', '$nama_jurnal_pi', '$vol_notahun_pi', '$link_jurnal_pi', '$tujuan_surat_insenstif', '$curdate')";
     } elseif ($skala_ppdpi) {
         $sql = "INSERT INTO tb_srt_dosen (jenis_surat, asal_surat, status_pengusul, nidn, no_telpon, id_sinta, prodi_pengusul, jenis_insentif, skala_ppdpi, nama_pertemuan_ppdpi, usulan_biaya_ppdpi, tujuan_surat_srd, tanggal_surat)
-        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$skala_ppdpi', '$nama_pertemuan_ppdpi', '$usulan_biaya_ppdpi', '$tujuan_surat_srd', '$curdate')";
+        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$skala_ppdpi', '$nama_pertemuan_ppdpi', '$usulan_biaya_ppdpi', '$tujuan_surat_insenstif', '$curdate')";
     } elseif ($skala_ppdks) {
         $sql = "INSERT INTO tb_srt_dosen (jenis_surat, asal_surat, status_pengusul, nidn, no_telpon, id_sinta, prodi_pengusul, jenis_insentif, skala_ppdks, nama_pertemuan_ppdks, tujuan_surat_srd, tanggal_surat)
-        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$skala_ppdks', '$nama_pertemuan_ppdks', '$tujuan_surat_srd', '$curdate')";
+        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$skala_ppdks', '$nama_pertemuan_ppdks', '$tujuan_surat_insenstif', '$curdate')";
     } elseif ($nm_kegiatan_vl) {
         $sql = "INSERT INTO tb_srt_dosen (jenis_surat, asal_surat, status_pengusul, nidn, no_telpon, id_sinta, prodi_pengusul, jenis_insentif, nm_kegiatan_vl, waktu_pelaksanaan_vl, tujuan_surat_srd, tanggal_surat)
-        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$nm_kegiatan_vl', '$waktu_pelaksanaan_vl', '$tujuan_surat_srd', '$curdate')";
+        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$nm_kegiatan_vl', '$waktu_pelaksanaan_vl', '$tujuan_surat_insenstif', '$curdate')";
     } elseif ($judul_hki) {
         $sql = "INSERT INTO tb_srt_dosen (jenis_surat, asal_surat, status_pengusul, nidn, no_telpon, id_sinta, prodi_pengusul, jenis_insentif, judul_hki, jenis_hki, tujuan_surat_srd, tanggal_surat)
-        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$judul_hki', '$jenis_hki', '$tujuan_surat_srd', '$curdate')";
+        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$judul_hki', '$jenis_hki', '$tujuan_surat_insenstif', '$curdate')";
     } elseif ($teknologi_tg) {
         $sql = "INSERT INTO tb_srt_dosen (jenis_surat, asal_surat, status_pengusul, nidn, no_telpon, id_sinta, prodi_pengusul, jenis_insentif, teknologi_tg, deskripsi_tg, tujuan_surat_srd, tanggal_surat)
-        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$teknologi_tg', '$deskripsi_tg', '$tujuan_surat_srd', '$curdate')";
+        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$teknologi_tg', '$deskripsi_tg', '$tujuan_surat_insenstif', '$curdate')";
     } elseif ($judul_buku) {
         $sql = "INSERT INTO tb_srt_dosen (jenis_surat, asal_surat, status_pengusul, nidn, no_telpon, id_sinta, prodi_pengusul, jenis_insentif, jenis_buku, judul_buku, sinopsis_buku, isbn_buku, tujuan_surat_srd, tanggal_surat)
-        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$jenis_buku', '$judul_buku', '$sinopsis_buku', '$isbn_buku', '$tujuan_surat_srd', '$curdate')";
+        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$jenis_buku', '$judul_buku', '$sinopsis_buku', '$isbn_buku', '$tujuan_surat_insenstif', '$curdate')";
     } elseif ($nama_model_mpdks) {
         $sql = "INSERT INTO tb_srt_dosen (jenis_surat, asal_surat, status_pengusul, nidn, no_telpon, id_sinta, prodi_pengusul, jenis_insentif, nama_model_mpdks, deskripsi_mpdks, tujuan_surat_srd, tanggal_surat)
-        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$nama_model_mpdks', '$deskripsi_mpdks', '$tujuan_surat_srd', '$curdate')";
+        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$nama_model_mpdks', '$deskripsi_mpdks', '$tujuan_surat_insenstif', '$curdate')";
     } elseif ($judul_ipbk) {
         $sql = "INSERT INTO tb_srt_dosen (jenis_surat, asal_surat, status_pengusul, nidn, no_telpon, id_sinta, prodi_pengusul, jenis_insentif, judul_ipbk, namaPenerbit_dan_waktu_ipbk, link_publikasi_ipbk, tujuan_surat_srd, tanggal_surat)
-        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$judul_ipbk', '$namaPenerbit_dan_waktu_ipbk', '$link_publikasi_ipbk', '$tujuan_surat_srd', '$curdate')";
+        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$judul_ipbk', '$namaPenerbit_dan_waktu_ipbk', '$link_publikasi_ipbk', '$tujuan_surat_insenstif', '$curdate')";
     } elseif ($ttl_srd) {
         $sql = "INSERT INTO tb_srt_dosen (jenis_surat, asal_surat, status_pengusul, nidn, no_telpon, id_sinta, prodi_pengusul, jenis_insentif, ttl_srd, alamat_srd, perihal_srd, email_srd, deskripsi_srd, nama_perusahaan_srd, alamat_perusahaan_srd, tujuan_surat_srd, tanggal_surat, nomor_surat_srd)
-        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$ttl_srd', '$alamat_srd', '$perihal_srd', '$email_srd', '$deskripsi_srd', '$nama_perusahaan_srd', '$alamat_perusahaan_srd', '$tujuan_surat_srd', '$curdate', '$nomor_surat_srd')";
+        VALUES ('$jenis_surat_dsn', '$asal_surat', '$status_pengusul', '$nidn', '$no_telpon', '$id_sinta', '$prodi_pengusul', '$jenis_insentif', '$ttl_srd', '$alamat_srd', '$perihal_srd', '$email_srd', '$deskripsi_srd', '$nama_perusahaan_srd', '$alamat_perusahaan_srd', '$tujuan_surat_riset', '$curdate', '$nomor_surat_srd')";
     }
 
     if (mysqli_query($conn, $sql)) {

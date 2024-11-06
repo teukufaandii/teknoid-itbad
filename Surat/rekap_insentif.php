@@ -1,15 +1,22 @@
 <?php
 session_start(); 
-if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'lp3m' || isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin') {
+if (isset($_SESSION['akses']) && ($_SESSION['akses'] == 'lp3m' || $_SESSION['akses'] == 'Admin')) {
 ?>
     <?php
     include 'koneksi.php';
     include "logout-checker.php";
-    // Periksa apakah session username telah diatur
+
+    // Check if session username is set
     if (!isset($_SESSION['pengguna_type'])) {
-        echo '<script language="javascript" type="text/javascript">
-    alert("Anda Tidak Berhak Masuk Kehalaman Ini!");</script>';
-        echo "<meta http-equiv='refresh' content='0; url=../index.php'>";
+        echo '<script>
+            Swal.fire({
+                icon: "error",
+                title: "Access Denied",
+                text: "Anda Tidak Berhak Masuk Kehalaman Ini!"
+            }).then(function() {
+                window.location.href = "../index.php";
+            });
+        </script>';
         exit;
     }
     ?>
@@ -31,6 +38,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'lp3m' || isset($_SESSION
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <script src="https://kit.fontawesome.com/9e9ad697fd.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     </head>
 
@@ -96,8 +104,6 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'lp3m' || isset($_SESSION
         </div>
 
         <script>
-            let searchResults = [];
-
             $(document).ready(function() {
                 $('#searchForm').on('submit', function(event) {
                     event.preventDefault();
@@ -116,10 +122,13 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'lp3m' || isset($_SESSION
                         },
                         success: function(response) {
                             $('#result').html(response);
-                            searchResults = response;
                         },
                         error: function() {
-                            $('#result').html('<p>Terjadi kesalahan saat mencari data.</p>');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Terjadi kesalahan saat mencari data.'
+                            });
                         }
                     });
                 });
@@ -134,16 +143,17 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'lp3m' || isset($_SESSION
                             '&tanggal_awal=' + encodeURIComponent(tanggal_awal) +
                             '&tanggal_akhir=' + encodeURIComponent(tanggal_akhir);
                     } else {
-                        alert('Silakan pilih jenis insentif dan tentukan rentang tanggal terlebih dahulu.');
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Warning',
+                            text: 'Silakan pilih jenis insentif dan tentukan rentang tanggal terlebih dahulu.'
+                        });
                     }
                 });
             });
         </script>
-
     </body>
-
     </html>
-
 <?php
 } else {
     include "./access-denied.php";

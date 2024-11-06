@@ -15,8 +15,8 @@ $id = $_GET['id'] ?? null;
 // Fetch data from the first table based on the provided ID
 $sql1 = "SELECT sd.jenis_surat, sd.verifikasi, sd.memo, sd.asal_surat, sd.status_pengusul, sd.NIDN, sd.no_telpon, sd.id_sinta, sd.prodi_pengusul, 
             sd.jenis_insentif, sd.skema_ppmdpek, sd.judul_penelitian_ppm, sd.jenis_publikasi_pi, sd.nama_jurnal_pi, sd.vol_notahun_pi, 
-            sd.link_jurnal_pi, sd.skala_ppdpi, sd.usulan_biaya_ppdpi, sd.skala_ppdks, sd.nama_pertemuan_ppdks, sd.nm_kegiatan_vl, 
-            sd.jenis_hki, sd.judul_hki, sd.teknologi_tg, sd.deskripsi_tg, sd.jenis_buku, sd.judul_buku, sd.sinopsis_buku, sd.isbn_buku, 
+            sd.link_jurnal_pi, sd.skala_ppdpi, sd.usulan_biaya_ppdpi, sd.nama_pertemuan_ppdpi, sd.skala_ppdks, sd.nama_pertemuan_ppdks, sd.nm_kegiatan_vl, 
+            sd.jenis_hki, sd.judul_hki, sd.teknologi_tg, sd.deskripsi_tg, sd.jenis_buku, sd.judul_buku, sd.sinopsis_buku, sd.isbn_buku, sd.judul_publikasi_pi,
             sd.nama_model_mpdks, sd.deskripsi_mpdks, sd.judul_ipbk, sd.namaPenerbit_dan_waktu_ipbk, sd.link_publikasi_ipbk, sd.ttl_srd, 
             sd.alamat_srd, sd.perihal_srd, sd.email_srd, sd.deskripsi_srd, sd.nama_perusahaan_srd, sd.alamat_perusahaan_srd, 
             sd.tujuan_surat_srd, j.nama_jenis
@@ -44,6 +44,7 @@ $stmt1->bind_result(
     $nama_jurnal_pi,
     $vol_notahun_pi,
     $link_jurnal_pi,
+    $nama_pertemuan_ppdpi,
     $skala_ppdpi,
     $usulan_biaya_ppdpi,
     $skala_ppdks,
@@ -57,6 +58,7 @@ $stmt1->bind_result(
     $judul_buku,
     $sinopsis_buku,
     $isbn_buku,
+    $judul_publikasi_pi,
     $nama_model_mpdks,
     $deskripsi_mpdks,
     $judul_ipbk,
@@ -376,8 +378,50 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
 
                         <div class="input-field">
                             <label for="">Jenis Insentif</label>
-                            <input type="text" class="input" name="#" value="<?php echo $jenis_insentif; ?> " readonly>
+                            <input type="text" class="input" name="#" value="
+                            <?php
+                                $jenis_surat_text = 'Unknown'; 
+                                if ($_SESSION['jabatan'] == 'LP3M' && $tujuan_surat_srd == 'lp3m') {
+                                    switch ($jenis_insentif) {
+                                        case 'penelitian':
+                                            $jenis_surat_text = 'Penelitian & Pengabdian Masyarakat';
+                                            break;
+                                        case 'publikasi':
+                                            $jenis_surat_text = 'Publikasi Ilmiah';
+                                            break;
+                                        case 'pertemuan_ilmiah':
+                                            $jenis_surat_text = 'Penyajian Paper Dalam Pertemuan Ilmiah';
+                                            break;
+                                        case 'keynote_speaker':
+                                            $jenis_surat_text = 'Keynote Speaker Dalam Pertemuan Ilmiah';
+                                            break;
+                                        case 'visiting':
+                                            $jenis_surat_text = 'Visiting Lecturer/Research';
+                                            break;
+                                        case 'hki':
+                                            $jenis_surat_text = 'Hak Kekayaan Intelektual';
+                                            break;
+                                        case 'teknologi':
+                                            $jenis_surat_text = 'Teknologi Tepat Guna';
+                                            break;
+                                        case 'buku':
+                                            $jenis_surat_text = 'Buku';
+                                            break;
+                                        case 'model':
+                                            $jenis_surat_text = 'Model, Prototype, Desain, Karya Seni, Rekayasa Sosial, Kebijakan';
+                                            break;
+                                        case 'insentif_publikasi':
+                                            $jenis_surat_text = 'Insentif Publikasi Berita Kegiatan Pengabdian Masyarakat';
+                                            break;
+                                        default:
+                                            $jenis_surat_text = 'Unknown'; // Optional: Handle unexpected values
+                                            break;
+                                    }
+                                }
+                                echo htmlspecialchars($jenis_surat_text);
+                                ?>" readonly>
                         </div>
+
 
                         <?php if ($jenis_insentif == 'penelitian') { ?>
                             <div class="input-field">
@@ -506,7 +550,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                         <?php } elseif ($jenis_insentif == 'insentif_publikasi') { ?>
                             <div class="input-field">
                                 <label for="">Judul Publikasi</label>
-                                <input type="text" class="input" name="#" value="<?php echo $judul_publikasi_pi; ?>" readonly>
+                                <input type="text" class="input" name="#" value="<?php echo $judul_ipbk; ?>" readonly>
                             </div>
 
                             <div class="input-field">

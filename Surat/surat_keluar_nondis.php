@@ -151,7 +151,44 @@ if (!isset($_SESSION['pengguna_type'])) {
                                         echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
                                         echo "<td>" . (isset($row['jenis_surat']) ? ($row['jenis_surat'] == 5 ? "Surat Insentif" : ($row['jenis_surat'] == 6 ? "Surat Riset Dosen" : "Jenis Surat Tidak Dikenali")) : "Data Tidak Tersedia") . "</td>";
                                         echo "<td>" . (isset($row['asal_surat']) ? $row['asal_surat'] : 'Data Tidak Tersedia') . "</td>";
-                                        echo "<td>" . (!empty($row['jenis_insentif']) ? ucwords($row['jenis_insentif']) : '-') . "</td>";
+
+                                         // Mapping for jenis_surat
+                                         switch ($row['jenis_insentif']) {
+                                            case 'penelitian':
+                                                $jenis_surat_text = 'Penelitian & Pengabdian Masyarakat';
+                                                break;
+                                            case 'publikasi':
+                                                $jenis_surat_text = 'Publikasi Ilmiah';
+                                                break;
+                                            case 'pertemuan_ilmiah':
+                                                $jenis_surat_text = 'Penyajian Paper Dalam Pertemuan Ilmiah';
+                                                break;
+                                            case 'keynote_speaker':
+                                                $jenis_surat_text = 'Keynote Speaker Dalam Pertemuan Ilmiah';
+                                                break;
+                                            case 'visiting':
+                                                $jenis_surat_text = 'Visiting Lecturer/Research';
+                                                break;
+                                            case 'hki':
+                                                $jenis_surat_text = 'Hak Kekayaan Intelektual';
+                                                break;
+                                            case 'teknologi':
+                                                $jenis_surat_text = 'Teknologi tepat Guna';
+                                                break;
+                                            case 'buku':
+                                                $jenis_surat_text = 'Buku';
+                                                break;
+                                            case 'model':
+                                                $jenis_surat_text = 'Model, Prototype, Desain, karya Seni, Rekayasa Sosial, Kebijakan';
+                                                break;
+                                            case 'insentif_publikasi':
+                                                $jenis_surat_text = 'Insentif Publikasi berita Kegiatan pengabdian Masyarakat';
+                                                break;
+                                            default:
+                                                $jenis_surat_text = '-'; // Optional: Handle unexpected values
+                                                break;
+                                        }
+                                        echo "<td>" . $jenis_surat_text . "</td>";
                                         echo "<td>" . (isset($row['tanggal_surat']) ? (new DateTime($row['tanggal_surat']))->format('d-m-Y') : '') . "</td>";
                                         echo "<td>";
                                         if ($row['verifikasi'] == 1) {

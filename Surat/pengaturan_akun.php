@@ -65,11 +65,6 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin' || $_SESSION['aks
                             <input type="text" placeholder="Search.." name="search" id="search">
                         </form>
                     </div>
-                    <div class="search-box">
-                        <form method="GET">
-                            <input type="text" placeholder="Search.." name="search" id="search">
-                        </form>
-                    </div>
                 </div>
 
                 <div class="tableOverflow">

@@ -2720,7 +2720,7 @@
             </div>
         </div>
 
-        <span style="color: red; font-size: 14px;">*Apabila ingin menolak surat ini, mohon kosongkan form kode surat</span>
+       <!-- <span style="color: red; font-size: 14px;">*Apabila ingin menolak surat ini, mohon kosongkan form kode surat</span> -->
         <br> <br>
         <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
 

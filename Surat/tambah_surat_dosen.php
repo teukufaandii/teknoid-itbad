@@ -568,7 +568,7 @@ function isSuratRisetDosen($jenis_surat)
 
                         <div class="inputfield">
                             <label for=""></label>
-                            <input type="text" class="input" name="tujuan_surat_srd" placeholder="Masukkan Tujuan Surat" value="Humas" hidden>
+                            <input type="text" class="input" name="tujuan_surat_srd" placeholder="Masukkan Tujuan Surat" value="" hidden>
                         </div>
 
                         <div class="inputfield">
