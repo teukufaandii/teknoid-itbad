@@ -121,8 +121,18 @@ if (!isset($_SESSION['pengguna_type'])) {
                         <span class="badge" id="" style="color: grey; padding: 2px; border-radius: 15px;"><?php echo $total_sm; ?></span>
                     </button>
 
+                    <!-- NON DISPO LP3M -->
                     <?php if ($_SESSION['jabatan'] == 'LP3M') : ?>
                         <button onclick="window.location.href='surat_masuk_insentif'" class="btn3">Surat Masuk Insentif.
+                            <span class="warning" id="warning">Ada <?php echo $total_sm_verif; ?> surat yang belum ditanggapi</span>
+                            <i class="fas fa-envelope dash-icon"></i><br>
+                            <span class="badge" id="badge1" style="color: grey; padding: 2px; border-radius: 15px; position: relative; top: -10px;"><?php echo $total_sm_insentif; ?></span>
+                        </button>
+                    <?php endif; ?>
+
+                    <!-- NON DISPO HUMAS -->
+                    <?php if ($_SESSION['jabatan'] == 'Humas') : ?>
+                        <button onclick="window.location.href='surat_masuk_riset'" class="btn3">Surat Masuk Insentif.
                             <span class="warning" id="warning">Ada <?php echo $total_sm_verif; ?> surat yang belum ditanggapi</span>
                             <i class="fas fa-envelope dash-icon"></i><br>
                             <span class="badge" id="badge1" style="color: grey; padding: 2px; border-radius: 15px; position: relative; top: -10px;"><?php echo $total_sm_insentif; ?></span>
@@ -274,15 +284,15 @@ if (!isset($_SESSION['pengguna_type'])) {
             AND 
                 JSON_CONTAINS(diteruskan_ke, '["${diteruskanKeParsed.join('","')}"]')
             `;
-                } else {
-                    // Jika diteruskan_ke adalah string
-                    sql = `
+            } else {
+                // Jika diteruskan_ke adalah string
+                sql = `
             SELECT * FROM tb_surat_dis 
             WHERE 
                 (diteruskan_ke = '${diteruskanKeParsed}' OR JSON_CONTAINS(diteruskan_ke, '"${diteruskanKeParsed}"'))
             AND (status_selesai = FALSE AND status_tolak = FALSE) 
             `;
-                }
+            }
 
             fetch('fetch_notification.php', {
                     method: 'POST',
