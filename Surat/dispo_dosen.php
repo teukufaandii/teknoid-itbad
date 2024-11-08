@@ -18,7 +18,7 @@ $sql1 = "SELECT sd.jenis_surat, sd.verifikasi, sd.memo, sd.asal_surat, sd.status
             sd.link_jurnal_pi, sd.skala_ppdpi, sd.usulan_biaya_ppdpi, sd.nama_pertemuan_ppdpi, sd.skala_ppdks, sd.nama_pertemuan_ppdks, sd.nm_kegiatan_vl, 
             sd.jenis_hki, sd.judul_hki, sd.teknologi_tg, sd.deskripsi_tg, sd.jenis_buku, sd.judul_buku, sd.sinopsis_buku, sd.isbn_buku, sd.judul_publikasi_pi,
             sd.nama_model_mpdks, sd.deskripsi_mpdks, sd.judul_ipbk, sd.namaPenerbit_dan_waktu_ipbk, sd.link_publikasi_ipbk, sd.ttl_srd, 
-            sd.alamat_srd, sd.perihal_srd, sd.email_srd, sd.deskripsi_srd, sd.nama_perusahaan_srd, sd.alamat_perusahaan_srd, 
+            sd.alamat_srd, sd.perihal_srd, sd.email_srd, sd.deskripsi_srd, sd.nama_perusahaan_srd, sd.alamat_perusahaan_srd,
             sd.tujuan_surat_srd, j.nama_jenis
          FROM tb_srt_dosen sd
          INNER JOIN tb_jenis j ON sd.jenis_surat = j.kd_jenissurat
@@ -230,7 +230,8 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
     <style>
         /* Style untuk modal-content */
@@ -568,11 +569,11 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                     <?php } elseif ($jenis_surat == 6) { ?>
                         <div class="input-field">
                             <label for="">Tempat, tanggal lahir</label>
-                            <input type="text" class="input" name="#" value="<?php echo $asal_surat; ?>" readonly>
+                            <input type="text" class="input" name="#" value="<?php echo $ttl_srd; ?>" readonly>
                         </div>
                         <div class="input-field">
                             <label for="">Alamat Domisili</label>
-                            <input type="text" class="input" name="#" value="<?php echo $ttl_srd; ?>" readonly>
+                            <input type="text" class="input" name="#" value="<?php echo $alamat_srd; ?>" readonly>
                         </div>
                         <div class="input-field">
                             <label for="">Perihal</label>
@@ -580,7 +581,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                         </div>
                         <div class="input-field">
                             <label for="">Alamat Email</label>
-                            <input type="text" class="input" name="#" value="<?php echo $alamat_srd; ?>" readonly>
+                            <input type="text" class="input" name="#" value="<?php echo $email_srd; ?>" readonly>
                         </div>
                         <div class="input-field">
                             <label for="">Deskripsi Singkat</label>
@@ -594,8 +595,9 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                             <label for="">Alamat Perusahaan</label>
                             <input type="text" class="input" name="#" value="<?php echo $alamat_perusahaan_srd; ?>" readonly>
                         </div>
-                    <?php } ?>
 
+                        <?php include "dispoBawahRstDosen.php" ?>
+                    <?php } ?>
 
 
                     <div class="input-field">
@@ -696,6 +698,56 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
     <script src="js/dashboard-js.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const btnSelesai = document.getElementById('btnSelesaiRisetDosen');
+    
+    if (btnSelesai) {
+        btnSelesai.addEventListener('click', function() {
+            // Tampilkan konfirmasi sebelum mengirimkan data
+            swal({
+                title: "Konfirmasi",
+                text: "Apakah Anda yakin ingin menyelesaikan surat ini?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willProceed) => {
+                if (willProceed) {
+                    // Mengambil nilai dari input yang diperlukan
+                    const catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
+                    const kd_surat = document.querySelector('input[name="kd_surat"]').value;
+                    const id = "<?php echo $id; ?>"; // Mendapatkan nilai ID surat dari PHP
+
+                    // Membuat objek XMLHttpRequest untuk mengirimkan data
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', 'update_selesai_riset_dosen.php', true);
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            console.log(xhr.responseText);
+                            // Menampilkan notifikasi berhasil setelah respons diterima
+                            swal("Berhasil!", "Surat Telah Dikonfirmasi Selesai!", "success")
+                                .then(function() {
+                                    // Redirect ke halaman dashboard setelah menutup notifikasi
+                                    window.location.href = "dashboard.php";
+                                });
+                        }
+                    };
+
+                    // Mengirim data melalui AJAX
+                    xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&kd_surat=" + encodeURIComponent(kd_surat) + "&action=selesai");
+                } else {
+                    // Menampilkan notifikasi batal jika pengguna memilih untuk tidak melanjutkan
+                    swal("Dibatalkan", "Surat tidak diselesaikan", "info");
+                }
+            });
+        });
+    }
+});
+    </script>
+    
     <script>
         document.getElementById('btnKirim').addEventListener('click', function() {
             const memo = document.getElementById('memo').value;
