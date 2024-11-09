@@ -29,12 +29,12 @@
                 if ($jenis_surat == 6 ) : ?>
                     <div class="input-disposisi">
                         <label for="">Kode Surat*</label>
-                        <input type="text" class="input" id="kd_surat" name="kd_surat" placeholder="Masukkan kode surat">
+                        <input type="text" class="input" id="kd_srt_riset" name="kd_srt_riset" placeholder="Masukkan kode surat">
                     </div>
 
                     <div class="input-disposisi">
                         <label for="">Catatan Penyelesaian <span style="color: red;"></span></label>
-                        <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Penyelesaian / Penolakan" required>
+                        <input type="text" id="catatan" class="input" name="catatan_penyelesaian_srd" placeholder="Masukkan Penyelesaian / Penolakan" required>
                     </div>
 
                     <div class="input-disposisi">

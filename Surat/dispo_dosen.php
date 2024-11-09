@@ -381,46 +381,46 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                             <label for="">Jenis Insentif</label>
                             <input type="text" class="input" name="#" value="
                             <?php
-                                $jenis_surat_text = 'Unknown'; 
-                                if ($_SESSION['jabatan'] == 'LP3M' && $tujuan_surat_srd == 'lp3m') {
-                                    switch ($jenis_insentif) {
-                                        case 'penelitian':
-                                            $jenis_surat_text = 'Penelitian & Pengabdian Masyarakat';
-                                            break;
-                                        case 'publikasi':
-                                            $jenis_surat_text = 'Publikasi Ilmiah';
-                                            break;
-                                        case 'pertemuan_ilmiah':
-                                            $jenis_surat_text = 'Penyajian Paper Dalam Pertemuan Ilmiah';
-                                            break;
-                                        case 'keynote_speaker':
-                                            $jenis_surat_text = 'Keynote Speaker Dalam Pertemuan Ilmiah';
-                                            break;
-                                        case 'visiting':
-                                            $jenis_surat_text = 'Visiting Lecturer/Research';
-                                            break;
-                                        case 'hki':
-                                            $jenis_surat_text = 'Hak Kekayaan Intelektual';
-                                            break;
-                                        case 'teknologi':
-                                            $jenis_surat_text = 'Teknologi Tepat Guna';
-                                            break;
-                                        case 'buku':
-                                            $jenis_surat_text = 'Buku';
-                                            break;
-                                        case 'model':
-                                            $jenis_surat_text = 'Model, Prototype, Desain, Karya Seni, Rekayasa Sosial, Kebijakan';
-                                            break;
-                                        case 'insentif_publikasi':
-                                            $jenis_surat_text = 'Insentif Publikasi Berita Kegiatan Pengabdian Masyarakat';
-                                            break;
-                                        default:
-                                            $jenis_surat_text = 'Unknown'; // Optional: Handle unexpected values
-                                            break;
-                                    }
+                            $jenis_surat_text = 'Unknown';
+                            if ($_SESSION['jabatan'] == 'LP3M' && $tujuan_surat_srd == 'lp3m') {
+                                switch ($jenis_insentif) {
+                                    case 'penelitian':
+                                        $jenis_surat_text = 'Penelitian & Pengabdian Masyarakat';
+                                        break;
+                                    case 'publikasi':
+                                        $jenis_surat_text = 'Publikasi Ilmiah';
+                                        break;
+                                    case 'pertemuan_ilmiah':
+                                        $jenis_surat_text = 'Penyajian Paper Dalam Pertemuan Ilmiah';
+                                        break;
+                                    case 'keynote_speaker':
+                                        $jenis_surat_text = 'Keynote Speaker Dalam Pertemuan Ilmiah';
+                                        break;
+                                    case 'visiting':
+                                        $jenis_surat_text = 'Visiting Lecturer/Research';
+                                        break;
+                                    case 'hki':
+                                        $jenis_surat_text = 'Hak Kekayaan Intelektual';
+                                        break;
+                                    case 'teknologi':
+                                        $jenis_surat_text = 'Teknologi Tepat Guna';
+                                        break;
+                                    case 'buku':
+                                        $jenis_surat_text = 'Buku';
+                                        break;
+                                    case 'model':
+                                        $jenis_surat_text = 'Model, Prototype, Desain, Karya Seni, Rekayasa Sosial, Kebijakan';
+                                        break;
+                                    case 'insentif_publikasi':
+                                        $jenis_surat_text = 'Insentif Publikasi Berita Kegiatan Pengabdian Masyarakat';
+                                        break;
+                                    default:
+                                        $jenis_surat_text = 'Unknown'; // Optional: Handle unexpected values
+                                        break;
                                 }
-                                echo htmlspecialchars($jenis_surat_text);
-                                ?>" readonly>
+                            }
+                            echo htmlspecialchars($jenis_surat_text);
+                            ?>" readonly>
                         </div>
 
 
@@ -699,55 +699,56 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const btnSelesai = document.getElementById('btnSelesaiRisetDosen');
-    
-    if (btnSelesai) {
-        btnSelesai.addEventListener('click', function() {
-            // Tampilkan konfirmasi sebelum mengirimkan data
-            swal({
-                title: "Konfirmasi",
-                text: "Apakah Anda yakin ingin menyelesaikan surat ini?",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willProceed) => {
-                if (willProceed) {
-                    // Mengambil nilai dari input yang diperlukan
-                    const catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
-                    const kd_surat = document.querySelector('input[name="kd_surat"]').value;
-                    const id = "<?php echo $id; ?>"; // Mendapatkan nilai ID surat dari PHP
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnSelesai = document.getElementById('btnSelesaiRisetDosen');
 
-                    // Membuat objek XMLHttpRequest untuk mengirimkan data
-                    const xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'update_selesai_riset_dosen.php', true);
-                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState == 4 && xhr.status == 200) {
-                            console.log(xhr.responseText);
-                            // Menampilkan notifikasi berhasil setelah respons diterima
-                            swal("Berhasil!", "Surat Telah Dikonfirmasi Selesai!", "success")
-                                .then(function() {
-                                    // Redirect ke halaman dashboard setelah menutup notifikasi
-                                    window.location.href = "dashboard.php";
-                                });
-                        }
-                    };
+            if (btnSelesai) {
+                btnSelesai.addEventListener('click', function() {
+                    // Tampilkan konfirmasi sebelum mengirimkan data
+                    swal({
+                            title: "Konfirmasi",
+                            text: "Apakah Anda yakin ingin menyelesaikan surat ini?",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        })
+                        .then((willProceed) => {
+                            if (willProceed) {
+                                // Mengambil nilai dari input yang diperlukan
+                                const catatan_penyelesaian_srd = document.querySelector('input[name="catatan_penyelesaian_srd"]').value;
+                                const kd_srt_riset = document.querySelector('input[name="kd_srt_riset"]').value;
+                                const id = "<?php echo $id; ?>"; // Mendapatkan nilai ID surat dari PHP
 
-                    // Mengirim data melalui AJAX
-                    xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&kd_surat=" + encodeURIComponent(kd_surat) + "&action=selesai");
-                } else {
-                    // Menampilkan notifikasi batal jika pengguna memilih untuk tidak melanjutkan
-                    swal("Dibatalkan", "Surat tidak diselesaikan", "info");
-                }
-            });
+                                // Membuat objek XMLHttpRequest untuk mengirimkan data
+                                const xhr = new XMLHttpRequest();
+                                xhr.open('POST', 'update_selesai_riset_dosen.php', true);
+                                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                                xhr.onreadystatechange = function() {
+                                    if (xhr.readyState == 4 && xhr.status == 200) {
+                                        // Menampilkan notifikasi berhasil setelah respons diterima
+                                        swal("Berhasil!", "Surat Telah Dikonfirmasi Selesai!", "success")
+                                            .then(function() {
+                                                // Redirect ke halaman dashboard setelah menutup notifikasi
+                                                window.location.href = "dashboard.php";
+                                            });
+                                    } else {
+                                        swal("Gagal!", "Terjadi kesalahan: " + xhr.status, "error");
+                                    }
+                                };
+
+                                // Mengirim data melalui AJAX
+                                xhr.send("id=" + id + "&catatan_penyelesaian_srd=" + encodeURIComponent(catatan_penyelesaian_srd) + "&kd_srt_riset=" + encodeURIComponent(kd_srt_riset) + "&action=selesai");
+                            } else {
+                                // Menampilkan notifikasi batal jika pengguna memilih untuk tidak melanjutkan
+                                swal("Dibatalkan", "Surat tidak diselesaikan", "info");
+                            }
+                        });
+                });
+            }
         });
-    }
-});
     </script>
-    
+
     <script>
         document.getElementById('btnKirim').addEventListener('click', function() {
             const memo = document.getElementById('memo').value;

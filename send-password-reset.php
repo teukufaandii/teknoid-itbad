@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
             $mail->Username   = 'itbad.teknoid@gmail.com';
-            $mail->Password   = 'scuf qqwz eeea ercg';
+            $mail->Password   = 'qupi myjd izaw rcef'; // Password Terbaru 09/11/2024
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
 

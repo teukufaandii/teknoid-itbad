@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require 'vendor/autoload.php';
+require '../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -18,47 +18,41 @@ ini_set('max_execution_time', 300);
 // Function to generate PDF
 function generatePDF($html)
 {
-    require '../vendor/autoload.php';
-    $uploadDir = __DIR__ . '/uploads/suratMhs/';
+    $uploadDir = __DIR__ . '/uploads/suratRstDosen/';
     if (!file_exists($uploadDir)) {
-        mkdir($uploadDir, 0777, true); 
+        mkdir($uploadDir, 0777, true);
     }
-    $fileName = 'suratMhs_' . time() . '.pdf';
+    $fileName = 'suratRstDosen_' . time() . '.pdf';
     $filePath = $uploadDir . $fileName;
+
     $options = new Options();
     $options->set('isRemoteEnabled', true);
     $dompdf = new Dompdf($options);
     $dompdf->loadHtml($html);
     $dompdf->render();
     file_put_contents($filePath, $dompdf->output());
+
     return $filePath;
 }
 
 // Function to send email with PDF attachment using PHPMailer
 function sendEmailWithPDF($to, $subject, $body, $attachmentPath)
 {
-    require 'vendor/autoload.php'; // Include Composer's autoloader for PHPMailer
-
     $mail = new PHPMailer(true);
 
     try {
-        //Server settings
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com'; // SMTP server
+        $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'itbad.teknoid@gmail.com'; // SMTP username
-        $mail->Password = 'igfk bhrb wzty dbaz'; // SMTP password
+        $mail->Username = 'itbad.teknoid@gmail.com';
+        $mail->Password = 'qupi myjd izaw rcef';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
-        //Recipients
         $mail->setFrom('itbad.teknoid@gmail.com', 'TEKNOID ITB-AD');
         $mail->addAddress($to);
-
-        // Attachments
         $mail->addAttachment($attachmentPath);
 
-        // Content
         $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body    = $body;
@@ -71,110 +65,78 @@ function sendEmailWithPDF($to, $subject, $body, $attachmentPath)
     }
 }
 
-if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['action'])) {
+if (isset($_POST['id']) && isset($_POST['catatan_penyelesaian_srd']) && isset($_POST['kd_srt_riset'])) {
     $id = mysqli_real_escape_string($koneksi, $_POST['id']);
-    $catatan = mysqli_real_escape_string($koneksi, $_POST['catatan_disposisi']);
-    $asal_surat = isset($_SESSION['jabatan']) ? $_SESSION['jabatan'] : 'Unknown';
-    $action = mysqli_real_escape_string($koneksi, $_POST['action']);
-    $kd_surat = mysqli_real_escape_string($koneksi, $_POST['kd_surat']);
+    $catatan = mysqli_real_escape_string($koneksi, $_POST['catatan_penyelesaian_srd']);
+    $kd_srt_riset = mysqli_real_escape_string($koneksi, $_POST['kd_srt_riset']);
+
+    error_log("ID: " . $_POST['id']);
+    error_log("Catatan Penyelesaian: " . $_POST['catatan_penyelesaian_srd']);
+    error_log("Kode Surat Riset: " . $_POST['kd_srt_riset']);
 
     if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas') {
-        $update_query_surat_dis = "UPDATE tb_srt_dosen SET verifikasi = true, kode_surat = '$kd_surat' WHERE id_srt = '$id'";
-        $jabatan = $_SESSION['jabatan'];
-        $tanggal_disposisi1 = date("Y-m-d");
+        $update_query = "UPDATE tb_srt_dosen SET verifikasi = true, kd_srt_riset = '$kd_srt_riset', catatan_penyelesaian_srd = '$catatan' WHERE id_srt = '$id'";
 
-        mysqli_autocommit($koneksi, false);
+        if (mysqli_query($koneksi, $update_query)) {
+            // Fetch required data for the email content and PDF generation
+            $email_query = "SELECT asal_surat, perihal_srd, tanggal_surat, tujuan_surat_srd, email_srd, 
+                NIDN, prodi_pengusul, no_telpon, deskripsi_srd, 
+                nama_perusahaan_srd, alamat_perusahaan_srd, alamat_srd, ttl_srd 
+                FROM tb_srt_dosen WHERE id_srt = '$id'";
+            $email_result = mysqli_query($koneksi, $email_query);
 
-        if (mysqli_query($koneksi, $update_query_surat_dis)) {
-            $check_query = "SELECT COUNT(*) as count FROM tb_srt_dosen WHERE id_srt = '$id'";
-            $result_check = mysqli_query($koneksi, $check_query);
-            $row = mysqli_fetch_assoc($result_check);
-            $count = $row['count'];
+            if ($email_row = mysqli_fetch_assoc($email_result)) {
+                // Check if essential fields are present
+                if (!empty($email_row['asal_surat']) && !empty($email_row['perihal_srd']) && !empty($email_row['tanggal_surat']) && !empty($email_row['email_srd'])) {
 
-            if ($count > 0) {
-            } else {
-                // Insert a new record if no existing records were found
-                $insert_query = "";
-                if (mysqli_query($koneksi, $insert_query)) {
-                    mysqli_commit($koneksi);
-                    echo "Status berhasil diperbarui dengan penyisipan data baru ke tb_disposisi";
-
-                    // Email sending and PDF generation logic
-                    $email_query = "SELECT email_srd FROM tb_srt_dosen WHERE id_srt = '$id'";
-                    $email_result = mysqli_query($koneksi, $email_query);
-                    $email_row = mysqli_fetch_assoc($email_result);
+                    $asal_surat = $email_row['asal_surat'];
+                    $perihal = $email_row['perihal_srd'];
+                    $nomor_surat = $email_row['kd_srt_riset'];
+                    $tanggal_surat = $email_row['tanggal_surat'];
+                    $tujuan_surat = $email_row['tujuan_surat_srd'];
                     $email_pengirim = $email_row['email_srd'];
+                    $nidn = $email_row['NIDN'];
+                    $prodi = $email_row['prodi_pengusul'];
+                    $no_hp = $email_row['no_telpon'];
+                    $deskripsi = $email_row['deskripsi_srd'];
+                    $nama_perusahaan = $email_row['nama_perusahaan_srd'];
+                    $alamat_perusahaan = $email_row['alamat_perusahaan_srd'];
+                    $alamat_domisili = $email_row['alamat_srd'];
+                    $ttl = $email_row['ttl_srd'];
+
+                    $bahasa = array(
+                        'January' => 'Januari',
+                        'February' => 'Februari',
+                        'March' => 'Maret',
+                        'April' => 'April',
+                        'May' => 'Mei',
+                        'June' => 'Juni',
+                        'July' => 'Juli',
+                        'August' => 'Agustus',
+                        'September' => 'September',
+                        'October' => 'Oktober',
+                        'November' => 'November',
+                        'December' => 'Desember'
+                    );
+                    $bulan = $bahasa[date('F')];
+                    $surat_type = 'Surat Riset'; 
+
+                    // Base64 encode images for the logo and signature
+                    $path = 'img/kop.jpg';
+                    $type = pathinfo($path, PATHINFO_EXTENSION);
+                    $data = file_get_contents($path);
+                    $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+                    $path2 = 'img/signature.jpg';
+                    $type2 = pathinfo($path2, PATHINFO_EXTENSION);
+                    $data2 = file_get_contents($path2);
+                    $base642 = 'data:image/' . $type2 . ';base64,' . base64_encode($data2);
 
                     $subject = "Status Surat Anda Telah Diperbarui";
                     $body = "Surat anda telah selesai diproses. Mohon cek kembali.";
 
-                    $select_query = "SELECT * FROM tb_srt_dosen WHERE id_srt = '$id'";
-                    $result = mysqli_query($koneksi, $select_query);
-                    if ($result && mysqli_num_rows($result) > 0) {
-                        $row = mysqli_fetch_assoc($result);
-
-                        // Untuk mengubah bulan menjadi bahasa indonesia 
-                        $bahasa = array(
-                            'January' => 'Januari',
-                            'February' => 'Februari',
-                            'March' => 'Maret',
-                            'April' => 'April',
-                            'May' => 'Mei',
-                            'June' => 'Juni',
-                            'July' => 'Juli',
-                            'August' => 'Agustus',
-                            'September' => 'September',
-                            'October' => 'Oktober',
-                            'November' => 'November',
-                            'December' => 'Desember'
-                        );
-
-                        $bulan = $bahasa[date('F')];
-
-                        // Pengkondisian jenis surat 
-                        $jenis_surat_array = array(
-                            3 => 'Permohonan KKL/Magang',
-                            4 => 'Permohonan Riset/Penelitian'
-                        );
-
-                        $jenis_surat = $row['jenis_surat'];
-                        $surat_type = $jenis_surat_array[$jenis_surat];
-
-                        // Use fetched data to fill in the HTML template
-                        $asal_surat = $row['asal_surat'];
-                        $perihal = $row['perihal_srd'];
-                        $tanggal_surat = $row['tanggal_surat'];
-                        $tujuan_surat = $row['tujuan_surat_srd'];
-                        $email = $row['email_srd'];
-                        $nama_lengkap = $row['asal_surat'];
-                        $nim = $row['NIDN'];
-                        $prodi = $row['prodi_pengusul'];
-                        $no_hp = $row['no_telepon'];
-                        $deskripsi = $row['deskripsi_srd'];
-                        $nama_perusahaan = $row['nama_perusahaan_srd'];
-                        $alamat_perusahaan = $row['alamat_perusahaan_srd'];
-                        $alamat_domisili = $row['alamat_srd'];
-                        $ttl = $row['ttl_srd']; //belum ada nih 
-                        
-                    } else {
-                        echo "Data tidak ditemukan";
-                    }
-
-                    //untuk kop image 
-                    $path = 'img/kop.jpg';
-                    $type = pathinfo($path, PATHINFO_EXTENSION);
-                    $data = file_get_contents($path);
-                    $base64 = 'data:img/' . $type . ';base64,' . base64_encode($data);
-
-                    //untuk tanda tangan 
-                    $path2 = 'img/signature.jpg';
-                    $type2 = pathinfo($path2, PATHINFO_EXTENSION);
-                    $data2 = file_get_contents($path2);
-                    $base642 = 'data:img/' . $type2 . ';base64,' . base64_encode($data2);
-
-                    if ($jenis_surat == 6) {
-                        // HTML untuk Surat Riset
-                        $html = '<!DOCTYPE html>
+                    // HTML untuk Surat Riset
+                    $html = '<!DOCTYPE html>
                         <html lang="en">
                         <head>
                         <meta charset="UTF-8">
@@ -220,15 +182,14 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
                         
                         <table border="0" style="margin-top: -12px; margin-bottom: -12px">
                             <tr>
-                                <td style="width: 180px; height: 5px"> Nama Mahasiswa </td><td style="height: 5px">: ' . $nama_lengkap . ' </td>
+                                <td style="width: 180px; height: 5px"> Nama Dosen </td><td style="height: 5px">: ' . $asal_surat . ' </td>
                             </tr>
                             <tr>
                                 <td style="width: 180px; height: 5px"> Tempat, Tanggal Lahir </td><td style="height: 5px">: ' . $ttl . ' </td>
                             </tr>
                             <tr>
-                                <td style="width: 180px; height: 5px"> Nomor Pokok </td><td style="height: 5px">: ' . $nim . ' </td>
+                                <td style="width: 180px; height: 5px"> Nomor Pokok </td><td style="height: 5px">: ' . $nidn . ' </td>
                             </tr>
-                            < ```php
                             <tr>
                                 <td style="width: 180px; height: 5px"> Program Studi </td><td style="height: 5px">: ' . $prodi . ' </td>
                             </tr>
@@ -252,7 +213,6 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
                         <footer></footer>
                         </body>
                         </html>';
-                    }
 
                     // Generate PDF and get the file path
                     $pdfPath = generatePDF($html);
@@ -260,16 +220,14 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
                     // Send email with PDF attachment
                     sendEmailWithPDF($email_pengirim, $subject, $body, $pdfPath);
                 } else {
-                    mysqli_rollback($koneksi);
-                    echo "Gagal menyisipkan data baru ke tabel tb_srt_dosen: " . mysqli_error($koneksi);
+                    echo "Gagal memperbarui status pada tabel tb_srt_dosen: " . mysqli_error($koneksi);
                 }
+            } else {
+                echo "Error fetching data for email content.";
             }
-        } else {
-            mysqli_rollback($koneksi);
-            echo "Gagal memperbarui status pada tabel tb_srt_dosen: " . mysqli_error($koneksi);
-        }
 
-        header("Location: dashboard.php");
-        exit();
+            header("Location: dashboard.php");
+            exit();
+        }
     }
 }
