@@ -123,7 +123,7 @@ if (!isset($_SESSION['pengguna_type'])) {
 
                     <!-- NON DISPO LP3M -->
                     <?php if ($_SESSION['jabatan'] == 'LP3M') : ?>
-                        <button onclick="window.location.href='surat_masuk_insentif'" class="btn3">Surat Masuk Insentif.
+                        <button onclick="window.location.href='surat_masuk_insentif'" class="btn3">Surat Masuk Insentif
                             <span class="warning" id="warning">Ada <?php echo $total_sm_verif; ?> surat yang belum ditanggapi</span>
                             <i class="fas fa-envelope dash-icon"></i><br>
                             <span class="badge" id="badge1" style="color: grey; padding: 2px; border-radius: 15px; position: relative; top: -10px;"><?php echo $total_sm_insentif; ?></span>
@@ -132,7 +132,7 @@ if (!isset($_SESSION['pengguna_type'])) {
 
                     <!-- NON DISPO HUMAS -->
                     <?php if ($_SESSION['jabatan'] == 'Humas') : ?>
-                        <button onclick="window.location.href='surat_masuk_riset'" class="btn3">Surat Masuk Insentif.
+                        <button onclick="window.location.href='surat_masuk_riset'" class="btn3">Surat Masuk Riset
                             <span class="warning" id="warning">Ada <?php echo $total_sm_verif; ?> surat yang belum ditanggapi</span>
                             <i class="fas fa-envelope dash-icon"></i><br>
                             <span class="badge" id="badge1" style="color: grey; padding: 2px; border-radius: 15px; position: relative; top: -10px;"><?php echo $total_sm_insentif; ?></span>
