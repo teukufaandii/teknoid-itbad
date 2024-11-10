@@ -79,9 +79,8 @@ if (isset($_POST['id']) && isset($_POST['catatan_penyelesaian_srd']) && isset($_
 
         if (mysqli_query($koneksi, $update_query)) {
             // Fetch required data for the email content and PDF generation
-            $email_query = "SELECT asal_surat, perihal_srd, tanggal_surat, tujuan_surat_srd, email_srd, 
-                NIDN, prodi_pengusul, no_telpon, deskripsi_srd, 
-                nama_perusahaan_srd, alamat_perusahaan_srd, alamat_srd, ttl_srd 
+            $email_query = "SELECT kd_srt_riset, asal_surat, perihal_srd, tanggal_surat, tujuan_surat_srd, email_srd, 
+                NIDN, no_telpon, deskripsi_srd, nama_perusahaan_srd, alamat_perusahaan_srd, alamat_srd, ttl_srd 
                 FROM tb_srt_dosen WHERE id_srt = '$id'";
             $email_result = mysqli_query($koneksi, $email_query);
 
@@ -96,7 +95,6 @@ if (isset($_POST['id']) && isset($_POST['catatan_penyelesaian_srd']) && isset($_
                     $tujuan_surat = $email_row['tujuan_surat_srd'];
                     $email_pengirim = $email_row['email_srd'];
                     $nidn = $email_row['NIDN'];
-                    $prodi = $email_row['prodi_pengusul'];
                     $no_hp = $email_row['no_telpon'];
                     $deskripsi = $email_row['deskripsi_srd'];
                     $nama_perusahaan = $email_row['nama_perusahaan_srd'];
@@ -189,9 +187,6 @@ if (isset($_POST['id']) && isset($_POST['catatan_penyelesaian_srd']) && isset($_
                             </tr>
                             <tr>
                                 <td style="width: 180px; height: 5px"> Nomor Pokok </td><td style="height: 5px">: ' . $nidn . ' </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 180px; height: 5px"> Program Studi </td><td style="height: 5px">: ' . $prodi . ' </td>
                             </tr>
                             <tr>
                                 <td style="width: 180px; height: 5px"> Alamat </td><td style="height: 5px">: ' . $alamat_domisili . ' </td>

@@ -78,7 +78,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                 <th onclick="sortTable(2, this)">NIDN<i id="sort-icon-2" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
                                 <th onclick="sortTable(3, this)">Tanggal Surat<i id="sort-icon-3" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
                                 <th onclick="sortTable(4, this)">Perihal<i id="sort-icon-4" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
-                                <!--<th onclick="sortTable(5, this)">Status<i id="sort-icon-5" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th> -->
+                                <th onclick="sortTable(5, this)">Status<i id="sort-icon-5" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
                                 <th>Aksi</th>
                                 <!-- <th style="border-top-right-radius: 8px;">Detail</th> -->
                             </tr>
@@ -137,6 +137,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 echo "<td>" . (isset($row['tanggal_surat']) ? (new DateTime($row['tanggal_surat']))->format('d-m-Y') : '') . "</td>";
                                                 echo "<td>" . $row['perihal_srd'] . "</td>";
                                                 echo "</td>";
+                                                echo "<td>" . ($row['verifikasi'] == 0 ? 'Belum Selesai' : 'Selesai') . "</td>";
                                                 echo "<td><a href='dispo_dosen.php?id=" . $row['id_srt'] . "' ><button style='background-color: white; color: #1b5ebe;'> Proses </button></a></td>";
                                             }
                                         }
