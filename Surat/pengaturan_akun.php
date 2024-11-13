@@ -83,7 +83,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin' || $_SESSION['aks
                         </thead>
                         <tbody>
                             <?php
-                            $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
+                            $conn = mysqli_connect("localhost", "teknoid1_admin", "RadKrwY8qt3v", "teknoid1_db_teknoid");
                             if ($conn->connect_error) {
                             }
 

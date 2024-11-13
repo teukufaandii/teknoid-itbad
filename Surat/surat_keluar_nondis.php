@@ -89,7 +89,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                         </thead>
                         <tbody>
                             <?php
-                            $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
+                            $conn = mysqli_connect("localhost", "teknoid1_admin", "RadKrwY8qt3v", "teknoid1_db_teknoid");
                             if ($conn->connect_error) {
                                 die("Connection failed: " . $conn->connect_error);
                             }
@@ -152,8 +152,8 @@ if (!isset($_SESSION['pengguna_type'])) {
                                         echo "<td>" . (isset($row['jenis_surat']) ? ($row['jenis_surat'] == 5 ? "Surat Insentif" : ($row['jenis_surat'] == 6 ? "Surat Riset Dosen" : "Jenis Surat Tidak Dikenali")) : "Data Tidak Tersedia") . "</td>";
                                         echo "<td>" . (isset($row['asal_surat']) ? $row['asal_surat'] : 'Data Tidak Tersedia') . "</td>";
 
-                                         // Mapping for jenis_surat
-                                         switch ($row['jenis_insentif']) {
+                                        // Mapping for jenis_surat
+                                        switch ($row['jenis_insentif']) {
                                             case 'penelitian':
                                                 $jenis_surat_text = 'Penelitian & Pengabdian Masyarakat';
                                                 break;

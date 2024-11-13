@@ -106,7 +106,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                         </thead>
                         <tbody>
                             <?php
-                            $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
+                            $conn = mysqli_connect("localhost", "teknoid1_admin", "RadKrwY8qt3v", "teknoid1_db_teknoid");
                             if ($conn->connect_error) {
                                 die("Connection failed: " . $conn->connect_error);
                             }

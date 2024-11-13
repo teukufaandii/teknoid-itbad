@@ -1236,8 +1236,7 @@
     // Memeriksa apakah tombol "Selesai" diklik
     if (isset($_POST['selesai'])) {
 
-        $koneksi = mysqli_connect($host, $user, $pass, $db);
-
+        $koneksi = mysqli_connect("localhost", "teknoid1_admin", "RadKrwY8qt3v", "teknoid1_db_teknoid");
         // Melakukan update status_selesai menjadi true di tabel tb_surat_dis
         $query_update = "UPDATE tb_surat_dis SET status_selesai = true WHERE id_surat = '$id'";
         mysqli_query($koneksi, $query_update);
@@ -1532,8 +1531,7 @@
     // Memeriksa apakah tombol "Selesai" diklik
     if (isset($_POST['selesai'])) {
 
-        $koneksi = mysqli_connect($host, $user, $pass, $db);
-
+        $koneksi = mysqli_connect("localhost", "teknoid1_admin", "RadKrwY8qt3v", "teknoid1_db_teknoid");
         // Melakukan update status_selesai menjadi true di tabel tb_surat_dis
         $query_update = "UPDATE tb_surat_dis SET status_selesai = true WHERE id_surat = '$id'";
         mysqli_query($koneksi, $query_update);
@@ -2173,8 +2171,7 @@
     // Memeriksa apakah tombol "Selesai" diklik
     if (isset($_POST['selesai'])) {
 
-        $koneksi = mysqli_connect($host, $user, $pass, $db);
-
+        $koneksi = mysqli_connect("localhost", "teknoid1_admin", "RadKrwY8qt3v", "teknoid1_db_teknoid");
         // Melakukan update status_selesai menjadi true di tabel tb_surat_dis
         $query_update = "UPDATE tb_surat_dis SET status_selesai = true WHERE id_surat = '$id'";
         mysqli_query($koneksi, $query_update);
@@ -2569,8 +2566,7 @@
     // Memeriksa apakah tombol "Selesai" diklik
     if (isset($_POST['selesai'])) {
 
-        $koneksi = mysqli_connect($host, $user, $pass, $db);
-
+        $koneksi = mysqli_connect("localhost", "teknoid1_admin", "RadKrwY8qt3v", "teknoid1_db_teknoid");
         // Melakukan update status_selesai menjadi true di tabel tb_surat_dis
         $query_update = "UPDATE tb_surat_dis SET status_selesai = true WHERE id_surat = '$id'";
         mysqli_query($koneksi, $query_update);
@@ -2680,8 +2676,7 @@
     // Memeriksa apakah tombol "Selesai" diklik
     if (isset($_POST['selesai'])) {
 
-        $koneksi = mysqli_connect($host, $user, $pass, $db);
-
+        $koneksi = mysqli_connect("localhost", "teknoid1_admin", "RadKrwY8qt3v", "teknoid1_db_teknoid");
         // Melakukan update status_selesai menjadi true di tabel tb_surat_dis
         $query_update = "UPDATE tb_surat_dis SET status_selesai = true WHERE id_surat = '$id'";
         mysqli_query($koneksi, $query_update);
@@ -2691,8 +2686,7 @@
     }
 
     // Mendapatkan jenis surat dari tb_surat_dis
-    $koneksi = mysqli_connect($host, $user, $pass, $db);
-    $query_jenis_surat = "SELECT jenis_surat FROM tb_surat_dis WHERE id_surat = '$id'";
+    $koneksi = mysqli_connect("localhost", "teknoid1_admin", "RadKrwY8qt3v", "teknoid1_db_teknoid");    $query_jenis_surat = "SELECT jenis_surat FROM tb_surat_dis WHERE id_surat = '$id'";
     $result = mysqli_query($koneksi, $query_jenis_surat);
     $row = mysqli_fetch_assoc($result);
     $jenis_surat = $row['jenis_surat'];

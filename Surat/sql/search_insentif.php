@@ -1,9 +1,9 @@
 <?php
 // koneksi ke database
 $host = 'localhost';
-$dbname = 'db_teknoid';
-$username = 'root';
-$password = '';
+$dbname = 'teknoid1_db_teknoid';
+$username = 'teknoid1_admin';
+$password = 'RadKrwY8qt3v';
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

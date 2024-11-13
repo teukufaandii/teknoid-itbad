@@ -3,9 +3,9 @@ session_start(); // Mulai sesi jika belum dimulai
 include "logout-checker.php";
 // Database connection
 $servername = "localhost";
-$username = "root"; // your MySQL username
-$password = ""; // your MySQL password
-$dbname = "db_teknoid"; // your database name
+$username = "teknoid1_admin"; // your MySQL username
+$password = "RadKrwY8qt3v"; // your MySQL password
+$dbname = "teknoid1_db_teknoid"; // your database name
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 require __DIR__ . '/vendor/autoload.php';

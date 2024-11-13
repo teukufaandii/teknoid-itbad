@@ -10,7 +10,7 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 
 if (isset($_POST['export_data'])) {
     // Database connection (adjust as needed)
-    $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
+    $conn = mysqli_connect("localhost", "teknoid1_admin", "RadKrwY8qt3v", "teknoid1_db_teknoid");
 
     // Check connection
     if ($conn->connect_error) {

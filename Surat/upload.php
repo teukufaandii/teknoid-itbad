@@ -1,10 +1,10 @@
 <?php
-$conn = mysqli_connect("localhost", "root", "", "db_teknoid");
+$conn = mysqli_connect("localhost", "teknoid1_admin", "RadKrwY8qt3v", "teknoid1_db_teknoid");
 if (!$conn) {
-  die("Connection failed: ". mysqli_connect_error());
+    die("Connection failed: " . mysqli_connect_error());
 }
 
-if(isset($_POST['upload'])){
+if (isset($_POST['upload'])) {
     $title = $_POST['title'];
     $file = $_FILES['file_form'];
 
@@ -19,23 +19,22 @@ if(isset($_POST['upload'])){
 
     $allowed = array('doc', 'docx');
 
-    if(in_array($fileActualExt, $allowed)){
-        if($fileError === 0){
-            if($fileSize < 10000000){
-                $fileDestination = 'formulir/'.$fileName;
+    if (in_array($fileActualExt, $allowed)) {
+        if ($fileError === 0) {
+            if ($fileSize < 10000000) {
+                $fileDestination = 'formulir/' . $fileName;
                 move_uploaded_file($fileTmpName, $fileDestination);
                 $sql = "INSERT INTO files (title, file) VALUES ('$title', '$fileName')";
                 mysqli_query($conn, $sql);
                 echo "<script>alert('File berhasil ditambahkan');</script>";
                 echo "<meta http-equiv='refresh' content='1; url=manajemen_form.php'>";
-            }else{ 
+            } else {
                 echo "<script>alert('Your file is too big!');</script>";
             }
-        }else{
+        } else {
             echo "<script>alert('There was an error uploading your file!');</script>";
         }
-    }else{
+    } else {
         echo "<script>alert('You cannot upload files of this type!');</script>";
     }
 }
-?>
