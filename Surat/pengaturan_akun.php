@@ -55,7 +55,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin' || $_SESSION['aks
                                 <i class="fa fa-plus"></i>&nbsp; Tambah Akun
                             </button></a>
 
-                        <a href="FormatAddUser.xlsx" download>
+                        <a href="formulir/FormatAddUser.xlsx" download>
                             <button class="btn">
                                <i class="fa-solid fa-file-arrow-down"></i>&nbsp; Form Tambah Akun</button>
                         </a>

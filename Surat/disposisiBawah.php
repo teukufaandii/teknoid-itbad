@@ -304,19 +304,19 @@
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_si">
-                <label for="">Prodi SI</label>
+                <label for="">Prodi S1 Sistem Informasi</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_ti">
-                <label for="">Prodi TI</label>
+                <label for="">Prodi S1 Teknologi Informasi</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_dkv">
-                <label for="">Prodi DKV</label>
+                <label for="">Prodi S1 DKV</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_arsitek">
-                <label for="">Prodi Arsitektur</label>
+                <label for="">Prodi S1 Arsitektur</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="keuangan">

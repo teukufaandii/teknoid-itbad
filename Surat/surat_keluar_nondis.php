@@ -131,7 +131,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                 srt.sinopsis_buku, srt.isbn_buku, srt.nama_model_mpdks, srt.deskripsi_mpdks,
                                 srt.judul_ipbk, srt.namaPenerbit_dan_waktu_ipbk, srt.link_publikasi_ipbk, srt.ttl_srd,
                                 srt.alamat_srd, srt.verifikasi, srt.perihal_srd, srt.email_srd, srt.deskripsi_srd, srt.nama_perusahaan_srd,
-                                srt.alamat_perusahaan_srd, srt.tujuan_surat_srd, srt.nomor_surat_srd, srt.memo
+                                srt.alamat_perusahaan_srd, srt.tujuan_surat_srd, srt.nomor_surat_srd, srt.memo, srt.verifikasi_keuangan
                             FROM 
                                 tb_srt_dosen srt
                             WHERE 
@@ -191,7 +191,9 @@ if (!isset($_SESSION['pengguna_type'])) {
                                         echo "<td>" . $jenis_surat_text . "</td>";
                                         echo "<td>" . (isset($row['tanggal_surat']) ? (new DateTime($row['tanggal_surat']))->format('d-m-Y') : '') . "</td>";
                                         echo "<td>";
-                                        if ($row['verifikasi'] == 1) {
+                                        if ($row['verifikasi_keuangan'] == 1) {
+                                            echo '<i class="fas fa-check-square" style="background-color: white; color: green;"></i> Terverifikasi - Keuangan';
+                                        }elseif ($row['verifikasi'] == 1) {
                                             echo '<i class="fas fa-check-square" style="background-color: white; color: green;"></i> Terverifikasi';
                                         } else {
                                             echo ' Belum Diverifikasi';

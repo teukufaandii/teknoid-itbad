@@ -82,7 +82,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] !== 'User') {
 
     $sql5 = "SELECT nama_jenis FROM tb_jenis WHERE kd_jenissurat = ?";
     $stmt5 = $koneksi->prepare($sql5);
-    $stmt5->bind_param("i", $id);
+    $stmt5->bind_param("i", $kd_jenis);
     $stmt5->execute();
     $stmt5->bind_result($jenis_surat);
     $stmt5->fetch();
@@ -248,10 +248,10 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] !== 'User') {
                                 <label for="">Nama Siswa</label>
                                 <input type="text" class="input" name="#" value="<?php echo $nama_lengkap; ?>, &nbsp <?php echo $nama_lengkap2; ?>, &nbsp <?php echo $nama_lengkap3; ?> " readonly>
                             </div>
-
+                            
                             <div class="input-field">
                                 <label for="">NIM Siswa</label>
-                                <input type="text" class="input" name="#" value="<?php echo $nim; ?>, &nbsp <?php echo $nim2; ?>, &nbsp <?php echo $nim3; ?>  " readonly>
+                                <input type="text" class="input" name="#" value="<?php echo ($nim != 0) ? $nim : ''; ?>, &nbsp <?php echo ($nim2 != 0) ? $nim2 : ''; ?>, &nbsp <?php echo ($nim3 != 0) ? $nim3 : ''; ?>" readonly>
                             </div>
 
                             <div class="input-field">

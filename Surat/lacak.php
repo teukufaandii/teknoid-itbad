@@ -21,12 +21,16 @@ $stmt1->fetch();
 $stmt1->close();
 
 // Fetch data from the second table based on the provided ID
-$sql2 = "SELECT dispo1, dispo2, dispo3, dispo4, dispo5, dispo6, dispo7, dispo8, dispo9, dispo10,
-        catatan_disposisi, catatan_disposisi2, catatan_disposisi3, catatan_disposisi4, catatan_disposisi5, catatan_disposisi6, catatan_disposisi7, catatan_disposisi8, catatan_disposisi9, catatan_disposisi10,
-        tanggal_disposisi1, tanggal_disposisi2, tanggal_disposisi3, tanggal_disposisi4, tanggal_disposisi5, tanggal_disposisi6, tanggal_disposisi7, tanggal_disposisi8, tanggal_disposisi9, tanggal_disposisi10,
-        tanggal_eksekutor, diteruskan_ke, nama_selesai, nama_selesai2,  nama_selesai3, nama_selesai4, nama_selesai5, nama_selesai6, nama_selesai7, nama_penolak, 
-        catatan_selesai,  catatan_selesai2, catatan_selesai3, catatan_selesai4, catatan_selesai5, catatan_selesai6, catatan_selesai7, catatan_tolak
-        FROM tb_disposisi WHERE id_surat = ?";
+$sql2 = "SELECT 
+            d.dispo1, d.dispo2, d.dispo3, d.dispo4, d.dispo5, d.dispo6, d.dispo7, d.dispo8, d.dispo9, d.dispo10, 
+            d.catatan_disposisi, d.catatan_disposisi2, d.catatan_disposisi3, d.catatan_disposisi4, d.catatan_disposisi5, d.catatan_disposisi6, d.catatan_disposisi7, d.catatan_disposisi8, d.catatan_disposisi9, d.catatan_disposisi10,
+            d.tanggal_disposisi1, d.tanggal_disposisi2, d.tanggal_disposisi3, d.tanggal_disposisi4, d.tanggal_disposisi5, d.tanggal_disposisi6, d.tanggal_disposisi7, d.tanggal_disposisi8, d.tanggal_disposisi9, d.tanggal_disposisi10,
+            d.tanggal_eksekutor, d.diteruskan_ke, d.nama_selesai, d.nama_selesai2, d.nama_selesai3, d.nama_selesai4, d.nama_selesai5, d.nama_selesai6, d.nama_selesai7, d.nama_penolak, 
+            d.catatan_selesai, d.catatan_selesai2, d.catatan_selesai3, d.catatan_selesai4, d.catatan_selesai5, d.catatan_selesai6, d.catatan_selesai7, d.catatan_tolak,
+            s.jenis_surat
+        FROM tb_disposisi d
+        JOIN tb_surat_dis s ON s.id_surat = d.id_surat
+        WHERE d.id_surat = ?";
 $stmt2 = $koneksi->prepare($sql2);
 $stmt2->bind_param("i", $id);
 $stmt2->execute();
@@ -78,7 +82,8 @@ $stmt2->bind_result(
     $catatan_selesai5,
     $catatan_selesai6,
     $catatan_selesai7,
-    $catatan_tolak
+    $catatan_tolak,
+    $jenis_surat
 );
 $stmt2->fetch();
 $stmt2->close();
@@ -98,6 +103,7 @@ $stmt4->execute();
 $stmt4->bind_result($file_laporan_name);
 $stmt4->fetch();
 $stmt4->close();
+
 
 // Check if files exist
 $file_berkas_exists = !empty($file_berkas_name);
@@ -154,53 +160,62 @@ $file_laporan_exists = !empty($file_laporan_name);
                                         <label>Perihal</label>
                                         <input type="text" name="perihal" value="<?php echo $perihal; ?>" class="input" readonly />
                                     </div>
-                                    <div class="input-field">
-                                        <label>Posisi Surat Saat Ini</label>
-                                        <?php
-                                        // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
-                                        if (is_string($diteruskan_ke) && is_array(json_decode($diteruskan_ke, true))) {
-                                            $decoded_array = json_decode($diteruskan_ke, true);
-                                            // Mengonversi array menjadi string
-                                            $diteruskan_ke_value = implode(", ", $decoded_array);
-                                        } elseif (is_array($diteruskan_ke)) {
-                                            // Jika sudah berupa array PHP
-                                            $diteruskan_ke_value = implode(", ", $diteruskan_ke);
-                                        } else {
-                                            // Jika bukan array, langsung ambil nilainya
-                                            $diteruskan_ke_value = $diteruskan_ke;
-                                        }
-
-                                        // Mengganti karakter "_" dengan spasi
-                                        $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
-
-                                        // Membuat huruf awal setiap kata menjadi kapital
-                                        $diteruskan_ke_value = ucwords($diteruskan_ke_value);
-
-                                        // Tambahkan kondisi else untuk menampilkan surat belum di disposisi
-                                        if (empty($diteruskan_ke_value)) {
-                                            $diteruskan_ke_value = "Surat belum di disposisi";
-                                        }
-
-                                        //untuk menampilkan status tolak dan selesai
-                                        function getStatusSelesai($nama_tolak, $nama_selesai)
-                                        {
-                                            if (!empty($nama_tolak)) {
-                                                $status_selesai = "- Ditolak";
-                                                $style = "background-color: red; color: white;"; // add red color for ditolak
-                                            } elseif (!empty($nama_selesai)) {
-                                                $status_selesai = "- Disetujui";
-                                                $style = "background-color: green;color: white;"; // add green color for selesai
+                                  <?php if ($jenis_surat == 1 || $jenis_surat == 2): ?>
+                                        <div class="input-field" class="hiden">
+                                            <label>Posisi Surat Saat Ini</label>
+                                            <?php
+                                            // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
+                                            if (is_string($diteruskan_ke) && is_array(json_decode($diteruskan_ke, true))) {
+                                                $decoded_array = json_decode($diteruskan_ke, true);
+                                                // Mengonversi array menjadi string
+                                                $diteruskan_ke_value = implode(", ", $decoded_array);
+                                            } elseif (is_array($diteruskan_ke)) {
+                                                // Jika sudah berupa array PHP
+                                                $diteruskan_ke_value = implode(", ", $diteruskan_ke);
                                             } else {
-                                                $status_selesai = "";
-                                                $style = ""; // no color for empty status
+                                                // Jika bukan array, langsung ambil nilainya
+                                                $diteruskan_ke_value = $diteruskan_ke;
                                             }
-                                            return array($status_selesai, $style);
-                                        }
 
-                                        list($status_selesai, $style) = getStatusSelesai($nama_tolak, $nama_selesai);
-                                        ?>
-                                        <input type="text" id="diteruskan_ke" style="<?php echo $style; ?>  name=" diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>  <?php echo $status_selesai; ?>" class="input" readonly><br>
-                                    </div>
+                                            // Mengganti karakter "_" dengan spasi
+                                            $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
+
+                                            // Membuat huruf awal setiap kata menjadi kapital
+                                            $diteruskan_ke_value = ucwords($diteruskan_ke_value);
+
+                                            // Tambahkan kondisi else untuk menampilkan surat belum di disposisi
+                                            if (empty($diteruskan_ke_value)) {
+                                                $diteruskan_ke_value = "Surat belum di disposisi";
+                                            }
+
+                                            //untuk menampilkan status tolak dan selesai
+                                            function getStatusSelesai($nama_tolak, $nama_selesai)
+                                            {
+                                                //untuk coloring jika diperlukan
+                                                // if (!empty($nama_tolak)) {
+                                                //   $status_selesai = "- Ditolak";
+                                                //   $style = "background-color: red; color: white;"; // add red color for ditolak
+                                                // } elseif (!empty($nama_selesai)) {
+                                                //   $status_selesai = "- Disetujui";
+                                                //   $style = "background-color: green;color: white;"; // add green color for selesai
+                                                // } else {
+                                                //   $status_selesai = "";
+                                                //   $style = ""; // no color for empty status
+                                                // }
+                                                // return array($status_selesai, $style);
+                                            }
+
+                                            list($status_selesai, $style) = getStatusSelesai($nama_tolak, $nama_selesai);
+                                            ?>
+                                            <input type="text" id="diteruskan_ke" style="<?php echo $style; ?>" name="diteruskan_ke" value="<?php echo htmlspecialchars($diteruskan_ke_value . ' ' . $status_selesai); ?>" class="input" readonly><br>
+                                        </div>
+                                    <?php else: ?>
+                                        <style>
+                                            .hiden {
+                                                display: none;
+                                            }
+                                        </style>
+                                    <?php endif; ?>
                                 </form>
                             </div>
 

@@ -231,7 +231,8 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         /* Style untuk modal-content */
@@ -596,8 +597,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                             <input type="text" class="input" name="#" value="<?php echo $alamat_perusahaan_srd; ?>" readonly>
                         </div>
 
-                        <?php include "dispoBawahRstDosen.php" ?>
-                    <?php } ?>
+
 
 
                     <div class="input-field">
@@ -649,6 +649,10 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                         </div>
                     </div>
 
+                    <?php 
+                        include "dispoBawahRstDosen.php" ?>
+                    <?php } ?>
+
                     <?php if ($_SESSION['jabatan'] == 'LP3M') : ?>
                         <div class="txt-disposisi">
                             <h3> Memo </h3>
@@ -671,172 +675,150 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
         </div>
         <?php include './footer.php'; ?>
     </div>
-    <script>
-        var accMdl = document.getElementById("accModal");
 
-        var accBtn = document.getElementById("accModalBtn");
-
-        accBtn.onclick = function() {
-            accMdl.style.display === "block" ? closeModalAcc() : openModalAcc();
-        }
-
-        window.onclick = function(event) {
-            if (event.target == accMdl) {
-                closeModalAcc();
-            }
-        }
-
-        function openModalAcc() {
-            accMdl.style.display = "block";
-        }
-
-        function closeModalAcc() {
-            accMdl.style.display = "none";
-        }
-    </script>
-
-    <script src="js/dashboard-js.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const btnSelesai = document.getElementById('btnSelesaiRisetDosen');
+    document.addEventListener('DOMContentLoaded', function() {
+        const btnSelesai = document.getElementById('btnSelesaiRisetDosen');
 
-            if (btnSelesai) {
-                btnSelesai.addEventListener('click', function() {
-                    // Tampilkan konfirmasi sebelum mengirimkan data
-                    swal({
-                            title: "Konfirmasi",
-                            text: "Apakah Anda yakin ingin menyelesaikan surat ini?",
-                            icon: "warning",
-                            buttons: true,
-                            dangerMode: true,
-                        })
-                        .then((willProceed) => {
-                            if (willProceed) {
-                                // Mengambil nilai dari input yang diperlukan
-                                const catatan_penyelesaian_srd = document.querySelector('input[name="catatan_penyelesaian_srd"]').value;
-                                const kd_srt_riset = document.querySelector('input[name="kd_srt_riset"]').value;
-                                const id = "<?php echo $id; ?>"; // Mendapatkan nilai ID surat dari PHP
-
-                                // Membuat objek XMLHttpRequest untuk mengirimkan data
-                                const xhr = new XMLHttpRequest();
-                                xhr.open('POST', 'update_selesai_riset_dosen.php', true);
-                                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-                                xhr.onreadystatechange = function() {
-                                    if (xhr.readyState == 4 && xhr.status == 200) {
-                                        // Menampilkan notifikasi berhasil setelah respons diterima
-                                        swal("Berhasil!", "Surat Telah Dikonfirmasi Selesai!", "success")
-                                            .then(function() {
-                                                // Redirect ke halaman dashboard setelah menutup notifikasi
-                                                window.location.href = "dashboard.php";
-                                            });
-                                    } else {
-                                        swal("Gagal!", "Terjadi kesalahan: " + xhr.status, "error");
-                                    }
-                                };
-
-                                // Mengirim data melalui AJAX
-                                xhr.send("id=" + id + "&catatan_penyelesaian_srd=" + encodeURIComponent(catatan_penyelesaian_srd) + "&kd_srt_riset=" + encodeURIComponent(kd_srt_riset) + "&action=selesai");
-                            } else {
-                                // Menampilkan notifikasi batal jika pengguna memilih untuk tidak melanjutkan
-                                swal("Dibatalkan", "Surat tidak diselesaikan", "info");
-                            }
-                        });
-                });
-            }
-        });
-    </script>
-
-    <script>
-        document.getElementById('btnKirim').addEventListener('click', function() {
-            const memo = document.getElementById('memo').value;
-
-            if (memo.trim() === '') {
+        if (btnSelesai) {
+            btnSelesai.addEventListener('click', function() {
+                // Tampilkan konfirmasi sebelum mengirimkan data
                 Swal.fire({
-                    icon: 'warning',
-                    title: 'Memo kosong',
-                    text: 'Silakan isi memo terlebih dahulu.'
-                });
-                return;
-            }
+                    title: "Konfirmasi",
+                    text: "Apakah Anda yakin ingin menyelesaikan surat ini?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, selesaikan!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Mengambil nilai dari input yang diperlukan
+                        const catatan_penyelesaian_srd = document.querySelector('input[name="catatan_penyelesaian_srd"]').value;
+                        const kd_srt_riset = document.querySelector('input[name="kd_srt_riset"]').value;
+                        const id = "<?php echo $id; ?>"; // Mendapatkan nilai ID surat dari PHP
 
-            Swal.fire({
-                title: 'Konfirmasi Pengiriman',
-                text: "Apakah Anda yakin ingin mengirim memo ini?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, kirim!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    sendRequest('kirim');
-                }
-            });
-        });
+                        // Membuat objek XMLHttpRequest untuk mengirimkan data
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('POST', 'update_selesai_riset_dosen.php', true);
+                        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-        document.getElementById('btnVerifikasi').addEventListener('click', function() {
-            Swal.fire({
-                title: 'Konfirmasi Verifikasi',
-                text: "Apakah Anda yakin ingin melakukan verifikasi?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, verifikasi!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    sendRequest('verifikasi');
-                }
-            });
-        });
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState == 4 && xhr.status == 200) {
+                                // Menampilkan notifikasi berhasil setelah respons diterima
+                                Swal.fire({
+                                    title: "Berhasil!",
+                                    text: "Surat Telah Dikonfirmasi Selesai!",
+                                    icon: "success"
+                                }).then(function() {
+                                    // Redirect ke halaman dashboard setelah menutup notifikasi
+                                    window.location.href = "dashboard.php";
+                                });
+                            } else {
+                                Swal.fire("Gagal!", "Terjadi kesalahan: " + xhr.status, "error");
+                            }
+                        };
 
-        function sendRequest(action) {
-            const memo = document.getElementById('memo').value;
-            const id_srt = document.querySelector('input[name="id"]').value;
-
-            fetch('update_memo.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: new URLSearchParams({
-                        'action': action,
-                        'memo': memo,
-                        'id_srt': id_srt
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    if (data.success) {
-                        if (action === 'kirim') {
-                            Swal.fire('Berhasil', 'Catatan berhasil ditambahkan.', 'success');
-                            setTimeout(() => {
-                                window.location.href = 'surat_masuk_insentif.php';
-                            }, 3000);
-                        } else if (action === 'verifikasi') {
-                            Swal.fire({
-                                title: 'Verifikasi Berhasil',
-                                text: 'Verifikasi berhasil dilakukan.',
-                                icon: 'success'
-                            });
-                            setTimeout(() => {
-                                window.location.href = 'surat_masuk_insentif.php';
-                            }, 3000);
-                        }
+                        // Mengirim data melalui AJAX
+                        xhr.send("id=" + id + "&catatan_penyelesaian_srd=" + encodeURIComponent(catatan_penyelesaian_srd) + "&kd_srt_riset=" + encodeURIComponent(kd_srt_riset) + "&action=selesai");
                     } else {
-                        Swal.fire('Gagal', 'Update gagal: ' + data.message, 'error');
+                        // Menampilkan notifikasi batal jika pengguna memilih untuk tidak melanjutkan
+                        Swal.fire("Dibatalkan", "Surat tidak diselesaikan", "info");
                     }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    Swal.fire('Error', 'Terjadi kesalahan dalam permintaan.', 'error');
                 });
+            });
         }
-    </script>
+    });
+
+    document.getElementById('btnKirim').addEventListener('click', function() {
+        const memo = document.getElementById('memo').value;
+
+        if (memo.trim() === '') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Memo kosong',
+                text: 'Silakan isi memo terlebih dahulu.'
+            });
+            return;
+        }
+
+        Swal.fire({
+            title: 'Konfirmasi Pengiriman',
+            text: "Apakah Anda yakin ingin mengirim memo ini?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, kirim!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                sendRequest('kirim');
+            }
+        });
+    });
+
+    document.getElementById('btnVerifikasi').addEventListener('click', function() {
+        Swal.fire({
+            title: 'Konfirmasi Verifikasi',
+            text: "Apakah Anda yakin ingin melakukan verifikasi?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, verifikasi!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                sendRequest('verifikasi');
+            }
+        });
+    });
+
+    function sendRequest(action) {
+        const memo = document.getElementById('memo').value;
+        const id_srt = document.querySelector('input[name="id"]').value;
+
+        fetch('update_memo.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    'action': action,
+                    'memo': memo,
+                    'id_srt': id_srt
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.success) {
+                    if (action === 'kirim') {
+                        Swal.fire('Berhasil', 'Catatan berhasil ditambahkan.', 'success');
+                        setTimeout(() => {
+                            window.location.href = 'surat_masuk_insentif.php';
+                        }, 3000);
+                    } else if (action === 'verifikasi') {
+                        Swal.fire({
+                            title: 'Verifikasi Berhasil',
+                            text: 'Verifikasi berhasil dilakukan.',
+                            icon: 'success'
+                        });
+                        setTimeout(() => {
+                            window.location.href = 'surat_masuk_insentif.php';
+                        }, 3000);
+                    }
+                } else {
+                    Swal.fire('Gagal', 'Update gagal: ' + data.message, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire('Error', 'Terjadi kesalahan dalam permintaan.', 'error');
+            });
+    }
+</script>
 
     <!-- Modal script -->
     <script>
@@ -887,6 +869,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
             window.history.back();
         }
     </script>
+    <script src="js/dashboard-js.js"></script>
 
 </body>
 
