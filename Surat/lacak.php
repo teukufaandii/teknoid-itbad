@@ -163,30 +163,72 @@ $file_laporan_exists = !empty($file_laporan_name);
                                   <?php if ($jenis_surat == 1 || $jenis_surat == 2): ?>
                                         <div class="input-field" class="hiden">
                                             <label>Posisi Surat Saat Ini</label>
-                                            <?php
-                                            // Memeriksa apakah diteruskan_ke adalah string JSON yang valid
-                                            if (is_string($diteruskan_ke) && is_array(json_decode($diteruskan_ke, true))) {
-                                                $decoded_array = json_decode($diteruskan_ke, true);
-                                                // Mengonversi array menjadi string
-                                                $diteruskan_ke_value = implode(", ", $decoded_array);
-                                            } elseif (is_array($diteruskan_ke)) {
-                                                // Jika sudah berupa array PHP
-                                                $diteruskan_ke_value = implode(", ", $diteruskan_ke);
-                                            } else {
-                                                // Jika bukan array, langsung ambil nilainya
-                                                $diteruskan_ke_value = $diteruskan_ke;
-                                            }
+                                                <?php
+                                                // Define the rules as an array
+                                                $rules = array(
+                                                    'Warek2' => 'Warek 2',
+                                                    'Warek3' => 'Warek 3',
+                                                    'DekanFEB' => 'Dekan FEB',
+                                                    'DekanFTD' => 'Dekan FTD',
+                                                    'direkPasca' => 'Direktur Pasca',
+                                                    'prodi_keuSyariah' => 'Prodi S2 Keuangan Syariah',
+                                                    'prodi_akuntansi' => 'Prodi S1 Akuntansi & D3 Akuntansi',
+                                                    'prodi_manajemen' => 'Prodi S1 manajemen & D3 Keuangan Perbankan',
+                                                    'prodi_si' => 'Prodi S1 Sistem Informasi',
+                                                    'prodi_ti' => 'Prodi S1 Teknologi Informasi',
+                                                    'prodi_dkv' => 'Prodi S1 Desain Komunikasi Visual',
+                                                    'prodi_arsitek' => 'Prodi S1 Arsitektur',
+                                                    'keuangan' => 'Bag. Keuangan',
+                                                    'sdm' => 'SDM',
+                                                    'umum' => 'Bag. Umum',
+                                                    'it_lab' => 'IT dan Lab',
+                                                    'bpm' => 'BPM',
+                                                    'Humas' => 'Humas',
+                                                    'marketing' => 'Bag. Marketing',
+                                                    'lp3m' => 'LP3M',
+                                                    'kui_k' => 'KUI',
+                                                    'akademik' => 'Bag. Akademik',
+                                                    'ppik_kmhs' => 'PPIK dan Kemahasiswaan',
+                                                    'upt_perpus' => 'UPT Perpus',
+                                                    'pusat_bisnis' => 'Pusat Bisnis',
+                                                    'PSDOD' => 'PSDOD',
+                                                    'PKAD' => 'PKAD',
+                                                    'CHED' => 'CHED',
+                                                    'PSIPP' => 'PSIPP',
+                                                    'halal_center' => 'Halal Center',
+                                                );
 
-                                            // Mengganti karakter "_" dengan spasi
-                                            $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
+                                                // Check if $diteruskan_ke is a string JSON that can be decoded
+                                                if (is_string($diteruskan_ke) && is_array(json_decode($diteruskan_ke, true))) {
+                                                    $decoded_array = json_decode($diteruskan_ke, true);
+                                                    // Apply the rules to the decoded array
+                                                    $diteruskan_ke_value = array_map(function($value) use ($rules) {
+                                                        return isset($rules[$value]) ? $rules[$value] : $value;
+                                                    }, $decoded_array);
+                                                    // Convert the array to a string
+                                                    $diteruskan_ke_value = implode(", ", $diteruskan_ke_value);
+                                                } elseif (is_array($diteruskan_ke)) {
+                                                    // If already an array, apply the rules
+                                                    $diteruskan_ke_value = array_map(function($value) use ($rules) {
+                                                        return isset($rules[$value]) ? $rules[$value] : $value;
+                                                    }, $diteruskan_ke);
+                                                    // Convert the array to a string
+                                                    $diteruskan_ke_value = implode(", ", $diteruskan_ke_value);
+                                                } else {
+                                                    // If not an array, apply the rules to the single value
+                                                    $diteruskan_ke_value = isset($rules[$diteruskan_ke]) ? $rules[$diteruskan_ke] : $diteruskan_ke;
+                                                }
 
-                                            // Membuat huruf awal setiap kata menjadi kapital
-                                            $diteruskan_ke_value = ucwords($diteruskan_ke_value);
+                                                // Replace underscores with spaces
+                                                $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
 
-                                            // Tambahkan kondisi else untuk menampilkan surat belum di disposisi
-                                            if (empty($diteruskan_ke_value)) {
-                                                $diteruskan_ke_value = "Surat belum di disposisi";
-                                            }
+                                                // Capitalize the first letter of each word
+                                                $diteruskan_ke_value = ucwords($diteruskan_ke_value);
+
+                                                // If empty, set to "Surat belum di disposisi"
+                                                if (empty($diteruskan_ke_value)) {
+                                                    $diteruskan_ke_value = "Surat belum di disposisi";
+                                                }
 
                                             //untuk menampilkan status tolak dan selesai
                                             function getStatusSelesai($nama_tolak, $nama_selesai)
@@ -330,37 +372,37 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                                                                             echo $catatan_disposisi2;
                                                                                                         } elseif (!empty($catatan_disposisi1)) {
                                                                                                             if (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5) && !empty($catatan_selesai6) && !empty($catatan_selesai7)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai7 . ' : ' . $catatan_selesai7;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5) && !empty($catatan_selesai6)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2;
                                                                                                             } elseif (!empty($catatan_selesai)) {
                                                                                                                 echo $catatan_selesai;
@@ -445,37 +487,37 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                                                                             echo $catatan_disposisi3;
                                                                                                         } elseif (!empty($catatan_disposisi2)) {
                                                                                                             if (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5) && !empty($catatan_selesai6) && !empty($catatan_selesai7)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai7 . ' : ' . $catatan_selesai7;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5) && !empty($catatan_selesai6)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2;
                                                                                                             } elseif (!empty($catatan_selesai)) {
                                                                                                                 echo $catatan_selesai;
@@ -558,37 +600,37 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                                                                             echo $catatan_disposisi4;
                                                                                                         } elseif (!empty($catatan_disposisi3)) {
                                                                                                             if (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5) && !empty($catatan_selesai6) && !empty($catatan_selesai7)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai7 . ' : ' . $catatan_selesai7;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5) && !empty($catatan_selesai6)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2;
                                                                                                             } elseif (!empty($catatan_selesai)) {
                                                                                                                 echo $catatan_selesai;
@@ -672,37 +714,37 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                                                                             echo $catatan_disposisi5;
                                                                                                         } elseif (!empty($catatan_disposisi4)) {
                                                                                                             if (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5) && !empty($catatan_selesai6) && !empty($catatan_selesai7)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai7 . ' : ' . $catatan_selesai7;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5) && !empty($catatan_selesai6)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2;
                                                                                                             } elseif (!empty($catatan_selesai)) {
                                                                                                                 echo $catatan_selesai;
@@ -787,37 +829,37 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                                                                             echo $catatan_disposisi6;
                                                                                                         } elseif (!empty($catatan_disposisi5)) {
                                                                                                             if (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5) && !empty($catatan_selesai6) && !empty($catatan_selesai7)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai7 . ' : ' . $catatan_selesai7;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5) && !empty($catatan_selesai6)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2;
                                                                                                             } elseif (!empty($catatan_selesai)) {
                                                                                                                 echo $catatan_selesai;
@@ -902,37 +944,37 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                                                                             echo $catatan_disposisi7;
                                                                                                         } elseif (!empty($catatan_disposisi6)) {
                                                                                                             if (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5) && !empty($catatan_selesai6) && !empty($catatan_selesai7)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai7 . ' : ' . $catatan_selesai7;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5) && !empty($catatan_selesai6)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2;
                                                                                                             } elseif (!empty($catatan_selesai)) {
                                                                                                                 echo $catatan_selesai;
@@ -1017,37 +1059,37 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                                                                             echo $catatan_disposisi8;
                                                                                                         } elseif (!empty($catatan_disposisi7)) {
                                                                                                             if (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5) && !empty($catatan_selesai6) && !empty($catatan_selesai7)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai7 . ' : ' . $catatan_selesai7;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5) && !empty($catatan_selesai6)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2;
                                                                                                             } elseif (!empty($catatan_selesai)) {
                                                                                                                 echo $catatan_selesai;
@@ -1131,37 +1173,37 @@ $file_laporan_exists = !empty($file_laporan_name);
                                                                                                             echo $catatan_disposisi9;
                                                                                                         } elseif (!empty($catatan_disposisi8)) {
                                                                                                             if (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5) && !empty($catatan_selesai6) && !empty($catatan_selesai7)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai7 . ' : ' . $catatan_selesai7;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5) && !empty($catatan_selesai6)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai6 . ' : ' . $catatan_selesai6;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4) && !empty($catatan_selesai5)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai5 . ' : ' . $catatan_selesai5;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3) && !empty($catatan_selesai4)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai4 . ' : ' . $catatan_selesai4;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2) && !empty($catatan_selesai3)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
-                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
+                                                                                                                    'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2 . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai3 . ' : ' . $catatan_selesai3;
                                                                                                             } elseif (!empty($catatan_selesai) && !empty($catatan_selesai2)) {
-                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '<br>' .
+                                                                                                                echo 'Catatan Selesai Oleh ' . $nama_selesai . ' : ' . $catatan_selesai . '&nbsp;||&nbsp;' .
                                                                                                                     'Catatan Selesai Oleh ' . $nama_selesai2 . ' : ' . $catatan_selesai2;
                                                                                                             } elseif (!empty($catatan_selesai)) {
                                                                                                                 echo $catatan_selesai;

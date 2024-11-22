@@ -15,7 +15,7 @@ $result = mysqli_query($koneksi, $query);
                 $dispo = 'dispo' . $i;
                 $keputusan = 'keputusan_disposisi' . $i;
                 if ($i == 1) {
-                    $catatan = 'catatan_disposisi'; // Catatan khusus untuk yang pertama
+                    $catatan = 'catatan_disposisi'; 
                 } else {
                     $catatan = 'catatan_disposisi' . $i;
                 }
@@ -31,17 +31,44 @@ $result = mysqli_query($koneksi, $query);
             } ?>
             <span>Posisi Surat Saat Ini :</span>
             <?php
+            // Array pemetaan nilai database ke UI
+            $map = [
+                'prodi_keuSyariah' => 'Prodi S2 Keuangan Syariah',
+                'prodi_akuntansi' => 'Prodi S1 Akuntansi & D3 Akuntansi',
+                'prodi_manajemen' => 'Prodi S1 Manajemen & D3 Keuangan Perbankan',
+                'prodi_si' => 'Prodi S1 Sistem Informasi',
+                'prodi_ti' => 'Prodi S1 Teknologi Informasi',
+                'prodi_dkv' => 'Prodi S1 Desain Komunikasi Visual',
+                'prodi_arsitek' => 'Prodi S1 Arsitektur'
+            ];
+
             if (is_string($row['diteruskan_ke']) && is_array(json_decode($row['diteruskan_ke'], true))) {
                 $decoded_array = json_decode($row['diteruskan_ke'], true);
-                $diteruskan_ke_value = implode(", ", $decoded_array);
+                $diteruskan_ke_value = [];
+                foreach ($decoded_array as $value) {
+                    // Ganti nilai sesuai pemetaan
+                    if (isset($map[$value])) {
+                        $diteruskan_ke_value[] = $map[$value];
+                    } else {
+                        $diteruskan_ke_value[] = ucfirst(str_replace("_", " ", $value));
+                    }
+                }
+                $diteruskan_ke_value = implode(", ", $diteruskan_ke_value);
             } elseif (is_array($row['diteruskan_ke'])) {
-                $diteruskan_ke_value = implode(", ", $row['diteruskan_ke']);
+                $diteruskan_ke_value = [];
+                foreach ($row['diteruskan_ke'] as $value) {
+                    // Ganti nilai sesuai pemetaan
+                    if (isset($map[$value])) {
+                        $diteruskan_ke_value[] = $map[$value];
+                    } else {
+                        $diteruskan_ke_value[] = ucfirst(str_replace("_", " ", $value));
+                    }
+                }
+                $diteruskan_ke_value = implode(", ", $diteruskan_ke_value);
             } else {
-                $diteruskan_ke_value = $row['diteruskan_ke'];
+                $diteruskan_ke_value = isset($map[$row['diteruskan_ke']]) ? $map[$row['diteruskan_ke']] : $row['diteruskan_ke'];
             }
 
-            $diteruskan_ke_value = str_replace("_", " ", $diteruskan_ke_value);
-            $diteruskan_ke_value = ucwords($diteruskan_ke_value);
             ?>
             <input type="text" id="diteruskan_ke" name="diteruskan_ke" style="margin-top: 10px;" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
         </div>

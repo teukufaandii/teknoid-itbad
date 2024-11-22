@@ -296,11 +296,11 @@
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_manajemen">
-                <label for="">Prodi S1 Manajemen</label>
+                <label for="">Prodi S1 manajemen & D3 Keuangan Perbankan</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_akuntansi">
-                <label> Prodi S1 Akuntansi</label>
+                <label> Prodi S1 Akuntansi & D3 Akuntansi</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_si">
@@ -435,12 +435,13 @@
                 'DekanFEB': 'Dekan FEB',
                 'DekanFTD': 'Dekan FTD',
                 'direkPasca': 'Direktur Pasca',
-                'prodi_akuntansi': 'Prodi S1 Akuntansi',
-                'prodi_manajemen': 'Prodi S1 Manajemen',
-                'prodi_si': 'Prodi SI',
-                'prodi_ti': 'Prodi TI',
-                'prodi_dkv': 'Prodi DKV',
-                'prodi_arsitek': 'Prodi Arsitektur',
+                'prodi_keuSyariah': 'Prodi S2 Keuangan Syariah',
+                'prodi_akuntansi': 'Prodi S1 Akuntansi & D3 Akuntansi',
+                'prodi_manajemen': 'Prodi S1 manajemen & D3 Keuangan Perbankan',
+                'prodi_si': 'Prodi S1 Sistem Informasi',
+                'prodi_ti': 'Prodi S1 Teknologi Informasi',
+                'prodi_dkv': 'Prodi S1 Desain Komunikasi Visual',
+                'prodi_arsitek': 'Prodi S1 Arsitektur',
                 'keuangan': 'Bag. Keuangan',
                 'sdm': 'SDM',
                 'umum': 'Bag. Umum',
@@ -634,27 +635,27 @@
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_manajemen">
-                <label for="">Prodi S1 Manajemen</label>
+                <label for="">Prodi S1 manajemen & D3 Keuangan Perbankan</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_akuntansi">
-                <label> Prodi S1 Akuntansi</label>
+                <label> Prodi S1 Akuntansi & D3 Akuntansi</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_si">
-                <label for="">Prodi SI</label>
+                <label for="">Prodi S1 Sistem Informasi</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_ti">
-                <label for="">Prodi TI</label>
+                <label for="">Prodi S1 Teknologi Informasi</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_dkv">
-                <label for="">Prodi DKV</label>
+                <label for="">Prodi S1 Desain Komunikasi Visual</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_arsitek">
-                <label for="">Prodi Arsitektur</label>
+                <label for="">Prodi S1 Arsitektur</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="keuangan">
@@ -770,12 +771,13 @@
                 'DekanFEB': 'Dekan FEB',
                 'DekanFTD': 'Dekan FTD',
                 'direkPasca': 'Direktur Pasca',
-                'prodi_akuntansi': 'Prodi S1 Akuntansi',
-                'prodi_manajemen': 'Prodi S1 Manajemen',
-                'prodi_si': 'Prodi SI',
-                'prodi_ti': 'Prodi TI',
-                'prodi_dkv': 'Prodi DKV',
-                'prodi_arsitek': 'Prodi Arsitektur',
+                'prodi_keuSyariah': 'Prodi S2 Keuangan Syariah',
+                'prodi_akuntansi': 'Prodi S1 Akuntansi & D3 Akuntansi',
+                'prodi_manajemen': 'Prodi S1 manajemen & D3 Keuangan Perbankan',
+                'prodi_si': 'Prodi S1 Sistem Informasi',
+                'prodi_ti': 'Prodi S1 Teknologi Informasi',
+                'prodi_dkv': 'Prodi S1 Desain Komunikasi Visual',
+                'prodi_arsitek': 'Prodi S1 Arsitektur',
                 'keuangan': 'Bag. Keuangan',
                 'sdm': 'SDM',
                 'umum': 'Bag. Umum',
@@ -965,27 +967,27 @@
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_manajemen">
-                <label for="">Prodi S1 Manajemen</label>
+                <label for="">Prodi S1 manajemen & D3 Keuangan Perbankan</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_akuntansi">
-                <label> Prodi S1 Akuntansi</label>
+                <label> Prodi S1 Akuntansi & D3 Akuntansi</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_si">
-                <label for="">Prodi SI</label>
+                <label for="">Prodi S1 Sistem Informasi</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_ti">
-                <label for="">Prodi TI</label>
+                <label for="">Prodi S1 Teknologi Informasi</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_dkv">
-                <label for="">Prodi DKV</label>
+                <label for="">Prodi S1 Desain Komunikasi Visual</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_arsitek">
-                <label for="">Prodi Arsitektur</label>
+                <label for="">Prodi S1 Arsitektur</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="keuangan">
@@ -1101,12 +1103,13 @@
                 'DekanFEB': 'Dekan FEB',
                 'DekanFTD': 'Dekan FTD',
                 'direkPasca': 'Direktur Pasca',
-                'prodi_akuntansi': 'Prodi S1 Akuntansi',
-                'prodi_manajemen': 'Prodi S1 Manajemen',
-                'prodi_si': 'Prodi SI',
-                'prodi_ti': 'Prodi TI',
-                'prodi_dkv': 'Prodi DKV',
-                'prodi_arsitek': 'Prodi Arsitektur',
+                'prodi_keuSyariah': 'Prodi S2 Keuangan Syariah',
+                'prodi_akuntansi': 'Prodi S1 Akuntansi & D3 Akuntansi',
+                'prodi_manajemen': 'Prodi S1 manajemen & D3 Keuangan Perbankan',
+                'prodi_si': 'Prodi S1 Sistem Informasi',
+                'prodi_ti': 'Prodi S1 Teknologi Informasi',
+                'prodi_dkv': 'Prodi S1 Desain Komunikasi Visual',
+                'prodi_arsitek': 'Prodi S1 Arsitektur',
                 'keuangan': 'Bag. Keuangan',
                 'sdm': 'SDM',
                 'umum': 'Bag. Umum',
@@ -1274,19 +1277,19 @@
         <div class="radio">
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_si">
-                <label for="">Prodi SI</label>
+                <label for="">Prodi S1 Sistem Informasi</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_ti">
-                <label for="">Prodi TI</label>
+                <label for="">Prodi S1 Teknologi Informasi</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_dkv">
-                <label for="">Prodi DKV</label>
+                <label for="">Prodi S1 Desain Komunikasi Visual</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_arsitek">
-                <label for="">Prodi Arsitektur</label>
+                <label for="">Prodi S1 Arsitektur</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="keuangan">
@@ -1405,10 +1408,10 @@
         function proceedDisposisi() {
             var diteruskan_checkboxes = document.querySelectorAll('input[name="diteruskan[]"]:checked');
             var tujuanMapping = {
-                'prodi_si': 'Prodi SI',
-                'prodi_ti': 'Prodi TI',
-                'prodi_dkv': 'Prodi DKV',
-                'prodi_arsitek': 'Prodi Arsitektur',
+                'prodi_si': 'Prodi S1 Sistem Informasi',
+                'prodi_ti': 'Prodi S1 Teknologi Informasi',
+                'prodi_dkv': 'Prodi S1 Desain Komunikasi Visual',
+                'prodi_arsitek': 'Prodi S1 Arsitektur',
                 'keuangan': 'Bag. Keuangan',
                 'akademik': 'Bag. Akademik',
                 'umum': 'Bag. Umum',
@@ -1561,15 +1564,11 @@
         <div class="radio">
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_akuntansi">
-                <label for="">Prodi S1 Akuntansi</label>
+                <label for="">Prodi S1 Akuntansi & D3 Akuntansi</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="prodi_manajemen">
-                <label for="">Prodi S1 Manajemen</label>
-            </div>
-            <div>
-                <input type="checkbox" name="diteruskan[]" value="prodi_akuntansi_d3">
-                <label for="">Prodi D3 Akuntansi</label>
+                <label for="">Prodi S1 manajemen & D3 Keuangan Perbankan</label>
             </div>
             <div>
                 <input type="checkbox" name="diteruskan[]" value="ppik_kmhs">
@@ -1691,8 +1690,8 @@
         function proceedDisposisi() {
             var diteruskan_checkboxes = document.querySelectorAll('input[name="diteruskan[]"]:checked');
             var tujuanMapping = {
-                'prodi_akuntansi': 'Prodi S1 Akuntansi',
-                'prodi_manajemen': 'Prodi S1 Manajemen',
+                'prodi_akuntansi': 'Prodi S1 Akuntansi & D3 Akuntansi',
+                'prodi_manajemen': 'Prodi S1 manajemen & D3 Keuangan Perbankan',
                 'prodi_akuntansi_d3': 'Prodi D3 Akuntansi',
                 'ppik_kmhs': 'PPIK dan Kemahasiswaan',
                 'keuangan': 'Bag. Keuangan',
