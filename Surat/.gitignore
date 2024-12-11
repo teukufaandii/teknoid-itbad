@@ -1,2 +1,11 @@
 /vendor
-/uploads
+
+!uploads/
+
+uploads/berkas/*
+uploads/laporan/*
+uploads/suratMhs/*
+
+!uploads/berkas/
+!uploads/laporan/
+!uploads/suratMhs/

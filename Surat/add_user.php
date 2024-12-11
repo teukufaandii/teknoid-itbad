@@ -166,12 +166,12 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin') { // Check if $_
 
                     </form>
                     <form class="form" method="post" action="upload_excel.php" enctype="multipart/form-data">
-    <div class="inputfield">
-        <label>Upload Excel File</label>
-            <input type="file" name="file" accept=".xlsx, .xls" required />
-        </div>
-        <button type="submit" value="upload" class="btn">Upload & Add Users</button>
-    </form>
+                        <div class="inputfield">
+                            <label>Upload Excel File</label>
+                            <input type="file" name="file" accept=".xlsx, .xls" required />
+                        </div>
+                        <button type="submit" value="upload" class="btn">Upload & Add Users</button>
+                    </form>
 
                 </div>
             </div>

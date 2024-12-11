@@ -116,10 +116,12 @@ if (!isset($_SESSION['pengguna_type'])) {
                     $total_sm_verif = $total_sm_verif_row['total'];
                     ?>
 
-                    <button onclick="window.location.href='surat_masuk.php'" class="btn3">Surat Masuk
-                        <i class="fas fa-envelope dash-icon"></i><br>
-                        <span class="badge" id="" style="color: grey; padding: 2px; border-radius: 15px;"><?php echo $total_sm; ?></span>
-                    </button>
+                    <?php if ($_SESSION['jabatan'] != 'Mahasiswa' || $_SESSION['jabatan'] != 'Dosen') : ?>
+                        <button onclick="window.location.href='surat_masuk.php'" class="btn3">Surat Masuk
+                            <i class="fas fa-envelope dash-icon"></i><br>
+                            <span class="badge" id="" style="color: grey; padding: 2px; border-radius: 15px;"><?php echo $total_sm; ?></span>
+                        </button>
+                    <?php endif; ?>
 
                     <!-- NON DISPO LP3M -->
                     <?php if ($_SESSION['jabatan'] == 'LP3M') : ?>
@@ -167,7 +169,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                         <button onclick="window.location.href='surat_keluar'" class="btn4">Surat Keluar
                             <i class="fa fa-envelope-open dash-icon"></i><br>
                             <span class="badge" id="" style="color: grey; padding: 2px; border-radius: 15px;"><?php echo $total_sk; ?></span>
-                        </button>   
+                        </button>
                     <?php endif; ?>
 
                     <!-- NON DISPO DOSEN -->
@@ -198,7 +200,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                     ) : ?>
                         <button onclick="window.location.href='surat_masuk_honorium'" class="btn3">Surat Masuk Honorium
                             <span class="warning" id="warning">Ada <?php echo $total_sm_hon; ?> Surat yang belum ditanggapi</span>
-                            <i class="fas fa-envelope dash-icon"></i><br>   
+                            <i class="fas fa-envelope dash-icon"></i><br>
                             <span class="badge" id="badge1" style="color: grey; padding: 2px; border-radius: 15px; position: relative; top: -10px;"><?php echo $total_sm_hon; ?></span>
                         </button>
                     <?php endif; ?>
@@ -270,7 +272,14 @@ if (!isset($_SESSION['pengguna_type'])) {
             let diteruskanKeParsed = JSON.parse(diteruskan_ke);
 
             // Jika diteruskan_ke adalah array (JSON format)
-            if (diteruskanKeParsed === "prodi_si" || diteruskanKeParsed === "prodi_ti" || diteruskanKeParsed === "prodi_dkv" || diteruskanKeParsed === "prodi_arsitek" || diteruskanKeParsed === "prodi_akuntansi" || diteruskanKeParsed === "prodi_manajemen" || diteruskanKeParsed === "prodi_keuSyariah" || diteruskanKeParsed === "keuangan") {
+            if (diteruskanKeParsed === "prodi_si" ||
+                diteruskanKeParsed === "prodi_ti" ||
+                diteruskanKeParsed === "prodi_dkv" ||
+                diteruskanKeParsed === "prodi_arsitek" ||
+                diteruskanKeParsed === "prodi_akuntansi" ||
+                diteruskanKeParsed === "prodi_manajemen" ||
+                diteruskanKeParsed === "prodi_keuSyariah" ||
+                diteruskanKeParsed === "keuangan" || diteruskanKeParsed === "DekanFTD" || diteruskanKeParsed === "sdm") {
                 sql = `
             SELECT * FROM tb_disposisi 
             WHERE 
