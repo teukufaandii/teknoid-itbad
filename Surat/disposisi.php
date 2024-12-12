@@ -248,7 +248,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] !== 'User') {
                                 <label for="">Nama Siswa</label>
                                 <input type="text" class="input" name="#" value="<?php echo $nama_lengkap; ?>, &nbsp <?php echo $nama_lengkap2; ?>, &nbsp <?php echo $nama_lengkap3; ?> " readonly>
                             </div>
-                            
+
                             <div class="input-field">
                                 <label for="">NIM Siswa</label>
                                 <input type="text" class="input" name="#" value="<?php echo ($nim != 0) ? $nim : ''; ?>, &nbsp <?php echo ($nim2 != 0) ? $nim2 : ''; ?>, &nbsp <?php echo ($nim3 != 0) ? $nim3 : ''; ?>" readonly>
@@ -282,7 +282,11 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] !== 'User') {
 
                         <div class="input-field">
                             <label for="">No Telepon*</label>
-                            <input type="text" class="input" name="#" placeholder="" value="<?php echo $no_telepon; ?>, &nbsp <?php echo $no_telepon2; ?>, &nbsp <?php echo $no_telepon3; ?> " readonly>
+                            <input type="text" class="input" name="#" placeholder=""
+                                value="<?php
+                                        $teleponArray = array_filter([$no_telepon, $no_telepon2, $no_telepon3]);
+                                        echo implode(', ', $teleponArray);
+                                        ?>" readonly>
                         </div>
 
 
