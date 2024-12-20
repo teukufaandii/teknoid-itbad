@@ -281,25 +281,39 @@ if (!isset($_SESSION['pengguna_type'])) {
                 diteruskanKeParsed === "prodi_keuSyariah" ||
                 diteruskanKeParsed === "keuangan" || diteruskanKeParsed === "DekanFTD" || diteruskanKeParsed === "sdm") {
                 sql = `
-            SELECT * FROM tb_disposisi 
-            WHERE 
-                (nama_selesai != '${fullname}' AND 
-                nama_selesai2 != '${fullname}' AND 
-                nama_selesai3 != '${fullname}' AND 
-                nama_selesai4 != '${fullname}' AND 
-                nama_selesai5 != '${fullname}' AND 
-                nama_selesai6 != '${fullname}' AND 
-                nama_selesai7 != '${fullname}')
-            AND 
-                 JSON_CONTAINS(diteruskan_ke, '["${diteruskanKeParsed}"]')
-            `;
+        SELECT * FROM tb_disposisi 
+        WHERE 
+            (nama_selesai != '${fullname}' AND 
+            nama_selesai2 != '${fullname}' AND 
+            nama_selesai3 != '${fullname}' AND 
+            nama_selesai4 != '${fullname}' AND 
+            nama_selesai5 != '${fullname}' AND 
+            nama_selesai6 != '${fullname}' AND 
+            nama_selesai7 != '${fullname}')
+        AND 
+            JSON_CONTAINS(diteruskan_ke, '["${diteruskanKeParsed}"]')
+        `;
             } else {
                 // Jika diteruskan_ke adalah string
                 sql = `
-            SELECT * FROM tb_surat_dis 
-            WHERE 
-                (diteruskan_ke = '${diteruskanKeParsed}' OR JSON_CONTAINS(diteruskan_ke, '"${diteruskanKeParsed}"'))
-            `;
+        SELECT sd.*, d.*
+        FROM tb_surat_dis sd
+        JOIN tb_disposisi d ON sd.id_surat = d.id_surat
+        WHERE 
+            (sd.diteruskan_ke = '${diteruskanKeParsed}' OR JSON_CONTAINS(sd.diteruskan_ke, '"${diteruskanKeParsed}"'))
+        `;
+
+                // Tambahkan kondisi untuk akses Humas
+                if (diteruskanKeParsed === "Humas") {
+                    sql += ` AND 
+    (d.nama_selesai != '${fullname}' AND 
+    d.nama_selesai2 != '${fullname}' AND 
+    d.nama_selesai3 != '${fullname}' AND 
+    d.nama_selesai4 != '${fullname}' AND 
+    d.nama_selesai5 != '${fullname}' AND 
+    d.nama_selesai6 != '${fullname}' AND 
+    d.nama_selesai7 != '${fullname}')`;
+                }
             }
 
             fetch('fetch_notification.php', {

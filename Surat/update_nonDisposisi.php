@@ -23,9 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt_update->execute()) {
         // Insert ke tb_disposisi
         $tanggal_disposisi = date("Y-m-d");
-        $sql_insert_disposisi = "INSERT INTO tb_disposisi (id_surat, status_disposisi1, dispo1, tanggal_disposisi1) VALUES (?, ?, 1, ?, ?)";
+        $sql_insert_disposisi = "UPDATE tb_disposisi ( status_disposisi1, dispo1, tanggal_disposisi1) VALUES (?, ?, 1, ?, ?) WHERE id_surat = ?";
         $stmt_insert_disposisi = $conn->prepare($sql_insert_disposisi);
-        $stmt_insert_disposisi->bind_param("isss", $id_surat, $_SESSION['jabatan'], $tanggal_disposisi);
+        $stmt_insert_disposisi->bind_param("sssi",  $_SESSION['jabatan'], $tanggal_disposisi, $id_surat);
 
         if ($stmt_insert_disposisi->execute()) {
             echo "Data berhasil diperbarui dan disposisi berhasil ditambahkan";

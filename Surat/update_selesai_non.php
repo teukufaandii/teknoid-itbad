@@ -79,7 +79,7 @@ if (isset($_POST['id']) && isset($_POST['catatan_disposisi']) && isset($_POST['a
     $kd_surat = mysqli_real_escape_string($koneksi, $_POST['kd_surat']);
 
     if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas') {
-        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai = true, kd_surat = '$kd_surat', status_baca = true WHERE id_surat = '$id'";
+        $update_query_surat_dis = "UPDATE tb_surat_dis SET status_selesai = 1, kd_surat = '$kd_surat', status_baca = true WHERE id_surat = '$id'";
         $jabatan = $_SESSION['jabatan'];
         $tanggal_disposisi1 = date("Y-m-d");
 

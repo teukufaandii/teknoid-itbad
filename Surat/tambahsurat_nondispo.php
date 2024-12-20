@@ -31,6 +31,7 @@ function isSuratRiset($jenis_surat)
 
 // Memeriksa apakah form dikirimkan
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Ambil data dari form
     $jenis_surat = $_POST["jenis_surat"];
     $asal_surat = $_POST["asal_surat"];
     $perihal = $_POST["perihal"];
@@ -55,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $alamat_domisili = $_POST["alamat_domisili"];
     $ke_humas = "Humas";
 
-    $sql = "";
+    // SQL untuk memasukkan data ke tb_surat_dis
     if (isSuratKKL($jenis_surat)) {
         $sql = "INSERT INTO tb_surat_dis (jenis_surat, asal_surat, perihal, nomor_surat, tanggal_surat, tujuan_surat,
                      email, nama_lengkap, nim, no_hp,  nama_lengkap2, nim2, no_hp2, nama_lengkap3, nim3, no_hp3, 
@@ -70,10 +71,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             '$nama_lengkap', '$nim', '$prodi', '$no_hp', '$nama_perusahaan', '$alamat_perusahaan', '$deskripsi', '$ttl', '$alamat_domisili', '$ke_humas')";
     }
 
+    // Eksekusi query untuk tb_surat_dis
     if ($conn->query($sql) === TRUE) {
-        header('Location: success.php');
-        header('Refresh: 1; URL=surat_keluar.php');
-        exit;
+        // Ambil id_surat yang baru saja dimasukkan
+        $id_surat = $conn->insert_id;
+
+        // SQL untuk memasukkan data ke tb_disposisi
+        $sql_disposisi = "INSERT INTO tb_disposisi (id_surat, perihal) VALUES ('$id_surat', '$perihal')";
+
+        // Eksekusi query untuk tb_disposisi
+        if ($conn->query($sql_disposisi) === TRUE) {
+            header('Location: success.php');
+            header('Refresh: 1; URL=surat_keluar.php');
+            exit;
+        } else {
+            echo "Error: " . $sql_disposisi . "<br>" . $conn->error;
+        }
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
