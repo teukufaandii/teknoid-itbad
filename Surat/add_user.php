@@ -112,7 +112,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin') { // Check if $_
                                     <option>Warek1</option>
                                     <option>Warek2</option>
                                     <option>Warek3</option>
-                                    <option>Sekretaris</option>
+                                    <option value="sekretaris">Sekretaris</option>
                                     <option>Direktur</option>
                                     <option value="DekanFTD">Dekan FTD</option>
                                     <option value="DekanFEB">Dekan FEB</option>

@@ -229,7 +229,14 @@ if (!isset($_SESSION['pengguna_type'])) {
                                             echo '<span style="background-color: #a9a9a9; color: white; padding: 5px; border-radius: 5px; display: block; width: 130px; margin: auto;">Belum Disposisi</span>';
                                         }
                                         echo "</td>";
-                                        echo "<td><a href='lacak.php?id=" . $row['id_surat'] . "' class='btnLihat'>Lihat</a></td>";
+                                        echo "<td>
+                                        <div style='gap: 10px; display: flex; justify-content: center; align-items: center;'>
+                                            <a href='lacak.php?id=" . $row['id_surat'] . "' class='btnLihat'>Lihat</a>
+                                            <span onclick='confirmDelete(" . $row['id_surat'] . ")' style='cursor: pointer;'>
+                                                <i class='fas fa-trash' style='color: " . ($row['status_baca'] == 1 ? 'gray' : 'red') . ";'></i>
+                                            </span>
+                                            </div>
+                                        </td>";
                                         ?>
                                     </tr>
                             <?php
@@ -323,6 +330,80 @@ if (!isset($_SESSION['pengguna_type'])) {
         });
     </script>
     <script>
+        function confirmDelete(id_surat) {
+            // Check the status_baca before confirming deletion
+            $.ajax({
+                url: 'check_status.php', // Create a new PHP file to check status
+                method: 'POST',
+                data: {
+                    id: id_surat
+                },
+                success: function(response) {
+                    if (response.status_baca == 1) {
+                        Swal.fire({
+                            title: 'Tidak Dapat Dihapus',
+                            text: "Surat ini sudah dibaca dan tidak dapat dihapus.",
+                            icon: 'error',
+                            confirmButtonText: 'Oke'
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Konfirmasi Hapus',
+                            text: "Apakah Anda yakin ingin menghapus surat ini?",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ya, Hapus!',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Jika dikonfirmasi, redirect ke halaman hapus
+                                $.ajax({
+                                    url: 'hapus_surat.php',
+                                    method: 'GET',
+                                    data: {
+                                        id: id_surat
+                                    },
+                                    success: function(deleteResponse) {
+                                        if (deleteResponse.success) {
+                                            // Show success message
+                                            Swal.fire({
+                                                title: 'Berhasil!',
+                                                text: deleteResponse.message,
+                                                icon: 'success',
+                                                confirmButtonText: 'Oke'
+                                            }).then(() => {
+                                                // Redirect to surat_keluar.php after success
+                                                window.location.href = 'surat_keluar.php';
+                                            });
+                                        } else {
+                                            // Show error message
+                                            Swal.fire({
+                                                title: 'Error!',
+                                                text: deleteResponse.message,
+                                                icon: 'error',
+                                                confirmButtonText: 'Oke'
+                                            });
+                                        }
+                                    },
+                                    error: function() {
+                                        // Show error message for AJAX failure
+                                        Swal.fire({
+                                            title: 'Error!',
+                                            text: 'Terjadi kesalahan saat menghapus surat.',
+                                            icon: 'error',
+                                            confirmButtonText: 'Oke'
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
         // efek page number //
         let links = document.querySelectorAll('.pageNumber a');
         let id = parseInt("<?php echo $id ?>");

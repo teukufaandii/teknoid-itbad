@@ -144,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
     // Insert data into database
     $sql = "INSERT INTO tb_surat_dis (asal_surat, kode_surat, tujuan_surat, no_hp, perihal, nomor_surat, jenis_surat, tanggal_surat, deskripsi, status_selesai, status_tolak) 
-        VALUES ('$asal_surat', '$kode_surat_otomatis', '$tujuan_surat', '$no_hp', '$perihal', '$no_surat', '$id_jenis_surat', '$tanggal_surat', '$deskripsi', 0, 0)";
+    VALUES ('$asal_surat', '$kode_surat_otomatis', '$tujuan_surat', '$no_hp', '$perihal', '$no_surat', '$id_jenis_surat', '$tanggal_surat', '$deskripsi', 0, 0)";
 
     $notification_message = "Surat baru telah masuk:\n\nAsal Surat: $asal_surat\nTujuan Surat: $tujuan_surat\nPerihal: $perihal\n\nMohon Ditanggapi";
     $notification_recipient = '+6285213042065';
@@ -158,6 +158,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     if ($conn->query($sql) === TRUE) {
         // Ambil ID surat yang baru saja dimasukkan
         $id_surat_baru = $conn->insert_id;
+
+        $sql_new_entry = "INSERT INTO tb_disposisi (id_surat, perihal, diteruskan_ke) VALUES ('$id_surat_baru', '$perihal', 'Rektor')";
+
+        if ($conn->query($sql_new_entry) === TRUE) {
+            // Berhasil menambahkan data baru
+        } else {
+            // Tampilkan pesan error jika gagal
+            echo "Error: " . $sql_new_entry . "<br>" . $conn->error;
+        }
 
         // Simpan informasi file berkas ke dalam tabel file_berkas
         if ($is_berkas_uploaded) {
