@@ -8,6 +8,7 @@ uploads/suratMhs/*
 uploads/honorium/*
 uploads/dosen/*
 
+!uploads/**/dummy.txt
 !uploads/berkas/
 !uploads/laporan/
 !uploads/suratMhs/
