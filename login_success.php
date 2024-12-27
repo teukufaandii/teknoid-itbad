@@ -1,5 +1,6 @@
 <?php
 session_start();
+include __DIR__ . '/Maintenance/Middleware/index.php';
 
 // Retrieve the message and redirect URL from the query parameters
 $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : 'Login Successful!';

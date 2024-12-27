@@ -1,5 +1,6 @@
 <?php
 session_start();
+include __DIR__ . '/../Maintenance/Middleware/index.php';
 include 'koneksi.php';
 include "logout-checker.php";
 // Periksa apakah session username telah diatur
@@ -279,7 +280,24 @@ if (!isset($_SESSION['pengguna_type'])) {
                 diteruskanKeParsed === "prodi_akuntansi" ||
                 diteruskanKeParsed === "prodi_manajemen" ||
                 diteruskanKeParsed === "prodi_keuSyariah" ||
-                diteruskanKeParsed === "keuangan" || diteruskanKeParsed === "DekanFTD" || diteruskanKeParsed === "sdm") {
+                diteruskanKeParsed === "keuangan" || 
+                diteruskanKeParsed === "DekanFTD" || 
+                diteruskanKeParsed === "sdm" || 
+                diteruskanKeParsed === 'bpm' || 
+                diteruskanKeParsed === 'lp3m' || 
+                diteruskanKeParsed === 'upt_perpus' || 
+                diteruskanKeParsed === 'PSDOD' || 
+                diteruskanKeParsed === 'PKAD' || 
+                diteruskanKeParsed === 'CHED' || 
+                diteruskanKeParsed === 'PSIPP' || 
+                diteruskanKeParsed === 'halal_center'|| 
+                diteruskanKeParsed === 'kui_k' || 
+                diteruskanKeParsed === 'it_lab' || 
+                diteruskanKeParsed === 'marketing' || 
+                diteruskanKeParsed === 'umum' || 
+                diteruskanKeParsed === 'ppik_kmhs' ||
+                diteruskanKeParsed === 'akademik' || 
+                diteruskanKeParsed === 'pusat_bisnis' ) {
                 sql = `
         SELECT * FROM tb_disposisi 
         WHERE 

@@ -1,5 +1,6 @@
 <?php
 session_start();
+include __DIR__ . '/Maintenance/Middleware/index.php';
 
 // Connect to the database
 include 'koneksi.php';
@@ -8,6 +9,9 @@ include 'koneksi.php';
 $username = $_POST['noinduk'];
 $password = $_POST['password'];
 
+// Hash the submitted password using SHA-256
+$hashedPassword = hash('sha256', $password);
+
 // Check if the Pengguna exists
 $query = "SELECT * FROM tb_pengguna WHERE noinduk='$username' LIMIT 1";
 $result = mysqli_query($koneksi, $query);
@@ -15,7 +19,7 @@ $result = mysqli_query($koneksi, $query);
 if (mysqli_num_rows($result) == 1) {
     // User exists, now check the password
     $data = mysqli_fetch_assoc($result);
-    if ($password == $data['password']) {
+    if ($hashedPassword == $data['password']) {
         // Password matches, set session variables
         $_SESSION['pengguna_type'] = 'pengguna';
         $_SESSION['pengguna_id'] = $data['id_pg'];
@@ -30,7 +34,7 @@ if (mysqli_num_rows($result) == 1) {
         // Create a success message
         $message = "Anda Berhasil Masuk, Selamat Datang " . $_SESSION['nama_lengkap'] . "!";
 
-        if($_SESSION['akses'] == 'Admin'){
+        if ($_SESSION['akses'] == 'Admin') {
             $redirectUrl = "surat/pengaturan_akun";
         } else {
             $redirectUrl = "Surat/dashboard";
@@ -41,7 +45,7 @@ if (mysqli_num_rows($result) == 1) {
         exit();
     } else {
         // Password is incorrect
-        echo "<script>alert('Password yang Anda masukan salah!'); window.location='index';</script>";
+        echo "<script>alert('Password yang Anda masukan salah!'); window.location='/teknoid-itbad/';</script>";
         exit();
     }
 } else {

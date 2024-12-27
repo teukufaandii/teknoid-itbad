@@ -1821,7 +1821,6 @@
     <?php include 'riwayat_dispo.php'; ?>
 
     <div class="input-disposisi">
-        <label for="">Keputusan Direktur Pascasarjana*</label>
         <div class="radio" style="display: none;">
             <div>
                 <input type="radio" name="keputusan" value="Tindak Lanjuti" checked>
@@ -1898,7 +1897,6 @@
     <div class="btn-kirim">
         <div class="floatFiller">ffff</div>
         <button type="button" onclick="kirimDisposisi()" style="cursor: pointer;">Kirim</button>
-        <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button>
     </div>
 
     <script>
@@ -2083,7 +2081,7 @@
     <div class="btn-kirim">
         <div class="floatFiller">ff</div>
         <button type="button" id="btnSelesai" style="cursor: pointer;">Selesai</button>
-        <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button>
+        <!-- <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button> -->
     </div>
 
 
@@ -2700,6 +2698,9 @@
     <div class="txt-disposisi">
         <h3>Disposisi</h3>
     </div>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
     <!-- surat non dispo -->
     <?php if ($jenis_surat == 3 || $jenis_surat == 4) : ?>
         <div class="input-disposisi">
@@ -2719,7 +2720,7 @@
             </div>
         </div>
 
-       <!-- <span style="color: red; font-size: 14px;">*Apabila ingin menolak surat ini, mohon kosongkan form kode surat</span> -->
+        <!-- <span style="color: red; font-size: 14px;">*Apabila ingin menolak surat ini, mohon kosongkan form kode surat</span> -->
         <br> <br>
         <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
 
@@ -2777,6 +2778,8 @@
                 })
                 .then((willProceed) => {
                     if (willProceed) {
+                        document.getElementById('loadingOverlay').style.display = 'flex';
+
                         var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
                         var kd_surat = document.querySelector('input[name="kd_surat"]').value;
                         var xhr = new XMLHttpRequest();

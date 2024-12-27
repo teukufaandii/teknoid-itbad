@@ -1,5 +1,7 @@
 <?php
 session_start();
+include __DIR__ . '/../Maintenance/Middleware/index.php';
+include "logout-checker.php";
 include 'koneksi.php';
 if (!isset($_SESSION['pengguna_type'])) {
     echo '<script language="javascript" type="text/javascript">

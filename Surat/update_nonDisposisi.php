@@ -1,7 +1,7 @@
 <?php
 
-session_start(); // Move session_start to the top
-
+session_start();
+include __DIR__ . '/../Maintenance/Middleware/index.php';
 include 'koneksi.php';
 include "logout-checker.php";
 

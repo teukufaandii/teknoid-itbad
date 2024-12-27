@@ -1,5 +1,6 @@
 <?php
 session_start();
+include __DIR__ . '/../Maintenance/Middleware/index.php';
 $isProdi = in_array($_SESSION['jabatan'], ['S2 Keuangan Syariah', 'S1 SI', 'S1 TI', 'S1 DKV', 'S1 Arsitektur', 'S1 Manajemen', 'S1 Akuntansi']);
 if ($isProdi) {
 ?>

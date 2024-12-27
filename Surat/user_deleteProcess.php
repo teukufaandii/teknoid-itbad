@@ -1,4 +1,5 @@
 <?php
+include __DIR__ . '/../Maintenance/Middleware/index.php';
 include "koneksi.php";
 include "logout-checker.php";
 // Check if the id_pg parameter is set

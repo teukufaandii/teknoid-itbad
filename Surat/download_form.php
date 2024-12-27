@@ -1,5 +1,7 @@
 <?php 
 session_start();
+include __DIR__ . '/../Maintenance/Middleware/index.php';
+include "logout-checker.php";
 include 'koneksi.php';
 // Periksa apakah session username telah diatur
 if (!isset($_SESSION['pengguna_type'])) {

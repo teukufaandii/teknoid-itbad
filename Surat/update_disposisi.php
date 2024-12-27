@@ -1,5 +1,6 @@
 <?php
 session_start();
+include __DIR__ . '/../Maintenance/Middleware/index.php';
 include 'koneksi.php';
 include 'logout-checker.php';
 
@@ -69,10 +70,10 @@ if ($id_surat !== null && !empty($id_surat)) {
         // Check conditions for disposisi and update based on conditions
         if (!$status_disposisi1 && !$status_disposisi2 && !$status_disposisi3 && !$status_disposisi4 && !$status_disposisi5) {
             // Kondisi Disposisi 1
-            $sql_insert = "INSERT INTO tb_disposisi (id_surat, catatan_disposisi, diteruskan_ke, keputusan_disposisi1, status_disposisi1, dispo1, tanggal_disposisi1, perihal) VALUES (?, ?, ?, ?, 1, ?, ?, ?)";
-            $stmt_insert = $koneksi->prepare($sql_insert);
-            $stmt_insert->bind_param("issssss", $id_surat, $catatan_disposisi, $diteruskan_ke_json, $keputusan_disposisi, $_SESSION['jabatan'], $tanggal_disposisi, $perihal);
-            if ($stmt_insert->execute()) {
+            $sql_update_disposisi = "UPDATE tb_disposisi SET keputusan_disposisi1 = ?, catatan_disposisi = ?, status_disposisi1 = 1, diteruskan_ke = ?, dispo1 = ?, tanggal_disposisi1 = ? WHERE id_surat = ?";
+            $stmt_update_disposisi = $koneksi->prepare($sql_update_disposisi);
+            $stmt_update_disposisi->bind_param("sssssi", $keputusan_disposisi, $catatan_disposisi, $diteruskan_ke_json, $_SESSION['jabatan'], $tanggal_disposisi, $id_surat);
+            if ($stmt_update_disposisi->execute()) {
                 // Update diteruskan_ke in tb_surat_dis
                 $sql_update_diteruskan_ke = "UPDATE tb_surat_dis SET diteruskan_ke = ?, status_baca = true WHERE id_surat = ?";
                 $stmt_update_diteruskan_ke = $koneksi->prepare($sql_update_diteruskan_ke);

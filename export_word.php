@@ -4,6 +4,7 @@ require_once 'vendor/autoload.php';
 
 // Start PHP session (if not already started)
 session_start();
+include __DIR__ . '/Maintenance/Middleware/index.php';
 
 // Include database connection file
 include 'koneksi.php';

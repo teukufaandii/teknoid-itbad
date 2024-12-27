@@ -1,5 +1,6 @@
 <?php
 session_start();
+include __DIR__ . '/../Maintenance/Middleware/index.php';
 
 require '../vendor/autoload.php';
 

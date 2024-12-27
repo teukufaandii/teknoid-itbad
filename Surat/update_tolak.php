@@ -1,5 +1,5 @@
 <?php
-// Lakukan koneksi ke database jika belum dilakukan
+include __DIR__ . '/../Maintenance/Middleware/index.php';
 include 'koneksi.php';
 include 'logout-checker.php';
 

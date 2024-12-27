@@ -1,5 +1,7 @@
 <?php 
-session_start(); // Start the session at the beginning of the script
+session_start();
+include __DIR__ . '/../Maintenance/Middleware/index.php';
+include "logout-checker.php";
 if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin') { // Check if $_SESSION['akses'] is set and equals 'Humas'
 ?>
 

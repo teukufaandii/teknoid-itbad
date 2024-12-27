@@ -1,5 +1,6 @@
 <?php
 session_start(); 
+include __DIR__ . '/../Maintenance/Middleware/index.php';
 if (isset($_SESSION['akses']) && ($_SESSION['akses'] == 'lp3m' || $_SESSION['akses'] == 'Admin')) {
 ?>
     <?php

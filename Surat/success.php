@@ -2,6 +2,7 @@
 include 'koneksi.php';
 
 session_start();
+include __DIR__ . '/../Maintenance/Middleware/index.php';
 $id_srt = isset($_GET['id_srt']) ? $_GET['id_srt'] : 'Undefined';
 $jabatan = isset($_SESSION['jabatan']) ? $_SESSION['jabatan'] : 'Undefined';
 

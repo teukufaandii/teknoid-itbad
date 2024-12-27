@@ -2,7 +2,8 @@
 <html lang="eng">
 
 <?php
-session_start(); // Start the session at the beginning of the script
+session_start();
+include __DIR__ . '/../Maintenance/Middleware/index.php';
 if (isset($_SESSION['akses']) && $_SESSION['akses'] !== 'User') {
 ?>
 
@@ -207,6 +208,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] !== 'User') {
                     transform: rotate(360deg);
                 }
             }
+            
         </style>
 
     </head>

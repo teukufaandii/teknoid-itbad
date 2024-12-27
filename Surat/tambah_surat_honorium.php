@@ -1,5 +1,6 @@
 <?php
-session_start(); // Mulai sesi jika belum dimulai
+session_start();
+include __DIR__ . '/../Maintenance/Middleware/index.php';
 include "logout-checker.php";
 include "koneksi.php";
 

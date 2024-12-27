@@ -1,3 +1,7 @@
+<?php
+include __DIR__ . '/Maintenance/Middleware/index.php';
+?>
+
 <!doctype html>
 <html lang="en">
 

@@ -1,10 +1,10 @@
-<!-- <?php
-$date = date('c'); // ISO 8601 format (e.g., 2023-03-16T14:30:00+07:00)
+<?php
+$date = date('c');
 ?>
 
 <script>
-  const sessTimeout = 600; // 10 minutes in seconds
-  let sessOut = new Date(Date.now() + sessTimeout * 1000); // set timeout in milliseconds
+  const sessTimeout = 600;
+  let sessOut = new Date(Date.now() + sessTimeout * 1000); 
 
   function checkSession() {
     const timeNow = new Date();
@@ -15,10 +15,10 @@ $date = date('c'); // ISO 8601 format (e.g., 2023-03-16T14:30:00+07:00)
   }
 
   // auto logout
-  setInterval(checkSession, 100000); // hapus 0 nya 1 klo udh beres
+  setInterval(checkSession, 10000); 
 
   // detect user activity
   $(document).on('click keydown keyup keypress', function() {
-    sessOut = new Date(Date.now() + sessTimeout * 1000); // reset timeout
+    sessOut = new Date(Date.now() + sessTimeout * 1000); 
   });
-</script> -->
+</script>

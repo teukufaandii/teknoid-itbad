@@ -15,7 +15,13 @@ if (isset($_GET['id'])) {
             // Jika status_baca = 0, hapus surat
             $delete_sql = "DELETE FROM tb_surat_dis WHERE id_surat = '$id_surat'";
             if ($conn->query($delete_sql) === TRUE) {
-                echo json_encode(['success' => true, 'message' => 'Surat berhasil dihapus.']);
+                // Hapus dari tb_disposisi dengan id_surat yang sama
+                $delete_disposisi_sql = "DELETE FROM tb_disposisi WHERE id_surat = '$id_surat'";
+                if ($conn->query($delete_disposisi_sql) === TRUE) {
+                    echo json_encode(['success' => true, 'message' => 'Surat dan disposisi berhasil dihapus.']);
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'Surat berhasil dihapus, tetapi gagal menghapus disposisi.', 'error' => $conn->error]);
+                }
             } else {
                 echo json_encode(['success' => false, 'message' => 'Terjadi kesalahan saat menghapus surat.', 'error' => $conn->error]);
             }

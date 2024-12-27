@@ -1,12 +1,9 @@
 <?php
-session_start(); // Mulai sesi jika belum dimulai
+session_start();
+include __DIR__ . '/../Maintenance/Middleware/index.php';
 include "logout-checker.php";
 // Database connection
-$servername = "localhost";
-$username = "root"; // your MySQL username
-$password = ""; // your MySQL password
-$dbname = "db_teknoid"; // your database name
-$conn = new mysqli($servername, $username, $password, $dbname);
+include 'koneksi.php';
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -19,6 +16,32 @@ $twilioPhoneNumber = '+14155238886'; // Your Twilio phone number for WhatsApp
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+$ip_address = $_SERVER['REMOTE_ADDR'];
+$time_window = 60; // 60 detik
+$max_requests = 5; // Maksimal 5 permintaan
+$timestamp = time();
+
+// Variabel untuk batas waktu
+$start_time = $timestamp - $time_window;
+
+// Query untuk menghitung jumlah permintaan dalam periode waktu tertentu
+$query_rate_limit = "SELECT COUNT(*) as request_count FROM request_log WHERE ip_address = ? AND timestamp > ?";
+$stmt = $conn->prepare($query_rate_limit);
+$stmt->bind_param("si", $ip_address, $start_time); // Gunakan variabel $start_time
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+
+if ($row['request_count'] >= $max_requests) {
+    die("Terlalu banyak permintaan. Silakan coba lagi nanti.");
+}
+
+// Query untuk mencatat permintaan
+$log_request = "INSERT INTO request_log (ip_address, timestamp) VALUES (?, ?)";
+$stmt = $conn->prepare($log_request);
+$stmt->bind_param("si", $ip_address, $timestamp);
+$stmt->execute();
 
 function sendWhatsAppMessage($to, $message)
 {
@@ -78,22 +101,25 @@ function intToRoman($num)
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
-    // Ambil nilai input dari form
-    $asal_surat = $_POST['asal_surat'];
-    $tujuan_surat = $_POST['tujuan_surat'];
-    $deskripsi = $_POST['deskripsi'];
-    $no_hp = $_POST['no_hp'];
-    $id_jenis_surat = $_POST['jenis_surat']; // Mengambil id jenis surat yang dipilih
-    $perihal = $_POST['perihal'];
+    // Ambil nilai input dari form dan sanitasi
+    $asal_surat = $conn->real_escape_string($_POST['asal_surat']);
+    $tujuan_surat = $conn->real_escape_string($_POST['tujuan_surat']);
+    $deskripsi = $conn->real_escape_string($_POST['deskripsi']);
+    $no_hp = $conn->real_escape_string($_POST['no_hp']);
+    $id_jenis_surat = $conn->real_escape_string($_POST['jenis_surat']);
+    $perihal = $conn->real_escape_string($_POST['perihal']);
     $tanggal_surat = date("Y-m-d");
-    $no_surat = $_POST['no_surat'];
+    $no_surat = $conn->real_escape_string($_POST['no_surat']);
 
     // Mendapatkan tahun saat ini
     $current_year = date('Y');
 
     // Mendapatkan nomor surat terakhir untuk tahun ini
-    $query_last_number = "SELECT MAX(SUBSTRING(kode_surat, 1, 3)) AS last_number FROM tb_surat_dis WHERE YEAR(tanggal_surat) = '$current_year'";
-    $result_last_number = $conn->query($query_last_number);
+    $query_last_number = "SELECT MAX(SUBSTRING(kode_surat, 1, 3)) AS last_number FROM tb_surat_dis WHERE YEAR(tanggal_surat) = ?";
+    $stmt = $conn->prepare($query_last_number);
+    $stmt->bind_param("i", $current_year);
+    $stmt->execute();
+    $result_last_number = $stmt->get_result();
     $last_number_row = $result_last_number->fetch_assoc();
     $last_number = $last_number_row['last_number'];
 
@@ -142,57 +168,68 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
         }
     }
 
-    // Insert data into database
-    $sql = "INSERT INTO tb_surat_dis (asal_surat, kode_surat, tujuan_surat, no_hp, perihal, nomor_surat, jenis_surat, tanggal_surat, deskripsi, status_selesai, status_tolak) 
-    VALUES ('$asal_surat', '$kode_surat_otomatis', '$tujuan_surat', '$no_hp', '$perihal', '$no_surat', '$id_jenis_surat', '$tanggal_surat', '$deskripsi', 0, 0)";
-
-    $notification_message = "Surat baru telah masuk:\n\nAsal Surat: $asal_surat\nTujuan Surat: $tujuan_surat\nPerihal: $perihal\n\nMohon Ditanggapi";
-    $notification_recipient = '+6285213042065';
-    $notification_sent = sendWhatsAppMessage($notification_recipient, $notification_message);
-    if ($notification_sent) {
-        header('Location: success.php');
-    } else {
-        header('Location: success.php');
+    if ($is_laporan_uploaded) {
+        $file_laporan_type = $_FILES['file_laporan']['type'];
+        if ($_FILES['file_laporan']['size'] > $max_file_size) {
+            header("Location: error.php?error=filesize");
+            exit();
+        }
+        if (!in_array($file_laporan_type, $allowed_file_types)) {
+            header("Location: error.php?error=filetype");
+            exit();
+        }
     }
 
-    if ($conn->query($sql) === TRUE) {
+    // Insert data into database using prepared statement
+    $sql = "INSERT INTO tb_surat_dis (asal_surat, kode_surat, tujuan_surat, no_hp, perihal, nomor_surat, jenis_surat, tanggal_surat, deskripsi, status_selesai, status_tolak) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssssssss", $asal_surat, $kode_surat_otomatis, $tujuan_surat, $no_hp, $perihal, $no_surat, $id_jenis_surat, $tanggal_surat, $deskripsi);
+
+    if ($stmt->execute()) {
         // Ambil ID surat yang baru saja dimasukkan
         $id_surat_baru = $conn->insert_id;
 
-        $sql_new_entry = "INSERT INTO tb_disposisi (id_surat, perihal, diteruskan_ke) VALUES ('$id_surat_baru', '$perihal', 'Rektor')";
+        $sql_new_entry = "INSERT INTO tb_disposisi (id_surat, perihal, diteruskan_ke) VALUES (?, ?, 'Rektor')";
+        $stmt_new_entry = $conn->prepare($sql_new_entry);
+        $stmt_new_entry->bind_param("is", $id_surat_baru, $perihal);
 
-        if ($conn->query($sql_new_entry) === TRUE) {
-            // Berhasil menambahkan data baru
+        if ($stmt_new_entry->execute()) {
         } else {
-            // Tampilkan pesan error jika gagal
-            echo "Error: " . $sql_new_entry . "<br>" . $conn->error;
+            // Tampilkan pesan error jika gagal ```php
+            echo "Error: " . $stmt_new_entry->error;
         }
 
-        // Simpan informasi file berkas ke dalam tabel file_berkas
         if ($is_berkas_uploaded) {
             $file_berkas_name = uniqid() . '_' . $_FILES['file_berkas']['name']; // Mendapatkan nama file yang diunggah
-            $sql_file_berkas = "INSERT INTO file_berkas (id_surat, nama_berkas) VALUES ('$id_surat_baru', '$file_berkas_name')";
-            $conn->query($sql_file_berkas);
+            $sql_file_berkas = "INSERT INTO file_berkas (id_surat, nama_berkas) VALUES (?, ?)";
+            $stmt_file_berkas = $conn->prepare($sql_file_berkas);
+            $stmt_file_berkas->bind_param("is", $id_surat_baru, $file_berkas_name);
+            $stmt_file_berkas->execute();
             move_uploaded_file($_FILES['file_berkas']['tmp_name'], $upload_berkas_dir . $file_berkas_name); // Simpan file dengan nama yang sesuai
         }
 
         // Simpan informasi file laporan ke dalam tabel file_laporan
         if ($is_laporan_uploaded) {
             $file_laporan_name = uniqid() . '_' . $_FILES['file_laporan']['name'];
-            $sql_file_laporan = "INSERT INTO file_laporan (id_surat, nama_laporan) VALUES ('$id_surat_baru', '$file_laporan_name')";
-            $conn->query($sql_file_laporan);
+            $sql_file_laporan = "INSERT INTO file_laporan (id_surat, nama_laporan) VALUES (?, ?)";
+            $stmt_file_laporan = $conn->prepare($sql_file_laporan);
+            $stmt_file_laporan->bind_param("is", $id_surat_baru, $file_laporan_name);
+            $stmt_file_laporan->execute();
             move_uploaded_file($_FILES['file_laporan']['tmp_name'], $upload_laporan_dir . $file_laporan_name);
         }
 
-        $update_url_sql = "UPDATE tb_surat_dis SET diteruskan_ke = 'Rektor' WHERE id_surat = '$id_surat_baru'";
-        if ($conn->query($update_url_sql) === TRUE)
-
+        $update_url_sql = "UPDATE tb_surat_dis SET diteruskan_ke = 'Rektor' WHERE id_surat = ?";
+        $stmt_update_url = $conn->prepare($update_url_sql);
+        $stmt_update_url->bind_param("i", $id_surat_baru);
+        if ($stmt_update_url->execute()) {
             echo "<script> setTimeout(function() {
             window.location.href = 'surat_keluar.php';}, 1000);
             </script>";
+        }
     } else {
         // Tampilkan pesan error SQL
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $stmt->error;
     }
 }
 ?>
@@ -303,21 +340,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                                 <option>Unit IT & Laboratorium</option>
                                 <!-- Daftar tujuan surat lainnya -->
                             </select>
-
-                            <script>
-                                document.addEventListener("DOMContentLoaded", function() {
-                                    var select = document.getElementById("unitSelect");
-
-                                    select.addEventListener("change", function() {
-                                        if (this.value === "") {
-                                            this.selectedIndex = -1; // Reset the selected index to none
-                                        }
-                                    });
-                                });
-                            </script>
-
                         </div>
                     </div>
+
                     <div class="inputfield">
                         <label for="">Nomor Telepon*</label>
                         <input type="number" class="input" name="no_hp" placeholder="Masukkan Nomor Telepon" value="<?php echo isset($_SESSION['phone_number']) ? $_SESSION['phone_number'] : ''; ?>" required>
@@ -338,7 +363,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                         <div class="inputfield">
                             <label for="">Unggah Berkas Laporan</label>
                             <input type="file" class="input" name="file_laporan" accept="application/pdf" style="border: none;">
-                            <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
+                            <p ```php
+                                <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                         </div>
                     </div>
 

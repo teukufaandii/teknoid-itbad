@@ -1,5 +1,6 @@
 <?php
-session_start(); // Start the session at the beginning of the script
+session_start();
+include __DIR__ . '/../Maintenance/Middleware/index.php';
 if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin') { 
 ?>
 

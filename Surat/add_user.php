@@ -1,5 +1,6 @@
 <?php
-session_start(); // Start the session at the beginning of the script
+session_start();
+include __DIR__ . '/../Maintenance/Middleware/index.php';
 if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin') { // Check if $_SESSION['akses'] is set and equals 'Humas'
 ?>
 
@@ -94,7 +95,8 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin') { // Check if $_
                                     <option>Unit IT & Laboratorium</option>
                                     <option>Unit Pusat Bisnis</option>
                                     <option>Unit Pusat Studi</option>
-                                    <option>Unit Kegiatan mahasiswa</option>
+                                    <option>Unit Kegiatan Mahasiswa</option>
+                                    <option>Unit Pusat Bisnis</option>
                                     <option>Dosen</option>
                                     <option>Karyawan</option>
                                     <option>Mahasiswa</option>

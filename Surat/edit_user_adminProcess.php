@@ -1,12 +1,17 @@
 <?php
 session_start();
+include __DIR__ . '/../Maintenance/Middleware/index.php';
 include "koneksi.php";
 include "logout-checker.php";
-// Menggunakan parameterized query untuk mencegah SQL Injection
-$stmt = $koneksi->prepare("UPDATE tb_pengguna SET noinduk=?, nama_lengkap=?, jabatan=?, akses=?, password=?, email=?, no_hp=? WHERE noinduk=?");
-$stmt->bind_param("ssssssss", $_POST['noinduk'], $_POST['nama_lengkap'], $_POST['jabatan'], $_POST['akses'], $_POST['password'], $_POST['email'], $_POST['no_telepon'], $_POST['noinduk']);
 
-// Melakukan eksekusi query
+// Hash the password using SHA256
+$hashed_password = hash('sha256', $_POST['password']);
+
+// Using parameterized query to prevent SQL Injection
+$stmt = $koneksi->prepare("UPDATE tb_pengguna SET noinduk=?, nama_lengkap=?, jabatan=?, akses=?, password=?, email=?, no_hp=? WHERE noinduk=?");
+$stmt->bind_param("ssssssss", $_POST['noinduk'], $_POST['nama_lengkap'], $_POST['jabatan'], $_POST['akses'], $hashed_password, $_POST['email'], $_POST['no_telepon'], $_POST['noinduk']);
+
+// Execute the query
 $sqln = $stmt->execute();
 
 if ($sqln) {
