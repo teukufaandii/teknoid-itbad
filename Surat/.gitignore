@@ -5,7 +5,11 @@
 uploads/berkas/*
 uploads/laporan/*
 uploads/suratMhs/*
+uploads/honorium/*
+uploads/dosen/*
 
 !uploads/berkas/
 !uploads/laporan/
 !uploads/suratMhs/
+!uploads/honorium/
+!uploads/dosen/
