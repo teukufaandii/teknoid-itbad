@@ -14,3 +14,5 @@ uploads/dosen/*
 !uploads/suratMhs/
 !uploads/honorium/
 !uploads/dosen/
+
+backup/json/*.json

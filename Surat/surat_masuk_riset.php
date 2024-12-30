@@ -131,7 +131,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                         $verified = "Verifikasi";
 
                                         if ($_SESSION['jabatan'] == 'Humas') {
-                                            if ($row['tujuan_surat_srd'] == 'humas') {
+                                            if ($row['tujuan_surat_srd'] == 'Humas') {
                                                 echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
                                                 echo "<td>" . $row['asal_surat'] . "</td>";
                                                 echo "<td>" . $row['NIDN'] . "</td>";

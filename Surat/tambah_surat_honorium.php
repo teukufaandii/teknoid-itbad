@@ -35,7 +35,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validasi ukuran file
     $max_file_size = 10 * 1024 * 1024; // 10MB dalam byte
     if ($_FILES['file_berkas']['size'] > $max_file_size) {
-        echo "Maaf, ukuran file berkas surat tidak boleh melebihi 10MB.";
+        header("Location: error.php?error=filesize");
+        exit();
+    }
+
+    // Validasi tipe file
+    $file_type = pathinfo($_FILES['file_berkas']['name'], PATHINFO_EXTENSION);
+    if (strtolower($file_type) !== 'pdf') {
+        header("Location: error.php?error=filetype");
         exit();
     }
 
@@ -44,22 +51,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Move the uploaded file to the desired location
     if (!move_uploaded_file($_FILES['file_berkas']['tmp_name'], $upload_berkas_dir . $file_berkas_name)) {
-        echo "Maaf, terjadi kesalahan saat mengunggah file.";
+        header("Location: error.php?error=uploadfailed");
         exit();
     }
 
-    // Insert data into database
-    $sql = "INSERT INTO tb_srt_honor (asal_surat, jenis_surat, nm_kegiatan, tanggal_surat, diteruskan_ke, berkas) 
-            VALUES ('$asal_surat', '$jenis_surat', '$nm_kegiatan', '$tanggal_surat', '$ke_keuangan', '$file_berkas_name')";
+    $stmt = $conn->prepare("INSERT INTO tb_srt_honor (asal_surat, jenis_surat, nm_kegiatan, tanggal_surat, diteruskan_ke, berkas) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $asal_surat, $jenis_surat, $nm_kegiatan, $tanggal_surat, $ke_keuangan, $file_berkas_name);
 
-    if (mysqli_query($conn, $sql)) {
+    if ($stmt->execute()) {
         // Jika query berhasil, arahkan ke success.php
         header('Location: success.php');
         exit();
     } else {
         // Jika query gagal, tampilkan pesan error
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        echo "Error: " . $stmt->error;
     }
+
+    // Tutup statement
+    $stmt->close();
 }
 ?>
 

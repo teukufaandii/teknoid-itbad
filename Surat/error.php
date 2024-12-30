@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +31,8 @@
       position: relative;
     }
 
-    .four_zero_four_bg h1, .four_zero_four_bg h3 {
+    .four_zero_four_bg h1,
+    .four_zero_four_bg h3 {
       margin: 0;
       font-size: 80px;
       z-index: 1;
@@ -57,7 +59,7 @@
     }
 
     .link_404 {
-      color: #fff!important;
+      color: #fff !important;
       padding: 10px 20px;
       background: #39ac31;
       margin: 20px 0;
@@ -70,8 +72,9 @@
       background: #2e8b57;
     }
   </style>
-  <script> 
+  <script>
     var countdown = 5;
+
     function updateCountdown() {
       var countdownElement = document.getElementById('countdown');
       if (countdown > 0) {
@@ -79,7 +82,7 @@
         countdown--;
         setTimeout(updateCountdown, 1000);
       } else {
-        window.location.href = 'tambah_surat2';
+        window.location.href = 'dashboard';
       }
     }
 
@@ -90,20 +93,22 @@
 <body>
   <section class="page_404">
     <div class="container">
-      <div class="row"> 
+      <div class="row">
         <div class="col-sm-12">
           <div class="col-sm-10 col-sm-offset-1 text-center">
             <div class="four_zero_four_bg">
             </div>
             <div class="contant_box_404">
-              <h3>  
+              <h3>
                 <?php
                 if (isset($_GET['error'])) {
                   $error = $_GET['error'];
                   if ($error == 'filesize') {
                     echo 'File terlalu besar, unggah file maksimal 10 MB.';
-                  }elseif($error == 'filetype') {
+                  } elseif ($error == 'filetype') {
                     echo 'File yang diunggah bukan PDF. Harap unggah file dalam format PDF.';
+                  } elseif ($error == 'uploadfailed') {
+                    echo 'Unggahan file gagal. Silakan coba lagi.';
                   }
                 } else {
                   echo "File terlalu besar, unggah file maksimal 10 MB.";
@@ -118,4 +123,5 @@
     </div>
   </section>
 </body>
+
 </html>
