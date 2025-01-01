@@ -89,6 +89,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
+                            console.log("Normalized Backup file path:", data.backupFilePath); // Debug normalized path
                             return fetch('./backup/index.php', {
                                 method: 'POST',
                                 headers: {
@@ -104,12 +105,14 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                     })
                     .then(response => response.json())
                     .then(result => {
+                        console.log("Index.php response:", result); // Debug response from index.php
                         const notification = document.getElementById('notification');
                         notification.style.display = 'block';
                         notification.textContent = result.message;
                         notification.style.color = result.success ? 'green' : 'red';
                     })
                     .catch(error => {
+                        console.error("Error:", error.message); // Debug error
                         const notification = document.getElementById('notification');
                         notification.style.display = 'block';
                         notification.textContent = error.message;

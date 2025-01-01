@@ -6,47 +6,53 @@ use Google\Service\Drive as Google_Service_Drive;
 use Google\Service\Drive\DriveFile as Google_Service_Drive_DriveFile;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Ambil path file yang dikirimkan dari form atau request
-    $backupFilePath = $_POST['backupFilePath'] ?? '';
+    $input = file_get_contents('php://input');
+    $data = json_decode($input, true); 
 
-    // Debugging: log path file yang diterima ke dalam debug_log.txt
-    logToFile("Path file yang diterima: " . $backupFilePath);
+    $backupFilePath = $data['backupFilePath'] ?? '';
 
-    // Validasi apakah file path tidak kosong dan file tersebut ada
-    if (empty($backupFilePath) || !file_exists($backupFilePath)) {
+    logToFile("Path file yang diterima: " . ($backupFilePath ?: 'EMPTY'));
+
+    if (empty($backupFilePath)) {
+        logToFile("Parameter backupFilePath kosong.");
         echo json_encode(['success' => false, 'message' => 'File backup tidak ditemukan.']);
         exit();
     }
 
-    // Panggil fungsi untuk meng-upload file ke Google Drive
+    if (!file_exists($backupFilePath)) {
+        logToFile("File backup tidak ditemukan pada path: $backupFilePath");
+        echo json_encode(['success' => false, 'message' => 'File backup tidak ditemukan.']);
+        exit();
+    }
+
     $uploadResult = uploadToGoogleDrive($backupFilePath);
     echo json_encode($uploadResult);
     exit();
-} else {
-    echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
-    exit();
 }
 
-function uploadToGoogleDrive($filePath)
+
+
+function uploadToGoogleDrive($backupFilePath)
 {
-    // Setup Google API Client
+    $normalizedPath = str_replace('\\', '/', $backupFilePath); // Normalize path
+    if (!file_exists($normalizedPath)) {
+        return ['success' => false, 'message' => 'File backup tidak ditemukan.'];
+    }
+
     $client = new Google_Client();
-    $client->setAuthConfig('./json/uploads-teknoid-backup-37fd3c318c61.json'); // Path ke file kredensial
+    $client->setAuthConfig('./json/uploads-teknoid-backup-37fd3c318c61.json');
     $client->addScope(Google_Service_Drive::DRIVE);
 
     try {
         $service = new Google_Service_Drive($client);
 
-        // Setup metadata file
         $fileMetadata = new Google_Service_Drive_DriveFile([
-            'name' => basename($filePath), // Nama file di Google Drive
-            'parents' => ['1tsUfTxwVwGDRpZZDTYpY9iQVRuY9BwTC'] // ID folder di Google Drive
+            'name' => basename($normalizedPath),
+            'parents' => ['1tsUfTxwVwGDRpZZDTYpY9iQVRuY9BwTC']
         ]);
 
-        // Ambil konten file
-        $content = file_get_contents($filePath);
+        $content = file_get_contents($normalizedPath);
 
-        // Upload file ke Google Drive
         $file = $service->files->create($fileMetadata, [
             'data' => $content,
             'mimeType' => 'application/zip',
@@ -64,15 +70,10 @@ function uploadToGoogleDrive($filePath)
     }
 }
 
-// Fungsi untuk menulis log ke file
+
 function logToFile($message)
 {
-    // Tentukan file log
     $logFile = 'debug_log.txt';
-
-    // Format pesan log dengan waktu
     $logMessage = "[" . date('Y-m-d H:i:s') . "] " . $message . PHP_EOL;
-
-    // Tulis pesan ke file log
     file_put_contents($logFile, $logMessage, FILE_APPEND);
 }
