@@ -17,7 +17,7 @@ $no_hp = $row_pengguna['no_hp'];
     </div>
 </div>
     <div class="text">
-        <div class="running-text">
+        <div class="running-text" >
             <p class="running-text2"><i class="fa fa-exclamation dash-icon"></i>Mohon lengkapi data pengguna yang berada dalam menu <span style="color: #871E1E;">pengaturan akun</span> di sudut kanan.<i class="fa fa-exclamation dash-icon"></i></p>
             <p class="running-text2"><i class="fa fa-exclamation dash-icon"></i>Mohon lengkapi data pengguna yang berada dalam menu <span style="color: #871E1E;">pengaturan akun </span>di sudut kanan.<i class="fa fa-exclamation dash-icon"></i></p>
         </div>
@@ -37,14 +37,14 @@ $no_hp = $row_pengguna['no_hp'];
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
                 echo '<a href="edit_user_mhs.php?ids=' . $row['noinduk'] . '">
-                        <button class="accBtn">
+                        <button class="accBtn" style="color: black;">
                         <i class="fas fa-user-edit"></i>Pengaturan Akun
                         </button>
                      </a>';
             }
         ?>
         <a href="keluar.php">
-            <button class="accBtn">
+            <button class="accBtn" style="color: black;">
                 <i class="fas fa-sign-out-alt"></i>Log Out
             </button>
         </a>

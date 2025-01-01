@@ -46,7 +46,7 @@ function sendEmailWithPDF($to, $subject, $body, $attachmentPath)
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
         $mail->Username = 'itbad.teknoid@gmail.com';
-        $mail->Password = 'qupi myjd izaw rcef';
+        $mail->Password = 'jeeq sklf mpyq pevp';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 

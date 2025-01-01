@@ -125,52 +125,79 @@ if ($data['jenis_insentif'] == 'publikasi') {
     $sql .= ", skema_ppmdpek, judul_penelitian_ppm) ";
     $sql .= "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'ssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $data['tujuan_surat_srd'], $curdate, $data['skema_ppmdpek'], $data['judul_penelitian_ppm']);
-} elseif ($data['jenis_insentif'] == 'pertemuan_ppdpi') {
+    mysqli_stmt_bind_param($stmt, 'ssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $curdate, $data['tujuan_surat_srd'], $data['skema_ppmdpek'], $data['judul_penelitian_ppm']);
+} elseif ($data['jenis_insentif'] == 'pertemuan_ilmiah') {
     $sql .= ", nama_pertemuan_ppdpi, usulan_biaya_ppdpi, skala_ppdpi) ";
     $sql .= "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'sssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $data['tujuan_surat_srd'], $curdate, $data['nama_pertemuan_ppdpi'], $data['usulan_biaya_ppdpi'], $data['skala_ppdpi']);
-} elseif ($data['jenis_insentif'] == 'pertemuan_ppdks') {
+    if (!$stmt) {
+        die('Prepare failed: ' . mysqli_error($conn));
+    }
+    mysqli_stmt_bind_param($stmt, 'sssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $curdate, $data['tujuan_surat_srd'], $data['nama_pertemuan_ppdpi'], $data['usulan_biaya_ppdpi'], $data['skala_ppdpi']);
+} elseif ($data['jenis_insentif'] == 'keynote_speaker') {
     $sql .= ", nama_pertemuan_ppdks, skala_ppdks) ";
     $sql .= "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'ssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $data['tujuan_surat_srd'], $curdate, $data['nama_pertemuan_ppdks'], $data['skala_ppdks']);
-} elseif ($data['jenis_insentif'] == 'kegiatan') {
+    if (!$stmt) {
+        die('Prepare failed: ' . mysqli_error($conn));
+    }
+    mysqli_stmt_bind_param($stmt, 'ssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $curdate, $data['tujuan_surat_srd'], $data['nama_pertemuan_ppdks'], $data['skala_ppdks']);
+} elseif ($data['jenis_insentif'] == 'visiting') {
     $sql .= ", nm_kegiatan_vl, waktu_pelaksanaan_vl) ";
     $sql .= "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'ssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $data['tujuan_surat_srd'], $curdate, $data['nm_kegiatan_vl'], $data['waktu_pelaksanaan_vl']);
+    if (!$stmt) {
+        die('Prepare failed: ' . mysqli_error($conn));
+    }
+    mysqli_stmt_bind_param($stmt, 'ssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $curdate, $data['tujuan_surat_srd'], $data['nm_kegiatan_vl'], $data['waktu_pelaksanaan_vl']);
 } elseif ($data['jenis_insentif'] == 'hki') {
     $sql .= ", judul_hki, jenis_hki) ";
     $sql .= "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'ssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $data['tujuan_surat_srd'], $curdate, $data['judul_hki'], $data['jenis_hki']);
+    if (!$stmt) {
+        die('Prepare failed: ' . mysqli_error($conn));
+    }
+    mysqli_stmt_bind_param($stmt, 'ssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $curdate, $data['tujuan_surat_srd'], $data['judul_hki'], $data['jenis_hki']);
 } elseif ($data['jenis_insentif'] == 'teknologi') {
     $sql .= ", teknologi_tg, deskripsi_tg) ";
     $sql .= "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'ssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $data['tujuan_surat_srd'], $curdate, $data['teknologi_tg'], $data['deskripsi_tg']);
+    if (!$stmt) {
+        die('Prepare failed: ' . mysqli_error($conn));
+    }
+    mysqli_stmt_bind_param($stmt, 'ssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $curdate, $data['tujuan_surat_srd'], $data['teknologi_tg'], $data['deskripsi_tg']);
 } elseif ($data['jenis_insentif'] == 'buku') {
     $sql .= ", jenis_buku, judul_buku, sinopsis_buku, isbn_buku) ";
     $sql .= "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'ssssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $data['tujuan_surat_srd'], $curdate, $data['jenis_buku'], $data['judul_buku'], $data['sinopsis_buku'], $data['isbn_buku']);
+    if (!$stmt) {
+        die('Prepare failed: ' . mysqli_error($conn));
+    }
+    mysqli_stmt_bind_param($stmt, 'ssssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $curdate, $data['tujuan_surat_srd'], $data['jenis_buku'], $data['judul_buku'], $data['sinopsis_buku'], $data['isbn_buku']);
 } elseif ($data['jenis_insentif'] == 'model') {
     $sql .= ", nama_model_mpdks, deskripsi_mpdks) ";
     $sql .= "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'ssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $data['tujuan_surat_srd'], $curdate, $data['nama_model_mpdks'], $data['deskripsi_mpdks']);
-} elseif ($data['jenis_insentif'] == 'ipbk') {
+    if (!$stmt) {
+        die('Prepare failed: ' . mysqli_error($conn));
+    }
+    mysqli_stmt_bind_param($stmt, 'ssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $curdate, $data['tujuan_surat_srd'], $data['nama_model_mpdks'], $data['deskripsi_mpdks']);
+} elseif ($data['jenis_insentif'] == 'insentif_publikasi') {
     $sql .= ", judul_ipbk, namaPenerbit_dan_waktu_ipbk, link_publikasi_ipbk) ";
     $sql .= "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'sssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $data['tujuan_surat_srd'], $curdate, $data['judul_ipbk'], $data['namaPenerbit_dan_waktu_ipbk'], $data['link_publikasi_ipbk']);
+    if (!$stmt) {
+        die('Prepare failed: ' . mysqli_error($conn));
+    }
+    mysqli_stmt_bind_param($stmt, 'sssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $curdate, $data['tujuan_surat_srd'], $data['judul_ipbk'], $data['namaPenerbit_dan_waktu_ipbk'], $data['link_publikasi_ipbk']);
 } elseif ($data['jenis_insentif'] == '') {
-    $sql .= ", ttl_srd, alamat_srd, perihal_srd, email_srd, deskripsi_srd, nama_perusahaan_srd, alamat_perusahaan_srd, tujuan_surat_srd, nomor_surat_srd) ";
+    $sql .= ", ttl_srd, alamat_srd, perihal_srd, email_srd, deskripsi_srd, nama_perusahaan_srd, alamat_perusahaan_srd, nomor_surat_srd) ";
     $sql .= "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'ssssssssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $data['tujuan_surat_srd'], $curdate, $data['ttl_srd'], $data['alamat_srd'], $data['perihal_srd'], $data['email_srd'], $data['deskripsi_srd'], $data['nama_perusahaan_srd'], $data['alamat_perusahaan_srd'], $data['tujuan_surat_srd'], $data['nomor_surat_srd']);
+    if (!$stmt) {
+        die('Prepare failed: ' . mysqli_error($conn));
+    }
+    mysqli_stmt_bind_param($stmt, 'ssssssssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $curdate, $data['tujuan_surat_srd'], $data['ttl_srd'], $data['alamat_srd'], $data['perihal_srd'], $data['email_srd'], $data['deskripsi_srd'], $data['nama_perusahaan_srd'], $data['alamat_perusahaan_srd'], $data['nomor_surat_srd']);
 }
 
 if (mysqli_stmt_execute($stmt)) {
@@ -182,7 +209,7 @@ if (mysqli_stmt_execute($stmt)) {
         'file_berkas_pi' => 'pi_pendukung',
         'file_berkas_insentif_ppdpi' => 'ppdpi_insentif',
         'file_berkas_ppdpi' => 'ppdpi_pendukung',
-        'file_berkas_insentif _ppdks' => 'ppdks_insentif',
+        'file_berkas_insentif_ppdks' => 'ppdks_insentif',
         'file_berkas_ppdks' => 'ppdks_pendukung',
         'file_berkas_insentif_vl' => 'vl_insentif',
         'file_berkas_vl' => 'vl_pendukung',

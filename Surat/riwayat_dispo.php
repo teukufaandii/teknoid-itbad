@@ -70,7 +70,7 @@ $result = mysqli_query($koneksi, $query);
             }
 
             ?>
-            <input type="text" id="diteruskan_ke" name="diteruskan_ke" style="margin-top: 10px;" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
+            <input type="text" id="diteruskan_ke" name="diteruskan_ke" style="margin-top: 10px; width: 80%; height: 50%" value="<?php echo htmlspecialchars($diteruskan_ke_value); ?>" readonly><br>
         </div>
     <?php } ?>
 </div>

@@ -2044,8 +2044,8 @@
 
     <?php include 'riwayat_dispo.php'; ?>
 
-    <div class="input-disposisi">
-        <label for="">Keputusan Unit*</label>
+    <div cl>
+        <labeass="input-disposisi"l for="">Keputusan Unit*</label>
         <div class="radio">
             <div>
                 <input type="radio" name="option">
@@ -2903,123 +2903,63 @@
     </script>
 
     <!-- disposisi untuk sekertaris -->
-<?php } elseif ($_SESSION['akses'] == 'Sekretaris') { ?>
+<?php } elseif ($_SESSION['akses'] == 'sekretaris') { ?>
     <div class="txt-disposisi">
         <h3>Disposisi</h3>
     </div>
-    <div class="input-disposisi">
-        <label for="">Catatan Penyelesaian / Penolakan <span style="color: red;"></span>*</span></label>
-        <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Penyelesaian / Penolakan">
-    </div>
-    <div class="input-disposisi">
-        <label for="">Tanggal Disposisi<br> </label>
-        <div class="tgl">
-            <span id="tanggalwaktu"></span><br><br>
-        </div>
-    </div>
-    <?php
-    // Periksa apakah session akses tersedia
-    if (isset($_SESSION['akses'])) {
-        $sql = "SELECT diteruskan_ke FROM tb_surat_dis WHERE id_surat = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        // Ambil baris (row) hasil query
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $diteruskan_ke_tb_surat_dis = $row['diteruskan_ke'];
-            // Periksa jika diteruskan_ke yang berada di tb_surat_dis tidak sama dengan session akses
-            if ($diteruskan_ke_tb_surat_dis == $_SESSION['akses']) {
-                // Tampilkan button
-    ?>
-                <div class="btn-kirim">
-                    <div class="floatFiller">ffff</div>
-                    <button type="button" id="btnSelesai" style="width: 150px; cursor: pointer;">Selesai</button><br>
-                </div>
-    <?php
-            }
-        }
-    }
-    ?>
-    <div class="btn-kirim">
-        <div class="floatFiller">ffff</div>
-        <button type="button" id="btnExport" style="width: 150px; cursor: pointer;">Export PDF</button>
-    </div>
-    <script>
-        document.getElementById('btnSelesai').addEventListener('click', function() {
-            // Tampilkan konfirmasi sebelum menampilkan Sweet Alert
-            swal({
-                    title: "Konfirmasi",
-                    text: "Apakah Anda yakin ingin menyelesaikan surat ini?",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willProceed) => {
-                    if (willProceed) {
-                        var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
-                        var xhr = new XMLHttpRequest();
-                        var id = "<?php echo $id; ?>"; // Mendapatkan nilai $id dari PHP
-                        xhr.open('POST', 'update_selesai.php', true);
-                        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                        xhr.onreadystatechange = function() {
-                            if (xhr.readyState == 4 && xhr.status == 200) {
-                                console.log(xhr.responseText);
-                                swal("Berhasil!", "Surat Telah Dikonfirmasi Selesai!", "success")
-                                    .then(function() {
-                                        // Redirect ke halaman dashboard setelah menutup notifikasi
-                                        window.location.href = "dashboard.php";
-                                    });
-                            }
-                        };
-                        xhr.send("id=" + id + "&catatan_disposisi=" + catatan_disposisi); // Mengirim nilai $id sebagai data POST
-                    } else {
-                        swal("Dibatalkan", "Surat tidak diselesaikan", "info");
-                    }
-                });
-        });
+    <?php include 'riwayat_dispo.php'; ?>
 
-        function exportPDF() {
-            // Redirect to PHP script for creating PDF
-            window.location.href = "../export_pdf.php?id=<?php echo $id; ?>";
-        }
+<div class="input-disposisi">
+    <label for="">Catatan Penyelesaian <br>/ Penolakan <span style="color: red;"></span></label>
+    <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Penyelesaian / Penolakan">
+</div>
+<div class="input-disposisi">
+    <label for="">Tanggal Disposisi<br> </label>
+    <div class="tgl">
+        <span id="tanggalwaktu"></span>
+    </div>
+</div>
 
-        function exportWord() {
-            // Redirect to PHP script for creating Word document
-            window.location.href = "../export_word.php?id=<?php echo $id; ?>";
-        }
+<input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
 
-        document.getElementById('btnExport').addEventListener('click', function() {
-            console.log("btnExport clicked");
-            // Tampilkan konfirmasi sebelum menampilkan Sweet Alert
-            swal({
-                    title: "Ekspor Dokumen",
-                    text: "Pilih format dokumen yang ingin diekspor:",
-                    icon: "info",
-                    buttons: {
-                        pdf: {
-                            text: "PDF",
-                            value: "pdf",
-                        },
-                        word: {
-                            text: "Word",
-                            value: "word",
-                        },
-                        cancel: "Batal",
-                    },
-                })
-                .then((value) => {
-                    // Jika pengguna memilih opsi PDF
-                    if (value === "pdf") {
-                        exportPDF();
-                    }
-                    // Jika pengguna memilih opsi Word
-                    else if (value === "word") {
-                        exportWord();
-                    }
-                });
-        });
-    </script>
+<div class="btn-kirim">
+    <div class="floatFiller">ff</div>
+    <button type="button" id="btnSelesai" style="cursor: pointer;">Selesai</button>
+    <!-- <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button> -->
+</div>
+
+
+<script>
+    document.getElementById('btnSelesai').addEventListener('click', function() {
+        swal({
+                title: "Konfirmasi",
+                text: "Apakah Anda yakin ingin menyelesaikan surat ini?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willProceed) => {
+                if (willProceed) {
+                    var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
+                    var asalsurat = document.querySelector('input[name="executor"]').value;
+                    var xhr = new XMLHttpRequest();
+                    var id = "<?php echo $id; ?>";
+                    xhr.open('POST', 'update_selesai.php', true);
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            console.log(xhr.responseText);
+                            swal("Berhasil!", "Surat Telah Dikonfirmasi Selesai!", "success")
+                                .then(function() {
+                                    window.location.href = "dashboard.php";
+                                });
+                        }
+                    };
+                    xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&asalsurat=" + asalsurat + "&action=selesai");
+                } else {
+                    swal("Dibatalkan", "Surat tidak diselesaikan", "info");
+                }
+            });
+    });
 
 <?php }

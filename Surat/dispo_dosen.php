@@ -20,7 +20,7 @@ $sql1 = "SELECT sd.jenis_surat, sd.verifikasi, sd.memo, sd.asal_surat, sd.status
             sd.jenis_hki, sd.judul_hki, sd.teknologi_tg, sd.deskripsi_tg, sd.jenis_buku, sd.judul_buku, sd.sinopsis_buku, sd.isbn_buku, sd.judul_publikasi_pi,
             sd.nama_model_mpdks, sd.deskripsi_mpdks, sd.judul_ipbk, sd.namaPenerbit_dan_waktu_ipbk, sd.link_publikasi_ipbk, sd.ttl_srd, 
             sd.alamat_srd, sd.perihal_srd, sd.email_srd, sd.deskripsi_srd, sd.nama_perusahaan_srd, sd.alamat_perusahaan_srd,
-            sd.tujuan_surat_srd, j.nama_jenis
+            sd.tujuan_surat_srd, sd.catatan_penyelesaian_srd, sd.kd_srt_riset, j.nama_jenis
          FROM tb_srt_dosen sd
          INNER JOIN tb_jenis j ON sd.jenis_surat = j.kd_jenissurat
          WHERE sd.id_srt = ?";
@@ -74,6 +74,8 @@ $stmt1->bind_result(
     $nama_perusahaan_srd,
     $alamat_perusahaan_srd,
     $tujuan_surat_srd,
+    $catatan_penyelesaian_srd,
+    $kode_surat_riset,
     $nama_jenis,
 );
 
@@ -306,6 +308,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
 
 </head>
 
+
 <body>
     <!-- sidenav -->
     <?php include "sidenav.php" ?>
@@ -345,7 +348,9 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                     <button onclick="goBack()" class="back">Kembali</button>
                 </div>
 
-
+                <div class="loading-overlay" id="loadingOverlay">
+                    <div class="spinner"></div>
+                </div>
 
                 <form class="form">
                     <div class="input-field">
@@ -425,6 +430,8 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                                                                                 ?>" readonly>
                         </div>
 
+
+
                         <?php if ($jenis_insentif == 'penelitian') { ?>
                             <div class="input-field">
                                 <label for="">Judul Penelitian/Pengabdian Masyarakat</label>
@@ -484,10 +491,10 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                                 <input type="text" class="input" name="#" value="<?php echo $nama_pertemuan_ppdks; ?>" readonly>
                             </div>
 
-                        <?php } elseif ($jenis_insentif == 'visiting') { ?>
+                        <?php } elseif ($jenis_insentif == 'visiting_lecturer') { ?>
                             <div class="input-field">
                                 <label for="">Nama Kegiatan dan Lembaga tujuan</label>
-                                <input type="text" class="input" name="#" value="<?php echo $nm_kegiatan_vl; ?>" readonly>
+                                <input type="text" class="input" name="#" value="<?php echo $nam; ?>" readonly>
                             </div>
 
                             <div class="input-field">
@@ -565,8 +572,61 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                                 <input type="text" class="input" name="#" value="<?php echo $link_publikasi_ipbk; ?>" readonly>
                             </div>
 
-
                         <?php } ?>
+
+                    <?php 
+                        if ($jenis_surat == 5) : ?>
+                            <div class="input-field">
+                                <label></label>
+                                <div class="input" style="padding: 0 !important; color: black; background-color: rgba(0, 0, 0, 0); border: none">
+                                    <div class="lihat">
+                                        <?php if ($file_berkas_exists) : ?>
+                                            <?php
+                                            // Path untuk insentif
+                                            $file_insentif_path = "uploads/dosen/" .  $file_berkas_combined;
+                                            ?>
+                                            <button type="button" onclick="lihatBerkas('<?php echo $file_insentif_path; ?>')">
+                                                Lihat Berkas Insentif
+                                            </button>
+                                        <?php else : ?>
+                                            <p>Tidak ada berkas insentif yang tersedia.</p>
+                                        <?php endif; ?>
+
+                                        <?php if ($file_berkas_pendukung) : ?>
+                                            <?php
+                                            // Path untuk insentif
+                                            $file_pendukung_path = "uploads/dosen/" . $file_berkas_combined_pendukung;
+                                            ?>
+                                            <button type="button" onclick="lihatInsentif('<?php echo $file_pendukung_path; ?>')">
+                                                Lihat Berkas Pendukung
+                                            </button>
+                                        <?php else : ?>
+                                            <p>Tidak ada berkas insentif pendukung yang tersedia.</p>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <!-- Modal untuk tampilan berkas -->
+                                    <div id="modalBerkas" class="modal">
+                                        <span class="close" onclick="closeModal()">&times;</span>
+                                        <div class="modal-content-file">
+                                            <h2>PREVIEW BERKAS INSENTIF</h2>
+                                            <iframe id="berkasFrame" frameborder="0"></iframe>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal untuk tampilan laporan -->
+                                    <div id="modalLaporan" class="modal">
+                                        <span class="close" onclick="closeModalInsentif()">&times;</span>
+                                        <div class="modal-content-file">
+                                            <h2>PREVIEW BERKAS PENDUKUNG</h2>
+                                            <iframe id="laporanFrame" frameborder="0"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+
+
 
                     <?php } elseif ($jenis_surat == 6) { ?>
                         <div class="input-field">
@@ -598,130 +658,73 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                             <input type="text" class="input" name="#" value="<?php echo $alamat_perusahaan_srd; ?>" readonly>
                         </div>
 
-                        <div class="input-field">
-                            <label></label>
-                            <div class="input" style="padding: 0 !important; color: black;; background-color: rgba(0, 0, 0, 0); border: none">
-                                <div class="lihat">
-                                    <?php if ($file_berkas_exists) : ?>
-                                        <?php
-                                        // Path untuk insentif
-                                        $file_insentif_path = "uploads/dosen/" .  $file_berkas_combined;
-                                        ?>
-                                        <button type="button" onclick="lihatBerkas('<?php echo $file_insentif_path; ?>')">
-                                            Lihat Berkas Insentif
-                                        </button>
-                                    <?php else : ?>
-                                        <p>Tidak ada berkas insentif yang tersedia.</p>
-                                    <?php endif; ?>
-
-                                    <?php if ($file_berkas_pendukung) : ?>
-                                        <?php
-                                        // Path untuk insentif
-                                        $file_pendukung_path = "uploads/dosen/" . $file_berkas_combined_pendukung;
-                                        ?>
-                                        <button type="button" onclick="lihatInsentif('<?php echo $file_pendukung_path; ?>')">
-                                            Lihat Berkas Pendukung
-                                        </button>
-                                    <?php else : ?>
-                                        <p>Tidak ada berkas pendukung insentif yang tersedia.</p>
-                                    <?php endif; ?>
-                                </div>
-
-                                <!-- Modal untuk tampilan berkas -->
-                                <div id="modalBerkas" class="modal">
-                                    <span class="close" onclick="closeModal()">&times;</span>
-                                    <div class="modal-content-file">
-                                        <h2>PREVIEW BERKAS INSENTIF</h2>
-                                        <iframe id="berkasFrame" frameborder="0"></iframe>
-                                    </div>
-                                </div>
-
-                                <!-- Modal untuk tampilan laporan -->
-                                <div id="modalLaporan" class="modal">
-                                    <span class="close" onclick="closeModalInsentif()">&times;</span>
-                                    <div class="modal-content-file">
-                                        <h2>PREVIEW BERKAS PENDUKUNG</h2>
-                                        <iframe id="laporanFrame" frameborder="0"></iframe>
-                                    </div>
-                                </div>
+                        <?php if ($jenis_surat == 6) { ?>
+                            <div class="input-field">
+                                <label for="">Kode Surat Riset Dosen</label>
+                                <input type="text" class="input" name="#" value="<?php echo $kode_surat_riset; ?>" readonly>
                             </div>
-                        </div>
 
-
-
-
-
-
-
-
-
-
-
-                        <?php
-                        include "dispoBawahRstDosen.php" ?>
-                    <?php } ?>
-
-
-
+                            <div class="input-field">
+                                <label for="">Catatan Penyelesaian</label>
+                                <input type="text" class="input" name="catatan_penyelesaian_srd" value="<?php echo $catatan_penyelesaian_srd; ?>" <?php echo (!empty($catatan_penyelesaian_srd)) ? 'readonly style="background-color: #ccc;"' : ''; ?>>
+                            </div>
+                        <?php } ?>
 
 
                     <div class="input-field">
-                            <label></label>
-                            <div class="input" style="padding: 0 !important; color: black;; background-color: rgba(0, 0, 0, 0); border: none">
-                                <div class="lihat">
-                                    <?php if ($file_berkas_exists) : ?>
-                                        <?php
-                                        // Path untuk insentif
-                                        $file_insentif_path = "uploads/dosen/" .  $file_berkas_combined;
-                                        ?>
-                                        <button type="button" onclick="lihatBerkas('<?php echo $file_insentif_path; ?>')">
-                                            Lihat Berkas Insentif
-                                        </button>
-                                    <?php else : ?>
-                                        <p>Tidak ada berkas insentif yang tersedia.</p>
-                                    <?php endif; ?>
+                        <label></label>
+                        <div class="input" style="padding: 0 !important; color: black;; background-color: rgba(0, 0, 0, 0); border: none">
+                            <div class="lihat">
+                                <?php if ($file_berkas_exists) : ?>
+                                    <?php
+                                    // Path untuk insentif
+                                    $file_insentif_path = "uploads/dosen/" .  $file_berkas_combined;
+                                    ?>
+                                    <button type="button" onclick="lihatBerkas('<?php echo $file_insentif_path; ?>')">
+                                        Lihat Berkas Insentif
+                                    </button>
+                                <?php else : ?>
+                                    <p>Tidak ada berkas insentif yang tersedia.</p>
+                                <?php endif; ?>
 
-                                    <?php if ($file_berkas_pendukung) : ?>
-                                        <?php
-                                        // Path untuk insentif
-                                        $file_pendukung_path = "uploads/dosen/" . $file_berkas_combined_pendukung;
-                                        ?>
-                                        <button type="button" onclick="lihatInsentif('<?php echo $file_pendukung_path; ?>')">
-                                            Lihat Berkas Pendukung
-                                        </button>
-                                    <?php else : ?>
-                                        <p>Tidak ada berkas pendukung insentif yang tersedia.</p>
-                                    <?php endif; ?>
-                                </div>
+                                <?php if ($file_berkas_pendukung) : ?>
+                                    <?php
+                                    // Path untuk insentif
+                                    $file_pendukung_path = "uploads/dosen/" . $file_berkas_combined_pendukung;
+                                    ?>
+                                    <button type="button" onclick="lihatInsentif('<?php echo $file_pendukung_path; ?>')">
+                                        Lihat Berkas Pendukung
+                                    </button>
+                                <?php else : ?>
+                                    <p>Tidak ada berkas insentif pendukung yang tersedia.</p>
+                                <?php endif; ?>
+                            </div>
 
-                                <!-- Modal untuk tampilan berkas -->
-                                <div id="modalBerkas" class="modal">
-                                    <span class="close" onclick="closeModal()">&times;</span>
-                                    <div class="modal-content-file">
-                                        <h2>PREVIEW BERKAS INSENTIF</h2>
-                                        <iframe id="berkasFrame" frameborder="0"></iframe>
-                                    </div>
-                                </div>
-
-                                <!-- Modal untuk tampilan laporan -->
-                                <div id="modalLaporan" class="modal">
-                                    <span class="close" onclick="closeModalInsentif()">&times;</span>
-                                    <div class="modal-content-file">
-                                        <h2>PREVIEW BERKAS PENDUKUNG</h2>
-                                        <iframe id="laporanFrame" frameborder="0"></iframe>
-                                    </div>
+                            <!-- Modal untuk tampilan berkas -->
+                            <div id="modalBerkas" class="modal">
+                                <span class="close" onclick="closeModal()">&times;</span>
+                                <div class="modal-content-file">
+                                    <h2>PREVIEW BERKAS INSENTIF</h2>
+                                    <iframe id="berkasFrame" frameborder="0"></iframe>
                                 </div>
                             </div>
 
+                            <!-- Modal untuk tampilan laporan -->
+                            <div id="modalLaporan" class="modal">
+                                <span class="close" onclick="closeModalInsentif()">&times;</span>
+                                <div class="modal-content-file">
+                                    <h2>PREVIEW BERKAS PENDUKUNG</h2>
+                                    <iframe id="laporanFrame" frameborder="0"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
 
+                    <?php include "dispoBawahRstDosen.php";?>
 
-
-
-
-
-
+<?php } ?>
 
                     <?php if ($_SESSION['jabatan'] == 'LP3M') : ?>
                         <div class="txt-disposisi">
@@ -734,9 +737,9 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                             <input type="hidden" name="id" value="<?php echo $id; ?>">
                         </div>
 
-                        <div class="btn-kirim-dsn" style="display: flex; justify-content: end; gap: 15px; position: relative; top: 20px; margin-bottom: 20px;">
-                            <button id="btnKirim" type="button" style="cursor: pointer; text-align: center; height: 35px; width: 13%;">Kirim Memo</button>
-                            <button id="btnVerifikasi" type="button" style="border-radius: 8px; cursor: pointer; text-align: center; color: #fff; background-color: #31763d; height: 35px; width: 13%;">Verifikasi</button>
+                        <div class="btn-kirim-dsn" style="display: flex; justify-content: end; gap: 15px; position: relative; top: 20px;">
+                            <button id="btnKirim" type="button" style="cursor: pointer; text-align: center; height: 40px; width: 160px;">Kirim Memo</button>
+                            <button id="btnVerifikasi" type="button" style="border-radius: 8px; cursor: pointer; text-align: center; color: #fff; background-color: #31763d; height: 40px; width: 100px; padding: 0 10px;">Verifikasi</button>
                         </div>
                     <?php endif; ?>
 
@@ -746,6 +749,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
         <?php include './footer.php'; ?>
     </div>
 
+
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script>
@@ -753,50 +757,58 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
             const btnSelesai = document.getElementById('btnSelesaiRisetDosen');
 
             if (btnSelesai) {
-                btnSelesai.addEventListener('click', function() {
-                    // Tampilkan konfirmasi sebelum mengirimkan data
-                    Swal.fire({
-                        title: "Konfirmasi",
-                        text: "Apakah Anda yakin ingin menyelesaikan surat ini?",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Ya, selesaikan!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // Mengambil nilai dari input yang diperlukan
-                            const catatan_penyelesaian_srd = document.querySelector('input[name="catatan_penyelesaian_srd"]').value;
-                            const kd_srt_riset = document.querySelector('input[name="kd_srt_riset"]').value;
-                            const id = "<?php echo $id; ?>"; // Mendapatkan nilai ID surat dari PHP
+    btnSelesai.addEventListener('click', function() {
+        // Tampilkan konfirmasi sebelum mengirimkan data
+        Swal.fire({
+            title: "Konfirmasi",
+            text: "Apakah Anda yakin ingin menyelesaikan surat ini?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, selesaikan!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Menampilkan loading overlay
+                document.getElementById('loadingOverlay').style.display = 'flex';
 
-                            // Membuat objek XMLHttpRequest untuk mengirimkan data
-                            const xhr = new XMLHttpRequest();
-                            xhr.open('POST', 'update_selesai_riset_dosen.php', true);
-                            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                // Mengambil nilai dari input yang diperlukan
+                const catatan_penyelesaian_srd = document.querySelector('input[name="catatan_penyelesaian_srd"]').value;
+                const kd_srt_riset = document.querySelector('input[name="kd_srt_riset"]').value;
+                const id = "<?php echo $id; ?>"; // Mendapatkan nilai ID surat dari PHP
 
-                            xhr.onreadystatechange = function() {
-                                if (xhr.readyState == 4 && xhr.status == 200) {
-                                    // Menampilkan notifikasi berhasil setelah respons diterima
-                                    Swal.fire({
-                                        title: "Berhasil!",
-                                        text: "Surat Telah Dikonfirmasi Selesai!",
-                                        icon: "success"
-                                    }).then(function() {
-                                        // Redirect ke halaman dashboard setelah menutup notifikasi
-                                        window.location.href = "dashboard.php";
-                                    });
-                                } else {
-                                    Swal.fire("Gagal!", "Terjadi kesalahan: " + xhr.status, "error");
-                                }
-                            };
+                // Membuat objek XMLHttpRequest untuk mengirimkan data
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'update_selesai_riset_dosen.php', true);
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-                            // Mengirim data melalui AJAX
-                            xhr.send("id=" + id + "&catatan_penyelesaian_srd=" + encodeURIComponent(catatan_penyelesaian_srd) + "&kd_srt_riset=" + encodeURIComponent(kd_srt_riset) + "&action=selesai");
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4) {
+                        // Menyembunyikan loading overlay
+                        document.getElementById('loadingOverlay').style.display = 'none';
+
+                        if (xhr.status == 200) {
+                            // Menampilkan notifikasi berhasil setelah respons diterima
+                            Swal.fire({
+                                title: "Berhasil!",
+                                text: "Surat Telah Dikonfirmasi Selesai!",
+                                icon: "success"
+                            }).then(function() {
+                                // Redirect ke halaman dashboard setelah menutup notifikasi
+                                window.location.href = "dashboard.php";
+                            });
                         } else {
-                            // Menampilkan notifikasi batal jika pengguna memilih untuk tidak melanjutkan
-                            Swal.fire("Dibatalkan", "Surat tidak diselesaikan", "info");
+                            Swal.fire("Gagal!", "Terjadi kesalahan: " + xhr.status, "error");
                         }
+                    }
+                };
+
+                // Mengirim data melalui AJAX
+                xhr.send("id=" + id + "&catatan_penyelesaian_srd=" + encodeURIComponent(catatan_penyelesaian_srd) + "&kd_srt_riset=" + encodeURIComponent(kd_srt_riset) + "&action=selesai");
+            } else {
+                // Menampilkan notifikasi batal jika pengguna memilih untuk tidak melanjutkan
+                Swal.fire("Dibatalkan", "Surat tidak diselesaikan", "info");
+            }
                     });
                 });
             }
