@@ -121,11 +121,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($zip->close()) {
         if (file_exists($outputFile)) {
-            echo json_encode([
-                'success' => true,
-                'backupFilePath' => str_replace('\\', '/', realpath($outputFile)),
-                'message' => 'Backup berhasil dibuat.'
-            ]);
+            // Simpan informasi backup ke database
+            $folderName = basename($outputFile);
+            $lastBackup = date('Y-m-d');
+
+            $insertBackupQuery = "INSERT INTO tb_backup (folder_name, last_backup) VALUES (?, ?)";
+            $stmtBackup = $conn->prepare($insertBackupQuery);
+            $stmtBackup->bind_param("ss", $folderName, $lastBackup);
+
+            if ($stmtBackup->execute()) {
+                echo json_encode([
+                    'success' => true,
+                    'backupFilePath' => str_replace('\\', '/', realpath($outputFile)),
+                    'message' => 'Backup berhasil dibuat dan disimpan ke database.'
+                ]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Backup berhasil, tetapi gagal menyimpan ke database.']);
+            }
         } else {
             echo json_encode(['success' => false, 'message' => 'File backup tidak ditemukan setelah ZIP dibuat.']);
         }

@@ -75,7 +75,67 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                     <div class="loading-overlay" id="loadingOverlay" style="display: none;">
                         <div class="spinner"></div>
                     </div>
+                    <div class="tableOverflow">
+                        <table id="tablesm" class="tablesorter">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortTable(0, this)" style="min-width: 75px; border-top-left-radius: 8px;">
+                                        No<i id="sort-icon-0" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i>
+                                    </th>
+                                    <th onclick="sortTable(1, this)">Nama Folder<i id="sort-icon-1" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                    <th onclick="sortTable(2, this)">Terakhir Backup<i id="sort-icon-2" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
+                                if ($conn->connect_error) {
+                                    die("Koneksi gagal: " . $conn->connect_error);
+                                }
 
+                                // Pagination setup
+                                $start = 0;
+                                $rows_per_page = 20;
+
+                                // SQL query to get the number of records
+                                $stmt = $conn->prepare("SELECT COUNT(*) FROM tb_backup");
+                                $stmt->execute();
+                                $stmt->bind_result($nr_of_rows);
+                                $stmt->fetch();
+                                $stmt->close();
+
+                                // Calculate the number of pages
+                                $pages = ceil($nr_of_rows / $rows_per_page);
+
+                                // Determine the start point
+                                if (isset($_GET['page-nr'])) {
+                                    $page = $_GET['page-nr'] - 1;
+                                    $start = $page * $rows_per_page;
+                                }
+
+                                // Query to fetch backup data
+                                $stmt = $conn->prepare("SELECT * FROM tb_backup ORDER BY last_backup DESC LIMIT ?, ?");
+                                $stmt->bind_param("ii", $start, $rows_per_page);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+
+                                if ($result->num_rows > 0) {
+                                    $counter = $start + 1;
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo "<tr>";
+                                        echo "<td style='min-width: 75px;'>" . $counter++ . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['folder_name'], ENT_QUOTES, 'UTF-8') . "</td>";
+                                        echo "<td>" . (new DateTime($row['last_backup']))->format('d-m-Y') . "</td>";
+                                        echo "</tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='3'>Tidak ada hasil.</td></tr>";
+                                }
+                                $conn->close();
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <?php include 'footer.php'; ?>
