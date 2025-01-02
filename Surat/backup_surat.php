@@ -83,7 +83,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                         No<i id="sort-icon-0" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i>
                                     </th>
                                     <th onclick="sortTable(1, this)">Nama Folder<i id="sort-icon-1" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
-                                    <th onclick="sortTable(2, this)">Terakhir Backup<i id="sort-icon-2" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                    <th onclick="sortTable(2, this)">Terakhir Backup<i id="sort-icon-2" class="fas fa-sort sort-icon" style="margin-left: 5px; border-top-right-radius: 8px;"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -135,6 +135,64 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                 ?>
                             </tbody>
                         </table>
+                    </div>
+                    <?php
+                    if (isset($_GET['page-nr'])) {
+                        $id = $_GET['page-nr'];
+                    } else {
+                        $id = 1;
+                    }
+                    ?>
+                    <div id="kontenhalaman" id="<?php echo $id ?>">
+                        <!-- efek -->
+                        <div class="tekspage">
+                            <?php
+                            if (!isset($_GET['page-nr'])) {
+                                $page = 1;
+                            } else {
+                                $page = $_GET['page-nr'];
+                            }
+                            ?>
+                            Showing <?php echo $page ?> of <?php echo $pages ?> pages
+                        </div>
+                        <div class="pagination">
+                            <!-- first page  -->
+                            <a href="?page-nr=1"><span class="fas fa-angle-double-left"></span></a>
+                            <!-- Previous page -->
+                            <?php if ($page > 1) : ?>
+                                <a href="?page-nr=<?php echo $page - 1 ?>"><span class="fas fa-angle-left"></span></a>
+                            <?php endif; ?>
+                            <!-- Page numbers -->
+                            <div class="pageNumber">
+                                <?php
+                                // Calculate start and end page numbers to display
+                                $startPage = max(1, $page - 2);
+                                $endPage = min($pages, $startPage + 4);
+
+                                // Calculate the total number of pages to show
+                                $totalPagesToShow = min(5, $pages);
+
+                                // Adjust the start page if less than the maximum number of pages to show
+                                if ($pages - $startPage + 1 < $totalPagesToShow) {
+                                    $startPage = max(1, $pages - $totalPagesToShow + 1);
+                                }
+
+                                // Display page numbers
+                                for ($counter = $startPage; $counter <= $endPage; $counter++) {
+                                    echo '<a ' . ($counter === $page ? 'class="active"' : '') . ' href="?page-nr=' . $counter . '">' . $counter . '</a>';
+                                }
+                                ?>
+                            </div>
+
+                            <!-- Next page -->
+                            <?php if ($page < $pages) : ?>
+                                <a href="?page-nr=<?php echo $page + 1 ?>"><span class="fas fa-angle-right"></span></a>
+                            <?php endif; ?>
+
+                            <!-- Last page -->
+                            <a href="?page-nr=<?php echo $pages ?>"><span class="fas fa-angle-double-right"></span></a>
+
+                        </div>
                     </div>
                 </div>
             </div>
