@@ -7,20 +7,16 @@ use Google\Service\Drive\DriveFile as Google_Service_Drive_DriveFile;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $input = file_get_contents('php://input');
-    $data = json_decode($input, true); 
+    $data = json_decode($input, true);
 
     $backupFilePath = $data['backupFilePath'] ?? '';
 
-    logToFile("Path file yang diterima: " . ($backupFilePath ?: 'EMPTY'));
-
     if (empty($backupFilePath)) {
-        logToFile("Parameter backupFilePath kosong.");
         echo json_encode(['success' => false, 'message' => 'File backup tidak ditemukan.']);
         exit();
     }
 
     if (!file_exists($backupFilePath)) {
-        logToFile("File backup tidak ditemukan pada path: $backupFilePath");
         echo json_encode(['success' => false, 'message' => 'File backup tidak ditemukan.']);
         exit();
     }
@@ -29,8 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo json_encode($uploadResult);
     exit();
 }
-
-
 
 function uploadToGoogleDrive($backupFilePath)
 {
@@ -68,12 +62,4 @@ function uploadToGoogleDrive($backupFilePath)
     } catch (Exception $e) {
         return ['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()];
     }
-}
-
-
-function logToFile($message)
-{
-    $logFile = 'debug_log.txt';
-    $logMessage = "[" . date('Y-m-d H:i:s') . "] " . $message . PHP_EOL;
-    file_put_contents($logFile, $logMessage, FILE_APPEND);
 }

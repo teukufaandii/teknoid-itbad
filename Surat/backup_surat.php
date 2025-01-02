@@ -36,6 +36,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <script src="https://kit.fontawesome.com/9e9ad697fd.js" crossorigin="anonymous"></script>
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="stylesheet" href="./css/disposisi-style.css">
     </head>
 
     <body>
@@ -71,6 +72,10 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                         <input type="submit" name="backup" class="search" value="Backup">
                     </form>
                     <div id="notification" style="display:none; margin-top:20px;"></div>
+                    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+                        <div class="spinner"></div>
+                    </div>
+
                 </div>
             </div>
             <?php include 'footer.php'; ?>
@@ -79,6 +84,9 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
         <script>
             document.getElementById('backupForm').addEventListener('submit', function(e) {
                 e.preventDefault();
+
+                const loadingOverlay = document.getElementById('loadingOverlay');
+                loadingOverlay.style.display = 'flex';
 
                 const formData = new FormData(this);
 
@@ -89,7 +97,6 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            console.log("Normalized Backup file path:", data.backupFilePath); // Debug normalized path
                             return fetch('./backup/index.php', {
                                 method: 'POST',
                                 headers: {
@@ -105,18 +112,19 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                     })
                     .then(response => response.json())
                     .then(result => {
-                        console.log("Index.php response:", result); // Debug response from index.php
                         const notification = document.getElementById('notification');
                         notification.style.display = 'block';
                         notification.textContent = result.message;
                         notification.style.color = result.success ? 'green' : 'red';
                     })
                     .catch(error => {
-                        console.error("Error:", error.message); // Debug error
                         const notification = document.getElementById('notification');
                         notification.style.display = 'block';
                         notification.textContent = error.message;
                         notification.style.color = 'red';
+                    })
+                    .finally(() => {
+                        loadingOverlay.style.display = 'none';
                     });
             });
 

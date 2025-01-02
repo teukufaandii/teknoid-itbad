@@ -12,16 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Tentukan folder backup dengan path yang diharapkan
     $backupFolder = realpath(__DIR__ . '/../backup');
     if (!$backupFolder) {
-        $backupFolder = __DIR__ . '/../backup'; // Jika belum ada, gunakan dan buat folder
+        $backupFolder = __DIR__ . '/../backup';
         mkdir($backupFolder, 0755, true);
     }
 
     $outputFile = $backupFolder . '/backup_' . date('dmy_His') . '.zip';
-    $logFile = './debug_log.txt';
-    file_put_contents($logFile, "Proses ZIP dimulai...\n", FILE_APPEND);
 
     $zip = new ZipArchive();
 
@@ -31,18 +28,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Function to add files to ZIP
-    function addFilesToZip($conn, $query, $basePath, $folderName, $logFile, $zip, $tanggal_awal, $tanggal_akhir)
+    function addFilesToZip($conn, $query, $basePath, $folderName, $zip, $tanggal_awal, $tanggal_akhir)
     {
         $stmt = $conn->prepare($query);
         if (!$stmt) {
-            file_put_contents($logFile, "Error preparing query: " . $conn->error . "\n", FILE_APPEND);
             return false;
         }
-        $stmt->bind_param("ss", $tanggal_awal, $tanggal_akhir); // Bind parameters
+        $stmt->bind_param("ss", $tanggal_awal, $tanggal_akhir);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        $allFilesExist = true; // Flag untuk mengecek apakah semua file ada
+        $allFilesExist = true;
 
         while ($row = $result->fetch_assoc()) {
             foreach ($row as $file) {
@@ -51,13 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if (file_exists($filePath)) {
                         $zip->addFile($filePath, $folderName . '/' . $file);
                     } else {
-                        file_put_contents($logFile, "File tidak ditemukan: $filePath\n", FILE_APPEND);
-                        $allFilesExist = false; // Set flag ke false jika file tidak ditemukan
+                        $allFilesExist = false;
                     }
                 }
             }
         }
-        return $allFilesExist; // Kembalikan status keberadaan semua file
+        return $allFilesExist;
     }
 
     // Proses file dari tb_srt_dosen
@@ -67,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                        file_berkas_insentif_tg, file_berkas_tg, file_berkas_insentif_buku, file_berkas_buku, 
                        file_berkas_insentif_mpdks, file_berkas_mpdks, file_berkas_insentif_ipbk, file_berkas_ipbk
                        FROM tb_srt_dosen WHERE tanggal_surat BETWEEN ? AND ?";
-    if (!addFilesToZip($conn, $queryDosen, '../uploads/dosen/', 'dosen', $logFile, $zip, $tanggal_awal, $tanggal_akhir)) {
+    if (!addFilesToZip($conn, $queryDosen, '../uploads/dosen/', 'dosen', $zip, $tanggal_awal, $tanggal_akhir)) {
         $zip->close();
         echo json_encode(['success' => false, 'message' => 'Gagal memproses file dosen dari folder dosen karena ada file yang tidak ditemukan.']);
         exit();
@@ -75,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Proses file dari tb_srt_honor
     $queryHonor = "SELECT berkas FROM tb_srt_honor WHERE tanggal_surat BETWEEN ? AND ?";
-    if (!addFilesToZip($conn, $queryHonor, '../uploads/honorium/', 'honorium', $logFile, $zip, $tanggal_awal, $tanggal_akhir)) {
+    if (!addFilesToZip($conn, $queryHonor, '../uploads/honorium/', 'honorium', $zip, $tanggal_awal, $tanggal_akhir)) {
         $zip->close();
         echo json_encode(['success' => false, 'message' => 'Gagal memproses file honorium.']);
         exit();
@@ -103,7 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (file_exists($filePath)) {
                 $zip->addFile($filePath, 'laporan/' . $laporan['nama_laporan']);
             } else {
-                file_put_contents($logFile, "File tidak ditemukan: $filePath\n", FILE_APPEND);
                 $zip->close();
                 echo json_encode(['success' => false, 'message' => 'Gagal memproses file laporan karena ada file yang tidak ditemukan.']);
                 exit();
@@ -121,20 +115,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $filePath = '../uploads/berkas/' . $berkas['nama_berkas'];
             if (file_exists($filePath)) {
                 $zip->addFile($filePath, 'berkas/' . $berkas['nama_berkas']);
-            } else {
-                file_put_contents($logFile, "File tidak ditemukan: $filePath\n", FILE_APPEND);
             }
         }
     }
 
     if ($zip->close()) {
         if (file_exists($outputFile)) {
-            $response = [
+            echo json_encode([
                 'success' => true,
                 'backupFilePath' => str_replace('\\', '/', realpath($outputFile)),
                 'message' => 'Backup berhasil dibuat.'
-            ];
-            echo json_encode($response);
+            ]);
         } else {
             echo json_encode(['success' => false, 'message' => 'File backup tidak ditemukan setelah ZIP dibuat.']);
         }
