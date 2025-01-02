@@ -128,7 +128,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                     <?php if ($_SESSION['jabatan'] == 'LP3M') : ?>
                         <button onclick="window.location.href='surat_masuk_insentif'" class="btn3">Surat Masuk Insentif
                             <span class="warning" id="warning">Ada <?php echo $total_sm_verif; ?> surat yang belum ditanggapi</span>
-                            <i class="fas fa-envelope dash-icon"></i><br>
+                            <i class="fas fa-envelope dash-icon" style="position: relative; top: -20px;"></i><br>
                             <span class="badge" id="badge1" style="color: grey; padding: 2px; border-radius: 15px; position: relative; top: -10px;"><?php echo $total_sm_insentif; ?></span>
                         </button>
                     <?php endif; ?>
@@ -137,7 +137,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                     <?php if ($_SESSION['jabatan'] == 'Humas') : ?>
                         <button onclick="window.location.href='surat_masuk_riset'" class="btn3">Surat Masuk Riset
                             <span class="warning" id="warning">Ada <?php echo $total_sm_verif; ?> surat yang belum ditanggapi</span>
-                            <i class="fas fa-envelope dash-icon"></i><br>
+                            <i class="fas fa-envelope dash-icon" style="position: relative; top: -20px;"></i><br>
                             <span class="badge" id="badge1" style="color: grey; padding: 2px; border-radius: 15px; position: relative; top: -10px;"><?php echo $total_sm_insentif; ?></span>
                         </button>
                     <?php endif; ?>
@@ -280,24 +280,25 @@ if (!isset($_SESSION['pengguna_type'])) {
                 diteruskanKeParsed === "prodi_akuntansi" ||
                 diteruskanKeParsed === "prodi_manajemen" ||
                 diteruskanKeParsed === "prodi_keuSyariah" ||
-                diteruskanKeParsed === "keuangan" || 
-                diteruskanKeParsed === "DekanFTD" || 
-                diteruskanKeParsed === "sdm" || 
-                diteruskanKeParsed === 'bpm' || 
-                diteruskanKeParsed === 'lp3m' || 
-                diteruskanKeParsed === 'upt_perpus' || 
-                diteruskanKeParsed === 'PSDOD' || 
-                diteruskanKeParsed === 'PKAD' || 
-                diteruskanKeParsed === 'CHED' || 
-                diteruskanKeParsed === 'PSIPP' || 
-                diteruskanKeParsed === 'halal_center'|| 
-                diteruskanKeParsed === 'kui_k' || 
-                diteruskanKeParsed === 'it_lab' || 
-                diteruskanKeParsed === 'marketing' || 
-                diteruskanKeParsed === 'umum' || 
+                diteruskanKeParsed === "keuangan" ||
+                diteruskanKeParsed === "DekanFTD" ||
+                diteruskanKeParsed === "sdm" ||
+                diteruskanKeParsed === 'bpm' ||
+                diteruskanKeParsed === 'lp3m' ||
+                diteruskanKeParsed === 'upt_perpus' ||
+                diteruskanKeParsed === 'PSDOD' ||
+                diteruskanKeParsed === 'PKAD' ||
+                diteruskanKeParsed === 'CHED' ||
+                diteruskanKeParsed === 'PSIPP' ||
+                diteruskanKeParsed === 'halal_center' ||
+                diteruskanKeParsed === 'kui_k' ||
+                diteruskanKeParsed === 'it_lab' ||
+                diteruskanKeParsed === 'marketing' ||
+                diteruskanKeParsed === 'umum' ||
                 diteruskanKeParsed === 'ppik_kmhs' ||
-                diteruskanKeParsed === 'akademik' || 
-                diteruskanKeParsed === 'pusat_bisnis' ) {
+                diteruskanKeParsed === 'akademik' ||
+                diteruskanKeParsed === 'pusat_bisnis' ||
+                diteruskanKeParsed === 'sekretaris') {
                 sql = `
         SELECT * FROM tb_disposisi 
         WHERE 

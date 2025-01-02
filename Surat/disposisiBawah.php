@@ -2046,24 +2046,24 @@
 
     <div cl>
         <labeass="input-disposisi"l for="">Keputusan Unit*</label>
-        <div class="radio">
-            <div>
-                <input type="radio" name="option">
-                <label for="">Tindak Lanjuti</label>
+            <div class="radio">
+                <div>
+                    <input type="radio" name="option">
+                    <label for="">Tindak Lanjuti</label>
+                </div>
+                <div>
+                    <input type="radio" name="option">
+                    <label for="">Dibicarakan dengan rektor</label>
+                </div>
+                <div>
+                    <input type="radio" name="option">
+                    <label for="">Pendapat dan masukkan</label>
+                </div>
+                <div>
+                    <input type="radio" name="option">
+                    <label for="">Dicek dan diteliti</label>
+                </div>
             </div>
-            <div>
-                <input type="radio" name="option">
-                <label for="">Dibicarakan dengan rektor</label>
-            </div>
-            <div>
-                <input type="radio" name="option">
-                <label for="">Pendapat dan masukkan</label>
-            </div>
-            <div>
-                <input type="radio" name="option">
-                <label for="">Dicek dan diteliti</label>
-            </div>
-        </div>
     </div>
     <div class="input-disposisi">
         <label for="">Catatan Penyelesaian <br>/ Penolakan <span style="color: red;"></span></label>
@@ -2909,57 +2909,57 @@
     </div>
     <?php include 'riwayat_dispo.php'; ?>
 
-<div class="input-disposisi">
-    <label for="">Catatan Penyelesaian <br>/ Penolakan <span style="color: red;"></span></label>
-    <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Penyelesaian / Penolakan">
-</div>
-<div class="input-disposisi">
-    <label for="">Tanggal Disposisi<br> </label>
-    <div class="tgl">
-        <span id="tanggalwaktu"></span>
+    <div class="input-disposisi">
+        <label for="">Catatan Penyelesaian <br>/ Penolakan <span style="color: red;"></span></label>
+        <input type="text" id="catatan" class="input" name="catatan_disposisi" placeholder="Masukkan Penyelesaian / Penolakan">
     </div>
-</div>
+    <div class="input-disposisi">
+        <label for="">Tanggal Disposisi<br> </label>
+        <div class="tgl">
+            <span id="tanggalwaktu"></span>
+        </div>
+    </div>
 
-<input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
+    <input type="text" name="executor" value="<?php echo isset($_SESSION['nama_lengkap']) ? $_SESSION['nama_lengkap'] : ''; ?>" style="display: none;">
 
-<div class="btn-kirim">
-    <div class="floatFiller">ff</div>
-    <button type="button" id="btnSelesai" style="cursor: pointer;">Selesai</button>
-    <!-- <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button> -->
-</div>
+    <div class="btn-kirim">
+        <div class="floatFiller">ff</div>
+        <button type="button" id="btnSelesai" style="cursor: pointer;">Selesai</button>
+        <!-- <button type="button" onclick="batalDisposisi()" style="cursor: pointer; background-color: #871F1E; margin-right: 120px; ">Tolak</button> -->
+    </div>
 
 
-<script>
-    document.getElementById('btnSelesai').addEventListener('click', function() {
-        swal({
-                title: "Konfirmasi",
-                text: "Apakah Anda yakin ingin menyelesaikan surat ini?",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willProceed) => {
-                if (willProceed) {
-                    var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
-                    var asalsurat = document.querySelector('input[name="executor"]').value;
-                    var xhr = new XMLHttpRequest();
-                    var id = "<?php echo $id; ?>";
-                    xhr.open('POST', 'update_selesai.php', true);
-                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState == 4 && xhr.status == 200) {
-                            console.log(xhr.responseText);
-                            swal("Berhasil!", "Surat Telah Dikonfirmasi Selesai!", "success")
-                                .then(function() {
-                                    window.location.href = "dashboard.php";
-                                });
-                        }
-                    };
-                    xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&asalsurat=" + asalsurat + "&action=selesai");
-                } else {
-                    swal("Dibatalkan", "Surat tidak diselesaikan", "info");
-                }
-            });
-    });
-
+    <script>
+        document.getElementById('btnSelesai').addEventListener('click', function() {
+            swal({
+                    title: "Konfirmasi",
+                    text: "Apakah Anda yakin ingin menyelesaikan surat ini?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willProceed) => {
+                    if (willProceed) {
+                        var catatan_disposisi = document.querySelector('input[name="catatan_disposisi"]').value;
+                        var asalsurat = document.querySelector('input[name="executor"]').value;
+                        var xhr = new XMLHttpRequest();
+                        var id = "<?php echo $id; ?>";
+                        xhr.open('POST', 'update_selesai.php', true);
+                        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState == 4 && xhr.status == 200) {
+                                console.log(xhr.responseText);
+                                swal("Berhasil!", "Surat Telah Dikonfirmasi Selesai!", "success")
+                                    .then(function() {
+                                        window.location.href = "dashboard.php";
+                                    });
+                            }
+                        };
+                        xhr.send("id=" + id + "&catatan_disposisi=" + encodeURIComponent(catatan_disposisi) + "&asalsurat=" + asalsurat + "&action=selesai");
+                    } else {
+                        swal("Dibatalkan", "Surat tidak diselesaikan", "info");
+                    }
+                });
+        });
+    </script>
 <?php }
