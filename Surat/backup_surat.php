@@ -83,7 +83,8 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                         No<i id="sort-icon-0" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i>
                                     </th>
                                     <th onclick="sortTable(1, this)">Nama Folder<i id="sort-icon-1" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
-                                    <th onclick="sortTable(2, this)">Terakhir Backup<i id="sort-icon-2" class="fas fa-sort sort-icon" style="margin-left: 5px; border-top-right-radius: 8px;"></i></th>
+                                    <th onclick="sortTable(2, this)">Tanggal Awal<i id="sort-icon-2" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
+                                    <th onclick="sortTable(3, this)" style="border-top-right-radius: 8px;">Tanggal Akhir<i id="sort-icon-2" class="fas fa-sort sort-icon" style="margin-left: 5px;"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -114,7 +115,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                 }
 
                                 // Query to fetch backup data
-                                $stmt = $conn->prepare("SELECT * FROM tb_backup ORDER BY last_backup DESC LIMIT ?, ?");
+                                $stmt = $conn->prepare("SELECT * FROM tb_backup ORDER BY end_date DESC LIMIT ?, ?");
                                 $stmt->bind_param("ii", $start, $rows_per_page);
                                 $stmt->execute();
                                 $result = $stmt->get_result();
@@ -125,11 +126,12 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                         echo "<tr>";
                                         echo "<td style='min-width: 75px;'>" . $counter++ . "</td>";
                                         echo "<td>" . htmlspecialchars($row['folder_name'], ENT_QUOTES, 'UTF-8') . "</td>";
-                                        echo "<td>" . (new DateTime($row['last_backup']))->format('d-m-Y') . "</td>";
+                                        echo "<td>" . (new DateTime($row['start_date']))->format('d-m-Y') . "</td>";
+                                        echo "<td>" . (new DateTime($row['end_date']))->format('d-m-Y') . "</td>";
                                         echo "</tr>";
                                     }
                                 } else {
-                                    echo "<tr><td colspan='3'>Tidak ada hasil.</td></tr>";
+                                    echo "<tr><td colspan='4'>Tidak ada hasil.</td></tr>";
                                 }
                                 $conn->close();
                                 ?>
