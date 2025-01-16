@@ -200,7 +200,8 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
             </div>
             <?php include 'footer.php'; ?>
         </div>
-        k
+        
+        <script src="js/dashboard-js.js"></script>
         <script>
             document.getElementById('backupForm').addEventListener('submit', function(e) {
                 e.preventDefault();

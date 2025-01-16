@@ -161,9 +161,14 @@ if (!isset($_SESSION['pengguna_type'])) {
                     $total_sk_hon = $total_sk_row_hon['total'];
 
                     $records4 = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_srt_honor
-                                WHERE tb_srt_honor.diteruskan_ke = '$akses'");
+                                WHERE tb_srt_honor.diteruskan_ke = '$akses' AND tb_srt_honor.status = 0");
                     $total_sm_hon_ttl = mysqli_fetch_assoc($records4);
                     $total_sm_hon = $total_sm_hon_ttl['total'];
+
+                    $records5 = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_srt_honor
+                                WHERE tb_srt_honor.diteruskan_ke = '$akses'");
+                    $total_sm_hon_ttl_nonverif = mysqli_fetch_assoc($records5);
+                    $total_sm_hon_masuk = $total_sm_hon_ttl_nonverif['total'];
                     ?>
 
                     <?php if ($_SESSION['akses'] != 'Rektor' && $_SESSION['akses'] != 'Warek1' && $_SESSION['akses'] != 'Warek2' && $_SESSION['akses'] != 'Warek3') : ?>
@@ -202,7 +207,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                         <button onclick="window.location.href='surat_masuk_honorium'" class="btn3">Surat Masuk Honorium
                             <span class="warning" id="warning">Ada <?php echo $total_sm_hon; ?> Surat yang belum ditanggapi</span>
                             <i class="fas fa-envelope dash-icon"></i><br>
-                            <span class="badge" id="badge1" style="color: grey; padding: 2px; border-radius: 15px; position: relative; top: -10px;"><?php echo $total_sm_hon; ?></span>
+                            <span class="badge" id="badge1" style="color: grey; padding: 2px; border-radius: 15px; position: relative; top: -10px;"><?php echo $total_sm_hon_masuk; ?></span>
                         </button>
                     <?php endif; ?>
                 </div>

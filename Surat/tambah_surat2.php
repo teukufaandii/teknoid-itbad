@@ -106,6 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $tujuan_surat = $conn->real_escape_string($_POST['tujuan_surat']);
     $deskripsi = $conn->real_escape_string($_POST['deskripsi']);
     $no_hp = $conn->real_escape_string($_POST['no_hp']);
+    $email = $conn->real_escape_string($_POST['email']);
     $id_jenis_surat = $conn->real_escape_string($_POST['jenis_surat']);
     $perihal = $conn->real_escape_string($_POST['perihal']);
     $tanggal_surat = date("Y-m-d");
@@ -181,10 +182,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     }
 
     // Insert data into database using prepared statement
-    $sql = "INSERT INTO tb_surat_dis (asal_surat, kode_surat, tujuan_surat, no_hp, perihal, nomor_surat, jenis_surat, tanggal_surat, deskripsi, status_selesai, status_tolak) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0)";
+    $sql = "INSERT INTO tb_surat_dis (asal_surat, kode_surat, tujuan_surat, no_hp, perihal, nomor_surat, jenis_surat, tanggal_surat, deskripsi, email, status_selesai, status_tolak) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssssss", $asal_surat, $kode_surat_otomatis, $tujuan_surat, $no_hp, $perihal, $no_surat, $id_jenis_surat, $tanggal_surat, $deskripsi);
+    $stmt->bind_param("ssssssssss", $asal_surat, $kode_surat_otomatis, $tujuan_surat, $no_hp, $perihal, $no_surat, $id_jenis_surat, $tanggal_surat, $deskripsi, $email);
 
     if ($stmt->execute()) {
         // Ambil ID surat yang baru saja dimasukkan
@@ -346,6 +347,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                     <div class="inputfield">
                         <label for="">Nomor Telepon*</label>
                         <input type="number" class="input" name="no_hp" placeholder="Masukkan Nomor Telepon" value="<?php echo isset($_SESSION['phone_number']) ? $_SESSION['phone_number'] : ''; ?>" required>
+                    </div>
+
+                    <div class="inputfield">
+                        <label for="">Email*</label>
+                        <input type="text" class="input" name="email" placeholder="Masukkan Alamat Email" value="<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : ''; ?>" required>
                     </div>
 
                     <div class="inputfield">

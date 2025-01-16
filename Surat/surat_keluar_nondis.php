@@ -55,7 +55,7 @@ if (!isset($_SESSION['pengguna_type'])) {
         <div class="mainContent" id="mainContent">
             <div class="contentBox">
                 <div class="pageInfo">
-                    <h3>Surat Keluar Insentif</h3>
+                    <h3>Surat Keluar Insentif & Riset Dosen</h3>
                 </div>
                 <div class="tombol">
                     <div class="tambah">
