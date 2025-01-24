@@ -7,6 +7,7 @@ uploads/laporan/*
 uploads/suratMhs/*
 uploads/honorium/*
 uploads/dosen/*
+uploads/suratRstDosen/*
 
 !uploads/**/dummy.txt
 !uploads/berkas/
@@ -14,5 +15,6 @@ uploads/dosen/*
 !uploads/suratMhs/
 !uploads/honorium/
 !uploads/dosen/
+!uploads/suratRstDosen/
 
 backup/json/*.json

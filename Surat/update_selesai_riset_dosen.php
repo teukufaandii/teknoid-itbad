@@ -118,7 +118,7 @@ if (isset($_POST['id']) && isset($_POST['catatan_penyelesaian_srd']) && isset($_
                         'December' => 'Desember'
                     );
                     $bulan = $bahasa[date('F')];
-                    $surat_type = 'Surat Riset'; 
+                    $surat_type = 'Surat Riset';
 
                     // Base64 encode images for the logo and signature
                     $path = 'img/kop.jpg';
@@ -176,18 +176,18 @@ if (isset($_POST['id']) && isset($_POST['catatan_penyelesaian_srd']) && isset($_
                         ' . $alamat_perusahaan . '</p>
                         <p><i> Assalamu’alaikum, Wr, Wb. </i></p>
                         <p style="text-align: justify"> Salam sejahtera kami sampaikan kepada Bapak/Ibu beserta jajaran, semoga selalu dalam lindungan Allah SWT dan sukses menjalankan tugas sehari – hari Aamiin.</p>
-                        <p style="text-align: justify"> Salah satu persyaratan untuk memperoleh gelar Sarjana, Mahasiswa/i di wajibkan menulis Karya Ilmiah (Skripsi). Bersama ini kami mohon kesediaan Bapak/Ibu menerima Mahasiswa/i kami melaksanakan Riset/Penelitian pada perusahaan yang Bapak/Ibu pimpin,adapun identitas Mahasiswa/i tersebut adalah sebagai berikut:</p>
+                        <p style="text-align: justify"> Sehubungan dengan pelaksanaan tugas tridharma perguruan tinggi, khususnya dalam bidang penelitian. Kami bermaksud mengajukan permohonan izin untuk melaksanakan penelitian di ' . $nama_perusahaan . ' yang Bapak/Ibu pimpin. Adapun identitas dosen yang akan melaksanakan penelitian adalah sebagai berikut:</p>
                         
                         
                         <table border="0" style="margin-top: -12px; margin-bottom: -12px">
                             <tr>
-                                <td style="width: 180px; height: 5px"> Nama Dosen </td><td style="height: 5px">: ' . $asal_surat . ' </td>
+                                <td style="width: 180px; height: 5px"> Nama Dosen </td><td style="height: 5px">: ' . ucwords(strtolower($asal_surat)) . ' </td>
                             </tr>
                             <tr>
                                 <td style="width: 180px; height: 5px"> Tempat, Tanggal Lahir </td><td style="height: 5px">: ' . $ttl . ' </td>
                             </tr>
                             <tr>
-                                <td style="width: 180px; height: 5px"> Nomor Pokok </td><td style="height: 5px">: ' . $nidn . ' </td>
+                                <td style="width: 180px; height: 5px"> NIDN </td><td style="height: 5px">: ' . $nidn . ' </td>
                             </tr>
                             <tr>
                                 <td style="width: 180px; height: 5px"> Alamat </td><td style="height: 5px">: ' . $alamat_domisili . ' </td>
