@@ -82,17 +82,21 @@ if ($edit_id != $current_user_id) {
                 // Check if there's a flash message in the session
                 if (isset($_SESSION['flash_message'])) {
                     $flash = $_SESSION['flash_message'];
+                    unset($_SESSION['flash_message']); // Hapus flash message sebelum output
+                
                     echo '<script>
-                                Swal.fire({
-                                    icon: "' . $flash['type'] . '",
-                                    title: "' . $flash['message'] . '",
-                                    showConfirmButton: true,
-                                    timer: 5000
-                                });
-                              </script>';
-                    // Clear the flash message after it's displayed
-                    unset($_SESSION['flash_message']);
+                            Swal.fire({
+                                icon: "' . $flash['type'] . '",
+                                title: "' . $flash['message'] . '",
+                                showConfirmButton: false,
+                                timer: 3000
+                            }).then(() => {
+                                window.location.href = "keluar.php";
+                            });
+                          </script>';
+                    exit;
                 }
+                
 
                 // Ambil data pengguna untuk di-edit
                 $edit_id = $_GET['ids'];
@@ -102,7 +106,7 @@ if ($edit_id != $current_user_id) {
 
                 while ($rn = mysqli_fetch_array($sqln)) { ?>
                     <form class="form" id="form" method="post" action="edit_user_mhsProcess.php">
-                        
+
                         <div class="inputfield">
                             <label>Email</label>
                             <input type="email" class="input" name="email" value="<?php echo $rn['email']; ?>" maxlength="254"

@@ -1239,7 +1239,7 @@
     // Memeriksa apakah tombol "Selesai" diklik
     if (isset($_POST['selesai'])) {
 
-        $koneksi = mysqli_connect($host, $user, $pass, $db);
+        include 'koneksi.php';
 
         // Melakukan update status_selesai menjadi true di tabel tb_surat_dis
         $query_update = "UPDATE tb_surat_dis SET status_selesai = true WHERE id_surat = '$id'";
@@ -1535,7 +1535,7 @@
     // Memeriksa apakah tombol "Selesai" diklik
     if (isset($_POST['selesai'])) {
 
-        $koneksi = mysqli_connect($host, $user, $pass, $db);
+        include 'koneksi.php';
 
         // Melakukan update status_selesai menjadi true di tabel tb_surat_dis
         $query_update = "UPDATE tb_surat_dis SET status_selesai = true WHERE id_surat = '$id'";
@@ -2170,7 +2170,7 @@
     // Memeriksa apakah tombol "Selesai" diklik
     if (isset($_POST['selesai'])) {
 
-        $koneksi = mysqli_connect($host, $user, $pass, $db);
+        include 'koneksi.php';
 
         // Melakukan update status_selesai menjadi true di tabel tb_surat_dis
         $query_update = "UPDATE tb_surat_dis SET status_selesai = true WHERE id_surat = '$id'";
@@ -2387,9 +2387,6 @@
             });
         }
 
-
-
-
         function batalDisposisi() {
             swal({
                     title: "Konfirmasi",
@@ -2566,7 +2563,7 @@
     // Memeriksa apakah tombol "Selesai" diklik
     if (isset($_POST['selesai'])) {
 
-        $koneksi = mysqli_connect($host, $user, $pass, $db);
+        include 'koneksi.php';
 
         // Melakukan update status_selesai menjadi true di tabel tb_surat_dis
         $query_update = "UPDATE tb_surat_dis SET status_selesai = true WHERE id_surat = '$id'";
@@ -2677,7 +2674,7 @@
     // Memeriksa apakah tombol "Selesai" diklik
     if (isset($_POST['selesai'])) {
 
-        $koneksi = mysqli_connect($host, $user, $pass, $db);
+        include 'koneksi.php';
 
         // Melakukan update status_selesai menjadi true di tabel tb_surat_dis
         $query_update = "UPDATE tb_surat_dis SET status_selesai = true WHERE id_surat = '$id'";
@@ -2688,7 +2685,7 @@
     }
 
     // Mendapatkan jenis surat dari tb_surat_dis
-    $koneksi = mysqli_connect($host, $user, $pass, $db);
+    include 'koneksi.php';
     $query_jenis_surat = "SELECT jenis_surat FROM tb_surat_dis WHERE id_surat = '$id'";
     $result = mysqli_query($koneksi, $query_jenis_surat);
     $row = mysqli_fetch_assoc($result);

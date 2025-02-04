@@ -75,7 +75,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                 </div>
                 <div class="tombol">
                     <div class="tambah">
-                        <button onclick="confirmAddSurat()">
+                        <button onclick="checkEmailBeforeAddSurat()">
                             <i class="fa fa-plus"></i>
                             &nbsp; Tambah Surat
                         </button>
@@ -107,11 +107,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                         </thead>
                         <tbody>
                             <?php
-                            $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
-                            if ($conn->connect_error) {
-                                die("Connection failed: " . $conn->connect_error);
-                            }
-
+                            include 'koneksi.php';
                             // pengaturan baris
                             $start = 0;
                             $rows_per_page = 20;
@@ -456,7 +452,31 @@ if (!isset($_SESSION['pengguna_type'])) {
             }
         });
 
-
+        function checkEmailBeforeAddSurat() {
+            fetch('check_email.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.email_exists) {
+                        confirmAddSurat();
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Email Belum Terdaftar!',
+                            text: 'Harap lengkapi email Anda terlebih dahulu.',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Terjadi Kesalahan!',
+                        text: 'Gagal memverifikasi email, coba lagi nanti.',
+                        confirmButtonText: 'OK'
+                    });
+                });
+        }
 
         function confirmAddSurat() {
             let hakAkses = "<?php echo $_SESSION['jabatan']; ?>"; // assume you have stored the user's access level in a session variable
@@ -502,7 +522,6 @@ if (!isset($_SESSION['pengguna_type'])) {
                         window.location.href = "tambahsurat_nondispo";
                     }
                 });
-
         }
 
         function downloadForm() {

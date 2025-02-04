@@ -7,6 +7,10 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 include 'koneksi.php';
 include "logout-checker.php";
@@ -44,15 +48,15 @@ function sendEmailWithPDF($to, $subject, $body, $attachmentPath)
     try {
         //Server settings
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com'; // SMTP server
+        $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'itbad.teknoid@gmail.com'; // SMTP username
-        $mail->Password = 'qupi myjd izaw rcef'; // Password Terbaru 09/11/2024
+        $mail->Username   = $_ENV['APP_EMAIL'];
+        $mail->Password   = $_ENV['APP_EMAIL_PASS']; 
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
         //Recipients
-        $mail->setFrom('itbad.teknoid@gmail.com', 'TEKNOID ITB-AD');
+        $mail->setFrom($_ENV['APP_EMAIL'], 'TEKNOID ITBAD');
         $mail->addAddress($to);
 
         // Attachments

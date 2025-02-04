@@ -210,10 +210,7 @@ if ($isProdi) {
                             </thead>
                             <tbody>
                                 <?php
-                                $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
-                                if ($conn->connect_error) {
-                                    die("Connection failed: " . $conn->connect_error);
-                                }
+                                include 'koneksi.php';
 
                                 // Pengaturan baris
                                 $start = 0;

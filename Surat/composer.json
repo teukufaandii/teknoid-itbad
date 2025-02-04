@@ -4,6 +4,7 @@
         "tecnickcom/tcpdf": "^6.7",
         "twilio/sdk": "^8.1",
         "phpoffice/phpspreadsheet": "^2.2",
-        "google/apiclient": "^2.18"
+        "google/apiclient": "^2.18",
+        "vlucas/phpdotenv": "^5.6"
     }
 }

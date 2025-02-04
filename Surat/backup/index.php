@@ -34,7 +34,7 @@ function uploadToGoogleDrive($backupFilePath)
     }
 
     $client = new Google_Client();
-    $client->setAuthConfig('./json/uploads-teknoid-backup-37fd3c318c61.json');
+    $client->setAuthConfig('./json/uploads-teknoid-backup-1a3f28696fd1.json');
     $client->addScope(Google_Service_Drive::DRIVE);
 
     try {

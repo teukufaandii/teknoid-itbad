@@ -86,9 +86,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                         </thead>
                         <tbody>
                             <?php
-                            $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
-                            if ($conn->connect_error) {
-                            }
+                            include 'koneksi.php';
 
                             // pengaturan baris
                             $start = 0;

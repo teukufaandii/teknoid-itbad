@@ -3,12 +3,15 @@ session_start();
 include __DIR__ . '/../Maintenance/Middleware/index.php';
 include 'koneksi.php';
 include 'logout-checker.php';
+require 'vendor/autoload.php';
 
 // Load PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use Dotenv\Dotenv;
 
-require 'vendor/autoload.php';
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 // Cek apakah data POST ada
 if (isset($_POST['id'], $_POST['catatan_disposisi'], $_POST['action'])) {
@@ -97,17 +100,17 @@ if (isset($_POST['id'], $_POST['catatan_disposisi'], $_POST['action'])) {
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
-                $mail->Username = 'itbad.teknoid@gmail.com';
-                $mail->Password = 'scuf qqwz eeea ercg';
+                $mail->Username   = $_ENV['APP_EMAIL'];
+                $mail->Password   = $_ENV['APP_EMAIL_PASS'];
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
 
-                $mail->setFrom('itbad.teknoid@gmail.com', 'Balasan Surat Cuti untuk ' . $asal_surat);
+                $mail->setFrom($_ENV['APP_EMAIL'], 'TEKNOID ITBAD');
                 $mail->addAddress($email_pengguna);
 
                 $mail->isHTML(true);
-                $mail->Subject = 'Status Surat Updated';
-                $mail->Body    = 'Status surat dengan ID ' . $id . ' telah diupdate.';
+                $mail->Subject = 'Status Surat Anda Telah Diperbaharui';
+                $mail->Body    = 'Status surat atas nama ' . $asal_surat . ' telah diupdate.';
 
                 if (isset($_FILES['file_sdm']) && $_FILES['file_sdm']['error'] === UPLOAD_ERR_OK) {
                     $mail->addAttachment($_FILES['file_sdm']['tmp_name'], $_FILES['file_sdm']['name']);

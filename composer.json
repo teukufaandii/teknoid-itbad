@@ -2,6 +2,7 @@
     "require": {
         "phpmailer/phpmailer": "^6.9",
         "phpoffice/phpword": "^1.2",
-        "dompdf/dompdf": "^3.0"
+        "dompdf/dompdf": "^3.0",
+        "vlucas/phpdotenv": "^5.6"
     }
 }

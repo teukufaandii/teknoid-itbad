@@ -351,7 +351,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
                     <div class="inputfield">
                         <label for="">Email*</label>
-                        <input type="text" class="input" name="email" placeholder="Masukkan Alamat Email" value="<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : ''; ?>" required>
+                        <input type="text" class="input" name="email" placeholder="Masukkan Alamat Email" value="<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : ''; ?>" readonly>
                     </div>
 
                     <div class="inputfield">
@@ -369,7 +369,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                         <div class="inputfield">
                             <label for="">Unggah Berkas Laporan</label>
                             <input type="file" class="input" name="file_laporan" accept="application/pdf" style="border: none;">
-                            <p ```php
                                 <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
                         </div>
                     </div>

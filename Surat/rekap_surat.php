@@ -1,7 +1,7 @@
 <?php
 session_start();
 include __DIR__ . '/../Maintenance/Middleware/index.php';
-if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin') { 
+if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin') {
 ?>
 
     <?php
@@ -64,12 +64,12 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                 <?php
                                 if ($_SESSION['akses'] === 'Admin') {
                                     echo '<select name="jenis_surat" id="jenis_surat" required>';
-                                    echo '<option hidden>Option (Permohonan, laporan, kkl, riset, insentif, riset dosen, honorium)</option>';
+                                    echo '<option hidden>Option (Permohonan, laporan, kkl, riset, insentif, honorium)</option>';
                                     if ($conn->connect_error) {
                                         // You should handle the connection error here
                                     }
                                     // Query untuk mendapatkan tipe surat dari tabel tb jenis_surat
-                                    $jenis_surat = "SELECT * FROM tb_jenis WHERE kd_jenissurat IN (1, 2, 3, 4, 6, 7)";
+                                    $jenis_surat = "SELECT * FROM tb_jenis WHERE kd_jenissurat IN (1, 2, 3, 4, 7)";
                                     $result_jenis_surat = $conn->query($jenis_surat);
 
                                     // Periksa apakah ada hasil query
@@ -83,12 +83,12 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                     echo '</select>';
                                 } else if ($_SESSION['akses'] === 'Humas') {
                                     echo '<select name="jenis_surat" id="jenis_surat" required>';
-                                    echo '<option hidden>Option (Permohonan, laporan, kkl, riset, riset dosen, honorium)</option>';
+                                    echo '<option hidden>Option (Permohonan, laporan, kkl, riset, honorium)</option>';
                                     if ($conn->connect_error) {
                                         // You should handle the connection error here
                                     }
                                     // Query untuk mendapatkan tipe surat dari tabel tb jenis_surat
-                                    $jenis_surat = "SELECT * FROM tb_jenis WHERE kd_jenissurat IN (1, 2, 3, 4, 6, 7)";
+                                    $jenis_surat = "SELECT * FROM tb_jenis WHERE kd_jenissurat IN (1, 2, 3, 4, 7)";
                                     $result_jenis_surat = $conn->query($jenis_surat);
 
                                     // Periksa apakah ada hasil query
@@ -146,11 +146,6 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                                   FROM tb_surat_dis AS s
                                                   JOIN tb_jenis AS js ON s.jenis_surat = js.kd_jenissurat
                                                   WHERE s.jenis_surat = $jenis_surat";
-                                    } elseif (in_array($jenis_surat, [6])) {
-                                        $query = "SELECT *
-                                                  FROM tb_srt_dosen AS sd
-                                                  JOIN tb_jenis AS js ON sd.jenis_surat = js.kd_jenissurat
-                                                  WHERE sd.jenis_surat = $jenis_surat";
                                     } elseif (in_array($jenis_surat, [7])) {
                                         $query = "SELECT *
                                                   FROM tb_srt_honor AS sh
@@ -222,18 +217,6 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                                             <th>Aksi</th>
                                                         </tr>
                                                     </thead>";
-                                        } elseif (in_array($jenis_surat, [6])) {
-                                            $thead = "<thead>
-                                                        <tr>
-                                                            <th>No</th>
-                                                            <th>Jenis Surat</th>
-                                                            <th>Asal Surat</th>
-                                                            <th>Perihal</th>
-                                                            <th>Nama Perusahaan</th>
-                                                            <th>Tanggal Surat</th>
-                                                            <th>Aksi</th>
-                                                        </tr>
-                                                    </thead>";
                                         } elseif (in_array($jenis_surat, [7])) {
                                             $thead = "<thead>
                                                         <tr>
@@ -251,9 +234,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                     <?php echo $thead; ?>
                                     <tbody>
                                     <?php
-                                    $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
-                                    if ($conn->connect_error) {
-                                    }
+                                    include 'koneksi.php';
 
                                     $user_arr = array();
                                     // Proses pencarian rekap
@@ -289,12 +270,6 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                             JOIN tb_jenis AS js ON s.jenis_surat = js.kd_jenissurat
                                             WHERE s.jenis_surat = 4
                                             AND s.tanggal_surat BETWEEN '$tanggal_awal' AND '$tanggal_akhir'";
-                                        } elseif (in_array($jenis_surat, [6])) {
-                                            $query = "SELECT *
-                                            FROM tb_srt_dosen AS sd
-                                            JOIN tb_jenis AS js ON sd.jenis_surat = js.kd_jenissurat
-                                            WHERE sd.jenis_surat = 6 
-                                            AND sd.tanggal_surat BETWEEN '$tanggal_awal' AND '$tanggal_akhir'";
                                         } elseif ($jenis_surat == 7) {
                                             $query = "SELECT *
                                             FROM tb_srt_honor AS sh
@@ -388,22 +363,6 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                                                                             <td>" . $formatted_date . "</td>
                                                                             <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . ($row['kd_surat']) . "'>Hapus</button></td>
                                                                         </tr>";
-                                                } elseif (in_array($row['jenis_surat'], [6])) {
-                                                    $id_srt = $row['id_srt'];
-                                                    $asal_surat = $row['asal_surat'];
-                                                    $tgl_surat = $row['tanggal_surat'];
-                                                    $perihalsrd = $row['perihal_srd'];
-                                                    $nama_perusahaan = $row['nama_perusahaan_srd'];
-                                                    $user_arr[] = array($id_srt, $jenis_surat, $asal_surat, $perihalsrd, $nama_perusahaan, $tgl_surat);
-                                                    echo "<tr id='hasilSearch'>
-                                                            <td style='width:10px;'>" . $nomor . "</td>
-                                                            <td>" . $jenis_surat . "</td>
-                                                            <td>" . $asal_surat . "</td>
-                                                            <td>" . $perihalsrd . "</td>
-                                                            <td>" . $nama_perusahaan . "</td>
-                                                            <td>" . $formatted_date . "</td>
-                                                            <td><button type='button' class='btn_delete' name='delete_btn' data-id3='" . ($row['id_srt']) . "'>Hapus</button></td>
-                                                        </tr>";
                                                 } elseif (in_array($row['jenis_surat'], [7])) {
                                                     $id = $row['id'];
                                                     $asal_surat = $row['asal_surat'];

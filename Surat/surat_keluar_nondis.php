@@ -55,7 +55,7 @@ if (!isset($_SESSION['pengguna_type'])) {
         <div class="mainContent" id="mainContent">
             <div class="contentBox">
                 <div class="pageInfo">
-                    <h3>Surat Keluar Insentif & Riset Dosen</h3>
+                    <h3>Surat Keluar Insentif Dosen</h3>
                 </div>
                 <div class="tombol">
                     <div class="tambah">
@@ -90,10 +90,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                         </thead>
                         <tbody>
                             <?php
-                            $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
-                            if ($conn->connect_error) {
-                                die("Connection failed: " . $conn->connect_error);
-                            }
+                            include 'koneksi.php';
 
                             // pengaturan baris
                             $start = 0;
@@ -130,9 +127,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                 srt.nama_pertemuan_ppdks, srt.nm_kegiatan_vl, srt.waktu_pelaksanaan_vl, srt.jenis_hki,
                                 srt.judul_hki, srt.teknologi_tg, srt.deskripsi_tg, srt.jenis_buku, srt.judul_buku,
                                 srt.sinopsis_buku, srt.isbn_buku, srt.nama_model_mpdks, srt.deskripsi_mpdks,
-                                srt.judul_ipbk, srt.namaPenerbit_dan_waktu_ipbk, srt.link_publikasi_ipbk, srt.ttl_srd,
-                                srt.alamat_srd, srt.verifikasi, srt.perihal_srd, srt.email_srd, srt.deskripsi_srd, srt.nama_perusahaan_srd,
-                                srt.alamat_perusahaan_srd, srt.tujuan_surat_srd, srt.nomor_surat_srd, srt.memo, srt.verifikasi_keuangan
+                                srt.judul_ipbk, srt.namaPenerbit_dan_waktu_ipbk, srt.link_publikasi_ipbk, srt.verifikasi, srt.memo, srt.verifikasi_keuangan
                             FROM 
                                 tb_srt_dosen srt
                             WHERE 
@@ -150,7 +145,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                     <tr>
                                         <?php
                                         echo "<td style=\"min-width: 75px;\">" . $counter++ . "</td>";
-                                        echo "<td>" . (isset($row['jenis_surat']) ? ($row['jenis_surat'] == 5 ? "Surat Insentif" : ($row['jenis_surat'] == 6 ? "Surat Riset Dosen" : "Jenis Surat Tidak Dikenali")) : "Data Tidak Tersedia") . "</td>";
+                                        echo "<td>" . (isset($row['jenis_surat']) ? ($row['jenis_surat'] == 5 ? "Surat Insentif" : "Jenis Surat Tidak Dikenali") : "Data Tidak Tersedia") . "</td>";    
                                         echo "<td>" . (isset($row['asal_surat']) ? $row['asal_surat'] : 'Data Tidak Tersedia') . "</td>";
 
                                          // Mapping for jenis_surat
@@ -186,7 +181,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                                                 $jenis_surat_text = 'Insentif Publikasi berita Kegiatan pengabdian Masyarakat';
                                                 break;
                                             default:
-                                                $jenis_surat_text = '-'; // Optional: Handle unexpected values
+                                                $jenis_surat_text = '-';
                                                 break;
                                         }
                                         echo "<td>" . $jenis_surat_text . "</td>";
@@ -214,7 +209,7 @@ if (!isset($_SESSION['pengguna_type'])) {
                             <?php
                                 }
                             } else {
-                                echo "<tr><td colspan='7'>0 results</td></tr>";
+                                echo "<tr><td colspan='8'>0 results</td></tr>";
                             }
                             $conn->close();
                             ?>

@@ -133,15 +133,6 @@ if (!isset($_SESSION['pengguna_type'])) {
                         </button>
                     <?php endif; ?>
 
-                    <!-- NON DISPO HUMAS -->
-                    <?php if ($_SESSION['jabatan'] == 'Humas') : ?>
-                        <button onclick="window.location.href='surat_masuk_riset'" class="btn3">Surat Masuk Riset
-                            <span class="warning" id="warning">Ada <?php echo $total_sm_verif; ?> surat yang belum ditanggapi</span>
-                            <i class="fas fa-envelope dash-icon" style="position: relative; top: -20px;"></i><br>
-                            <span class="badge" id="badge1" style="color: grey; padding: 2px; border-radius: 15px; position: relative; top: -10px;"><?php echo $total_sm_insentif; ?></span>
-                        </button>
-                    <?php endif; ?>
-
                     <!-- Dispo Pimpinan -->
                     <?php
                     $fullname = $_SESSION['nama_lengkap'];

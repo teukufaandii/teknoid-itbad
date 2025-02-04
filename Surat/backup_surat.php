@@ -89,10 +89,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
                             </thead>
                             <tbody>
                                 <?php
-                                $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
-                                if ($conn->connect_error) {
-                                    die("Koneksi gagal: " . $conn->connect_error);
-                                }
+                                include 'koneksi.php';
 
                                 // Pagination setup
                                 $start = 0;
@@ -200,7 +197,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Humas' || isset($_SESSIO
             </div>
             <?php include 'footer.php'; ?>
         </div>
-        
+
         <script src="js/dashboard-js.js"></script>
         <script>
             document.getElementById('backupForm').addEventListener('submit', function(e) {

@@ -75,17 +75,6 @@ $groupedFields = [
         'judul_ipbk',
         'namaPenerbit_dan_waktu_ipbk',
         'link_publikasi_ipbk'
-    ],
-    'srd' => [ // ''
-        'ttl_srd',
-        'alamat_srd',
-        'perihal_srd',
-        'email_srd',
-        'deskripsi_srd',
-        'nama_perusahaan_srd',
-        'alamat_perusahaan_srd',
-        'tujuan_surat_srd',
-        'nomor_surat_srd'
     ]
 ];
 
@@ -107,9 +96,20 @@ $data['no_telpon'] = $_POST['no_telpon'] ?? '';
 $data['id_sinta'] = $_POST['id_sinta'] ?? '';
 $data['prodi_pengusul'] = $_POST['prodi_pengusul'] ?? '';
 
-if ($data['jenis_insentif'] === '') {
-    $data['tujuan_surat_srd'] = 'Humas';
-} else {
+$jenis_insentif_lp3m = [
+    'penelitian',
+    'publikasi',
+    'pertemuan_ilmiah',
+    'keynote_speaker',
+    'visiting',
+    'hki',
+    'teknologi',
+    'buku',
+    'model',
+    'insentif_publikasi'
+];
+
+if (isset($data['jenis_insentif']) && in_array($data['jenis_insentif'], $jenis_insentif_lp3m)) {
     $data['tujuan_surat_srd'] = 'lp3m';
 }
 
@@ -190,14 +190,6 @@ if ($data['jenis_insentif'] == 'publikasi') {
         die('Prepare failed: ' . mysqli_error($conn));
     }
     mysqli_stmt_bind_param($stmt, 'sssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $curdate, $data['tujuan_surat_srd'], $data['judul_ipbk'], $data['namaPenerbit_dan_waktu_ipbk'], $data['link_publikasi_ipbk']);
-} elseif ($data['jenis_insentif'] == '') {
-    $sql .= ", ttl_srd, alamat_srd, perihal_srd, email_srd, deskripsi_srd, nama_perusahaan_srd, alamat_perusahaan_srd, nomor_surat_srd) ";
-    $sql .= "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = mysqli_prepare($conn, $sql);
-    if (!$stmt) {
-        die('Prepare failed: ' . mysqli_error($conn));
-    }
-    mysqli_stmt_bind_param($stmt, 'ssssssssssssssssss', $data['jenis_surat_dsn'], $data['asal_surat_dsn'], $data['status_pengusul'], $data['nidn'], $data['no_telpon'], $data['id_sinta'], $data['prodi_pengusul'], $data['jenis_insentif'], $curdate, $data['tujuan_surat_srd'], $data['ttl_srd'], $data['alamat_srd'], $data['perihal_srd'], $data['email_srd'], $data['deskripsi_srd'], $data['nama_perusahaan_srd'], $data['alamat_perusahaan_srd'], $data['nomor_surat_srd']);
 }
 
 if (mysqli_stmt_execute($stmt)) {
@@ -222,8 +214,7 @@ if (mysqli_stmt_execute($stmt)) {
         'file_berkas_insentif_mpdks' => 'mpdks_insentif',
         'file_berkas_mpdks' => 'mpdks_pendukung',
         'file_berkas_insentif_ipbk' => 'ipbk_insentif',
-        'file_berkas_ipbk' => 'ipbk_pendukung',
-        'file_berkas_srd' => 'srd'
+        'file_berkas_ipbk' => 'ipbk_pendukung'
     ];
 
     $uploadErrorOccurred = false; // Flag to track upload errors

@@ -1,8 +1,5 @@
 <?php
-$conn = mysqli_connect("localhost", "root", "", "db_teknoid");
-if (!$conn) {
-  die("Connection failed: ". mysqli_connect_error());
-}
+include 'koneksi.php';
 
 if(isset($_POST['upload'])){
     $title = $_POST['title'];

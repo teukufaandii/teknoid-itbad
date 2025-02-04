@@ -1,5 +1,7 @@
 /vendor
 
+.env
+
 !uploads/
 
 uploads/berkas/*

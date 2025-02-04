@@ -51,11 +51,6 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin' || $_SESSION['aks
                 <div class="pageInfo">
                     <h3>Pengaturan Akun</h3>
                 </div>
-                <form action="./backup/index.php" method="POST" style="text-align: center; margin-top: 50px;">
-                    <button type="submit" name="backup" style="cursor: pointer; padding: 10px 20px; border-radius: 5px; border: none; background-color: #333; color: #fff;">
-                        Backup
-                    </button>
-                </form>
                 <div class="tombol">
                     <div class="tambah">
                         <a href="add_user.php"><button>
@@ -90,10 +85,7 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin' || $_SESSION['aks
                         </thead>
                         <tbody>
                             <?php
-                            $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
-                            if ($conn->connect_error) {
-                            }
-
+                            include 'koneksi.php';
                             // pengaturan baris
                             $start = 0;
                             $rows_per_page = 20;

@@ -4,6 +4,10 @@ require 'vendor/autoload.php'; // Ensure Composer's autoloader is included
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
@@ -39,13 +43,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'itbad.teknoid@gmail.com';
-            $mail->Password   = 'qupi myjd izaw rcef'; // Password Terbaru 09/11/2024
+            $mail->Username   = $_ENV['APP_EMAIL'];
+            $mail->Password   = $_ENV['APP_EMAIL_PASS'];
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
 
             // Recipients
-            $mail->setFrom('itbad.teknoid@gmail.com', 'TEKNOID ITBAD');
+            $mail->setFrom($_ENV['APP_EMAIL'], 'TEKNOID ITBAD');
             $mail->addAddress($email);
 
             // Content

@@ -9,14 +9,8 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
 if (isset($_POST['export_data'])) {
-    // Database connection (adjust as needed)
-    $conn = mysqli_connect("localhost", "root", "", "db_teknoid");
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
+    include 'koneksi.php';
+    
     // Unserialize the filtered data
     $user_arr = unserialize($_POST['export_data']);
 
@@ -90,18 +84,6 @@ if (isset($_POST['export_data'])) {
             'Jenis Surat',
             'Asal Surat',
             'Jenis Insentif',
-            'Tanggal Surat'
-        ];
-    } elseif ($jenis_surat == "Surat Riset Dosen" || $jenis_surat == 6) {
-        $sql = "SELECT id_srt, jenis_surat, asal_surat, perihal_srd, nama_perusahaan_srd, tanggal_surat 
-                FROM tb_srt_dosen 
-                WHERE jenis_surat = 6";
-        $judul = [
-            'No',
-            'Jenis Surat',
-            'Asal Surat',
-            'Perihal',
-            'Nama Perusahaan',
             'Tanggal Surat'
         ];
     } elseif ($jenis_surat == "Surat Honorium" || $jenis_surat == 7) {
@@ -210,17 +192,7 @@ if (isset($_POST['export_data'])) {
                     $row['jenis_insentif'],
                     date('d-m-Y', strtotime($row['tanggal_surat']))
                 ];
-            } elseif ($row['jenis_surat'] == 6) {
-                $row['jenis_surat'] = "Surat Riset Dosen";
-                $dataRow = [
-                    $no,
-                    $row['jenis_surat'],
-                    $row['asal_surat'],
-                    $row['perihal_srd'],
-                    $row['nama_perusahaan_srd'],
-                    date('d-m-Y', strtotime($row['tanggal_surat']))
-                ];
-            } elseif ($row['jenis_surat'] == 7) {
+            }  elseif ($row['jenis_surat'] == 7) {
                 $row['jenis_surat'] = "Surat Honorium";
                 $dataRow = [
                     $no,

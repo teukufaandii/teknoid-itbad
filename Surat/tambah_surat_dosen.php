@@ -18,11 +18,6 @@ function isSuratInsentif($jenis_surat)
     return $jenis_surat === "5";
 }
 
-function isSuratRisetDosen($jenis_surat)
-{
-    return $jenis_surat === "6";
-}
-
 ?>
 
 <!doctype html>
@@ -60,12 +55,8 @@ function isSuratRisetDosen($jenis_surat)
                 <form method="post" action="sql/proses_tambahsurat_nondispo.php" class="form" enctype="multipart/form-data">
                     <div class="inputfield">
                         <label for="jenis_surat">Jenis Surat*</label>
-                        <div class="custom_select">
-                            <select name="jenis_surat_dsn" id="jenis_surat" class="select">
-                                <option value="5">Surat Pengajuan Insentif Dosen</option>
-                                <option value="6">Surat Pengajuan Riset Dosen</option>
-                            </select>
-                        </div>
+                        <input type="text" class="input" value="Surat Pengajuan Insentif Dosen" readonly>
+                        <input type="hidden" class="input" name="jenis_surat_dsn" id="jenis_surat" value="5" readonly>
                     </div>
 
                     <div class="inputfield">
@@ -103,7 +94,7 @@ function isSuratRisetDosen($jenis_surat)
                         <div class="inputfield">
                             <label for="prodi">Program Studi Pengusul*</label>
                             <div class="custom_select">
-                                <select name="prodi_pengusul" id="prodi" class="select">
+                                <select name="prodi_pengusul" id="prodi" class="select" required>
                                     <option value="" hidden>Pilih Program Studi</option>
                                     <option>Prodi S2 Keuangan Syariah</option>
                                     <option>Prodi S1 Sistem Informasi</option>
@@ -345,7 +336,6 @@ function isSuratRisetDosen($jenis_surat)
                             </div>
                         </div>
 
-
                         <!-- Hak kekayaan intelektual (HKI) -->
                         <div id="hki" style="display: none;">
                             <div class="inputfield">
@@ -383,7 +373,6 @@ function isSuratRisetDosen($jenis_surat)
                             </div>
                         </div>
 
-
                         <!-- teknologi tepat guna -->
                         <div id="teknologi" style="display: none;">
                             <div class="inputfield">
@@ -411,7 +400,6 @@ function isSuratRisetDosen($jenis_surat)
                                 <button class="btn" id="submitForm" type="button" onclick="showConfirmationPopup()">Kirim</button>
                             </div>
                         </div>
-
 
                         <!-- buku -->
                         <div id="buku" style="display: none;">
@@ -529,66 +517,6 @@ function isSuratRisetDosen($jenis_surat)
                             </div>
                         </div>
                     </div>
-
-                    <!------------------- untuk surat riset dosen ----------------->
-                    <div id="input_riset" style="display: none;">
-                        <div class="inputfield" id="surat_riset_fields_1">
-                            <label for="ttl">Tempat, tanggal lahir*</label>
-                            <input type="text" class="input" name="ttl_srd" id="ttl" placeholder="Masukkan Tempat, tanggal lahir"  >
-                        </div>
-
-                        <div class="inputfield" id="surat_riset_fields_2">
-                            <label for="alamat_domisili">Alamat Domisili*</label>
-                            <input type="text" class="input" name="alamat_srd" id="alamat_domisili" placeholder="Masukkan Alamat Domisili"  >
-                        </div>
-
-                        <div class="inputfield">
-                            <label for="">Perihal*</label>
-                            <input type="text" class="input" name="perihal_srd" placeholder="Masukkan Perihal"  >
-                        </div>
-
-                        <div class="inputfield">
-                            <label for="">Alamat Email*</label>
-                            <input type="email" class="input" name="email_srd" placeholder="Masukkan Alamat Email"  >
-                        </div>
-
-                        <div class="inputfield">
-                            <label for="">Deskripsi Singkat</label>
-                            <input type="text" class="input" name="deskripsi_srd" placeholder="Masukkan Deskripsi Singkat" maxlength="200"  >
-                        </div>
-
-                        <div class="inputfield" id="surat_riset_fields_3">
-                            <label for="nama_perusahaan">Nama Perusahaan* </label>
-                            <input type="text" class="input" name="nama_perusahaan_srd" id="nama_perusahaan" placeholder="Masukkan Nama Perusahaan"  >
-                        </div>
-
-                        <div class="inputfield" id="surat_riset_fields_4">
-                            <label for="alamat_perusahaan">Alamat Perusahaan*</label>
-                            <input type="text" class="input" name="alamat_perusahaan_srd" id="alamat_perusahaan" placeholder="Masukkan Alamat Perusahaan"  >
-                        </div>
-
-                        <div class="inputfield">
-                            <label for=""></label>
-                            <input type="text" class="input" name="tujuan_surat_srd" placeholder="Masukkan Tujuan Surat" value="" hidden>
-                        </div>
-
-                        <div class="inputfield">
-                            <label for=""></label>
-                            <input type="text" class="input" name="nomor_surat_srd" placeholder="Masukkan Nomor Surat" hidden>
-                        </div>
-
-                        <div class="inputfield">
-                            <label for="">Upload Berkas Pendukung</label>
-                            <input type="file" class="input" name="file_berkas_srd" accept="application/pdf" style="border: none;"  >
-                            <p style="color: red;"> *Ukuran Max 10Mb (PDF)</p>
-                        </div>
-
-                        <div class="btn-kirim">
-                            <div class="floatFiller">ff</div>
-                            <input id="submitForm" type="submit" name="submit" value="Kirim" style="display: none;">
-                            <button class="btn" id="submitForm" type="button" onclick="showConfirmationPopup()">Kirim</button>
-                        </div>
-                    </div>
                 </form>
             </div>
         </div>
@@ -635,27 +563,6 @@ function isSuratRisetDosen($jenis_surat)
         function goBack() {
             window.history.back();
         }
-
-        // Menambahkan event listener untuk elemen select dengan id 'jenis_surat'
-        document.getElementById('jenis_surat').addEventListener('change', function() {
-
-            // Mendapatkan referensi ke elemen-elemen yang ingin diubah tampilannya
-            let inputInsentif = document.getElementById('input_insentif');
-            let inputRiset = document.getElementById('input_riset');
-
-            inputInsentif.style.display = 'none';
-            inputRiset.style.display = 'none';
-
-            // Tampilkan atau sembunyikan input tambahan untuk Surat KKL atau Surat Riset
-            if (this.value === '5') {
-                inputInsentif.style.display = 'block';
-                inputRiset.style.display = 'none';
-            } else if (this.value === '6') {
-                inputInsentif.style.display = 'none';
-                inputRiset.style.display = 'block';
-            }
-        });
-
 
         // Menambahkan event listener untuk elemen select dengan id 'jenis_insentif'
         document.getElementById('jenis_insentif').addEventListener('change', function() {

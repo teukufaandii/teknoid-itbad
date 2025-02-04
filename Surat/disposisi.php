@@ -291,7 +291,6 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] !== 'User') {
                                         ?>" readonly>
                         </div>
 
-
                         <?php if ($_SESSION['akses'] == "Humas" && $jenis_surat == 'Surat KKL' || $_SESSION['akses'] == "Humas" && $jenis_surat == 'Surat Riset') { ?>
                             <?php if ($_SESSION['akses'] == "Humas") { ?>
                                 <div class="input-field">

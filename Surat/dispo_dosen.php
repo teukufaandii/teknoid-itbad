@@ -16,11 +16,9 @@ $id = $_GET['id'] ?? null;
 // Fetch data from the first table based on the provided ID
 $sql1 = "SELECT sd.jenis_surat, sd.verifikasi, sd.memo, sd.asal_surat, sd.status_pengusul, sd.NIDN, sd.no_telpon, sd.id_sinta, sd.prodi_pengusul, 
             sd.jenis_insentif, sd.skema_ppmdpek, sd.judul_penelitian_ppm, sd.jenis_publikasi_pi, sd.nama_jurnal_pi, sd.vol_notahun_pi, 
-            sd.link_jurnal_pi, sd.skala_ppdpi, sd.usulan_biaya_ppdpi, sd.nama_pertemuan_ppdpi, sd.skala_ppdks, sd.nama_pertemuan_ppdks, sd.nm_kegiatan_vl, sd.waktu_pelaksanaan_vl,
+            sd.link_jurnal_pi, sd.skala_ppdpi, sd.nama_pertemuan_ppdpi, sd.usulan_biaya_ppdpi, sd.skala_ppdks, sd.nama_pertemuan_ppdks, sd.nm_kegiatan_vl, sd.waktu_pelaksanaan_vl,
             sd.jenis_hki, sd.judul_hki, sd.teknologi_tg, sd.deskripsi_tg, sd.jenis_buku, sd.judul_buku, sd.sinopsis_buku, sd.isbn_buku, sd.judul_publikasi_pi,
-            sd.nama_model_mpdks, sd.deskripsi_mpdks, sd.judul_ipbk, sd.namaPenerbit_dan_waktu_ipbk, sd.link_publikasi_ipbk, sd.ttl_srd, 
-            sd.alamat_srd, sd.perihal_srd, sd.email_srd, sd.deskripsi_srd, sd.nama_perusahaan_srd, sd.alamat_perusahaan_srd,
-            sd.tujuan_surat_srd, sd.catatan_penyelesaian_srd, sd.kd_srt_riset, j.nama_jenis
+            sd.nama_model_mpdks, sd.deskripsi_mpdks, sd.judul_ipbk, sd.namaPenerbit_dan_waktu_ipbk, sd.link_publikasi_ipbk, j.nama_jenis
          FROM tb_srt_dosen sd
          INNER JOIN tb_jenis j ON sd.jenis_surat = j.kd_jenissurat
          WHERE sd.id_srt = ?";
@@ -45,8 +43,8 @@ $stmt1->bind_result(
     $nama_jurnal_pi,
     $vol_notahun_pi,
     $link_jurnal_pi,
-    $nama_pertemuan_ppdpi,
     $skala_ppdpi,
+    $nama_pertemuan_ppdpi,
     $usulan_biaya_ppdpi,
     $skala_ppdks,
     $nama_pertemuan_ppdks,
@@ -66,16 +64,6 @@ $stmt1->bind_result(
     $judul_ipbk,
     $namaPenerbit_dan_waktu_ipbk,
     $link_publikasi_ipbk,
-    $ttl_srd,
-    $alamat_srd,
-    $perihal_srd,
-    $email_srd,
-    $deskripsi_srd,
-    $nama_perusahaan_srd,
-    $alamat_perusahaan_srd,
-    $tujuan_surat_srd,
-    $catatan_penyelesaian_srd,
-    $kode_surat_riset,
     $nama_jenis,
 );
 
@@ -152,8 +140,7 @@ $sql4 = "SELECT
   file_berkas_tg, 
   file_berkas_buku,
   file_berkas_mpdks, 
-  file_berkas_ipbk, 
-  file_berkas_srd
+  file_berkas_ipbk
 FROM tb_srt_dosen 
 WHERE id_srt = ?";
 
@@ -178,8 +165,7 @@ $stmt4->bind_result(
     $file_berkas_tg,
     $file_berkas_buku,
     $file_berkas_mpdks,
-    $file_berkas_ipbk,
-    $file_berkas_srd
+    $file_berkas_ipbk
 );
 
 // Memasukkan hasil binding ke dalam array asosiatif
@@ -196,7 +182,6 @@ if ($stmt4->fetch()) {
         'file_berkas_buku' => $file_berkas_buku,
         'file_berkas_mpdks' => $file_berkas_mpdks,
         'file_berkas_ipbk' => $file_berkas_ipbk,
-        'file_berkas_srd' => $file_berkas_srd
     ];
 }
 
@@ -338,8 +323,6 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
 
                         if (jenisSurat === 5) {
                             header = `<h3>Disposisi Insentif - ${jenisInsentif}</h3>`;
-                        } else if (jenisSurat === 6) {
-                            header = `<h3>Disposisi Riset Dosen</h3>`;
                         }
 
                         // Menampilkan header di DOM
@@ -389,7 +372,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                             <label for="">Jenis Insentif</label>
                             <input type="text" class="input" name="#" value="<?php
                                                                                 $jenis_surat_text = 'Unknown';
-                                                                                if ($_SESSION['jabatan'] == 'LP3M' || $_SESSION['jabatan'] == 'Dosen' && $tujuan_surat_srd == 'lp3m') {
+                                                                                if ($_SESSION['jabatan'] == 'LP3M' || $_SESSION['jabatan'] == 'Dosen') {
                                                                                     switch ($jenis_insentif) {
                                                                                         case 'penelitian':
                                                                                             $jenis_surat_text = 'Penelitian & Pengabdian Masyarakat';
@@ -491,10 +474,10 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                                 <input type="text" class="input" name="#" value="<?php echo $nama_pertemuan_ppdks; ?>" readonly>
                             </div>
 
-                        <?php } elseif ($jenis_insentif == 'visiting_lecturer') { ?>
+                        <?php } elseif ($jenis_insentif == 'visiting') { ?>
                             <div class="input-field">
                                 <label for="">Nama Kegiatan dan Lembaga tujuan</label>
-                                <input type="text" class="input" name="#" value="<?php echo $nam; ?>" readonly>
+                                <input type="text" class="input" name="#" value="<?php echo $nm_kegiatan_vl; ?>" readonly>
                             </div>
 
                             <div class="input-field">
@@ -574,7 +557,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
 
                         <?php } ?>
 
-                    <?php 
+                        <?php
                         if ($jenis_surat == 5) : ?>
                             <div class="input-field">
                                 <label></label>
@@ -626,105 +609,7 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
                             </div>
                         <?php endif; ?>
 
-
-
-                    <?php } elseif ($jenis_surat == 6) { ?>
-                        <div class="input-field">
-                            <label for="">Tempat, tanggal lahir</label>
-                            <input type="text" class="input" name="#" value="<?php echo $ttl_srd; ?>" readonly>
-                        </div>
-                        <div class="input-field">
-                            <label for="">Alamat Domisili</label>
-                            <input type="text" class="input" name="#" value="<?php echo $alamat_srd; ?>" readonly>
-                        </div>
-                        <div class="input-field">
-                            <label for="">Perihal</label>
-                            <input type="text" class="input" name="#" value="<?php echo $perihal_srd; ?>" readonly>
-                        </div>
-                        <div class="input-field">
-                            <label for="">Alamat Email</label>
-                            <input type="text" class="input" name="#" value="<?php echo $email_srd; ?>" readonly>
-                        </div>
-                        <div class="input-field">
-                            <label for="">Deskripsi Singkat</label>
-                            <input type="text" class="input" name="#" value="<?php echo $deskripsi_srd; ?>" readonly>
-                        </div>
-                        <div class="input-field">
-                            <label for="">Nama Perusahaan</label>
-                            <input type="text" class="input" name="#" value="<?php echo $nama_perusahaan_srd; ?>" readonly>
-                        </div>
-                        <div class="input-field">
-                            <label for="">Alamat Perusahaan</label>
-                            <input type="text" class="input" name="#" value="<?php echo $alamat_perusahaan_srd; ?>" readonly>
-                        </div>
-
-                        <?php if ($jenis_surat == 6) { ?>
-                            <div class="input-field">
-                                <label for="">Kode Surat Riset Dosen</label>
-                                <input type="text" class="input" name="#" value="<?php echo $kode_surat_riset; ?>" readonly>
-                            </div>
-
-                            <div class="input-field">
-                                <label for="">Catatan Penyelesaian</label>
-                                <input type="text" class="input" name="catatan_penyelesaian_srd" value="<?php echo $catatan_penyelesaian_srd; ?>" <?php echo (!empty($catatan_penyelesaian_srd)) ? 'readonly style="background-color: #ccc;"' : ''; ?>>
-                            </div>
-                        <?php } ?>
-
-
-                    <div class="input-field">
-                        <label></label>
-                        <div class="input" style="padding: 0 !important; color: black;; background-color: rgba(0, 0, 0, 0); border: none">
-                            <div class="lihat">
-                                <?php if ($file_berkas_exists) : ?>
-                                    <?php
-                                    // Path untuk insentif
-                                    $file_insentif_path = "uploads/dosen/" .  $file_berkas_combined;
-                                    ?>
-                                    <button type="button" onclick="lihatBerkas('<?php echo $file_insentif_path; ?>')">
-                                        Lihat Berkas Insentif
-                                    </button>
-                                <?php else : ?>
-                                    <p>Tidak ada berkas insentif yang tersedia.</p>
-                                <?php endif; ?>
-
-                                <?php if ($file_berkas_pendukung) : ?>
-                                    <?php
-                                    // Path untuk insentif
-                                    $file_pendukung_path = "uploads/dosen/" . $file_berkas_combined_pendukung;
-                                    ?>
-                                    <button type="button" onclick="lihatInsentif('<?php echo $file_pendukung_path; ?>')">
-                                        Lihat Berkas Pendukung
-                                    </button>
-                                <?php else : ?>
-                                    <p>Tidak ada berkas insentif pendukung yang tersedia.</p>
-                                <?php endif; ?>
-                            </div>
-
-                            <!-- Modal untuk tampilan berkas -->
-                            <div id="modalBerkas" class="modal">
-                                <span class="close" onclick="closeModal()">&times;</span>
-                                <div class="modal-content-file">
-                                    <h2>PREVIEW BERKAS INSENTIF</h2>
-                                    <iframe id="berkasFrame" frameborder="0"></iframe>
-                                </div>
-                            </div>
-
-                            <!-- Modal untuk tampilan laporan -->
-                            <div id="modalLaporan" class="modal">
-                                <span class="close" onclick="closeModalInsentif()">&times;</span>
-                                <div class="modal-content-file">
-                                    <h2>PREVIEW BERKAS PENDUKUNG</h2>
-                                    <iframe id="laporanFrame" frameborder="0"></iframe>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <?php include "dispoBawahRstDosen.php";?>
-
-<?php } ?>
+                    <?php } ?>
 
                     <?php if ($_SESSION['jabatan'] == 'LP3M') : ?>
                         <div class="txt-disposisi">
@@ -753,67 +638,6 @@ $file_berkas_pendukung = !empty($file_berkas_combined_pendukung);
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const btnSelesai = document.getElementById('btnSelesaiRisetDosen');
-
-            if (btnSelesai) {
-    btnSelesai.addEventListener('click', function() {
-        // Tampilkan konfirmasi sebelum mengirimkan data
-        Swal.fire({
-            title: "Konfirmasi",
-            text: "Apakah Anda yakin ingin menyelesaikan surat ini?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, selesaikan!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Menampilkan loading overlay
-                document.getElementById('loadingOverlay').style.display = 'flex';
-
-                // Mengambil nilai dari input yang diperlukan
-                const catatan_penyelesaian_srd = document.querySelector('input[name="catatan_penyelesaian_srd"]').value;
-                const kd_srt_riset = document.querySelector('input[name="kd_srt_riset"]').value;
-                const id = "<?php echo $id; ?>"; // Mendapatkan nilai ID surat dari PHP
-
-                // Membuat objek XMLHttpRequest untuk mengirimkan data
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', 'update_selesai_riset_dosen.php', true);
-                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState == 4) {
-                        // Menyembunyikan loading overlay
-                        document.getElementById('loadingOverlay').style.display = 'none';
-
-                        if (xhr.status == 200) {
-                            // Menampilkan notifikasi berhasil setelah respons diterima
-                            Swal.fire({
-                                title: "Berhasil!",
-                                text: "Surat Telah Dikonfirmasi Selesai!",
-                                icon: "success"
-                            }).then(function() {
-                                // Redirect ke halaman dashboard setelah menutup notifikasi
-                                window.location.href = "dashboard.php";
-                            });
-                        } else {
-                            Swal.fire("Gagal!", "Terjadi kesalahan: " + xhr.status, "error");
-                        }
-                    }
-                };
-
-                // Mengirim data melalui AJAX
-                xhr.send("id=" + id + "&catatan_penyelesaian_srd=" + encodeURIComponent(catatan_penyelesaian_srd) + "&kd_srt_riset=" + encodeURIComponent(kd_srt_riset) + "&action=selesai");
-            } else {
-                // Menampilkan notifikasi batal jika pengguna memilih untuk tidak melanjutkan
-                Swal.fire("Dibatalkan", "Surat tidak diselesaikan", "info");
-            }
-                    });
-                });
-            }
-        });
-
         document.getElementById('btnKirim').addEventListener('click', function() {
             const memo = document.getElementById('memo').value;
 
