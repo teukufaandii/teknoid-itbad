@@ -30,6 +30,20 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin') { // Check if $_
         <link href="css/dashboard-style.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+        <style>
+            .loader-container {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(255, 255, 255, 0.8);
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            }
+        </style>
     </head>
 
     <body>
@@ -167,12 +181,14 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin') { // Check if $_
                         </div>
 
                     </form>
-                    <form class="form" method="post" action="upload_excel.php" enctype="multipart/form-data">
+
+                    <?php include '../loader.php'; ?>
+                    <form class="form" method="post" action="upload_excel.php" enctype="multipart/form-data" onsubmit="return validateFormAddUserExcel()">
                         <div class="inputfield">
                             <label>Upload Excel File</label>
                             <input type="file" name="file" accept=".xlsx, .xls" required />
                         </div>
-                        <button type="submit" value="upload" class="btn">Upload & Add Users</button>
+                        <button type="submit" value="upload" id="submitBtn" class="btn">Upload & Add Users</button>
                     </form>
 
                 </div>
@@ -180,6 +196,14 @@ if (isset($_SESSION['akses']) && $_SESSION['akses'] == 'Admin') { // Check if $_
             <?php include './footer.php'; ?>
         </div>
         <script src="js/dashboard-js.js"></script>
+        <script>
+            function validateFormAddUserExcel() {
+                // Menampilkan loader dan menonaktifkan tombol submit setelah diklik
+                document.getElementById("loader").style.display = "flex";
+                document.getElementById("submitBtn").disabled = true;
+                return true; // Mengembalikan nilai true agar form dapat disubmit
+            }
+        </script>
     </body>
 
     </html>

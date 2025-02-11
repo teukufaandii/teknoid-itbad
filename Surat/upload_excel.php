@@ -6,14 +6,18 @@ require 'vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-function generateUUID() {
+function generateUUID()
+{
     return sprintf(
         '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-        mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+        mt_rand(0, 0xffff),
+        mt_rand(0, 0xffff),
         mt_rand(0, 0xffff),
         mt_rand(0, 0x0fff) | 0x4000,
         mt_rand(0, 0x3fff) | 0x8000,
-        mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+        mt_rand(0, 0xffff),
+        mt_rand(0, 0xffff),
+        mt_rand(0, 0xffff)
     );
 }
 
@@ -47,11 +51,12 @@ if (isset($_FILES['file']['name'])) {
 
         // Generate a new UUID for each row
         $id_pg = generateUUID();
+        $hashedPassword = hash('sha256', $password);
 
         // Insert into the database
         $sql = "INSERT INTO tb_pengguna (id_pg, noinduk, nama_lengkap, jabatan, akses, password, email, no_hp)
-                VALUES ('$id_pg', '$noinduk', '$nama_lengkap', '$jabatan', '$akses', '$password', '$email', '$no_telepon')";
-        
+                VALUES ('$id_pg', '$noinduk', '$nama_lengkap', '$jabatan', '$akses', '$hashedPassword', '$email', '$no_telepon')";
+
         if ($conn->query($sql) === TRUE) {
             $successCount++; // Increment successful inserts counter
         } else {
@@ -85,10 +90,10 @@ if (isset($_FILES['file']['name'])) {
             <div class="alert alert-success text-center" role="alert">
                 <h4 class="alert-heading">Upload Successful!</h4>
                 <p>' . $successCount . ' user(s) added successfully.</p>';
-                if ($errorCount > 0) {
-                    echo '<p class="text-danger">' . $errorCount . ' user(s) failed to upload.</p>';
-                }
-                echo '
+    if ($errorCount > 0) {
+        echo '<p class="text-danger">' . $errorCount . ' user(s) failed to upload.</p>';
+    }
+    echo '
                 <hr>
                 <p class="mb-0">You will be redirected back in a moment...</p>
             </div>
@@ -105,6 +110,3 @@ if (isset($_FILES['file']['name'])) {
 } else {
     echo "No file uploaded!";
 }
-
-
-?>
